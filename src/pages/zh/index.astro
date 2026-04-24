@@ -1,0 +1,87 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const title = 'HiQ Cortex — 慢，是我们能给出的最重要承诺。';
+const description =
+  '一层薄薄的智能中枢，坐在所有 LCA 数据库之上——把"理解 → 检索 → 交叉验证 → 可追溯答案"这条链路，压缩进一次自然语言对话。';
+
+const qualities = [
+  {
+    key: '慢',
+    heading: '慢',
+    body: '它不会跳过系统边界的讨论直接抛数字。任何一个 LCA 答案都只会在正确的问题被问过之后才交付——系统边界、分摊规则、地理匹配度。',
+  },
+  {
+    key: '壳',
+    heading: '驮壳',
+    body: '蜗牛走到哪儿，壳就跟到哪儿。每条引用的数据集、每个代理值的假设、每次版本的切换，都附在答案身上，审核员看到的是 Cortex 看到的。',
+  },
+  {
+    key: '痕',
+    heading: '留痕',
+    body: '监管、审核员、法务都能顺着痕迹回到原点。Cortex 把一次 LLM 对话和一份可审计的报告之间的缝，合上了。',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} locale="zh">
+  <section class="container-wide pt-20 pb-24 md:pt-28 md:pb-32">
+    <p class="font-mono text-xs uppercase tracking-[0.2em] text-quiet">HiQ Cortex · HiQ-AI 出品</p>
+    <h1 class="heading-display mt-6 max-w-4xl text-4xl leading-[1.1] md:text-6xl">
+      慢，是我们能给出的<br />
+      <span class="text-shell-700 dark:text-shell-400">最重要的承诺</span>。
+    </h1>
+    <p class="mt-8 max-w-2xl font-serif text-lg italic text-stone-700 dark:text-stone-300 md:text-xl">
+      一层薄薄的智能中枢，坐在所有 LCA 数据库之上——把
+      <span class="not-italic font-sans font-medium">理解 → 检索 → 交叉验证 → 可追溯答案</span>
+      这条链路，压缩进一次自然语言对话。
+    </p>
+    <p class="mt-6 max-w-2xl text-base text-quiet md:text-lg">它不替代专家，它让专家的判断得以规模化。</p>
+
+    <div class="mt-12 flex flex-wrap items-center gap-4">
+      <a
+        href="/chat"
+        class="inline-flex items-center gap-2 rounded-md bg-stone-900 px-5 py-2.5 text-sm font-medium text-stone-50 hover:bg-shell-700 dark:bg-stone-50 dark:text-stone-900 dark:hover:bg-shell-400"
+      >
+        打开 Cortex Chat <span aria-hidden="true">→</span>
+      </a>
+      <a
+        href="/zh/solutions/bom-matching"
+        class="inline-flex items-center gap-2 rounded-md border border-stone-300 px-5 py-2.5 text-sm font-medium hover:border-shell-500 hover:text-shell-700 dark:border-stone-700 dark:hover:border-shell-400 dark:hover:text-shell-300"
+      >
+        看 BOM 匹配怎么跑
+      </a>
+    </div>
+  </section>
+
+  <section class="border-t border-stone-200/70 py-24 dark:border-stone-800/70">
+    <div class="container-wide">
+      <p class="font-mono text-xs uppercase tracking-[0.2em] text-quiet">为什么是蜗牛</p>
+      <h2 class="heading-display mt-4 max-w-3xl text-3xl md:text-4xl">
+        我们刻意挑了一个跟 "AI 代名词" 相反的符号。
+      </h2>
+      <p class="mt-6 max-w-2xl font-serif italic text-stone-700 dark:text-stone-300">
+        行业里的 AI 形象通常是闪电、火箭、神经元——快、强、无所不知。但 LCA 从来不是这种行业。一份 CBAM
+        申报背后，是几周的系统边界辩论、BOM 拆解、在十几个数据库之间的取舍。每一步都要能被审计、被质疑、被追溯。
+      </p>
+
+      <div class="mt-16 grid gap-px overflow-hidden rounded-lg border border-stone-200 bg-stone-200 dark:border-stone-800 dark:bg-stone-800 md:grid-cols-3">
+        {qualities.map((q) => (
+          <article class="bg-white p-8 dark:bg-stone-950">
+            <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-shell-700 dark:text-shell-400">
+              {q.key}
+            </p>
+            <h3 class="heading-display mt-3 text-2xl">{q.heading}</h3>
+            <p class="mt-4 text-sm leading-relaxed text-stone-700 dark:text-stone-300">{q.body}</p>
+          </article>
+        ))}
+      </div>
+
+      <p class="mt-16 max-w-2xl font-serif text-xl italic leading-relaxed text-stone-800 dark:text-stone-200">
+        Cortex 在后端做的是最快的事——向量检索、并行工具调用、LLM 推理；但它对外交付的始终是最慢的事：
+        <span class="not-italic font-sans font-medium">一条能被逐条复核的推理链。</span>
+      </p>
+      <p class="mt-6 font-mono text-xs uppercase tracking-[0.2em] text-quiet">慢，不是缺陷。</p>
+    </div>
+  </section>
+</BaseLayout>

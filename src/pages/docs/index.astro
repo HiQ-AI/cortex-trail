@@ -1,0 +1,60 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const title = 'Docs — HiQ Cortex';
+const description = 'How to install, configure, and get the most out of HiQ Cortex.';
+
+const entries = (await getCollection('docs', ({ data }) => data.locale === 'en'))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const sections = new Map<string, typeof entries>();
+for (const e of entries) {
+  const key = e.data.section;
+  if (!sections.has(key)) sections.set(key, []);
+  sections.get(key)!.push(e);
+}
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="container-wide pt-20 pb-12">
+    <p class="font-mono text-xs uppercase tracking-[0.2em] text-shell-700 dark:text-shell-400">Docs</p>
+    <h1 class="heading-display mt-6 max-w-3xl text-4xl md:text-5xl">Get Cortex running.</h1>
+    <p class="mt-6 max-w-2xl text-base text-stone-700 dark:text-stone-300 md:text-lg">
+      Installation, configuration, and a handful of recipes for the most common LCA
+      tasks. Browse by section or jump straight to what you need.
+    </p>
+  </section>
+
+  <section class="container-wide pb-24">
+    {entries.length === 0 ? (
+      <p class="font-serif italic text-quiet">
+        Docs coming soon. Meanwhile, the{' '}
+        <a class="underline hover:text-shell-700 dark:hover:text-shell-300" href="/methodology">methodology</a>{' '}
+        page covers how Cortex reasons about LCA data.
+      </p>
+    ) : (
+      <div class="space-y-12">
+        {[...sections].map(([section, items]) => (
+          <div>
+            <h2 class="font-mono text-xs uppercase tracking-[0.2em] text-quiet">{section}</h2>
+            <ul class="mt-4 divide-y divide-stone-200 dark:divide-stone-800">
+              {items.map((item) => (
+                <li class="py-4">
+                  <a href={`/docs/${item.id}`} class="group block">
+                    <p class="font-sans text-base font-semibold transition-colors group-hover:text-shell-700 dark:group-hover:text-shell-400">
+                      {item.data.title}
+                    </p>
+                    {item.data.description && (
+                      <p class="mt-1 text-sm text-quiet">{item.data.description}</p>
+                    )}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>

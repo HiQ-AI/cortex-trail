@@ -1,0 +1,22 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const title = 'Not found — HiQ Cortex';
+const description = 'This page has wandered off its trail.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="container-prose py-32 text-center">
+    <p class="font-mono text-xs uppercase tracking-[0.2em] text-shell-700 dark:text-shell-400">404</p>
+    <h1 class="heading-display mt-6 text-4xl md:text-5xl">Off the trail.</h1>
+    <p class="mt-6 font-serif italic text-stone-700 dark:text-stone-300">
+      The snail carries its shell, but this page appears to have left without one.
+    </p>
+    <a
+      href="/"
+      class="mt-10 inline-block rounded-md bg-stone-900 px-5 py-2.5 text-sm font-medium text-stone-50 hover:bg-shell-700 dark:bg-stone-50 dark:text-stone-900 dark:hover:bg-shell-400"
+    >
+      Back to home
+    </a>
+  </section>
+</BaseLayout>

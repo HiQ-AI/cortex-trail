@@ -1,0 +1,73 @@
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+@import '@fontsource/lora/400-italic.css';
+@import '@fontsource/lora/500.css';
+@import '@fontsource/jetbrains-mono/400.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: oklch(0.985 0.002 240);
+    --color-fg: oklch(0.170 0.006 240);
+    --color-muted: oklch(0.470 0.006 240);
+    --color-accent: oklch(0.540 0.100 60);
+    --color-line: oklch(0.920 0.004 240);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-bg: oklch(0.110 0.005 240);
+      --color-fg: oklch(0.970 0.003 240);
+      --color-muted: oklch(0.720 0.006 240);
+      --color-accent: oklch(0.640 0.095 65);
+      --color-line: oklch(0.250 0.006 240);
+    }
+  }
+
+  html {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: 'ss01', 'cv11', 'calt';
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    min-height: 100vh;
+    background: var(--color-bg);
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-bg);
+  }
+}
+
+@layer components {
+  .container-prose {
+    @apply mx-auto w-full max-w-3xl px-6;
+  }
+
+  .container-wide {
+    @apply mx-auto w-full max-w-6xl px-6;
+  }
+
+  .heading-display {
+    @apply font-sans font-semibold tracking-tight;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+
+  .text-quiet {
+    color: var(--color-muted);
+  }
+
+  .rule {
+    @apply my-12 h-px w-full bg-stone-200 dark:bg-stone-800;
+  }
+}

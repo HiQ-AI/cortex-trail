@@ -1,0 +1,75 @@
+---
+interface Props {
+  locale?: 'en' | 'zh';
+}
+const { locale = 'en' } = Astro.props;
+const year = new Date().getFullYear();
+
+const copy = locale === 'zh'
+  ? {
+      tag: '一条能被逐条复核的推理链。',
+      groups: [
+        { title: '产品', links: [
+          { href: '/zh/solutions/bom-matching', label: 'BOM 匹配' },
+          { href: '/zh/solutions/carbon-search', label: '碳排数据检索' },
+          { href: '/zh/solutions/cowork', label: 'Cowork' },
+        ]},
+        { title: '资源', links: [
+          { href: '/zh/methodology', label: '方法学' },
+          { href: '/zh/docs', label: '文档' },
+          { href: '/zh/blog', label: '博客' },
+        ]},
+        { title: '公司', links: [
+          { href: 'https://hiq.earth', label: 'HiQ-AI' },
+          { href: 'https://hiq.earth/about', label: 'About' },
+        ]},
+      ],
+    }
+  : {
+      tag: 'A chain of reasoning you can audit, line by line.',
+      groups: [
+        { title: 'Product', links: [
+          { href: '/solutions/bom-matching', label: 'BOM Matching' },
+          { href: '/solutions/carbon-search', label: 'Carbon Search' },
+          { href: '/solutions/cowork', label: 'Cowork' },
+        ]},
+        { title: 'Resources', links: [
+          { href: '/methodology', label: 'Methodology' },
+          { href: '/docs', label: 'Docs' },
+          { href: '/blog', label: 'Blog' },
+        ]},
+        { title: 'Company', links: [
+          { href: 'https://hiq.earth', label: 'HiQ-AI' },
+          { href: 'https://hiq.earth/about', label: 'About' },
+        ]},
+      ],
+    };
+---
+
+<footer class="mt-32 border-t border-stone-200/70 py-12 dark:border-stone-800/70">
+  <div class="container-wide grid gap-10 md:grid-cols-[2fr_3fr]">
+    <div>
+      <div class="flex items-center gap-2 text-sm font-semibold">
+        <img src="/snail.svg" alt="" class="h-5 w-5" aria-hidden="true" />
+        <span>HiQ Cortex</span>
+      </div>
+      <p class="mt-3 max-w-xs font-serif text-sm italic text-quiet">{copy.tag}</p>
+    </div>
+    <div class="grid grid-cols-3 gap-6 text-sm">
+      {copy.groups.map((group) => (
+        <div>
+          <div class="mb-3 font-medium text-stone-900 dark:text-stone-100">{group.title}</div>
+          <ul class="space-y-2 text-quiet">
+            {group.links.map((l) => (
+              <li><a class="hover:text-stone-900 dark:hover:text-stone-50" href={l.href}>{l.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+  <div class="container-wide mt-10 flex items-center justify-between border-t border-stone-200/70 pt-6 text-xs text-quiet dark:border-stone-800/70">
+    <span>© {year} HiQ-AI. All rights reserved.</span>
+    <span class="font-mono">cortex.hiq.earth</span>
+  </div>
+</footer>

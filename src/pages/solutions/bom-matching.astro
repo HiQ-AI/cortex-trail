@@ -1,0 +1,159 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const title = 'BOM Matching — HiQ Cortex';
+const description =
+  'Upload a Bill of Materials. Cortex returns top-k emission factor candidates per line, scored by DQI, with every citation clickable back to source.';
+
+const steps = [
+  {
+    n: '01',
+    title: 'Upload or paste',
+    body:
+      'Excel, CSV, or pasted text. No schema coercion. Cortex reads columns as a colleague would — names, specs, quantities, and whatever free-form notes came with the BOM.',
+  },
+  {
+    n: '02',
+    title: 'Clarify where it matters',
+    body:
+      "For ambiguous rows — 'aluminum', 'steel', 'plastic' — Cortex asks one or two high-leverage questions before searching. Alloy grade, production route, region. Silence on low-signal fields.",
+  },
+  {
+    n: '03',
+    title: 'Search wide, score honest',
+    body:
+      'HiQLCD, Ecoinvent, EF, CarbonMinds, and more — searched in parallel. Each candidate returns with Data Quality Indicator (DQI), system model, and a clickable source URL.',
+  },
+  {
+    n: '04',
+    title: 'Human-in-the-loop at the thresholds',
+    body:
+      "Three hard gates pause automation for review: coverage below 80%, proxy substitution, or cross-database GWP spread over 2×. The user decides — the agent doesn't silently pick.",
+  },
+  {
+    n: '05',
+    title: 'Deliver with provenance',
+    body:
+      'Export to Excel with matched dataset, source database, region, DQI, system model, match type (exact / proxy / low-DQI), and notes. Every cell auditable back to the original factor.',
+  },
+];
+
+const vsWatershed = [
+  {
+    them: 'Upload → minutes → one PCF number.',
+    us: "Upload → clarifying questions → top-k candidates → your approved match → PCF with every assumption attached.",
+    note: 'Speed is a side effect. Auditability is the product.',
+  },
+  {
+    them: 'AI decomposes the product automatically.',
+    us: 'AI proposes. The expert decides. Coverage, proxy use, and cross-database disagreements are never silent.',
+    note: "If a machine can't explain why it picked factor A over B, neither can you when the auditor asks.",
+  },
+  {
+    them: 'Confidence score from a model.',
+    us: 'DQI — the ISO-recognized Data Quality Indicator. Same vocabulary your reviewers use.',
+    note: 'Borrow the industry\'s words. Don\'t invent new ones that need translating.',
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="container-wide pt-20 pb-12">
+    <p class="font-mono text-xs uppercase tracking-[0.2em] text-shell-700 dark:text-shell-400">
+      Solutions · BOM Matching
+    </p>
+    <h1 class="heading-display mt-6 max-w-4xl text-4xl leading-[1.1] md:text-5xl">
+      Every line in your BOM deserves the same question an expert would ask.
+    </h1>
+    <p class="mt-8 max-w-2xl font-serif text-lg italic text-stone-700 dark:text-stone-300">
+      Cortex reads your Bill of Materials the way a practiced LCA consultant reads it —
+      noticing which rows are clear, which rows are underspecified, and which rows are
+      asking to be argued about before any number is assigned.
+    </p>
+  </section>
+
+  <section class="container-wide pb-24">
+    <ol class="grid gap-px overflow-hidden rounded-lg border border-stone-200 bg-stone-200 dark:border-stone-800 dark:bg-stone-800 md:grid-cols-2 lg:grid-cols-3">
+      {steps.map((s) => (
+        <li class="flex flex-col bg-white p-8 dark:bg-stone-950">
+          <span class="font-mono text-xs text-shell-700 dark:text-shell-400">{s.n}</span>
+          <h3 class="heading-display mt-2 text-xl">{s.title}</h3>
+          <p class="mt-4 text-sm leading-relaxed text-stone-700 dark:text-stone-300">{s.body}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="border-t border-stone-200/70 py-24 dark:border-stone-800/70">
+    <div class="container-wide">
+      <div class="max-w-3xl">
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-quiet">How we differ</p>
+        <h2 class="heading-display mt-4 text-3xl md:text-4xl">
+          Speed without provenance is a number you can't defend.
+        </h2>
+        <p class="mt-6 text-base text-stone-700 dark:text-stone-300 md:text-lg">
+          Most AI-for-PCF platforms race toward a single number. We race toward a line of
+          reasoning you can hand to a regulator. Below is how the two approaches diverge
+          at the points that matter.
+        </p>
+      </div>
+
+      <div class="mt-12 space-y-px overflow-hidden rounded-lg border border-stone-200 bg-stone-200 dark:border-stone-800 dark:bg-stone-800">
+        {vsWatershed.map((row) => (
+          <div class="grid gap-0 bg-white md:grid-cols-2 dark:bg-stone-950">
+            <div class="border-b border-stone-200 p-6 md:border-b-0 md:border-r dark:border-stone-800">
+              <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-quiet">
+                Typical AI-for-PCF
+              </p>
+              <p class="mt-3 text-sm text-stone-600 dark:text-stone-400">{row.them}</p>
+            </div>
+            <div class="p-6">
+              <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-shell-700 dark:text-shell-400">
+                Cortex
+              </p>
+              <p class="mt-3 text-sm font-medium text-stone-900 dark:text-stone-100">{row.us}</p>
+              <p class="mt-3 font-serif text-sm italic text-quiet">{row.note}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-stone-200/70 py-24 dark:border-stone-800/70">
+    <div class="container-prose">
+      <p class="font-mono text-xs uppercase tracking-[0.2em] text-quiet">The output</p>
+      <h2 class="heading-display mt-4 text-3xl md:text-4xl">
+        One spreadsheet. Ten columns of accountability.
+      </h2>
+      <p class="mt-6 text-base text-stone-700 dark:text-stone-300 md:text-lg">
+        Every export contains the fields reviewers look for first: matched dataset,
+        source database, region, DQI, system model, match type, proxy notes. The
+        coverage gap is its own sheet, not a footnote.
+      </p>
+      <ul class="mt-8 space-y-3 font-mono text-sm text-stone-800 dark:text-stone-200">
+        <li class="flex gap-4"><span class="text-shell-700 dark:text-shell-400">—</span> Material name (as provided)</li>
+        <li class="flex gap-4"><span class="text-shell-700 dark:text-shell-400">—</span> Matched dataset key + URL</li>
+        <li class="flex gap-4"><span class="text-shell-700 dark:text-shell-400">—</span> Source database (HiQLCD / Ecoinvent / EF / CarbonMinds)</li>
+        <li class="flex gap-4"><span class="text-shell-700 dark:text-shell-400">—</span> Region · Unit · System model</li>
+        <li class="flex gap-4"><span class="text-shell-700 dark:text-shell-400">—</span> DQI score</li>
+        <li class="flex gap-4"><span class="text-shell-700 dark:text-shell-400">—</span> Match type: exact · proxy · low-DQI</li>
+        <li class="flex gap-4"><span class="text-shell-700 dark:text-shell-400">—</span> Notes (what was substituted and why)</li>
+      </ul>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a
+          href="/chat"
+          class="rounded-md bg-stone-900 px-5 py-2.5 text-sm font-medium text-stone-50 hover:bg-shell-700 dark:bg-stone-50 dark:text-stone-900 dark:hover:bg-shell-400"
+        >
+          Upload a BOM now
+        </a>
+        <a
+          href="/methodology"
+          class="rounded-md border border-stone-300 px-5 py-2.5 text-sm font-medium hover:border-shell-500 hover:text-shell-700 dark:border-stone-700 dark:hover:border-shell-400 dark:hover:text-shell-300"
+        >
+          See the methodology
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

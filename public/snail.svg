@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Cortex snail mascot — subtle gloss + spiral shell + dot eyes -->
+  <defs>
+    <radialGradient id="shellGrad" cx="50%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="55%" stop-color="#f4f1ea" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#c7bfae" stop-opacity="0.9"/>
+    </radialGradient>
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.92"/>
+      <stop offset="100%" stop-color="#d9d2c2" stop-opacity="0.92"/>
+    </linearGradient>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="3" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.35"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <g filter="url(#softShadow)">
+    <!-- body -->
+    <path d="M40 180 Q48 150 80 150 L 180 150 Q208 152 208 172 Q208 188 192 192 L 64 192 Q40 192 40 180 Z"
+          fill="url(#bodyGrad)" stroke="#2b2b2b" stroke-width="3"/>
+    <!-- antennae -->
+    <g stroke="#2b2b2b" stroke-width="3" stroke-linecap="round" fill="none">
+      <path d="M54 152 Q44 130 52 112"/>
+      <circle cx="52" cy="110" r="4" fill="#2b2b2b"/>
+      <path d="M78 148 Q76 122 90 108"/>
+      <circle cx="91" cy="106" r="4" fill="#2b2b2b"/>
+    </g>
+    <!-- shell -->
+    <circle cx="140" cy="132" r="58" fill="url(#shellGrad)" stroke="#2b2b2b" stroke-width="3.5"/>
+    <!-- spiral -->
+    <path d="M140 132 m-32 0 a32 32 0 1 1 64 0 a24 24 0 1 1 -48 0 a16 16 0 1 1 32 0 a8 8 0 1 1 -16 0"
+          fill="none" stroke="#2b2b2b" stroke-width="3" stroke-linecap="round"/>
+    <!-- eye -->
+    <circle cx="63" cy="168" r="3.5" fill="#2b2b2b"/>
+    <!-- highlight -->
+    <ellipse cx="120" cy="108" rx="10" ry="6" fill="#ffffff" fill-opacity="0.6"/>
+  </g>
+</svg>

@@ -1,0 +1,201 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const title = 'HiQ Cortex — The slow answer to carbon accounting';
+const description =
+  'A thin layer of intelligence above every LCA database. Compressing understand → search → cross-check → auditable answer into a single conversation.';
+
+const qualities = [
+  {
+    key: 'slow',
+    heading: 'Slow',
+    body:
+      "It won't skip the boundary discussion to hand you a number. Every LCA answer arrives only after the right questions have been asked — system boundary, allocation rule, geographic fit.",
+  },
+  {
+    key: 'shell',
+    heading: 'Shell',
+    body:
+      "Wherever the snail goes, it carries its shell. Every cited dataset, every proxy assumption, every version switch stays attached to the answer, so reviewers can see what Cortex saw.",
+  },
+  {
+    key: 'trail',
+    heading: 'Trail',
+    body:
+      'Regulators, auditors, and legal teams can follow the trail back to the origin. Cortex closes the loop between an LLM conversation and an audit-grade report.',
+  },
+];
+
+const useCases = [
+  {
+    label: 'BOM Matching',
+    href: '/solutions/bom-matching',
+    blurb:
+      'Upload a Bill of Materials. Cortex returns top-k emission factor candidates per line, scored by DQI, with every citation clickable back to the source.',
+    proof: '100-row BOM · 10 min · full provenance',
+  },
+  {
+    label: 'Carbon Search',
+    href: '/solutions/carbon-search',
+    blurb:
+      'Ask in Chinese or English. Cortex searches across HiQLCD, Ecoinvent, EF, CarbonMinds and more — returning ranked candidates with unit and region disambiguation.',
+    proof: 'Multi-database · zh+en · unit-aware',
+  },
+  {
+    label: 'Cowork',
+    href: '/solutions/cowork',
+    blurb:
+      'A local agent that picks up the work when the conversation ends. Cortex Desktop keeps context across sessions, runs tools on your machine, and syncs a shared workbench.',
+    proof: 'Desktop agent · local workspace · cross-session memory',
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div class="container-wide relative pt-20 pb-24 md:pt-28 md:pb-32">
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 -z-10 opacity-60 [mask-image:radial-gradient(ellipse_at_top,black_40%,transparent_70%)]"
+      >
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,theme(colors.shell.100),transparent_50%)] dark:bg-[radial-gradient(circle_at_20%_30%,theme(colors.shell.900/30),transparent_50%)]"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,theme(colors.stone.100),transparent_50%)] dark:bg-[radial-gradient(circle_at_80%_70%,theme(colors.stone.800/40),transparent_50%)]"></div>
+      </div>
+
+      <p class="font-mono text-xs uppercase tracking-[0.2em] text-quiet">
+        HiQ Cortex · a product of HiQ-AI
+      </p>
+      <h1 class="heading-display mt-6 max-w-4xl text-4xl leading-[1.08] md:text-6xl">
+        The slow answer to
+        <span class="text-shell-700 dark:text-shell-400">carbon accounting</span>.
+      </h1>
+      <p class="mt-8 max-w-2xl font-serif text-lg italic text-stone-700 dark:text-stone-300 md:text-xl">
+        A thin layer of intelligence above every LCA database — compressing
+        <span class="not-italic font-sans font-medium">understand → search → cross-check → auditable answer</span>
+        into a single conversation.
+      </p>
+      <p class="mt-6 max-w-2xl text-base text-quiet md:text-lg">
+        It doesn't replace experts. It scales their judgment.
+      </p>
+
+      <div class="mt-12 flex flex-wrap items-center gap-4">
+        <a
+          href="/chat"
+          class="inline-flex items-center gap-2 rounded-md bg-stone-900 px-5 py-2.5 text-sm font-medium text-stone-50 transition-colors hover:bg-shell-700 dark:bg-stone-50 dark:text-stone-900 dark:hover:bg-shell-400"
+        >
+          Try Cortex Chat
+          <span aria-hidden="true">→</span>
+        </a>
+        <a
+          href="/solutions/bom-matching"
+          class="inline-flex items-center gap-2 rounded-md border border-stone-300 px-5 py-2.5 text-sm font-medium text-stone-900 transition-colors hover:border-shell-500 hover:text-shell-700 dark:border-stone-700 dark:text-stone-50 dark:hover:border-shell-400 dark:hover:text-shell-300"
+        >
+          See a BOM walkthrough
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Three qualities -->
+  <section class="border-t border-stone-200/70 py-24 dark:border-stone-800/70">
+    <div class="container-wide">
+      <div class="max-w-3xl">
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-quiet">Why a snail</p>
+        <h2 class="heading-display mt-4 text-3xl md:text-4xl">
+          We picked the opposite of a rocket, on purpose.
+        </h2>
+        <p class="mt-6 max-w-2xl font-serif italic text-stone-700 dark:text-stone-300">
+          The industry's AI mascot is a lightning bolt. LCA has never been that kind of
+          industry. A single CBAM filing is built out of weeks of boundary debates, BOM
+          decomposition, and trade-offs between a dozen databases — every step of which
+          must be auditable.
+        </p>
+      </div>
+
+      <div class="mt-16 grid gap-px overflow-hidden rounded-lg border border-stone-200 bg-stone-200 dark:border-stone-800 dark:bg-stone-800 md:grid-cols-3">
+        {qualities.map((q) => (
+          <article class="bg-white p-8 dark:bg-stone-950">
+            <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-shell-700 dark:text-shell-400">
+              {q.key}
+            </p>
+            <h3 class="heading-display mt-3 text-2xl">{q.heading}</h3>
+            <p class="mt-4 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
+              {q.body}
+            </p>
+          </article>
+        ))}
+      </div>
+
+      <p class="mt-16 max-w-2xl font-serif text-xl italic leading-relaxed text-stone-800 dark:text-stone-200">
+        Cortex does the fastest things in the backend — vector search, parallel tool
+        calls, LLM inference. What it delivers is always the slowest thing:
+        <span class="not-italic font-sans font-medium">a chain of reasoning you can audit, line by line.</span>
+      </p>
+      <p class="mt-6 font-mono text-xs uppercase tracking-[0.2em] text-quiet">
+        Slow is the most important promise we can make.
+      </p>
+    </div>
+  </section>
+
+  <!-- Use cases -->
+  <section class="border-t border-stone-200/70 py-24 dark:border-stone-800/70">
+    <div class="container-wide">
+      <div class="max-w-3xl">
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-quiet">What it does</p>
+        <h2 class="heading-display mt-4 text-3xl md:text-4xl">
+          One cortex. Three surfaces.
+        </h2>
+        <p class="mt-6 text-base text-stone-700 dark:text-stone-300 md:text-lg">
+          The same reasoning engine shows up wherever you meet your LCA data — at the
+          Excel level, at the material level, and at the desktop where the real work happens.
+        </p>
+      </div>
+
+      <div class="mt-14 grid gap-6 md:grid-cols-3">
+        {useCases.map((uc) => (
+          <a
+            href={uc.href}
+            class="group flex flex-col rounded-lg border border-stone-200 bg-white p-6 transition-colors hover:border-shell-500 dark:border-stone-800 dark:bg-stone-950 dark:hover:border-shell-400"
+          >
+            <div class="mb-4 inline-flex w-fit items-center gap-2 rounded-md bg-stone-100 px-2 py-1 font-mono text-[11px] uppercase tracking-[0.18em] text-stone-700 dark:bg-stone-900 dark:text-stone-300">
+              {uc.label}
+            </div>
+            <p class="text-base leading-relaxed text-stone-800 dark:text-stone-200">
+              {uc.blurb}
+            </p>
+            <p class="mt-6 font-mono text-xs text-quiet">{uc.proof}</p>
+            <p class="mt-4 text-sm font-medium text-shell-700 transition-transform group-hover:translate-x-0.5 dark:text-shell-400">
+              Learn more →
+            </p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing CTA -->
+  <section class="border-t border-stone-200/70 py-24 dark:border-stone-800/70">
+    <div class="container-prose text-center">
+      <h2 class="heading-display text-3xl md:text-4xl">Start with one question.</h2>
+      <p class="mt-6 font-serif italic text-stone-700 dark:text-stone-300">
+        Paste a material name. Upload a BOM. Ask whether that emission factor holds for
+        a Chinese supplier. Cortex answers — and shows its work.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a
+          href="/chat"
+          class="rounded-md bg-stone-900 px-5 py-2.5 text-sm font-medium text-stone-50 hover:bg-shell-700 dark:bg-stone-50 dark:text-stone-900 dark:hover:bg-shell-400"
+        >
+          Open Cortex Chat
+        </a>
+        <a
+          href="/methodology"
+          class="rounded-md border border-stone-300 px-5 py-2.5 text-sm font-medium text-stone-900 hover:border-shell-500 hover:text-shell-700 dark:border-stone-700 dark:text-stone-50 dark:hover:border-shell-400 dark:hover:text-shell-300"
+        >
+          Read the methodology
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

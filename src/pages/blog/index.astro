@@ -1,0 +1,43 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const title = 'Blog — HiQ Cortex';
+const description = 'Field notes on LCA, AI, and the slow answer.';
+
+const entries = (await getCollection('blog', ({ data }) => !data.draft && data.locale === 'en'))
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="container-wide pt-20 pb-12">
+    <p class="font-mono text-xs uppercase tracking-[0.2em] text-shell-700 dark:text-shell-400">Blog</p>
+    <h1 class="heading-display mt-6 max-w-3xl text-4xl md:text-5xl">
+      Field notes on LCA, AI, and the slow answer.
+    </h1>
+  </section>
+
+  <section class="container-wide pb-24">
+    {entries.length === 0 ? (
+      <p class="font-serif italic text-quiet">
+        First post coming soon. Subscribe nowhere — we'll tell you when it lands.
+      </p>
+    ) : (
+      <ul class="divide-y divide-stone-200 dark:divide-stone-800">
+        {entries.map((e) => (
+          <li class="py-8">
+            <a href={`/blog/${e.id}`} class="group block">
+              <p class="font-mono text-xs text-quiet">
+                {e.data.publishDate.toISOString().slice(0, 10)}
+              </p>
+              <h2 class="heading-display mt-2 text-2xl transition-colors group-hover:text-shell-700 dark:group-hover:text-shell-400">
+                {e.data.title}
+              </h2>
+              <p class="mt-2 text-sm text-stone-700 dark:text-stone-300">{e.data.description}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+</BaseLayout>
