@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionMark from '@/components/SectionMark.astro';
 import { getCollection } from 'astro:content';
 
 const title = 'Blog — HiQ Cortex';
@@ -10,34 +11,55 @@ const entries = (await getCollection('blog', ({ data }) => !data.draft && data.l
 ---
 
 <BaseLayout title={title} description={description}>
-  <section class="container-wide pt-20 pb-12">
-    <p class="font-mono text-xs uppercase tracking-[0.2em] text-shell-700 dark:text-shell-400">Blog</p>
-    <h1 class="heading-display mt-6 max-w-3xl text-4xl md:text-5xl">
+
+  <section class="container-page pt-14 md:pt-20 pb-14">
+    <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+      <p class="eyebrow">Blog</p>
+      <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+    </div>
+    <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.03; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 20ch;">
       Field notes on LCA, AI, and the slow answer.
     </h1>
+    <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.15rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+      Short dispatches on how carbon accounting actually works under the hood, what we're
+      reading, and what we got wrong last week.
+    </p>
   </section>
 
-  <section class="container-wide pb-24">
-    {entries.length === 0 ? (
-      <p class="font-serif italic text-quiet">
-        First post coming soon. Subscribe nowhere — we'll tell you when it lands.
-      </p>
-    ) : (
-      <ul class="divide-y divide-stone-200 dark:divide-stone-800">
-        {entries.map((e) => (
-          <li class="py-8">
-            <a href={`/blog/${e.id}`} class="group block">
-              <p class="font-mono text-xs text-quiet">
-                {e.data.publishDate.toISOString().slice(0, 10)}
-              </p>
-              <h2 class="heading-display mt-2 text-2xl transition-colors group-hover:text-shell-700 dark:group-hover:text-shell-400">
-                {e.data.title}
-              </h2>
-              <p class="mt-2 text-sm text-stone-700 dark:text-stone-300">{e.data.description}</p>
-            </a>
-          </li>
-        ))}
-      </ul>
-    )}
+  <section class="border-t border-rule">
+    <div class="container-page py-16 md:py-20">
+      {entries.length === 0 ? (
+        <div class="max-w-2xl">
+          <SectionMark kicker="Volume 01" numeral="I" title="First entry en route." />
+          <p class="font-serif italic" style="font-size: 1.1rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+            The first post is being copy-edited. When it lands, it will discuss why Cortex
+            returns top-k candidates instead of top-1 — and what the industry loses when a
+            reasoning chain collapses into a single number. Check back shortly, or read the
+            <a href="/methodology" style="color: var(--shell-dim);">methodology</a> in the meantime.
+          </p>
+        </div>
+      ) : (
+        <ul class="border-y border-rule">
+          {entries.map((e) => (
+            <li class="border-b border-rule last:border-b-0">
+              <a href={`/blog/${e.id}`} class="group grid grid-cols-[7rem_1fr_auto] items-baseline gap-6 py-8 md:py-10" style="text-decoration: none;">
+                <span class="font-mono" style="font-size: 0.72rem; letter-spacing: 0.08em; color: var(--ink-faint);">
+                  {e.data.publishDate.toISOString().slice(0, 10)}
+                </span>
+                <div>
+                  <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 40; font-size: clamp(1.4rem, 2.5vw, 1.9rem); line-height: 1.15; letter-spacing: -0.01em; color: var(--ink);">
+                    {e.data.title}
+                  </h2>
+                  <p class="mt-3 font-serif max-w-2xl" style="line-height: 1.55; font-variation-settings: 'opsz' 18; color: var(--ink-mute);">
+                    {e.data.description}
+                  </p>
+                </div>
+                <span class="smallcaps transition-transform group-hover:translate-x-0.5" aria-hidden="true" style="text-decoration: none; color: var(--ink-mute);">Read →</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   </section>
 </BaseLayout>

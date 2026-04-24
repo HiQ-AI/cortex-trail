@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionMark from '@/components/SectionMark.astro';
 import { getCollection } from 'astro:content';
 
 const title = 'Docs — HiQ Cortex';
@@ -17,44 +18,60 @@ for (const e of entries) {
 ---
 
 <BaseLayout title={title} description={description}>
-  <section class="container-wide pt-20 pb-12">
-    <p class="font-mono text-xs uppercase tracking-[0.2em] text-shell-700 dark:text-shell-400">Docs</p>
-    <h1 class="heading-display mt-6 max-w-3xl text-4xl md:text-5xl">Get Cortex running.</h1>
-    <p class="mt-6 max-w-2xl text-base text-stone-700 dark:text-stone-300 md:text-lg">
-      Installation, configuration, and a handful of recipes for the most common LCA
-      tasks. Browse by section or jump straight to what you need.
+
+  <section class="container-page pt-14 md:pt-20 pb-14">
+    <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+      <p class="eyebrow">Docs</p>
+      <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+    </div>
+    <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.03; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 20ch;">
+      Get Cortex running.
+    </h1>
+    <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.15rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+      Installation, configuration, and recipes for the most common LCA tasks. Browse by
+      section, or jump straight to what you need.
     </p>
   </section>
 
-  <section class="container-wide pb-24">
-    {entries.length === 0 ? (
-      <p class="font-serif italic text-quiet">
-        Docs coming soon. Meanwhile, the{' '}
-        <a class="underline hover:text-shell-700 dark:hover:text-shell-300" href="/methodology">methodology</a>{' '}
-        page covers how Cortex reasons about LCA data.
-      </p>
-    ) : (
-      <div class="space-y-12">
-        {[...sections].map(([section, items]) => (
-          <div>
-            <h2 class="font-mono text-xs uppercase tracking-[0.2em] text-quiet">{section}</h2>
-            <ul class="mt-4 divide-y divide-stone-200 dark:divide-stone-800">
-              {items.map((item) => (
-                <li class="py-4">
-                  <a href={`/docs/${item.id}`} class="group block">
-                    <p class="font-sans text-base font-semibold transition-colors group-hover:text-shell-700 dark:group-hover:text-shell-400">
-                      {item.data.title}
-                    </p>
-                    {item.data.description && (
-                      <p class="mt-1 text-sm text-quiet">{item.data.description}</p>
-                    )}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-    )}
+  <section class="border-t border-rule">
+    <div class="container-page py-16 md:py-20">
+      {entries.length === 0 ? (
+        <div class="max-w-2xl">
+          <SectionMark kicker="Reference" numeral="I" title="Docs are being typeset." />
+          <p class="font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink);">
+            While we finalize the first chapters, the{' '}
+            <a href="/methodology" style="color: var(--shell-dim);">methodology</a>{' '}
+            page covers how Cortex reasons about LCA data, and the{' '}
+            <a href="/solutions/bom-matching" style="color: var(--shell-dim);">BOM matching walkthrough</a>{' '}
+            shows what the product does end-to-end. Those are the two pages to start from.
+          </p>
+        </div>
+      ) : (
+        <div class="space-y-16">
+          {[...sections].map(([section, items]) => (
+            <div>
+              <div class="eyebrow mb-6">{section}</div>
+              <ul class="border-y border-rule">
+                {items.map((item) => (
+                  <li class="border-b border-rule last:border-b-0">
+                    <a href={`/docs/${item.id}`} class="group grid grid-cols-[1fr_auto] items-baseline gap-6 py-5" style="text-decoration: none;">
+                      <div>
+                        <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.15rem; letter-spacing: -0.005em; color: var(--ink);">
+                          {item.data.title}
+                        </h3>
+                        {item.data.description && (
+                          <p class="mt-1 font-serif" style="font-size: 0.92rem; line-height: 1.5; font-variation-settings: 'opsz' 14; color: var(--ink-mute);">{item.data.description}</p>
+                        )}
+                      </div>
+                      <span class="smallcaps transition-transform group-hover:translate-x-0.5" aria-hidden="true" style="text-decoration: none; color: var(--ink-faint);">Open →</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   </section>
 </BaseLayout>
