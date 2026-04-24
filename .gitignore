@@ -29,3 +29,4 @@ Thumbs.db
 
 # AWS deploy artifacts
 .aws-deploy-cache/
+SITE_DESIGN.md

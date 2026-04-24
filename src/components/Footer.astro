@@ -9,18 +9,20 @@ const copy = locale === 'zh'
       set: '正文 Newsreader，标题 Fraunces，数据 JetBrains Mono。',
       groups: [
         { title: '产品', links: [
-          { href: '/zh/solutions/bom-matching', label: 'BOM 匹配' },
-          { href: '/zh/solutions/carbon-search', label: '碳排检索' },
-          { href: '/zh/solutions/cowork', label: 'Cowork' },
+          { href: '/zh/product/chat', label: 'Cortex Chat' },
+          { href: '/zh/product/cowork', label: 'Cortex Cowork' },
         ]},
-        { title: '资源', links: [
+        { title: '洞察', links: [
+          { href: '/zh/blog', label: '博客' },
+          { href: '/zh/about', label: '关于' },
+        ]},
+        { title: '参考', links: [
           { href: '/zh/methodology', label: '方法学' },
           { href: '/zh/docs', label: '文档' },
-          { href: '/zh/blog', label: '博客' },
         ]},
         { title: '公司', links: [
           { href: 'https://hiq.earth', label: 'HiQ-AI 总站' },
-          { href: 'https://hiq.earth/about', label: 'About' },
+          { href: 'mailto:contact@hiq.earth', label: '联系' },
         ]},
       ],
     }
@@ -28,29 +30,30 @@ const copy = locale === 'zh'
       tag: 'A chain of reasoning you can audit, line by line.',
       set: 'Body set in Newsreader. Display in Fraunces. Data in JetBrains Mono.',
       groups: [
-        { title: 'Product', links: [
-          { href: '/solutions/bom-matching', label: 'BOM Matching' },
-          { href: '/solutions/carbon-search', label: 'Carbon Search' },
-          { href: '/solutions/cowork', label: 'Cowork' },
+        { title: 'Products', links: [
+          { href: '/product/chat', label: 'Cortex Chat' },
+          { href: '/product/cowork', label: 'Cortex Cowork' },
         ]},
-        { title: 'Resources', links: [
+        { title: 'Insights', links: [
+          { href: '/blog', label: 'Blog' },
+          { href: '/about', label: 'About' },
+        ]},
+        { title: 'Reference', links: [
           { href: '/methodology', label: 'Methodology' },
           { href: '/docs', label: 'Docs' },
-          { href: '/blog', label: 'Blog' },
         ]},
         { title: 'Company', links: [
           { href: 'https://hiq.earth', label: 'HiQ-AI (main)' },
-          { href: 'https://hiq.earth/about', label: 'About' },
+          { href: 'mailto:contact@hiq.earth', label: 'Contact' },
         ]},
       ],
     };
 ---
 
 <footer class="mt-32 border-t border-rule">
-  <div class="container-page grid gap-12 py-16 md:grid-cols-[1.2fr_2fr]">
+  <div class="container-page grid gap-12 py-16 md:grid-cols-[1.2fr_3fr]">
     <div>
       <div class="flex items-center gap-3" style="color: var(--ink-mute);">
-        <!-- Same snail mark as the header, at 22px -->
         <svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true">
           <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 23 C 4 26, 7 27, 10 27 L 23 27 C 27 27, 28 25, 27 22 C 25 20, 20 20, 16 21 C 12 20, 8 20, 5 23 Z"/>
@@ -67,7 +70,7 @@ const copy = locale === 'zh'
       </div>
       <p class="mt-4 max-w-xs font-serif italic" style="font-variation-settings: 'opsz' 14; color: var(--ink-faint);">{copy.tag}</p>
     </div>
-    <div class="grid grid-cols-2 gap-10 sm:grid-cols-3">
+    <div class="grid grid-cols-2 gap-10 sm:grid-cols-4">
       {copy.groups.map((group) => (
         <div>
           <div class="eyebrow mb-4">{group.title}</div>
