@@ -17,6 +17,11 @@
 #
 # Safety: this script is idempotent — re-running it will detect existing
 # resources by name and reuse them rather than creating duplicates.
+#
+# Gotcha: if the apex zone has strict CAA records, ACM validation will fail
+# with CAA_ERROR. Fix: add CAA records at $DOMAIN for amazon.com and
+# amazontrust.com — only loosens CAA for this subdomain, parent zone stays
+# strict. After adding CAA, delete the failed cert and re-run this script.
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -91,7 +96,10 @@ fi
 
 # ── 2. ACM cert (us-east-1 is required for CloudFront) ──────────────────
 echo "→ [2/4] ACM certificate for $DOMAIN"
+# Only reuse certs that are ISSUED or PENDING_VALIDATION — skip FAILED/EXPIRED/REVOKED
+# so re-runs after a CAA/DNS failure don't pick up the dead cert.
 CERT_ARN="$(aws acm list-certificates --region us-east-1 \
+  --certificate-statuses ISSUED PENDING_VALIDATION \
   --query "CertificateSummaryList[?DomainName=='$DOMAIN'].CertificateArn | [0]" \
   --output text)"
 if [[ "$CERT_ARN" == "None" || -z "$CERT_ARN" ]]; then

@@ -25,6 +25,15 @@ done
 AWS_REGION="${AWS_REGION:-us-east-1}"
 export AWS_DEFAULT_REGION="$AWS_REGION"
 
+# If npm isn't on PATH, try sourcing nvm (common on macOS interactive shells).
+if ! command -v npm >/dev/null 2>&1; then
+  [[ -s "$HOME/.nvm/nvm.sh" ]] && \. "$HOME/.nvm/nvm.sh" >/dev/null 2>&1 || true
+fi
+if ! command -v npm >/dev/null 2>&1; then
+  echo "✗ npm not found. Install Node 22+ or activate your nvm shell first." >&2
+  exit 1
+fi
+
 # Verify AWS auth before building
 if ! aws sts get-caller-identity >/dev/null 2>&1; then
   echo "✗ AWS credentials not found. Export AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY," >&2
