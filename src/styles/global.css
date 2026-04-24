@@ -211,17 +211,14 @@
   }
 
   .snail-trail-path {
-    stroke-dasharray: 3 10;
+    stroke-dasharray: 2 8;
     stroke: var(--shell);
-    stroke-width: 1.5;
+    stroke-width: 1.6;
     fill: none;
     opacity: 0;
-    animation: trail-fade 2.6s ease-out 0.9s forwards,
-               trail-draw 5s linear 0.9s forwards;
-    stroke-dashoffset: 800;
+    animation: trail-fade 2.2s ease-out 1s forwards;
   }
-  @keyframes trail-fade { from { opacity: 0; } to { opacity: 0.55; } }
-  @keyframes trail-draw { from { stroke-dashoffset: 800; } to { stroke-dashoffset: 0; } }
+  @keyframes trail-fade { from { opacity: 0; } to { opacity: 0.6; } }
 
   .rise   { opacity: 0; transform: translateY(14px); animation: rise 0.9s ease-out forwards; }
   .rise-1 { animation-delay: 0.10s; }

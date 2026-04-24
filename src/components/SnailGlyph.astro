@@ -1,15 +1,14 @@
 ---
 /**
- * Naturalist-illustration snail. Line-art, hatched shell, slight imperfection.
- * Uses currentColor so it inherits ink color. Inline SVG so we can animate
- * the trail dashes from CSS.
+ * Naturalist-illustration snail, side view — head on LEFT, shell on back,
+ * tapered tail on RIGHT, two antennae with eye dots, foot ripples.
+ * Uses currentColor so it inherits ink; inline SVG so CSS animates the trail.
  */
 interface Props {
   class?: string;
-  trail?: boolean; // show the dotted trail behind the snail
+  trail?: boolean;
   size?: number;
 }
-
 const { class: klass = '', trail = true, size = 320 } = Astro.props;
 ---
 
@@ -22,81 +21,80 @@ const { class: klass = '', trail = true, size = 320 } = Astro.props;
   aria-hidden="true"
   role="img"
 >
-  <!-- Trail — dotted path behind the snail, animated on page load -->
+  <!-- Trail — faint dotted arc behind the tail, right side -->
   {trail && (
-    <path
-      class="snail-trail-path"
-      d="M 8 338 C 80 330, 130 340, 180 322 C 230 306, 250 280, 296 268"
-    />
+    <path class="snail-trail-path" d="M 512 344 C 492 336, 478 328, 468 316 C 462 306, 462 300, 468 296" />
   )}
 
-  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6">
-    <!-- Body — a single hand-drawn curve, slightly asymmetric -->
-    <path
-      d="M 172 276
-         C 162 276, 152 272, 148 262
-         C 144 252, 148 238, 160 230
-         L 356 230
-         C 388 228, 404 246, 398 268
-         C 394 282, 380 288, 356 288
-         L 200 288
-         C 184 288, 176 284, 172 276 Z"
-      stroke-width="1.8"
-    />
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
 
-    <!-- Body underside shading (parallel hatch lines) -->
-    <g stroke-width="0.8" opacity="0.55">
-      <line x1="188" y1="282" x2="196" y2="286"/>
-      <line x1="216" y1="283" x2="224" y2="287"/>
-      <line x1="252" y1="283" x2="260" y2="287"/>
-      <line x1="288" y1="283" x2="296" y2="287"/>
-      <line x1="324" y1="283" x2="332" y2="287"/>
-      <line x1="360" y1="282" x2="368" y2="286"/>
+    <!-- Body silhouette: head (left) → foot (bottom) → tail (right-taper) → upper back → head.
+         Top edge has gentle undulations so the shell sits on a living surface, not a block. -->
+    <path d="M 74 290
+             C 60 296, 56 310, 78 314
+             L 440 314
+             C 472 314, 480 296, 468 282
+             C 448 268, 412 274, 376 280
+             C 336 274, 292 272, 248 278
+             C 204 274, 156 272, 112 278
+             C 88 278, 74 282, 74 290 Z" />
+
+    <!-- Foot ripple — small scallops along the bottom to suggest the moving sole -->
+    <g stroke-width="0.9" opacity="0.55">
+      <path d="M 110 314 q 8 4 16 0" />
+      <path d="M 166 314 q 8 4 16 0" />
+      <path d="M 222 314 q 8 4 16 0" />
+      <path d="M 278 314 q 8 4 16 0" />
+      <path d="M 334 314 q 8 4 16 0" />
+      <path d="M 390 314 q 8 4 16 0" />
     </g>
 
-    <!-- Antennae — two tapering curves with tiny knobs at tips -->
-    <path d="M 172 232 C 162 210, 166 186, 186 172" stroke-width="1.4"/>
-    <circle cx="187.5" cy="171" r="3.2" fill="currentColor" stroke="none"/>
-    <path d="M 200 228 C 198 208, 214 184, 228 176" stroke-width="1.4"/>
-    <circle cx="229" cy="175" r="3.2" fill="currentColor" stroke="none"/>
+    <!-- Antennae — two tapering curves from the head area (top-left), with small knobs at tips -->
+    <path d="M 82 280 C 66 254, 64 222, 80 198" stroke-width="1.7" />
+    <circle cx="80" cy="196" r="4" fill="currentColor" stroke="none" />
+    <path d="M 104 278 C 98 246, 118 214, 132 198" stroke-width="1.7" />
+    <circle cx="132" cy="196" r="4" fill="currentColor" stroke="none" />
 
-    <!-- Eye on the near antenna: small dot on head -->
-    <circle cx="170" cy="256" r="2" fill="currentColor" stroke="none"/>
+    <!-- Eye on the head (just a small dot near the face) -->
+    <circle cx="92" cy="302" r="2.6" fill="currentColor" stroke="none" />
 
-    <!-- Shell — outer spiral. Slightly off-center, imperfect -->
-    <circle cx="296" cy="180" r="92" stroke-width="1.8"/>
+    <!-- Mouth hint — short line under the eye -->
+    <path d="M 80 310 l 10 1" stroke-width="1" opacity="0.7" />
 
-    <!-- Spiral — concentric arcs with hatching between for volume -->
-    <path d="M 296 180
-             m -72 0
-             a 72 72 0 1 1 144 0
-             a 58 58 0 1 1 -116 0
-             a 44 44 0 1 1 88 0
-             a 30 30 0 1 1 -60 0
-             a 18 18 0 1 1 36 0
-             a 8 8 0 1 1 -16 0"
-          stroke-width="1.6"/>
+    <!-- Shell: resting on the upper back, center-right. Outer ring, then spiral coils. -->
+    <circle cx="300" cy="206" r="86" stroke-width="2.1" />
 
-    <!-- Shell hatching — parallel strokes suggesting shell ridges -->
-    <g stroke-width="0.7" opacity="0.65">
-      <path d="M 232 168 Q 240 150 256 140"/>
-      <path d="M 232 184 Q 240 200 252 212"/>
-      <path d="M 358 172 Q 360 156 350 144"/>
-      <path d="M 358 188 Q 362 204 354 214"/>
-      <path d="M 278 110 Q 296 104 314 110"/>
-      <path d="M 272 248 Q 296 254 320 248"/>
+    <!-- Spiral — concentric semi-closed arcs, reads as a cross-section of the shell -->
+    <path d="M 300 206
+             m -66 0
+             a 66 66 0 1 1 132 0
+             a 51 51 0 1 1 -102 0
+             a 38 38 0 1 1 76 0
+             a 26 26 0 1 1 -52 0
+             a 15 15 0 1 1 30 0
+             a 6 6 0 1 1 -12 0"
+          stroke-width="1.6" />
+
+    <!-- Radial hatching — suggests 3D curvature of the shell -->
+    <g stroke-width="0.9" opacity="0.55">
+      <path d="M 236 194 Q 248 174 266 164" />
+      <path d="M 236 220 Q 248 240 264 250" />
+      <path d="M 364 194 Q 362 174 344 164" />
+      <path d="M 364 220 Q 362 240 346 250" />
+      <path d="M 278 124 Q 300 118 322 124" />
+      <path d="M 268 288 Q 300 292 332 288" />
     </g>
 
-    <!-- Tiny stipple dots — scattered texture -->
+    <!-- Stipple — small texture dots on the shell -->
     <g fill="currentColor" stroke="none" opacity="0.5">
-      <circle cx="266" cy="160" r="0.9"/>
-      <circle cx="286" cy="146" r="0.9"/>
-      <circle cx="318" cy="152" r="0.9"/>
-      <circle cx="340" cy="170" r="0.9"/>
-      <circle cx="300" cy="210" r="0.9"/>
-      <circle cx="272" cy="204" r="0.9"/>
-      <circle cx="328" cy="212" r="0.9"/>
-      <circle cx="310" cy="178" r="0.9"/>
+      <circle cx="262" cy="180" r="1" />
+      <circle cx="286" cy="166" r="1" />
+      <circle cx="318" cy="170" r="1" />
+      <circle cx="336" cy="188" r="1" />
+      <circle cx="302" cy="232" r="1" />
+      <circle cx="272" cy="228" r="1" />
+      <circle cx="328" cy="232" r="1" />
+      <circle cx="310" cy="198" r="1" />
     </g>
   </g>
 </svg>
