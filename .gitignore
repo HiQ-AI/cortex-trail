@@ -16,9 +16,10 @@ pnpm-debug.log*
 .DS_Store
 Thumbs.db
 
-# Env
+# Env — never commit any of these
 .env
 .env.local
+.env.deploy
 .env.*.local
 
 # Editor

@@ -3,32 +3,34 @@
 # CI does this on merge to main; this is for out-of-band pushes.
 #
 # Usage:
-#   ./scripts/deploy.sh                         # reads from .env.deploy
+#   ./scripts/deploy.sh                         # reads .env.deploy + .env.local
 #   S3_BUCKET=... CLOUDFRONT_DISTRIBUTION_ID=... ./scripts/deploy.sh
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-if [[ -f .env.deploy ]]; then
-  # shellcheck disable=SC1091
-  source .env.deploy
-fi
+# Auto-source local env files if present (both are gitignored).
+for f in .env.deploy .env.local; do
+  if [[ -f "$f" ]]; then
+    set -a
+    # shellcheck disable=SC1090
+    source "$f"
+    set +a
+  fi
+done
 
-: "${S3_BUCKET:?S3_BUCKET is required}"
+: "${S3_BUCKET:?S3_BUCKET is required (set in .env.deploy or environment)}"
 : "${CLOUDFRONT_DISTRIBUTION_ID:?CLOUDFRONT_DISTRIBUTION_ID is required}"
 
 AWS_REGION="${AWS_REGION:-us-east-1}"
-
-# If AWS_ACCESS_KEY_ID is not set, try to read from the Cortex creds CSV.
-if [[ -z "${AWS_ACCESS_KEY_ID:-}" ]]; then
-  CSV="${CORTEX_AWS_CSV:-../cortex/keystone/aws/cortex-automation_accessKeys.csv}"
-  if [[ -f "$CSV" ]]; then
-    AWS_ACCESS_KEY_ID="$(tail -1 "$CSV" | tr -d '\r\n' | cut -d',' -f1)"
-    AWS_SECRET_ACCESS_KEY="$(tail -1 "$CSV" | tr -d '\r\n' | cut -d',' -f2)"
-    export AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY
-  fi
-fi
 export AWS_DEFAULT_REGION="$AWS_REGION"
+
+# Verify AWS auth before building
+if ! aws sts get-caller-identity >/dev/null 2>&1; then
+  echo "✗ AWS credentials not found. Export AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY," >&2
+  echo "  or configure ~/.aws/credentials, or set up an instance profile." >&2
+  exit 1
+fi
 
 echo "→ Building"
 npm run build

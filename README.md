@@ -5,7 +5,7 @@ The public face of HiQ Cortex — marketing, methodology, docs, and blog.
 - **Production**: https://cortex.hiq.earth (pending rollout)
 - **Staging**: https://preview.hiq.earth
 
-The name echoes the "Trail" quality in our [BRAND.md](https://github.com/HiQ-AI/cortex/blob/main/docs/BRAND.md): a chain of reasoning you can follow back to the origin. That's what this site is, too — the public breadcrumbs that lead into Cortex.
+The name echoes the "Trail" quality in our brand: a chain of reasoning you can follow back to the origin. That's what this site is, too — the public breadcrumbs that lead into Cortex.
 
 ## Stack
 
@@ -29,7 +29,7 @@ npm run dev
 - **Blog posts**: `src/content/blog/*.mdx` with frontmatter `locale: en | zh`
 - **Docs**: `src/content/docs/*.mdx` with frontmatter `section`, `order`, `locale`
 
-Voice guide: `desktop/whatsnew/_authoring/STYLE_GUIDE.md` in the parent Cortex repo.
+Voice: short sentences, noun-heavy, no GPT-plastic openers. Read a few of the existing pages before writing new copy — tone matters more than structure.
 
 ## Deploy
 

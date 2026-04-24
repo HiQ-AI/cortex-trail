@@ -3,16 +3,17 @@
 #
 # What this script creates:
 #   1. S3 bucket (private; CloudFront-only access via OAC)
-#   2. ACM certificate for preview.hiq.earth (DNS-validated via Cloudflare)
+#   2. ACM certificate for $DOMAIN (DNS-validated via Cloudflare)
 #   3. CloudFront distribution pointing at the S3 bucket
-#   4. Cloudflare CNAME: preview.hiq.earth → <distribution>.cloudfront.net
+#   4. Cloudflare CNAME: $DOMAIN → <distribution>.cloudfront.net
 #      (DNS-only, NOT proxied — Cloudflare orange cloud OFF to avoid cert-chain issues)
 #
 # Prereqs:
-#   - AWS creds either exported or readable from $CORTEX_AWS_CSV
-#   - Cloudflare API token + zone ID readable from $CF_ENV (defaults to
-#     ../cortex/keystone/cf/.env — the API key + zone ID live there)
-#   - jq, curl, aws CLI
+#   - AWS auth: the standard AWS SDK credential chain (env vars, shared config,
+#     instance profile, SSO — anything `aws sts get-caller-identity` accepts).
+#   - Cloudflare auth: either export CF_API_KEY + CF_ZONE_ID + CF_EMAIL, or
+#     `source .env.local` first (see .env.local.example).
+#   - CLIs: jq, curl, aws.
 #
 # Safety: this script is idempotent — re-running it will detect existing
 # resources by name and reuse them rather than creating duplicates.
@@ -20,31 +21,31 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+# Convenience: auto-source .env.local if present (gitignored).
+if [[ -f .env.local ]]; then
+  set -a
+  # shellcheck disable=SC1091
+  source .env.local
+  set +a
+fi
+
 DOMAIN="${DOMAIN:-preview.hiq.earth}"
 BUCKET="${BUCKET:-cortex-trail-preview}"
 AWS_REGION="${AWS_REGION:-us-east-1}"
-CF_ENV="${CF_ENV:-../cortex/keystone/cf/.env}"
 
-# ── Load AWS credentials ────────────────────────────────────────────────
-if [[ -z "${AWS_ACCESS_KEY_ID:-}" ]]; then
-  CSV="${CORTEX_AWS_CSV:-../cortex/keystone/aws/cortex-automation_accessKeys.csv}"
-  if [[ -f "$CSV" ]]; then
-    AWS_ACCESS_KEY_ID="$(tail -1 "$CSV" | tr -d '\r\n' | cut -d',' -f1)"
-    AWS_SECRET_ACCESS_KEY="$(tail -1 "$CSV" | tr -d '\r\n' | cut -d',' -f2)"
-    export AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY
-  fi
-fi
 export AWS_DEFAULT_REGION="$AWS_REGION"
 
-# ── Load Cloudflare credentials ─────────────────────────────────────────
-if [[ ! -f "$CF_ENV" ]]; then
-  echo "✗ Cloudflare env not found at $CF_ENV" >&2
+# ── Verify AWS auth ─────────────────────────────────────────────────────
+if ! aws sts get-caller-identity >/dev/null 2>&1; then
+  echo "✗ AWS credentials not found. Export AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY," >&2
+  echo "  or configure ~/.aws/credentials, or set up an instance profile." >&2
   exit 1
 fi
-CF_API_KEY="$(grep -E '^APIKEY=' "$CF_ENV" | cut -d'=' -f2)"
-CF_ZONE_ID="$(grep -E '^区域ID=' "$CF_ENV" | cut -d'=' -f2)"
-CF_ACCOUNT_ID="$(grep -E '^帐户ID=' "$CF_ENV" | cut -d'=' -f2)"
-CF_EMAIL="$(grep -E '^邮箱=' "$CF_ENV" | cut -d'=' -f2)"
+
+# ── Verify Cloudflare auth ──────────────────────────────────────────────
+: "${CF_API_KEY:?CF_API_KEY is required (see .env.local.example)}"
+: "${CF_ZONE_ID:?CF_ZONE_ID is required}"
+: "${CF_EMAIL:?CF_EMAIL is required}"
 
 cf_api() {
   local method="$1" path="$2"
@@ -137,7 +138,7 @@ if [[ "$DIST_ID" == "None" || -z "$DIST_ID" ]]; then
   DIST_CFG="$(mktemp)"
   cat > "$DIST_CFG" <<JSON
 {
-  "CallerReference": "hiq-cortex-web-$(date +%s)",
+  "CallerReference": "cortex-trail-$(date +%s)",
   "Aliases": { "Quantity": 1, "Items": ["$DOMAIN"] },
   "DefaultRootObject": "index.html",
   "Origins": {
@@ -166,7 +167,7 @@ if [[ "$DIST_ID" == "None" || -z "$DIST_ID" ]]; then
     "Quantity": 1,
     "Items": [{ "ErrorCode": 404, "ResponsePagePath": "/404.html", "ResponseCode": "404", "ErrorCachingMinTTL": 10 }]
   },
-  "Comment": "HiQ Cortex marketing site — preview.hiq.earth",
+  "Comment": "cortex-trail — $DOMAIN",
   "Enabled": true,
   "ViewerCertificate": {
     "ACMCertificateArn": "$CERT_ARN",
