@@ -6,7 +6,7 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'About — HiQ Cortex';
 const description =
-  'HiQ Cortex is a thin intelligence layer above every LCA database, built by HiQ-AI. This is why we made it, and why the mascot is a snail.';
+  'HiQ Cortex is a thin intelligence layer above every LCA database, built by HiQ-AI. Why we made it, and why the mascot is a snail.';
 ---
 
 <BaseLayout title={title} description={description}>
@@ -15,25 +15,23 @@ const description =
   <section class="relative">
     <div class="container-page pt-14 md:pt-20 pb-14">
       <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
-        <p class="eyebrow">About</p>
+        <p class="eyebrow">About · HiQ Cortex</p>
         <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
       </div>
-      <h1 class="font-display" style="font-size: clamp(2.4rem, 6vw, 5rem); line-height: 1.02; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 18ch;">
+      <h1 class="font-display" style="font-size: clamp(2.6rem, 6vw, 5rem); line-height: 1.02; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400;">
         Slow, on purpose.
       </h1>
       <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.22rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        HiQ Cortex is a thin layer of intelligence sitting above every LCA database,
-        methodology, and calculation tool. This is what we're trying to do, and why the
-        mascot is a snail.
+        HiQ Cortex is a thin intelligence layer above every LCA database — built to compress years of expert judgment into one conversation, without cutting any of the corners that make the answer worth trusting.
       </p>
     </div>
   </section>
 
-  <!-- In one paragraph -->
+  <!-- The company -->
   <section class="border-t border-rule">
     <div class="container-page py-16 md:py-20">
-      <div class="grid gap-12 md:grid-cols-[1fr_1.2fr] md:gap-16 items-start">
-        <div class="text-ink-500" style="color: var(--ink);">
+      <div class="grid gap-12 md:grid-cols-[1fr_1.3fr] md:gap-16 items-start">
+        <div style="color: var(--ink);">
           <SnailGlyph class="w-full max-w-sm" />
           <p class="margin-note mt-6">
             <em>Cornu aspersum</em>, rendered with its house on its back and its trail behind it.
@@ -44,12 +42,7 @@ const description =
         <div class="max-w-2xl">
           <SectionMark kicker="The company" numeral="I" title="HiQ-AI, in one paragraph." />
           <p class="font-serif" style="font-size: 1.1rem; line-height: 1.7; font-variation-settings: 'opsz' 20; color: var(--ink);">
-            We build carbon accounting infrastructure for LCA practitioners, corporate sustainability
-            teams, and the auditors who review their work. Our product, <strong>HiQ Cortex</strong>,
-            is a reasoning layer above every major LCA database — HiQLCD, Ecoinvent, EF, CarbonMinds,
-            and more — that turns natural-language questions into cited, DQI-scored, audit-grade
-            answers. Two surfaces: <a href="/product/chat">Cortex Chat</a> in the browser and
-            <a href="/product/cowork">Cortex Cowork</a> on your desktop.
+            HiQ-AI is a Hong Kong–registered technology company building data infrastructure and intelligence tools for the life cycle assessment industry. We maintain <strong style="font-weight: 500;">HiQLCD</strong> — a structured LCA emissions database covering materials, processes, and supply-chain proxies — and we build Cortex on top of it. Our two products are <a href="/product/chat">Cortex Chat</a>, a conversational retrieval and reasoning interface for LCA practitioners, and <a href="/product/cowork">Cortex Cowork</a>, a desktop agent that manages multi-session LCA projects locally. Both products are built for independent LCA consultants and corporate sustainability teams preparing CBAM filings, EPD reports, and Scope 3 disclosures.
           </p>
         </div>
       </div>
@@ -59,47 +52,44 @@ const description =
   <!-- Why we built this -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Why we built it" numeral="II" title="LCA's bottleneck is not data volume." />
+      <SectionMark kicker="Why we built it" numeral="II" title="The bottleneck was never data." />
 
       <div class="max-w-3xl space-y-6 font-serif" style="font-size: 1.08rem; line-height: 1.7; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          The global supply of life cycle inventory data now runs into the millions of records.
-          The problem has never been whether the number exists somewhere. The problem is this:
-          who reads the question right. Who translates a real production process into the right
-          retrieval language. Who navigates a dozen database vocabularies to judge whether a
-          given emission factor can defensibly be used for a given commission.
+          The global life cycle inventory landscape holds millions of records across dozens of databases. Every practitioner with an Ecoinvent license has more data than any single project requires. The bottleneck was never volume — it was <em>reading the question right</em>.
         </p>
         <p>
-          Traditionally, that work belongs to experienced practitioners — expensive, scarce,
-          hard to replicate. <strong>Cortex is our answer.</strong> A thin layer of intelligence
-          sitting above all the databases and methodologies, compressing
-          <em>understand → search → cross-check → auditable answer</em> into a single conversation.
+          Translating a real production scenario into a search query; navigating between the terminology conventions of HiQLCD, Ecoinvent, and EF in a single session; deciding whether a proxy value from one database can stand in for a missing entry in another — this work has always depended on expert judgment. It is time-consuming, expensive to scale, and nearly impossible to audit after the fact.
         </p>
         <p>
-          It does not replace experts. It scales their judgment.
+          Cortex is our answer. A thin intelligence layer sitting above the databases, methods, and calculation tools — compressing the chain from <em>understand the question → retrieve candidates → cross-check → produce a traceable answer</em> into one conversation.
         </p>
       </div>
+
+      <Asterism />
+
+      <blockquote class="mx-auto max-w-3xl text-center">
+        <p class="pullquote">
+          It does not replace experts. It scales their judgment.
+        </p>
+      </blockquote>
     </div>
   </section>
 
-  <!-- The snail -->
+  <!-- Why a snail -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="The mascot" numeral="III" title="Why a snail, when every AI company picks a rocket." />
+      <SectionMark kicker="The mascot" numeral="III" title="We picked the opposite of a rocket." />
 
       <div class="max-w-3xl space-y-6 font-serif" style="font-size: 1.08rem; line-height: 1.7; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          We chose the opposite of the industry default on purpose.
+          When we chose a mascot for Cortex, we made a choice against the category's instincts.
         </p>
         <p>
-          The AI image today is a lightning bolt, a rocket, a neuron — fast, strong, all-knowing.
-          LCA has never been that kind of industry. A single CBAM filing is built out of weeks
-          of boundary debates, BOM decomposition, and trade-offs among a dozen databases. Every
-          step must be auditable, challenged, and traced. What a client actually needs is not
-          "answered quickly," but "answered correctly — and able to explain why."
+          The default AI image is a lightning bolt, a rocket, a neural dendrite — fast, forceful, omniscient. LCA has never been that kind of discipline. A single CBAM filing can involve weeks of system-boundary debate, BOM decomposition, and proxy judgment calls across a dozen databases. Every step needs to be auditable, questionable, traceable back to its source. What clients actually need is not "answered fast" — it is "answered correctly, with a clear account of why."
         </p>
         <p>
-          The snail is the shape of that work.
+          A snail is the shape of that requirement. So we chose a snail.
         </p>
       </div>
 
@@ -109,44 +99,42 @@ const description =
         <article class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink);">
           <div class="eyebrow mb-3" style="color: var(--shell);">Slow</div>
           <p>
-            It won't skip the boundary discussion to hand you a number. Every answer waits until
-            the right questions have been asked: system boundary, allocation rule, geographic fit.
+            The most visible thing about a snail is that it does not rush. It will not skip the system-boundary discussion to produce a number sooner. It will not collapse three competing proxy values into one without flagging the disagreement. On the backend, Cortex does the fastest things available: parallel retrieval across twelve databases, concurrent tool calls, LLM inference at scale. What it delivers is always the slowest thing: a chain of reasoning you can audit, line by line, assumption by assumption.
+          </p>
+          <p class="mt-4 font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 60, 'opsz' 24; font-size: 1.05rem;">
+            Slow is the most important promise we can make.
           </p>
         </article>
+
         <article class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink);">
           <div class="eyebrow mb-3" style="color: var(--shell);">Shell</div>
           <p>
-            It carries its home wherever it goes. Every cited dataset, every proxy assumption,
-            every version switch stays attached to the answer. Reviewers see what Cortex saw.
+            A snail carries its shelter on its back. Wherever it goes, it has its own structure with it. Cortex works the same way: every cited dataset, every proxy assumption, every version-change note travels with the answer. There is no output without provenance.
+          </p>
+          <p class="mt-4 font-serif italic" style="font-variation-settings: 'opsz' 14; color: var(--ink-mute); font-size: 0.96rem;">
+            The shell is not decoration — it is the evidence that the answer can be checked.
           </p>
         </article>
+
         <article class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink);">
           <div class="eyebrow mb-3" style="color: var(--shell);">Trail</div>
           <p>
-            It leaves marks behind it. Regulators, auditors, and legal teams can follow the trail
-            back to the origin. The line between a conversation and an audit-grade report is the product.
+            A snail leaves a visible mark on everything it crosses. Auditors, regulators, and internal reviewers need exactly that: a path from the final number back to the original question, passable in either direction. Cortex's trail is the audit log: which databases were searched, which candidates were returned, which thresholds paused the process, and what the practitioner decided at each gate.
+          </p>
+          <p class="mt-4 font-serif italic" style="font-variation-settings: 'opsz' 14; color: var(--ink-mute); font-size: 0.96rem;">
+            The trail is the deliverable.
           </p>
         </article>
       </div>
-
-      <blockquote class="mx-auto mt-20 max-w-3xl text-center">
-        <p class="pullquote">
-          Cortex does the fastest things on the backend. What it delivers is always the slowest thing:
-          <em style="color: var(--shell); font-style: italic;">a chain of reasoning you can audit, line by line.</em>
-        </p>
-        <footer class="eyebrow mt-6">Slow is the most important promise we can make.</footer>
-      </blockquote>
     </div>
   </section>
 
   <!-- Open interfaces -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
-    <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Open interfaces" numeral="IV" title="REST, MCP, AG-UI, A2A." />
+    <div class="container-page py-16 md:py-20">
+      <SectionMark kicker="Built to connect" numeral="IV" title="Four protocols. One API key." />
       <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Cortex is built on open protocols. If you'd rather call it from your own tool than
-        through our chat, the integration surface is already there. See the
-        <a href="/docs">docs</a> or email us.
+        Cortex exposes its full retrieval and reasoning surface through four protocols: <strong style="font-weight: 500;">REST</strong> for direct HTTP integration, <strong style="font-weight: 500;">MCP</strong> for tool-call-compatible clients, <strong style="font-weight: 500;">AG-UI</strong> for streaming agent interfaces, and <strong style="font-weight: 500;">A2A</strong> for agent-to-agent handoffs. Every capability available in Cortex Chat and Cortex Cowork is reachable through the API — the products are built on the same surface they expose. Complete reference, with examples and authentication, is at <a href="https://docs.x.hiq.earth">docs.x.hiq.earth</a>.
       </p>
     </div>
   </section>
@@ -154,15 +142,19 @@ const description =
   <!-- Contact -->
   <section class="border-t border-rule">
     <div class="container-prose py-24 text-center">
-      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.02; letter-spacing: -0.02em;">
-        Come work on the slow answer.
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.02; letter-spacing: -0.02em;">
+        Work with us.
       </h2>
-      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.1rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Questions, partnerships, or a bug report — email us.
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        For questions about Cortex, API access, integration partnerships, or anything else.
       </p>
-      <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="mailto:contact@hiq.earth" class="ticket">contact@hiq.earth</a>
-        <a href="/product/chat" class="ticket-ghost">See what Cortex does</a>
+      <div class="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-4 font-serif" style="font-size: 0.98rem; font-variation-settings: 'opsz' 18;">
+        <a href="mailto:info@hiqlcd.com" class="ticket">info@hiqlcd.com</a>
+      </div>
+      <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">
+        <a href="https://hiq.earth" style="color: var(--ink-mute);">HiQ-AI</a>
+        <a href="https://hiqlcd.com" style="color: var(--ink-mute);">HiQLCD data platform</a>
+        <a href="https://github.com/HiQ-AI/cortex-desktop" style="color: var(--ink-mute);">github · cortex-desktop</a>
       </div>
     </div>
   </section>

@@ -5,47 +5,61 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'Cortex Chat — HiQ Cortex';
 const description =
-  'The LCA workbench in a conversation. Ask in Chinese or English; get ranked emission factor candidates across HiQLCD, Ecoinvent, EF, CarbonMinds, and more — with DQI, source, and reasoning attached.';
+  'LCA data retrieval, in a conversation. Ask in Chinese or English. Cortex searches twelve databases in parallel and returns ranked candidates — DQI scored, every assumption attached.';
+
+const surfaces = [
+  {
+    name: 'Web',
+    address: 'cortex.hiq.earth/chat',
+    body: 'Sign in, start typing. Conversation history syncs to the cloud. Supports Chinese and English input without switching modes.',
+  },
+  {
+    name: 'API',
+    address: 'docs.x.hiq.earth',
+    body: 'Four protocols: REST, MCP, AG-UI, A2A. REST for batch lookups. MCP for Cursor / Claude Desktop / any MCP-compatible client. AG-UI for front-end streaming. A2A for agent-to-agent calls.',
+  },
+];
 
 const scenarios = [
   {
     numeral: 'I',
-    label: 'Bulk BOM Matching',
-    href: '/solutions/bom-matching',
+    label: 'Bulk BOM matching',
     body:
-      'Upload a Bill of Materials — Excel, CSV, or pasted. Cortex asks the one or two clarifying questions that actually matter (alloy grade, production route, region), then fans out across five databases in parallel. Every row returns with DQI-scored candidates and a clickable source. Three human-in-the-loop gates stop the agent before it silently picks.',
-    proof: '~100-row BOM · ~10 min · full provenance · Excel export',
+      'Upload a Bill of Materials — Excel, CSV, or pasted text. Cortex asks the clarifying question that matters: alloy grade, production route, region. Silence on low-signal rows. It then searches HiQLCD, Ecoinvent, EF, CarbonMinds, and more in parallel and returns DQI-scored candidates per row. Three gates pause for your decision: coverage below 80%, proxy substitution, or cross-database GWP spread over 2×.',
+    proof: '100-row BOM · ~10 min · full provenance export',
+    href: '/solutions/bom-matching',
+    hrefLabel: 'See the full walkthrough',
   },
   {
     numeral: 'II',
-    label: 'Single Material Carbon Search',
-    href: '/solutions/carbon-search',
+    label: 'Single-material search',
     body:
-      'Ask a question in plain Chinese or English — "冷轧钢板 CN 电弧炉 scope CBAM" — and get ranked candidates with unit and region disambiguation. Cortex surfaces the spread across databases rather than averaging silently.',
-    proof: 'Multi-database · zh+en · unit-aware · top-k results',
+      'Type a material name — "hot-rolled steel, China" or "HDPE granules, extrusion grade" — and Cortex returns a ranked list across all connected databases. Each hit shows GWP value, unit, geographic region, system model, and a link to the source record on HiQLCD. Results in Chinese or English; the databases answer either way.',
+    proof: 'Natural-language query · multi-database · DQI-ranked top-k',
   },
   {
     numeral: 'III',
-    label: 'Cross-database comparison',
-    href: '/methodology',
+    label: 'CBAM scope checking',
     body:
-      'Same material, multiple databases: Ecoinvent cutoff vs. APOS, EF 3.1 vs. HiQLCD for CN-specific supply chains. Cortex explains why the numbers diverge — system model, boundary, temporal fit — not just which is bigger.',
-    proof: 'DQI × 5 dimensions · system-model aware',
+      'Walk a product row through CBAM Article 5.2 requirements in conversation: embedded emissions boundary, direct vs. indirect emissions split, and which proxy assumptions the verifier will question. Cortex cites the dataset key and GWP value at each step — not a hand-wave, a named record.',
+    proof: 'Named dataset · embedded emissions boundary · reasoning chain per row',
   },
   {
     numeral: 'IV',
-    label: 'Proxy dataset selection',
-    href: '/methodology',
+    label: 'Methodology Q&A',
     body:
-      "When the exact material doesn't exist in any database, Cortex proposes proxies explicitly — what's being substituted, which axis differs (region / process / DQI), what the delta implies. You confirm or replace; it never proxies silently.",
-    proof: 'Named proxy · stated delta · auditable substitution',
+      '"What is the difference between Ecoinvent cut-off and APOS for my stainless steel row?" Cortex answers from the dataset record and system-model documentation — not from a training-data summary. Ask about ISO 14040/44 system boundaries, allocation approaches, EPD standards, or CBAM default values.',
+    proof: 'Cites dataset key + system model · not a paraphrase',
   },
 ];
 
-const surfaces = [
-  { name: 'Web',           body: 'cortex.hiq.earth/chat — nothing to install.',                          tag: 'live' },
-  { name: 'API',           body: 'REST · MCP · AG-UI · A2A. Embed Cortex in your own tool.',            tag: 'beta' },
-  { name: 'DingTalk Bot',  body: '"Cuisi" (翠丝) — Cortex answers in your group chat.',                 tag: 'live' },
+const compare = [
+  ['Where it runs',         'Browser (cloud)',                                                     'Desktop app (local-first)'],
+  ['File access',           'Upload per session',                                                  'Reads and writes your project folder'],
+  ['Conversation history',  'Cloud-synced, searchable',                                            'Local only'],
+  ['Local tool execution',  'Not available',                                                       'Python, shell, custom MCP tools'],
+  ['Skills system',         'Core search skills',                                                  'Full skills marketplace + custom skills'],
+  ['Best for',              'Single-session lookups: a BOM, a material, a methodology question',  'Projects spanning days: decision logs, multi-session memory, openLCA modeling'],
 ];
 ---
 
@@ -58,13 +72,11 @@ const surfaces = [
         <p class="eyebrow">Product · Cortex Chat</p>
         <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
       </div>
-      <h1 class="font-display" style="font-size: clamp(2.4rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 18ch;">
-        The LCA workbench, <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">in a conversation</em>.
+      <h1 class="font-display" style="font-size: clamp(2.4rem, 6vw, 5rem); line-height: 1.02; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 18ch;">
+        LCA data retrieval, <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">in a conversation</em>.
       </h1>
-      <p class="mt-10 max-w-2xl font-serif" style="font-size: 1.2rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Ask Cortex the question you'd otherwise spend the next hour typing into five database tabs.
-        Get back ranked candidates, DQI scores, cited sources, and — when it matters — a clarifying
-        question before any number is picked.
+      <p class="mt-10 max-w-2xl font-serif" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Ask in Chinese or English. Upload a BOM. Cortex searches <strong style="font-weight: 500;">twelve databases</strong> in parallel and returns ranked candidates — DQI-scored, every assumption attached.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
         <a href="/chat" class="ticket">Open Cortex Chat <span aria-hidden="true">→</span></a>
@@ -73,21 +85,21 @@ const surfaces = [
     </div>
   </section>
 
-  <!-- Where it runs -->
+  <!-- Where Chat runs -->
   <section class="border-t border-rule">
     <div class="container-page py-14 md:py-16">
-      <div class="eyebrow mb-6">Where Cortex Chat runs</div>
-      <div class="grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
+      <div class="eyebrow mb-3">Where Chat runs</div>
+      <p class="max-w-2xl font-serif" style="font-size: 1rem; line-height: 1.55; font-variation-settings: 'opsz' 18; color: var(--ink-mute); font-style: italic;">
+        Two paths in. One reasoning engine behind both.
+      </p>
+      <div class="mt-8 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
         {surfaces.map((s) => (
-          <div class="flex items-baseline gap-4 p-6" style="background: var(--paper);">
-            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.1rem;">§</span>
-            <div>
-              <div class="flex items-baseline gap-3">
-                <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 24; font-size: 1.15rem;">{s.name}</h3>
-                <span class="font-mono uppercase" style="font-size: 0.65rem; letter-spacing: 0.14em; color: var(--shell);">{s.tag}</span>
-              </div>
-              <p class="mt-2 font-serif" style="font-size: 0.95rem; line-height: 1.5; font-variation-settings: 'opsz' 14; color: var(--ink-mute);">{s.body}</p>
+          <div class="p-6 md:p-8" style="background: var(--paper);">
+            <div class="flex items-baseline justify-between mb-3">
+              <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 24; font-size: 1.3rem;">{s.name}</h3>
+              <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--shell);">{s.address}</code>
             </div>
+            <p class="font-serif" style="font-size: 0.98rem; line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink);">{s.body}</p>
           </div>
         ))}
       </div>
@@ -97,24 +109,24 @@ const surfaces = [
   <!-- Scenarios -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="What people use it for" numeral="I–IV" title="Four scenarios, one cortex." />
-
-      <p class="max-w-3xl font-serif" style="font-size: 1.12rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        These are the conversations Chat was built for. Everything below happens in one tab,
-        against curated LCA databases, with the same reasoning discipline.
+      <SectionMark kicker="What people use it for" numeral="I–IV" title="Four scenarios LCA practitioners run inside one conversation." />
+      <p class="max-w-3xl font-serif" style="font-size: 1.1rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Each returns a named result, not a hedged summary.
       </p>
 
       <div class="mt-14 border-y border-rule">
         {scenarios.map((s) => (
           <article class="border-b border-rule last:border-b-0">
-            <div class="grid items-baseline gap-6 py-10 md:grid-cols-[4rem_1fr_auto] md:gap-10">
-              <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: clamp(1.6rem, 2.5vw, 2rem);">§ {s.numeral}</span>
+            <div class="grid items-baseline gap-6 py-10 md:grid-cols-[4rem_minmax(0,_1fr)] md:gap-10">
+              <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: clamp(1.5rem, 2.4vw, 1.9rem);">§ {s.numeral}</span>
               <div>
-                <h3 class="font-display mb-3" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.5rem, 2.8vw, 2.1rem); line-height: 1.1; letter-spacing: -0.015em; color: var(--ink);">{s.label}</h3>
-                <p class="font-serif max-w-2xl" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink);">{s.body}</p>
+                <h3 class="font-display mb-3" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.5rem, 2.6vw, 2.1rem); line-height: 1.1; letter-spacing: -0.015em; color: var(--ink);">{s.label}</h3>
+                <p class="font-serif max-w-2xl" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1rem;">{s.body}</p>
                 <p class="mt-4 font-mono" style="font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-faint);">{s.proof}</p>
+                {s.href && (
+                  <a href={s.href} class="mt-4 inline-block smallcaps" style="text-decoration: none; color: var(--shell);">{s.hrefLabel} →</a>
+                )}
               </div>
-              <a href={s.href} class="smallcaps" aria-hidden="true" style="text-decoration: none; color: var(--ink-mute); white-space: nowrap;">Read →</a>
             </div>
           </article>
         ))}
@@ -122,17 +134,21 @@ const surfaces = [
     </div>
   </section>
 
-  <!-- Pull quote / slow/shell/trail brief mention -->
+  <!-- The reasoning chain -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
       <Asterism class="mb-12" />
       <blockquote class="mx-auto max-w-3xl text-center">
         <p class="pullquote">
-          Chat returns top-<em style="color: var(--shell); font-style: italic;">k</em>, not top-1.
-          Every candidate carries its source, its region, its system model, and its DQI.
+          Top-<em style="color: var(--shell); font-style: italic;">k</em>, not top-1. <em style="color: var(--shell); font-style: italic;">DQI</em>, not confidence score. Three gates where a human decides — not a threshold a model crossed silently.
         </p>
-        <footer class="eyebrow mt-6">The reasoning chain is part of the deliverable.</footer>
       </blockquote>
+      <p class="mx-auto mt-10 max-w-2xl font-serif text-center" style="line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink); font-size: 1.05rem;">
+        Cortex returns the candidates ranked by fit: geographic region, technology match, system model. Each carries a DQI across five dimensions. Where coverage drops below 80%, where a proxy substitution is required, or where two databases disagree by more than 2× on GWP, Cortex stops and asks.
+      </p>
+      <p class="text-center mt-8">
+        <a href="/methodology" class="smallcaps" style="color: var(--shell);">How Cortex reasons →</a>
+      </p>
     </div>
   </section>
 
@@ -140,41 +156,53 @@ const surfaces = [
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
       <SectionMark kicker="Which Cortex" numeral="V" title="Chat is the web surface. Cowork is the desktop one." />
-      <div class="grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
-        <div class="p-8 md:p-10" style="background: var(--paper);">
-          <div class="eyebrow mb-3" style="color: var(--shell);">Cortex Chat</div>
-          <h3 class="font-display mb-3" style="font-variation-settings: 'SOFT' 40, 'opsz' 40; font-size: 1.5rem;">One tab. One question.</h3>
-          <p class="font-serif" style="line-height: 1.55; font-variation-settings: 'opsz' 18; color: var(--ink);">
-            Best when the question fits in a session: a single BOM, a material lookup, a cross-database check.
-            Nothing to install. Excel in, Excel out.
-          </p>
-          <a href="/chat" class="mt-6 inline-block smallcaps" style="color: var(--shell);">Open Chat →</a>
-        </div>
-        <div class="p-8 md:p-10" style="background: var(--paper);">
-          <div class="eyebrow mb-3">Cortex Cowork</div>
-          <h3 class="font-display mb-3" style="font-variation-settings: 'SOFT' 40, 'opsz' 40; font-size: 1.5rem;">Projects that outlive a session.</h3>
-          <p class="font-serif" style="line-height: 1.55; font-variation-settings: 'opsz' 18; color: var(--ink);">
-            Best when the project spans weeks: multiple BOMs, iterative queries, local files,
-            team handoff. The agent remembers; the workbench persists.
-          </p>
-          <a href="/product/cowork" class="mt-6 inline-block smallcaps" style="color: var(--ink-mute);">Meet Cowork →</a>
-        </div>
+      <p class="max-w-2xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Chat and Cowork share the same retrieval engine. The project scope decides which to open.
+      </p>
+
+      <div class="mt-10 overflow-hidden rounded-sm border border-rule" style="background: var(--paper);">
+        <table class="w-full" style="border-collapse: collapse;">
+          <thead>
+            <tr style="background: var(--paper-rim);">
+              <th class="eyebrow text-left p-4 border-b border-rule"></th>
+              <th class="eyebrow text-left p-4 border-b border-rule" style="color: var(--shell);">Cortex Chat</th>
+              <th class="eyebrow text-left p-4 border-b border-rule">Cortex Cowork</th>
+            </tr>
+          </thead>
+          <tbody class="font-serif" style="font-size: 0.94rem; line-height: 1.5; font-variation-settings: 'opsz' 16;">
+            {compare.map(([label, chat, cowork]) => (
+              <tr>
+                <td class="p-4 border-b border-rule" style="color: var(--ink-mute); font-weight: 500;">{label}</td>
+                <td class="p-4 border-b border-rule" style="color: var(--ink);">{chat}</td>
+                <td class="p-4 border-b border-rule" style="color: var(--ink);">{cowork}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
+
+      <p class="mt-10 max-w-3xl font-display italic" style="font-variation-settings: 'SOFT' 60, 'opsz' 36; font-size: 1.4rem; line-height: 1.3; color: var(--ink);">
+        Chat answers questions. Cowork runs workflows.
+      </p>
+
+      <p class="mt-6">
+        <a href="/product/cowork" class="smallcaps" style="color: var(--shell);">Meet Cortex Cowork →</a>
+      </p>
     </div>
   </section>
 
-  <!-- Closing CTA -->
+  <!-- Closer -->
   <section class="border-t border-rule">
     <div class="container-prose py-24 text-center">
       <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.02; letter-spacing: -0.02em;">
-        One material. One BOM. One conversation.
+        Ask Cortex about a material.
       </h2>
       <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.1rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Start with whatever question is on your desk. Cortex Chat answers — and shows its work.
+        One question is enough to start. No schema, no setup — type the material name, and Cortex returns candidates with sources attached.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="/chat" class="ticket">Open Cortex Chat</a>
-        <a href="/methodology" class="ticket-ghost">Read the methodology</a>
+        <a href="/chat" class="ticket">Open Cortex Chat <span aria-hidden="true">→</span></a>
+        <a href="mailto:info@hiqlcd.com" class="ticket-ghost">API access · info@hiqlcd.com</a>
       </div>
     </div>
   </section>

@@ -5,43 +5,56 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'Cortex Cowork — HiQ Cortex';
 const description =
-  'The desktop agent that stays with your LCA project. Cross-session memory, local workspace, and a shared workbench — for work that outlives a chat tab.';
+  'The desktop agent that stays with your LCA project. Cowork runs on your machine, reads your files, and carries decisions across sessions and restarts.';
+
+const platforms = [
+  { name: 'macOS',   detail: 'Apple Silicon (M1–M4) and Intel · .dmg', note: 'Gatekeeper: System Settings → Privacy & Security → Open Anyway on first launch.' },
+  { name: 'Windows', detail: '.exe installer',                          note: null },
+  { name: 'Linux',   detail: '.AppImage or .deb (dpkg -i)',            note: null },
+];
 
 const scenarios = [
   {
     numeral: 'I',
-    label: 'Long LCA projects',
-    body:
-      "A CBAM filing or a product PCF is not one sitting. Cowork remembers the boundary decisions you made on Monday, the proxy substitutions you logged on Wednesday, and the supplier data that arrived on Thursday. You resume where you left off — context intact.",
-    proof: 'Cross-session memory · per-project workspace · decision log',
+    label: 'BOM processing',
+    before: 'Open Excel + query databases one by one + log results manually.',
+    after:  'Upload the BOM. Cortex identifies materials, runs cross-database matching, and fills in missing datasets — row by row, with every match sourced.',
+    detail: 'Cortex reads your BOM file directly from disk. It searches HiQLCD, Ecoinvent, and EF in parallel per row, flags rows where coverage is below threshold, and writes the matched GWP values back into a new Excel file. No copy-paste. No tab-switching.',
+    proof:  'BOM.xlsx → parallel search → matched GWP · source · DQI per row',
   },
   {
     numeral: 'II',
-    label: 'Local files, local privacy',
-    body:
-      "Proprietary supplier specs, unreleased product data, NDA-covered BOMs — these don't want to round-trip through someone else's cloud. Cowork runs tools on your machine, against your files, with nothing leaving the workbench unless you say so.",
-    proof: 'Local tool execution · data stays on device',
+    label: 'Scope 3 calculation',
+    before: 'Consult GHG Protocol documentation + ask an AI separately + classify categories by hand.',
+    after:  'Provide the activity data file. Cortex classifies categories automatically, builds the data-collection checklist, and runs the calculation.',
+    detail: 'All 15 GHG Protocol Scope 3 categories are supported. Cortex handles upstream, downstream, and use-phase classifications — including avoided-emissions credit (Category 13 / C5). The output is a calculation file with category totals and factor sources, not a black-box number.',
+    proof:  'Activity data in → 15 categories · factor matching · calculation out',
   },
   {
     numeral: 'III',
-    label: 'Shared workbench',
-    body:
-      "Hand off a project to a teammate without retelling the story. The workbench ships with the decision trail, the cited sources, and the pending questions. Whoever opens it next sees what you saw.",
-    proof: 'Workbench export · decision trail · hand-off ready',
+    label: 'openLCA operation',
+    before: 'Learn the openLCA interface + build flows by hand + read the documentation.',
+    after:  'Describe what you need. Cortex connects to openLCA, matches background datasets, builds the product system, and runs the calculation.',
+    detail: "Cortex does not replace openLCA — it drives it. Start openLCA's IPC server, point Cowork at your BOM file, and describe the goal in plain language. Cortex handles the dataset matching, system construction, circular-reference resolution, and result export. Your openLCA instance is the model; Cortex is the operator.",
+    proof:  'openLCA IPC → dataset match → product system built → results exported',
   },
   {
     numeral: 'IV',
-    label: 'Custom tools via MCP',
-    body:
-      'Plug in your organization\'s own databases, calculators, or compliance scripts via the Model Context Protocol. Cowork treats them as first-class tools — same reasoning discipline, same provenance.',
-    proof: 'MCP server support · custom tool integration',
+    label: 'EPD report generation',
+    before: 'Find the template + copy data out of the LCA software + fill in Word by hand.',
+    after:  'One conversation trigger. Cortex applies the standard template, pulls from the calculation results, and outputs a complete EPD report.',
+    detail: 'The output follows the EPD standard structure. Cortex pulls declared unit, system boundary, reference flows, and LCIA results from the calculation — and formats them into a .docx file ready for review. No reformatting. No re-entry.',
+    proof:  'Calculation results → EPD template applied → .docx report out',
   },
 ];
 
-const platforms = [
-  { name: 'macOS',  status: 'Available',    arch: 'Apple Silicon + Intel' },
-  { name: 'Windows', status: 'Available',    arch: 'x64' },
-  { name: 'Linux',   status: 'In preview',   arch: 'AppImage' },
+const compare = [
+  ['Session history',         'Cloud-synced',                          'Local only'],
+  ['File access',             'No local files',                        'Full read/write'],
+  ['Script execution',        'Not available',                         'Local execution'],
+  ['Skills system',           'Limited',                               'Full skills marketplace + custom MCP'],
+  ['LCA database search',     'Yes',                                   'Yes'],
+  ['Best for',                'Quick queries, methodology Q&A',        'BOM matching, report generation, project work'],
 ];
 ---
 
@@ -54,17 +67,15 @@ const platforms = [
         <p class="eyebrow">Product · Cortex Cowork</p>
         <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
       </div>
-      <h1 class="font-display" style="font-size: clamp(2.4rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 20ch;">
-        The desktop agent that <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">stays with</em> your project.
+      <h1 class="font-display" style="font-size: clamp(2.4rem, 6vw, 5rem); line-height: 1.02; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 20ch;">
+        The desktop agent that <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">stays with</em> your LCA project.
       </h1>
-      <p class="mt-10 max-w-2xl font-serif" style="font-size: 1.2rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        LCA projects don't fit in one conversation. Close the tab, lose the context. Cowork
-        runs on your machine, holds context across sessions, and works against your local files
-        — with the same reasoning discipline as Chat.
+      <p class="mt-10 max-w-2xl font-serif" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        LCA work doesn't fit in one conversation. Cowork runs on your machine, reads your files, and carries the boundary decisions, the proxy log, and the supplier data — across sessions, across restarts.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
         <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
-        <a href="#scenarios" class="ticket-ghost">See the scenarios</a>
+        <a href="#scenarios" class="ticket-ghost">See what it handles</a>
       </div>
     </div>
   </section>
@@ -72,18 +83,19 @@ const platforms = [
   <!-- Platforms -->
   <section class="border-t border-rule">
     <div class="container-page py-14 md:py-16">
-      <div class="eyebrow mb-6">Platforms</div>
-      <div class="grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
+      <div class="eyebrow mb-3">Available on your machine</div>
+      <p class="max-w-2xl font-serif italic" style="font-size: 0.95rem; line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">
+        No login required to install. Login required to sync cloud services and run database searches.
+      </p>
+      <div class="mt-8 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
         {platforms.map((p) => (
-          <div class="flex items-baseline gap-4 p-6" style="background: var(--paper);">
-            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.1rem;">§</span>
-            <div>
-              <div class="flex items-baseline gap-3">
-                <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 24; font-size: 1.15rem;">{p.name}</h3>
-                <span class="font-mono uppercase" style="font-size: 0.65rem; letter-spacing: 0.14em; color: var(--shell);">{p.status}</span>
-              </div>
-              <p class="mt-2 font-mono" style="font-size: 0.78rem; letter-spacing: 0.06em; color: var(--ink-faint);">{p.arch}</p>
+          <div class="p-6" style="background: var(--paper);">
+            <div class="flex items-baseline justify-between mb-2">
+              <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 24; font-size: 1.2rem;">{p.name}</h3>
+              <span class="font-mono uppercase" style="font-size: 0.62rem; letter-spacing: 0.14em; color: var(--shell);">live</span>
             </div>
+            <p class="font-mono" style="font-size: 0.78rem; letter-spacing: 0.04em; color: var(--ink-mute);">{p.detail}</p>
+            {p.note && <p class="mt-3 font-serif italic" style="font-size: 0.85rem; line-height: 1.5; font-variation-settings: 'opsz' 14; color: var(--ink-faint);">{p.note}</p>}
           </div>
         ))}
       </div>
@@ -93,21 +105,27 @@ const platforms = [
   <!-- Scenarios -->
   <section id="scenarios" class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="What it's good for" numeral="I–IV" title="Four scenarios that don't fit a single session." />
-
-      <p class="max-w-3xl font-serif" style="font-size: 1.12rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Cowork is for the projects where a chat tab is the wrong container — either because the
-        work is long, the data is local, or the workbench needs to be handed off.
+      <SectionMark kicker="What it's good for" numeral="I–IV" title="Four workflows Chat can't run." />
+      <p class="max-w-3xl font-serif" style="font-size: 1.1rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Cowork operates on your files, executes tools locally, and picks up where the last session ended. These four workflows show what that means in practice.
       </p>
 
       <div class="mt-14 border-y border-rule">
         {scenarios.map((s) => (
-          <article class="border-b border-rule last:border-b-0">
-            <div class="grid items-baseline gap-6 py-10 md:grid-cols-[4rem_1fr] md:gap-10">
-              <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: clamp(1.6rem, 2.5vw, 2rem);">§ {s.numeral}</span>
+          <article class="border-b border-rule last:border-b-0 py-12">
+            <div class="grid items-start gap-6 md:grid-cols-[4rem_minmax(0,_1fr)] md:gap-10">
+              <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: clamp(1.5rem, 2.4vw, 1.9rem);">§ {s.numeral}</span>
               <div>
-                <h3 class="font-display mb-3" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.5rem, 2.8vw, 2.1rem); line-height: 1.1; letter-spacing: -0.015em; color: var(--ink);">{s.label}</h3>
-                <p class="font-serif max-w-2xl" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink);">{s.body}</p>
+                <h3 class="font-display mb-5" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.5rem, 2.6vw, 2.1rem); line-height: 1.1; letter-spacing: -0.015em; color: var(--ink);">{s.label}</h3>
+
+                <div class="grid gap-4 mb-6 md:grid-cols-[5rem_minmax(0,_1fr)] md:gap-6 max-w-3xl">
+                  <span class="eyebrow" style="color: var(--ink-faint);">Before</span>
+                  <p class="font-serif" style="line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink-mute); font-size: 0.95rem;">{s.before}</p>
+                  <span class="eyebrow" style="color: var(--shell);">After</span>
+                  <p class="font-serif" style="line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink); font-size: 0.95rem; font-weight: 500;">{s.after}</p>
+                </div>
+
+                <p class="font-serif max-w-3xl" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1rem;">{s.detail}</p>
                 <p class="mt-4 font-mono" style="font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-faint);">{s.proof}</p>
               </div>
             </div>
@@ -117,34 +135,56 @@ const platforms = [
     </div>
   </section>
 
-  <!-- Chat vs Cowork (mirrored from /product/chat) -->
+  <!-- Reasoning chain -->
   <section class="border-t border-rule">
-    <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Which Cortex" numeral="V" title="Cowork is the desktop surface. Chat is the web one." />
-      <div class="grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
-        <div class="p-8 md:p-10" style="background: var(--paper);">
-          <div class="eyebrow mb-3" style="color: var(--shell);">Cortex Cowork</div>
-          <h3 class="font-display mb-3" style="font-variation-settings: 'SOFT' 40, 'opsz' 40; font-size: 1.5rem;">Projects that outlive a session.</h3>
-          <p class="font-serif" style="line-height: 1.55; font-variation-settings: 'opsz' 18; color: var(--ink);">
-            Best when the project spans weeks: multiple BOMs, iterative queries, local files,
-            team handoff. The agent remembers; the workbench persists.
-          </p>
-          <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="mt-6 inline-block smallcaps" style="color: var(--shell);">Download Desktop →</a>
-        </div>
-        <div class="p-8 md:p-10" style="background: var(--paper);">
-          <div class="eyebrow mb-3">Cortex Chat</div>
-          <h3 class="font-display mb-3" style="font-variation-settings: 'SOFT' 40, 'opsz' 40; font-size: 1.5rem;">One tab. One question.</h3>
-          <p class="font-serif" style="line-height: 1.55; font-variation-settings: 'opsz' 18; color: var(--ink);">
-            Best when the question fits in a session: a single BOM, a material lookup, a cross-database check.
-            Nothing to install. Excel in, Excel out.
-          </p>
-          <a href="/product/chat" class="mt-6 inline-block smallcaps" style="color: var(--ink-mute);">Meet Chat →</a>
-        </div>
-      </div>
+    <div class="container-page py-16 md:py-20">
+      <div class="eyebrow mb-3">The same rigor. Your files.</div>
+      <p class="max-w-3xl font-serif" style="font-size: 1.1rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Cowork inherits Cortex's core reasoning rules: top-k candidates ranked by DQI, three human-in-the-loop gates (coverage below 80%, proxy required, cross-database spread exceeds 2×), and every assumption named. In Cowork, those gates fire inside a multi-step session, and decisions accumulate across days.
+      </p>
+      <p class="mt-6">
+        <a href="/methodology" class="smallcaps" style="color: var(--shell);">How Cortex reasons →</a>
+      </p>
     </div>
   </section>
 
-  <!-- Closing -->
+  <!-- Chat vs Cowork -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Which Cortex" numeral="V" title="When to use Cowork instead of Chat." />
+
+      <p class="mt-10 max-w-3xl font-display italic" style="font-variation-settings: 'SOFT' 60, 'opsz' 36; font-size: clamp(1.4rem, 2.6vw, 1.8rem); line-height: 1.3; color: var(--ink);">
+        Cortex Chat answers questions. Cortex Cowork runs workflows — on your machine, in your project folder, across as many sessions as the work takes.
+      </p>
+
+      <div class="mt-10 overflow-hidden rounded-sm border border-rule" style="background: var(--paper);">
+        <table class="w-full" style="border-collapse: collapse;">
+          <thead>
+            <tr style="background: var(--paper-rim);">
+              <th class="eyebrow text-left p-4 border-b border-rule"></th>
+              <th class="eyebrow text-left p-4 border-b border-rule">Cortex Chat</th>
+              <th class="eyebrow text-left p-4 border-b border-rule" style="color: var(--shell);">Cortex Cowork</th>
+            </tr>
+          </thead>
+          <tbody class="font-serif" style="font-size: 0.94rem; line-height: 1.5; font-variation-settings: 'opsz' 16;">
+            {compare.map(([label, chat, cowork]) => (
+              <tr>
+                <td class="p-4 border-b border-rule" style="color: var(--ink-mute); font-weight: 500;">{label}</td>
+                <td class="p-4 border-b border-rule" style="color: var(--ink-mute);">{chat}</td>
+                <td class="p-4 border-b border-rule" style="color: var(--ink);">{cowork}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p class="mt-8">
+        <a href="/product/chat" class="smallcaps" style="color: var(--ink-mute);">Meet Cortex Chat →</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Closer -->
   <section class="border-t border-rule">
     <div class="container-prose py-24 text-center">
       <Asterism class="mb-10" />
@@ -152,11 +192,11 @@ const platforms = [
         Install once. Pick up where you left off.
       </h2>
       <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.1rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        The workbench, the context, the cited sources — all waiting when you open it tomorrow.
+        Cowork keeps the project context between restarts: the decisions made, the proxy choices logged, the rows already matched. The next session starts where the last one ended.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop</a>
-        <a href="/methodology" class="ticket-ghost">Read the methodology</a>
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="mailto:info@hiqlcd.com" class="ticket-ghost">Questions · info@hiqlcd.com</a>
       </div>
     </div>
   </section>

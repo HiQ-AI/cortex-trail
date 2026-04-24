@@ -9,6 +9,7 @@ const blog = defineCollection({
     publishDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     author: z.string().default('HiQ Cortex Team'),
+    pillar: z.enum(['journal', 'audit', 'dispatch']).default('dispatch'),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
     locale: z.enum(['en', 'zh']).default('en'),

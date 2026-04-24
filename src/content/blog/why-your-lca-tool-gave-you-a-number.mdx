@@ -1,0 +1,103 @@
+---
+title: "Why your LCA tool gave you a number it can't explain"
+description: "The category produces carbon numbers fast. Auditors ask for reasoning. Here's the gap between those two deliverables, and why it matters before your next CBAM filing."
+publishDate: 2026-04-25
+pillar: dispatch
+tags: ["positioning", "audit", "methodology"]
+locale: en
+draft: false
+---
+
+<span class="dropcap">T</span>he auditor's question arrives as an email, usually a week before the filing deadline. It is not long. It contains, somewhere in the second or third sentence, a phrase like "please provide the basis for the emission factor applied to row 47."
+
+Row 47. Hot-rolled steel coil, 304 grade, 12.6 tonnes. The number in your spreadsheet is 1.84 kgCO₂e/kg. You remember uploading a BOM. You remember the platform returning a completed sheet. What you cannot remember — what the platform did not tell you — is which database that factor came from, whether it matched your production region, and what system boundary it assumes.
+
+Your tool gave you a number. The auditor is asking for a reasoning chain. Those are different deliverables.
+
+This distinction should not matter. In a well-designed system, a number and its reasoning travel together, always. In the current generation of LCA tooling — particularly the platforms that have raced to automate product carbon footprint calculation at scale — they routinely don't.
+
+---
+
+## The upload-and-receive sleight of hand
+
+The pitch is coherent. Upload your BOM. The system matches materials to emission factors. A completed spreadsheet arrives, often in minutes. Every row has a number.
+
+What the pitch does not advertise is the series of decisions that happened invisibly inside that process.
+
+Which database did the factor come from? If the platform searched multiple databases and found disagreements, which result did it return — and why? If the ideal dataset didn't exist, what proxy did it substitute? Did the proxy's geographic scope match your supplier's actual location, or was a European average standing in for a Chinese mill? Was the reference year of the underlying dataset from 2018? 2012? Does that temporal gap matter for your product category?
+
+These are not edge cases. On a real BOM — say, 300 rows across steel, polymers, and electronic components — proxy substitutions can run from 10% to 40% of rows on a typical manufacturing BOM, depending on how specialized your materials are. The proxy decision is not cosmetic. A generic "steel, hot-rolled" entry can carry an emission factor anywhere from 1.4 to 2.8 kgCO₂e/kg depending on production route (BF-BOF vs. EAF), regional grid, and recycled-content assumption. A factor at the low end of that spread, silently selected, can change a product's declared footprint by 30% or more.
+
+When you get a single number back with no trail, none of that is visible. The platform has made a set of methodological choices and buried them. The number looks finished. It is not defensible — it is quiet.
+
+---
+
+## What a verifier actually asks for
+
+CBAM, ISO 14067, and the EU Product Environmental Footprint method do not specify that you produce a number. They specify that you produce a documented calculation, traceable to named sources, with proxy choices explained and system-boundary decisions recorded.
+
+The ISO 14067:2018 conformance requirements are specific: the carbon footprint study "shall be documented and reported in a manner that is transparent, accurate, and consistent." For auditors working to the EF method, "transparency" has a technical definition — it means a third party can reproduce the calculation from the documentation alone, without re-running your software.
+
+What a verifier from Bureau Veritas or SGS or a notified EU body will actually look for, row by row:
+
+**Named source.** Not "database lookup" — specifically HiQLCD process ID 4a9b, or Ecoinvent 3.10 cutoff UUID, or EF 3.1 dataset reference. The citation must be clickable or at minimum reproducible.
+
+**Proxy justification.** If the matched dataset is not an exact fit — different country, different production route, different year — the substitution must be named and the delta assessed. "Used EU average for steel because no China-specific process was available in the selected database; regional gap estimated at ±15% based on grid intensity comparison" is a proxy note. A blank cell is not.
+
+**System-boundary declaration.** Cradle-to-gate or cradle-to-grave? Included or excluded: use-phase emissions, end-of-life, capital goods? This choice lives at the top of the study, not inferred from the factor.
+
+**DQI or equivalent quality characterization.** ISO 14044 asks for data quality assessment. The EF method operationalizes this as five dimensions: Temporal, Geographic, Technology, Completeness, and Reliability. A score on these dimensions tells the auditor whether the dataset is a strong fit or a rough approximation — and how much the auditor should weight it versus a sensitivity test.
+
+None of this is bureaucratic overhead. It is the reasoning chain. Without it, the number is an assertion.
+
+---
+
+## The gap a number can't close
+
+> A number without a reasoning chain is not audit-grade — it is a placeholder that will fail the moment an auditor applies scrutiny.
+
+I have watched this distinction collapse in practice. A procurement manager uploads a 200-row BOM to a platform. The platform returns 200 numbers. The numbers go into a CBAM pre-declaration. A reviewer asks for the underlying data sources. The platform's export contains the factors but not their provenance — because provenance was never part of what the platform delivered. The filing has to be redone.
+
+The cost is not only time. In CBAM's transitional period, inaccurate or unsubstantiated declarations carry the risk of corrections, re-filings, and potential penalties. The one-click number that saved three hours in February costs two weeks in April.
+
+The category trend — faster, more automated, single-number outputs — optimizes for the moment of delivery. It does not optimize for what happens sixty days later when a verifier opens the file.
+
+---
+
+## What we do instead
+
+Cortex does not return a single number per row. It returns a ranked candidate list — top-k, not top-1.
+
+The distinction matters. When Cortex searches twelve databases for "304 stainless steel, China, sheet form," it does not pick a winner and hand you one value. It returns the top candidates across HiQLCD, Ecoinvent, EF, and CarbonMinds, each scored on [five DQI dimensions](/methodology): Temporal, Geographic, Technology, Completeness, and Reliability. You see the spread. If two databases disagree by more than 2×, Cortex surfaces the disagreement — it does not average silently.
+
+Three conditions are hard-wired to pause the process and return control to you:
+
+1. **Coverage below 80%.** If more than 20% of BOM rows have no confident match, Cortex stops and lists the unmatched rows with candidate datasets. The user decides: expand databases, accept a proxy, or defer.
+
+2. **Proxy substitution required.** When the closest match is not an exact fit, Cortex names the proxy explicitly — which dataset, what differs, and what the delta implies. You confirm or replace.
+
+3. **Cross-database spread above 2×.** When the same material returns factors that differ by more than 2× across databases, the spread is shown — not resolved automatically.
+
+These are not friction. They are the three moments where an audit would later ask "what did you do here?" — and where a silent automation would leave you without an answer.
+
+Every export from a BOM matching session ships with match type, proxy notes, and source URLs per row. A downstream reviewer — your auditor, your EPD verifier, the CBAM authority — can reach any cell and trace it back to a specific database record without re-running anything.
+
+For the full walkthrough of how this works in practice, see [BOM matching in Cortex](/solutions/bom-matching).
+
+---
+
+## Slow is the argument
+
+There is a version of this essay that ends with a comparison table. I am not writing that version.
+
+What I want to say is simpler: the reasoning chain is not ancillary to the deliverable. It is the deliverable.
+
+A product carbon footprint that cannot be defended is not a carbon footprint — it is a model run with undocumented assumptions. It can be used internally, as a rough directional signal. It cannot be submitted to a notified body. It cannot be disclosed under ISO 14067. It cannot form the basis of a CBAM declaration that will survive scrutiny.
+
+The platforms that race to a single number are solving a real problem — LCA data matching is slow and tedious, and the industry desperately wants it automated. We agree with the problem statement. We disagree with the conclusion that speed is the right optimization target.
+
+Cortex is built on a different bet: that the practitioners, sustainability analysts, and consultants who need these numbers also need to be able to explain them. That the auditor's email — "please provide the basis for the emission factor applied to row 47" — is not a failure mode to be avoided. It is the correct question, and your tool should have prepared you to answer it.
+
+If a number can't be defended, it can't be used. The reasoning chain is the work.
+
+If you want to see what a defended answer looks like in practice, [ask Cortex a question](/product/chat) — or write to us at [info@hiqlcd.com](mailto:info@hiqlcd.com).

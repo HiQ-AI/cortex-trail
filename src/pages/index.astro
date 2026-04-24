@@ -4,58 +4,86 @@ import SnailGlyph from '@/components/SnailGlyph.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
-const title = 'HiQ Cortex — The slow answer to carbon accounting';
+const title = 'HiQ Cortex — A reasoning layer above every LCA database';
 const description =
-  'A thin intelligence layer above every LCA database — compressing understand → search → cross-check → auditable answer into a single conversation.';
+  'Cortex matches emission factors across twelve databases, flags gaps, and exports with full provenance — every row sourced, DQI-scored, and ready for an auditor question.';
 
+// §II — Audience routing (3 persona doors)
+const audiences = [
+  {
+    label: 'For LCA consultants',
+    body:
+      'Your 60% is database lookup. Cortex compresses it: ask in Chinese or English, get DQI-scored candidates across HiQLCD and Ecoinvent, with every proxy assumption attached.',
+    href: '/solutions/bom-matching',
+    cta: 'See BOM matching',
+  },
+  {
+    label: 'For sustainability and CBAM teams',
+    body:
+      "Your auditor wants the reasoning, not the number. Cortex pauses at three HITL gates — coverage, proxy, cross-db spread — so every proxy decision has a name, not a footnote.",
+    href: '/methodology',
+    cta: 'Read the methodology',
+  },
+  {
+    label: 'For developers building on LCA data',
+    body:
+      'Four protocols: REST, MCP, AG-UI, A2A. One API key. Embed LCA retrieval in your own product without rebuilding the search layer.',
+    href: 'https://docs.x.hiq.earth',
+    cta: 'Read the API docs',
+  },
+];
+
+// §III — Two products
+const products = [
+  {
+    name: 'Cortex Chat',
+    pitch: 'LCA data retrieval, in a conversation. Ask in Chinese or English — results come back ranked, DQI-scored, and sourced.',
+    primary: { href: '/chat', label: 'Open Cortex Chat' },
+    secondary: { href: '/product/chat', label: 'Product overview' },
+  },
+  {
+    name: 'Cortex Cowork',
+    pitch: 'The desktop agent that stays with your LCA project — across sessions, across restarts, across handoffs.',
+    primary: { href: 'https://github.com/HiQ-AI/cortex-desktop/releases/latest', label: 'Download for macOS' },
+    secondary: { href: '/product/cowork', label: 'Product overview' },
+  },
+];
+
+// §IV — Snail triptych
 const qualities = [
   {
     numeral: 'I',
     key: 'Slow',
     body:
-      "It won't skip the boundary discussion to hand you a number. Every answer waits until the right questions have been asked: system boundary, allocation rule, geographic fit.",
-    aside: 'Speed is a side effect. The deliverable is a line of reasoning.',
+      'Speed in LCA is a trap. The CBAM verifier does not want an answer — she wants the reasoning behind the answer. Cortex does not skip the system-boundary discussion to hand you a number. Slow is the discipline that keeps the output auditable.',
   },
   {
     numeral: 'II',
     key: 'Shell',
     body:
-      "Wherever the snail goes, it carries its shell. Every cited dataset, every proxy assumption, every version switch stays attached to the answer. Reviewers can see exactly what Cortex saw.",
-    aside: 'Provenance is a field, not a footnote.',
+      'A snail carries everything it needs. Cortex works the same way: every dataset returned carries its source, its version, its system model, and its DQI scores — Temporal, Geographic, Technology, Completeness, Reliability. The output is not a number. It is a package you can hand to an auditor.',
   },
   {
     numeral: 'III',
     key: 'Trail',
     body:
-      'Regulators, auditors, and legal teams can follow the trail back to the origin. The line between a conversation and an audit-grade report is the product.',
-    aside: "If a number can't be defended, it can't be used.",
+      'A snail leaves a mark on everything it touches. Cortex keeps the full trail: which databases were searched, which candidates were ranked, which proxy was chosen and why, which gate paused the run. The auditor and the next practitioner can walk it back to the origin.',
   },
 ];
 
-const useCases = [
+// §V — Trust signal (capability claims, all verifiable)
+const claims = [
   {
-    ord: '01',
-    label: 'BOM Matching',
-    href: '/solutions/bom-matching',
-    blurb:
-      'Upload a Bill of Materials. Cortex returns top-k emission factor candidates per line — DQI scored, every citation linked back to source.',
-    proof: '100-row BOM · ~10 min · full provenance',
+    stat: '~10 min for a 100-row BOM',
+    body: 'Each row returns DQI-scored candidates, source citations, and every proxy assumption named.',
   },
   {
-    ord: '02',
-    label: 'Carbon Search',
-    href: '/solutions/carbon-search',
-    blurb:
-      'Ask in Chinese or English. Cortex searches HiQLCD, Ecoinvent, EF, CarbonMinds, and more in parallel — returning ranked candidates with unit and region disambiguation.',
-    proof: 'Multi-database · zh + en · unit-aware',
+    stat: 'Twelve LCA databases',
+    body: 'HiQLCD, Ecoinvent, EF (Environmental Footprint), CarbonMinds, Tiangong, World Steel, and more — ranked by relevance and data quality, not alphabetically.',
   },
   {
-    ord: '03',
-    label: 'Cowork',
-    href: '/solutions/cowork',
-    blurb:
-      'A local agent that keeps working when the conversation ends. Cortex Desktop holds context across sessions, runs tools on your machine, and syncs a shared workbench.',
-    proof: 'Desktop agent · local workspace · cross-session memory',
+    stat: 'Three human-in-the-loop gates',
+    body: 'Cortex pauses when coverage drops below 80%, when a proxy is required, or when cross-database spread exceeds 2×. You decide at each gate. Nothing proceeds without you.',
   },
 ];
 ---
@@ -77,26 +105,23 @@ const useCases = [
       <div class="grid gap-10 md:grid-cols-[1.25fr_1fr] md:gap-14 items-start">
 
         <div class="relative">
-          <h1 class="rise rise-2 font-display" style="font-size: clamp(3rem, 8.5vw, 7.5rem); line-height: 0.95; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 30, 'opsz' 144; font-weight: 400;">
-            The <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80, 'opsz' 144;">slow</em><br/>
-            answer to<br/>
-            <span style="color: var(--ink);">carbon</span><br/>
-            <span style="color: var(--ink-faint);">accounting.</span>
+          <h1 class="rise rise-2 font-display" style="font-size: clamp(2.6rem, 6vw, 5rem); line-height: 1.05; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 30, 'opsz' 144; font-weight: 400;">
+            Your <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80, 'opsz' 144;">BOM</em> has 300 rows.<br/>
+            Your <span style="color: var(--ink);">auditor</span> has questions about<br/>
+            <span style="color: var(--ink-faint);">all of them.</span>
           </h1>
 
-          <p class="rise rise-3 dropcap mt-10 max-w-xl font-serif" style="font-size: 1.14rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink);">
-            A thin intelligence layer above every LCA database. It compresses
-            <span class="font-mono" style="font-size: 0.88em; color: var(--shell-dim);"> understand → search → cross-check → auditable answer</span>
-            into a single conversation.
+          <p class="rise rise-3 mt-10 max-w-xl font-serif" style="font-size: 1.14rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink);">
+            Cortex matches emission factors across <strong style="color: var(--ink); font-weight: 500;">twelve databases</strong>, flags gaps, and exports with full provenance — every row sourced, DQI-scored, and ready for an auditor question.
           </p>
 
           <p class="rise rise-4 mt-6 max-w-xl font-serif italic" style="font-variation-settings: 'opsz' 14; color: var(--ink-faint);">
-            It doesn't replace experts. It scales their judgment.
+            It does not replace experts. It scales their judgment.
           </p>
 
           <div class="rise rise-5 mt-12 flex flex-wrap items-center gap-4">
-            <a href="/chat" class="ticket">Try Cortex Chat <span aria-hidden="true">→</span></a>
-            <a href="/solutions/bom-matching" class="ticket-ghost">See a BOM walkthrough</a>
+            <a href="/solutions/bom-matching" class="ticket">See a BOM walkthrough <span aria-hidden="true">→</span></a>
+            <a href="/chat" class="ticket-ghost">Try Cortex Chat</a>
           </div>
         </div>
 
@@ -107,14 +132,11 @@ const useCases = [
           <div class="margin-note mt-6 md:mt-10 grid gap-4 sm:grid-cols-2">
             <div>
               <span class="eyebrow block mb-2">fig. 1</span>
-              <em>Cornu aspersum</em>, rendered as a house you take everywhere.
-              Shell carries what the body won't remember. Trail carries what others will audit.
+              The snail does not skip steps. Neither does the reasoning chain.
             </div>
             <div>
-              <span class="eyebrow block mb-2">on slowness</span>
-              A CBAM filing is weeks of boundary debates, BOM decomposition, and
-              trade-offs across a dozen databases. The bottleneck is not data —
-              it is who reads the question right.
+              <span class="eyebrow block mb-2">fig. 2</span>
+              Each row: one question. Each answer: source, version, assumption attached.
             </div>
           </div>
         </aside>
@@ -122,25 +144,60 @@ const useCases = [
     </div>
   </section>
 
-  <!-- ═══ Three qualities ═══ -->
+  <!-- ═══ §II Audience routing ═══ -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Three doors in" numeral="II" title="Cortex Chat and Cortex Cowork serve the same engine." />
+      <p class="max-w-2xl font-serif" style="font-size: 1.1rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Which door depends on the work in front of you.
+      </p>
+
+      <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
+        {audiences.map((a, i) => (
+          <article class="p-8 md:p-10 flex flex-col gap-5" style="background: var(--paper);">
+            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.1rem;">§ {String(i + 1).padStart(2, '0')}</span>
+            <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 40; font-size: 1.4rem; line-height: 1.15; letter-spacing: -0.01em;">{a.label}</h3>
+            <p class="font-serif" style="line-height: 1.55; font-variation-settings: 'opsz' 17; color: var(--ink); font-size: 0.98rem;">{a.body}</p>
+            <a href={a.href} class="mt-auto smallcaps" style="text-decoration: none; color: var(--shell);">{a.cta} →</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ §III Two products ═══ -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="What it is" numeral="III" title="One Cortex. Two products." />
+      <p class="max-w-2xl font-serif" style="font-size: 1.1rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Cortex Chat handles conversations — single-session questions, BOM uploads, cross-database comparison. Cortex Cowork handles projects — local files, multi-session memory, agentic execution. Same engine underneath. Different surface for different work.
+      </p>
+
+      <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
+        {products.map((p) => (
+          <article class="p-10 md:p-12 flex flex-col gap-5" style="background: var(--paper);">
+            <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.8rem, 3vw, 2.4rem); line-height: 1.05; letter-spacing: -0.02em;">{p.name}</h3>
+            <p class="font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1.05rem;">{p.pitch}</p>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-4">
+              <a href={p.primary.href} class="ticket">{p.primary.label} <span aria-hidden="true">→</span></a>
+              <a href={p.secondary.href} class="smallcaps" style="text-decoration: none; color: var(--ink-mute);">{p.secondary.label} →</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ §IV Why a snail ═══ -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="Why a snail" numeral="I–III" title="We picked the opposite of a rocket, on purpose." />
+      <SectionMark kicker="Why a snail" numeral="IV" title="We picked the opposite of a rocket, on purpose." />
 
-      <div class="grid max-w-5xl gap-10 md:grid-cols-2">
-        <p class="font-serif" style="font-size: 1.14rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink);">
-          The industry's AI mascot is a lightning bolt. LCA has never been that kind of industry.
-          One CBAM filing is built out of weeks of boundary debates, BOM decomposition, and
-          trade-offs across a dozen databases — every step of which must be auditable, challenged,
-          and traced.
-        </p>
-        <p class="font-serif italic" style="font-size: 1.02rem; line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink-faint);">
-          We picked a snail. It is slow by constitution, carries its house,
-          and leaves a trail you can trace.
-        </p>
-      </div>
+      <p class="max-w-3xl font-serif" style="font-size: 1.1rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Every AI company chose a lightning bolt. We chose a snail. Here is the argument.
+      </p>
 
-      <div class="mt-16 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
+      <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
         {qualities.map((q) => (
           <article class="p-8 md:p-10 flex flex-col gap-5" style="background: var(--paper);">
             <div class="flex items-baseline justify-between">
@@ -148,10 +205,7 @@ const useCases = [
               <span class="eyebrow">{q.key}</span>
             </div>
             <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.05; letter-spacing: -0.015em;">{q.key}</h3>
-            <p class="font-serif" style="line-height: 1.55; font-variation-settings: 'opsz' 18; color: var(--ink);">{q.body}</p>
-            <p class="mt-auto font-serif italic" style="font-size: 0.92rem; line-height: 1.5; font-variation-settings: 'opsz' 14; color: var(--ink-faint);">
-              <span class="eyebrow mr-2" style="color: var(--shell);">note</span>{q.aside}
-            </p>
+            <p class="font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.98rem;">{q.body}</p>
           </article>
         ))}
       </div>
@@ -168,48 +222,36 @@ const useCases = [
     </div>
   </section>
 
-  <!-- ═══ Use cases ═══ -->
+  <!-- ═══ §V Trust signal ═══ -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
-    <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="What it does" numeral="IV" title="One cortex. Three surfaces." />
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="What you actually get" numeral="V" title="Three claims. All provable from how Cortex works today." />
 
-      <div class="max-w-3xl">
-        <p class="font-serif" style="font-size: 1.14rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink);">
-          The same reasoning engine, wherever you meet your LCA data — at the material level,
-          at the BOM level, at the desktop where the real work happens.
-        </p>
-      </div>
-
-      <div class="mt-14 border-y border-rule">
-        {useCases.map((uc) => (
-          <a href={uc.href} class="group grid grid-cols-[3.5rem_1fr_auto] items-baseline gap-8 py-8 md:grid-cols-[4.5rem_1fr_auto] md:gap-10 md:py-10 border-b border-rule last:border-b-0 transition-colors hover:bg-paper-100" style="text-decoration: none;">
-            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: clamp(1.6rem, 2.5vw, 2rem);">{uc.ord}</span>
-            <div>
-              <h3 class="font-display mb-2" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.6rem, 2.8vw, 2.2rem); line-height: 1.1; letter-spacing: -0.015em; color: var(--ink);">{uc.label}</h3>
-              <p class="font-serif max-w-2xl" style="line-height: 1.55; font-variation-settings: 'opsz' 18; color: var(--ink);">{uc.blurb}</p>
-              <p class="mt-4 font-mono" style="font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-faint);">{uc.proof}</p>
-            </div>
-            <span class="smallcaps transition-transform group-hover:translate-x-0.5" aria-hidden="true" style="text-decoration: none; color: var(--ink-mute);">Read →</span>
-          </a>
+      <div class="mt-12 border-y border-rule">
+        {claims.map((c, i) => (
+          <article class="grid items-baseline gap-6 py-10 border-b border-rule last:border-b-0 md:grid-cols-[5rem_minmax(0,_1fr)_minmax(0,_1.4fr)] md:gap-12">
+            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.6rem;">§ {String(i + 1).padStart(2, '0')}</span>
+            <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 40; font-size: clamp(1.3rem, 2.4vw, 1.8rem); line-height: 1.1; letter-spacing: -0.015em;">{c.stat}</div>
+            <p class="font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink-mute); font-size: 0.98rem;">{c.body}</p>
+          </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ═══ Closing ═══ -->
+  <!-- ═══ §VI Closing ═══ -->
   <section class="border-t border-rule">
     <div class="container-prose py-24 text-center">
       <Asterism class="mb-10" />
-      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 4rem); line-height: 1; letter-spacing: -0.02em;">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.02; letter-spacing: -0.02em;">
         Start with one question.
       </h2>
-      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.14rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Paste a material name. Upload a BOM. Ask whether that emission factor holds for
-        a Chinese supplier. Cortex answers — and shows its work.
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.12rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Chat takes a material name, a BOM row, or a standards question and returns ranked datasets with provenance. No spreadsheet setup. No database license required to ask.
       </p>
-      <div class="mt-12 flex flex-wrap justify-center gap-4">
-        <a href="/chat" class="ticket">Open Cortex Chat</a>
-        <a href="/methodology" class="ticket-ghost">Read the methodology</a>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="/chat" class="ticket">Try Cortex Chat <span aria-hidden="true">→</span></a>
+        <a href="mailto:info@hiqlcd.com" class="ticket-ghost">Contact us</a>
       </div>
     </div>
   </section>

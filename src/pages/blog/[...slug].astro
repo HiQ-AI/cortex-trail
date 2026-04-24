@@ -1,0 +1,139 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Asterism from '@/components/Asterism.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const pillarLabel = {
+  journal: "Practitioner's Journal",
+  audit: 'The Audit Trail',
+  dispatch: 'The Slow Dispatch',
+}[post.data.pillar];
+---
+
+<BaseLayout title={`${post.data.title} — HiQ Cortex`} description={post.data.description}>
+
+  <article>
+    <header class="container-prose pt-14 md:pt-20 pb-10">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">{pillarLabel}</p>
+        <p class="running-footer">{post.data.publishDate.toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400;">
+        {post.data.title}
+      </h1>
+      <p class="mt-6 font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        {post.data.description}
+      </p>
+    </header>
+
+    <div class="container-prose pb-20" style="font-family: 'Newsreader Variable', serif; font-size: 1.08rem; line-height: 1.75; color: var(--ink); font-variation-settings: 'opsz' 20;">
+      <Content />
+    </div>
+
+    <div class="container-prose">
+      <Asterism />
+      <p class="mt-8 mb-16 text-center font-serif italic" style="color: var(--ink-faint); font-variation-settings: 'opsz' 14;">
+        — {post.data.author}
+      </p>
+    </div>
+  </article>
+
+</BaseLayout>
+
+<style is:global>
+  /* Long-form reading typography for blog posts. Scoped to article only. */
+  article .container-prose h2 {
+    font-family: 'Fraunces Variable', serif;
+    font-variation-settings: 'SOFT' 40, 'opsz' 60;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin-top: 3rem;
+    margin-bottom: 1.25rem;
+  }
+  article .container-prose h3 {
+    font-family: 'Fraunces Variable', serif;
+    font-variation-settings: 'SOFT' 40, 'opsz' 30;
+    font-size: 1.25rem;
+    line-height: 1.2;
+    margin-top: 2.25rem;
+    margin-bottom: 0.75rem;
+  }
+  article .container-prose p {
+    margin-bottom: 1.4rem;
+  }
+  article .container-prose strong {
+    font-weight: 500;
+    color: var(--ink);
+  }
+  article .container-prose a {
+    color: var(--shell-dim);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+  }
+  article .container-prose a:hover {
+    color: var(--shell);
+    text-decoration-style: solid;
+  }
+  article .container-prose hr {
+    border: 0;
+    border-top: 1px solid var(--rule);
+    margin: 2.5rem auto;
+    width: 30%;
+  }
+  article .container-prose blockquote {
+    margin: 2rem 0;
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    border-left: 3px solid var(--shell);
+    font-style: italic;
+    font-family: 'Fraunces Variable', serif;
+    font-variation-settings: 'SOFT' 60, 'opsz' 36;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  article .container-prose ol {
+    list-style: none;
+    counter-reset: item;
+    padding-left: 0;
+    margin: 1.5rem 0;
+  }
+  article .container-prose ol > li {
+    counter-increment: item;
+    padding: 0.75rem 0 0.75rem 3rem;
+    position: relative;
+    border-bottom: 1px solid var(--rule);
+  }
+  article .container-prose ol > li::before {
+    content: counter(item);
+    font-family: 'Fraunces Variable', serif;
+    font-variation-settings: 'SOFT' 20;
+    font-style: italic;
+    color: var(--shell);
+    position: absolute;
+    left: 0.5rem;
+    top: 0.85rem;
+    font-size: 1.15rem;
+  }
+  article .container-prose .dropcap {
+    float: left;
+    font-family: 'Fraunces Variable', serif;
+    font-variation-settings: 'SOFT' 20, 'opsz' 144;
+    font-weight: 500;
+    font-size: 5.4rem;
+    line-height: 0.88;
+    padding: 0.15rem 0.75rem 0 0;
+    color: var(--shell);
+  }
+</style>
