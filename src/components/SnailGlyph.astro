@@ -1,0 +1,102 @@
+---
+/**
+ * Naturalist-illustration snail. Line-art, hatched shell, slight imperfection.
+ * Uses currentColor so it inherits ink color. Inline SVG so we can animate
+ * the trail dashes from CSS.
+ */
+interface Props {
+  class?: string;
+  trail?: boolean; // show the dotted trail behind the snail
+  size?: number;
+}
+
+const { class: klass = '', trail = true, size = 320 } = Astro.props;
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 520 360"
+  width={size}
+  height={Math.round((size * 360) / 520)}
+  class:list={['snail-glyph', klass]}
+  aria-hidden="true"
+  role="img"
+>
+  <!-- Trail — dotted path behind the snail, animated on page load -->
+  {trail && (
+    <path
+      class="snail-trail-path"
+      d="M 8 338 C 80 330, 130 340, 180 322 C 230 306, 250 280, 296 268"
+    />
+  )}
+
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6">
+    <!-- Body — a single hand-drawn curve, slightly asymmetric -->
+    <path
+      d="M 172 276
+         C 162 276, 152 272, 148 262
+         C 144 252, 148 238, 160 230
+         L 356 230
+         C 388 228, 404 246, 398 268
+         C 394 282, 380 288, 356 288
+         L 200 288
+         C 184 288, 176 284, 172 276 Z"
+      stroke-width="1.8"
+    />
+
+    <!-- Body underside shading (parallel hatch lines) -->
+    <g stroke-width="0.8" opacity="0.55">
+      <line x1="188" y1="282" x2="196" y2="286"/>
+      <line x1="216" y1="283" x2="224" y2="287"/>
+      <line x1="252" y1="283" x2="260" y2="287"/>
+      <line x1="288" y1="283" x2="296" y2="287"/>
+      <line x1="324" y1="283" x2="332" y2="287"/>
+      <line x1="360" y1="282" x2="368" y2="286"/>
+    </g>
+
+    <!-- Antennae — two tapering curves with tiny knobs at tips -->
+    <path d="M 172 232 C 162 210, 166 186, 186 172" stroke-width="1.4"/>
+    <circle cx="187.5" cy="171" r="3.2" fill="currentColor" stroke="none"/>
+    <path d="M 200 228 C 198 208, 214 184, 228 176" stroke-width="1.4"/>
+    <circle cx="229" cy="175" r="3.2" fill="currentColor" stroke="none"/>
+
+    <!-- Eye on the near antenna: small dot on head -->
+    <circle cx="170" cy="256" r="2" fill="currentColor" stroke="none"/>
+
+    <!-- Shell — outer spiral. Slightly off-center, imperfect -->
+    <circle cx="296" cy="180" r="92" stroke-width="1.8"/>
+
+    <!-- Spiral — concentric arcs with hatching between for volume -->
+    <path d="M 296 180
+             m -72 0
+             a 72 72 0 1 1 144 0
+             a 58 58 0 1 1 -116 0
+             a 44 44 0 1 1 88 0
+             a 30 30 0 1 1 -60 0
+             a 18 18 0 1 1 36 0
+             a 8 8 0 1 1 -16 0"
+          stroke-width="1.6"/>
+
+    <!-- Shell hatching — parallel strokes suggesting shell ridges -->
+    <g stroke-width="0.7" opacity="0.65">
+      <path d="M 232 168 Q 240 150 256 140"/>
+      <path d="M 232 184 Q 240 200 252 212"/>
+      <path d="M 358 172 Q 360 156 350 144"/>
+      <path d="M 358 188 Q 362 204 354 214"/>
+      <path d="M 278 110 Q 296 104 314 110"/>
+      <path d="M 272 248 Q 296 254 320 248"/>
+    </g>
+
+    <!-- Tiny stipple dots — scattered texture -->
+    <g fill="currentColor" stroke="none" opacity="0.5">
+      <circle cx="266" cy="160" r="0.9"/>
+      <circle cx="286" cy="146" r="0.9"/>
+      <circle cx="318" cy="152" r="0.9"/>
+      <circle cx="340" cy="170" r="0.9"/>
+      <circle cx="300" cy="210" r="0.9"/>
+      <circle cx="272" cy="204" r="0.9"/>
+      <circle cx="328" cy="212" r="0.9"/>
+      <circle cx="310" cy="178" r="0.9"/>
+    </g>
+  </g>
+</svg>

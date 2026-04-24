@@ -1,0 +1,15 @@
+---
+interface Props {
+  numeral: string;   // I, II, III, IV
+  title: string;
+  kicker?: string;   // e.g. "Solutions"
+}
+const { numeral, title, kicker } = Astro.props;
+---
+<header class="mb-10 md:mb-14">
+  {kicker && <p class="eyebrow mb-3">{kicker}</p>}
+  <div class="flex items-baseline gap-5 md:gap-7">
+    <span class="font-display italic text-shell-500" style="font-variation-settings: 'SOFT' 40, 'opsz' 24; font-size: clamp(1.25rem, 2.2vw, 1.6rem);">§&nbsp;{numeral}</span>
+    <h2 class="font-display text-display-md" style="font-variation-settings: 'SOFT' 30, 'opsz' 60;">{title}</h2>
+  </div>
+</header>

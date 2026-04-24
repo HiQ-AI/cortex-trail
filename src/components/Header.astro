@@ -1,21 +1,19 @@
 ---
-interface Props {
-  locale?: 'en' | 'zh';
-}
+interface Props { locale?: 'en' | 'zh' }
 const { locale = 'en' } = Astro.props;
 
 const nav = locale === 'zh'
   ? [
       { href: '/zh/solutions/bom-matching', label: '方案' },
-      { href: '/zh/methodology', label: '方法学' },
-      { href: '/zh/blog', label: '博客' },
-      { href: '/zh/docs', label: '文档' },
+      { href: '/zh/methodology',            label: '方法学' },
+      { href: '/zh/blog',                   label: '博客' },
+      { href: '/zh/docs',                   label: '文档' },
     ]
   : [
       { href: '/solutions/bom-matching', label: 'Solutions' },
-      { href: '/methodology', label: 'Methodology' },
-      { href: '/blog', label: 'Blog' },
-      { href: '/docs', label: 'Docs' },
+      { href: '/methodology',            label: 'Methodology' },
+      { href: '/blog',                   label: 'Blog' },
+      { href: '/docs',                   label: 'Docs' },
     ];
 
 const home = locale === 'zh' ? '/zh' : '/';
@@ -23,29 +21,35 @@ const chatLabel = locale === 'zh' ? '打开 Chat' : 'Open Chat';
 const otherLocale = locale === 'zh' ? { href: '/', label: 'EN' } : { href: '/zh', label: '中文' };
 ---
 
-<header class="border-b border-stone-200/70 dark:border-stone-800/70">
-  <div class="container-wide flex h-16 items-center justify-between">
-    <a href={home} class="flex items-center gap-2 font-sans text-base font-semibold tracking-tight">
-      <img src="/snail.svg" alt="" class="h-6 w-6" aria-hidden="true" />
-      <span>HiQ Cortex</span>
+<header class="relative z-20 border-b border-rule">
+  <div class="container-page flex h-16 items-center justify-between">
+    <a href={home} class="group flex items-center gap-3 no-underline" style="text-decoration: none;" aria-label="HiQ Cortex home">
+      <svg viewBox="0 0 40 40" width="26" height="26" aria-hidden="true" style="color: var(--ink);">
+        <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="24" cy="18" r="11"/>
+          <path d="M24 18 m-8 0 a8 8 0 1 1 16 0 a6 6 0 1 1 -12 0 a4 4 0 1 1 8 0 a2 2 0 1 1 -4 0"/>
+          <path d="M16 24 C 10 26, 6 27, 2 29"/>
+          <path d="M13 22 C 10 18, 11 14, 14 11"/>
+        </g>
+      </svg>
+      <span class="font-display text-[1.08rem] font-medium tracking-tight" style="font-variation-settings: 'SOFT' 40, 'opsz' 14; color: var(--ink);">
+        HiQ Cortex
+      </span>
     </a>
-    <nav class="hidden items-center gap-6 text-sm text-quiet md:flex">
+
+    <nav class="hidden items-center gap-7 md:flex">
       {nav.map((item) => (
-        <a href={item.href} class="transition-colors hover:text-stone-900 dark:hover:text-stone-50">
+        <a href={item.href} class="smallcaps" style="text-decoration: none; color: var(--ink-mute);">
           {item.label}
         </a>
       ))}
     </nav>
-    <div class="flex items-center gap-3 text-sm">
-      <a href={otherLocale.href} class="text-quiet hover:text-stone-900 dark:hover:text-stone-50">
+
+    <div class="flex items-center gap-4">
+      <a href={otherLocale.href} class="smallcaps" style="text-decoration: none; color: var(--ink-faint);">
         {otherLocale.label}
       </a>
-      <a
-        href="/chat"
-        class="rounded-md border border-stone-300 bg-stone-50 px-3 py-1.5 font-medium text-stone-900 transition-colors hover:border-shell-500 hover:text-shell-700 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-50 dark:hover:border-shell-400 dark:hover:text-shell-300"
-      >
-        {chatLabel}
-      </a>
+      <a href="/chat" class="ticket" style="padding: 0.5rem 1rem;">{chatLabel} <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </header>

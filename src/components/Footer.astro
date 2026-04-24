@@ -1,17 +1,16 @@
 ---
-interface Props {
-  locale?: 'en' | 'zh';
-}
+interface Props { locale?: 'en' | 'zh' }
 const { locale = 'en' } = Astro.props;
 const year = new Date().getFullYear();
 
 const copy = locale === 'zh'
   ? {
       tag: '一条能被逐条复核的推理链。',
+      set: '正文 Newsreader，标题 Fraunces，数据 JetBrains Mono。',
       groups: [
         { title: '产品', links: [
           { href: '/zh/solutions/bom-matching', label: 'BOM 匹配' },
-          { href: '/zh/solutions/carbon-search', label: '碳排数据检索' },
+          { href: '/zh/solutions/carbon-search', label: '碳排检索' },
           { href: '/zh/solutions/cowork', label: 'Cowork' },
         ]},
         { title: '资源', links: [
@@ -20,13 +19,14 @@ const copy = locale === 'zh'
           { href: '/zh/blog', label: '博客' },
         ]},
         { title: '公司', links: [
-          { href: 'https://hiq.earth', label: 'HiQ-AI' },
+          { href: 'https://hiq.earth', label: 'HiQ-AI 总站' },
           { href: 'https://hiq.earth/about', label: 'About' },
         ]},
       ],
     }
   : {
       tag: 'A chain of reasoning you can audit, line by line.',
+      set: 'Body set in Newsreader. Display in Fraunces. Data in JetBrains Mono.',
       groups: [
         { title: 'Product', links: [
           { href: '/solutions/bom-matching', label: 'BOM Matching' },
@@ -39,37 +39,47 @@ const copy = locale === 'zh'
           { href: '/blog', label: 'Blog' },
         ]},
         { title: 'Company', links: [
-          { href: 'https://hiq.earth', label: 'HiQ-AI' },
+          { href: 'https://hiq.earth', label: 'HiQ-AI (main)' },
           { href: 'https://hiq.earth/about', label: 'About' },
         ]},
       ],
     };
 ---
 
-<footer class="mt-32 border-t border-stone-200/70 py-12 dark:border-stone-800/70">
-  <div class="container-wide grid gap-10 md:grid-cols-[2fr_3fr]">
+<footer class="mt-32 border-t border-rule">
+  <div class="container-page grid gap-12 py-16 md:grid-cols-[1.2fr_2fr]">
     <div>
-      <div class="flex items-center gap-2 text-sm font-semibold">
-        <img src="/snail.svg" alt="" class="h-5 w-5" aria-hidden="true" />
-        <span>HiQ Cortex</span>
+      <div class="flex items-center gap-3" style="color: var(--ink-mute);">
+        <svg viewBox="0 0 40 40" width="22" height="22" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="24" cy="18" r="11"/>
+            <path d="M24 18 m-8 0 a8 8 0 1 1 16 0 a6 6 0 1 1 -12 0 a4 4 0 1 1 8 0 a2 2 0 1 1 -4 0"/>
+            <path d="M16 24 C 10 26, 6 27, 2 29"/>
+          </g>
+        </svg>
+        <span class="font-display" style="font-variation-settings: 'SOFT' 40; color: var(--ink);">HiQ Cortex</span>
       </div>
-      <p class="mt-3 max-w-xs font-serif text-sm italic text-quiet">{copy.tag}</p>
+      <p class="mt-4 max-w-xs font-serif italic" style="font-variation-settings: 'opsz' 14; color: var(--ink-faint);">{copy.tag}</p>
     </div>
-    <div class="grid grid-cols-3 gap-6 text-sm">
+    <div class="grid grid-cols-2 gap-10 sm:grid-cols-3">
       {copy.groups.map((group) => (
         <div>
-          <div class="mb-3 font-medium text-stone-900 dark:text-stone-100">{group.title}</div>
-          <ul class="space-y-2 text-quiet">
+          <div class="eyebrow mb-4">{group.title}</div>
+          <ul class="space-y-2.5">
             {group.links.map((l) => (
-              <li><a class="hover:text-stone-900 dark:hover:text-stone-50" href={l.href}>{l.label}</a></li>
+              <li><a href={l.href} class="font-serif text-sm" style="text-decoration: none; font-variation-settings: 'opsz' 14; color: var(--ink);">{l.label}</a></li>
             ))}
           </ul>
         </div>
       ))}
     </div>
   </div>
-  <div class="container-wide mt-10 flex items-center justify-between border-t border-stone-200/70 pt-6 text-xs text-quiet dark:border-stone-800/70">
-    <span>© {year} HiQ-AI. All rights reserved.</span>
-    <span class="font-mono">cortex.hiq.earth</span>
+
+  <div class="border-t border-rule">
+    <div class="container-page grid grid-cols-1 items-center gap-3 py-5 md:grid-cols-3">
+      <div class="running-footer">© {year} HiQ-AI</div>
+      <div class="text-center font-serif italic" style="font-variation-settings: 'opsz' 14; letter-spacing: 0; color: var(--ink-faint); font-size: 0.82rem;">{copy.set}</div>
+      <div class="running-footer text-right">cortex.hiq.earth</div>
+    </div>
   </div>
 </footer>

@@ -1,73 +1,255 @@
-@import '@fontsource/inter/400.css';
-@import '@fontsource/inter/500.css';
-@import '@fontsource/inter/600.css';
-@import '@fontsource/inter/700.css';
-@import '@fontsource/lora/400-italic.css';
-@import '@fontsource/lora/500.css';
+/* Fraunces — display serif, Soft axis, opticals */
+@import '@fontsource-variable/fraunces/index.css';
+@import '@fontsource-variable/fraunces/wght-italic.css';
+/* Newsreader — body + small-caps nav */
+@import '@fontsource-variable/newsreader/index.css';
+@import '@fontsource-variable/newsreader/wght-italic.css';
+/* JetBrains Mono — provenance */
 @import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/500.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ─────────────────────────────────────────────────────────────────────
+   Design tokens. Paper-first. Dark mode is a system-preference reply,
+   not a product.
+───────────────────────────────────────────────────────────────────── */
 @layer base {
   :root {
-    --color-bg: oklch(0.985 0.002 240);
-    --color-fg: oklch(0.170 0.006 240);
-    --color-muted: oklch(0.470 0.006 240);
-    --color-accent: oklch(0.540 0.100 60);
-    --color-line: oklch(0.920 0.004 240);
+    --paper:       oklch(98% 0.012 80);
+    --paper-rim:   oklch(94% 0.014 80);
+    --ink:         oklch(22% 0.020 80);
+    --ink-mute:    oklch(44% 0.022 80);
+    --ink-faint:   oklch(62% 0.020 80);
+    --ink-whisper: oklch(78% 0.018 80);
+    --shell:       oklch(54% 0.140 55);
+    --shell-soft:  oklch(90% 0.045 65);
+    --shell-dim:   oklch(40% 0.120 50);
+    --moss:        oklch(50% 0.060 130);
+    --rule:        oklch(82% 0.012 80);
+    --rule-strong: oklch(62% 0.016 80);
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --color-bg: oklch(0.110 0.005 240);
-      --color-fg: oklch(0.970 0.003 240);
-      --color-muted: oklch(0.720 0.006 240);
-      --color-accent: oklch(0.640 0.095 65);
-      --color-line: oklch(0.250 0.006 240);
+      --paper:       oklch(14% 0.018 60);
+      --paper-rim:   oklch(18% 0.018 60);
+      --ink:         oklch(92% 0.014 80);
+      --ink-mute:    oklch(72% 0.016 80);
+      --ink-faint:   oklch(52% 0.018 80);
+      --ink-whisper: oklch(32% 0.018 80);
+      --shell:       oklch(68% 0.130 60);
+      --shell-soft:  oklch(30% 0.080 55);
+      --shell-dim:   oklch(78% 0.140 62);
+      --moss:        oklch(68% 0.060 130);
+      --rule:        oklch(28% 0.012 80);
+      --rule-strong: oklch(42% 0.014 80);
     }
   }
 
   html {
-    background: var(--color-bg);
-    color: var(--color-fg);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-feature-settings: 'ss01', 'cv11', 'calt';
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Newsreader Variable', ui-serif, Georgia, serif;
+    font-size: 17px;
+    font-feature-settings: 'kern', 'liga', 'onum';
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
-  body {
-    min-height: 100vh;
-    background: var(--color-bg);
+  body { min-height: 100vh; background: var(--paper); }
+
+  ::selection { background: var(--shell); color: var(--paper); }
+
+  h1, h2, h3, h4 {
+    font-family: 'Fraunces Variable', ui-serif, Georgia, serif;
+    font-variation-settings: 'SOFT' 50, 'opsz' 48;
+    color: var(--ink);
   }
 
-  ::selection {
-    background: var(--color-accent);
-    color: var(--color-bg);
+  a {
+    color: var(--shell-dim);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+    transition: text-decoration-style 120ms ease, color 120ms ease;
   }
+  a:hover { color: var(--shell); text-decoration-style: solid; }
 }
 
+/* ─────────────────────────────────────────────────────────────────────
+   Components — editorial primitives
+───────────────────────────────────────────────────────────────────── */
 @layer components {
-  .container-prose {
-    @apply mx-auto w-full max-w-3xl px-6;
+  .container-page  { @apply mx-auto w-full max-w-[76rem] px-6 md:px-10; }
+  .container-prose { @apply mx-auto w-full max-w-[44rem] px-6 md:px-10; }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.70rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
   }
 
-  .container-wide {
-    @apply mx-auto w-full max-w-6xl px-6;
+  .smallcaps {
+    font-family: 'Newsreader Variable', ui-serif, serif;
+    font-variation-settings: 'opsz' 14;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
   }
 
-  .heading-display {
-    @apply font-sans font-semibold tracking-tight;
-    font-feature-settings: 'ss01', 'cv11';
+  .rule          { border: 0; border-top: 1px solid var(--rule); margin: 0; }
+  .rule-strong   { border: 0; border-top: 1px solid var(--rule-strong); margin: 0; }
+
+  .asterism {
+    display: flex;
+    justify-content: center;
+    font-family: 'Fraunces Variable', serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.5em;
+    color: var(--ink-whisper);
+    margin: 3rem auto;
+    user-select: none;
+  }
+  .asterism::before { content: '⁂'; }
+
+  .dropcap::first-letter {
+    float: left;
+    font-family: 'Fraunces Variable', serif;
+    font-variation-settings: 'SOFT' 20, 'opsz' 144;
+    font-weight: 500;
+    font-size: 5.4rem;
+    line-height: 0.88;
+    padding: 0.15rem 0.75rem 0 0;
+    color: var(--shell);
   }
 
-  .text-quiet {
-    color: var(--color-muted);
+  .margin-note {
+    font-family: 'Newsreader Variable', serif;
+    font-variation-settings: 'opsz' 14;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: var(--ink-faint);
+    font-style: italic;
   }
 
-  .rule {
-    @apply my-12 h-px w-full bg-stone-200 dark:bg-stone-800;
+  .pullquote {
+    font-family: 'Fraunces Variable', serif;
+    font-variation-settings: 'SOFT' 70, 'opsz' 72;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.5rem, 2.8vw, 2.25rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .running-footer {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.70rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+  }
+
+  .ticket {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.68rem 1.25rem;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Newsreader Variable', serif;
+    font-variation-settings: 'opsz' 14;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: background 140ms ease, color 140ms ease, transform 140ms ease;
+  }
+  .ticket:hover {
+    background: var(--shell);
+    border-color: var(--shell);
+    color: var(--paper);
+    text-decoration: none;
+    transform: translate(-1px, -1px);
+  }
+  .ticket-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.68rem 1.25rem;
+    border: 1px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    font-family: 'Newsreader Variable', serif;
+    font-variation-settings: 'opsz' 14;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: background 140ms ease, color 140ms ease, transform 140ms ease;
+  }
+  .ticket-ghost:hover {
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    transform: translate(-1px, -1px);
+  }
+
+  .snail-trail-path {
+    stroke-dasharray: 3 10;
+    stroke: var(--shell);
+    stroke-width: 1.5;
+    fill: none;
+    opacity: 0;
+    animation: trail-fade 2.6s ease-out 0.9s forwards,
+               trail-draw 5s linear 0.9s forwards;
+    stroke-dashoffset: 800;
+  }
+  @keyframes trail-fade { from { opacity: 0; } to { opacity: 0.55; } }
+  @keyframes trail-draw { from { stroke-dashoffset: 800; } to { stroke-dashoffset: 0; } }
+
+  .rise   { opacity: 0; transform: translateY(14px); animation: rise 0.9s ease-out forwards; }
+  .rise-1 { animation-delay: 0.10s; }
+  .rise-2 { animation-delay: 0.25s; }
+  .rise-3 { animation-delay: 0.42s; }
+  .rise-4 { animation-delay: 0.62s; }
+  .rise-5 { animation-delay: 0.82s; }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+  .figure {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 2rem 0;
+  }
+
+  .row-line {
+    display: grid;
+    grid-template-columns: 3rem 1fr auto;
+    gap: 1.5rem;
+    align-items: baseline;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .row-line .num {
+    font-family: 'Fraunces Variable', serif;
+    font-variation-settings: 'SOFT' 20;
+    font-style: italic;
+    color: var(--shell);
+    font-size: 1.1rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise, .snail-trail-path {
+      animation: none;
+      opacity: 1;
+      transform: none;
+      stroke-dashoffset: 0;
+    }
   }
 }

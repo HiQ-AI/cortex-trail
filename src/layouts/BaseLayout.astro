@@ -21,7 +21,7 @@ const lang = locale === 'zh' ? 'zh-CN' : 'en';
   <head>
     <SiteHead title={title} description={description} canonical={canonical} ogImage={ogImage} />
   </head>
-  <body class="flex min-h-full flex-col">
+  <body class="flex min-h-full flex-col font-serif" style="font-variation-settings: 'opsz' 16;">
     <Header locale={locale} />
     <main class="flex-1">
       <slot />

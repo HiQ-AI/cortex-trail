@@ -1,87 +1,130 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import SnailGlyph from '@/components/SnailGlyph.astro';
+import Asterism from '@/components/Asterism.astro';
+import SectionMark from '@/components/SectionMark.astro';
 
-const title = 'HiQ Cortex — 慢，是我们能给出的最重要承诺。';
+const title = 'HiQ Cortex — 慢，是我们能给出的最重要的承诺';
 const description =
   '一层薄薄的智能中枢，坐在所有 LCA 数据库之上——把"理解 → 检索 → 交叉验证 → 可追溯答案"这条链路，压缩进一次自然语言对话。';
 
 const qualities = [
   {
+    numeral: 'I',
     key: '慢',
-    heading: '慢',
-    body: '它不会跳过系统边界的讨论直接抛数字。任何一个 LCA 答案都只会在正确的问题被问过之后才交付——系统边界、分摊规则、地理匹配度。',
+    body: '它不会跳过系统边界的讨论直接抛数字。每一次回答都要等到该问的问题都问清楚——系统边界、分摊规则、地理匹配度——才落笔。',
+    aside: '快只是副作用。交付物永远是一条推理链。',
   },
   {
+    numeral: 'II',
     key: '壳',
-    heading: '驮壳',
-    body: '蜗牛走到哪儿，壳就跟到哪儿。每条引用的数据集、每个代理值的假设、每次版本的切换，都附在答案身上，审核员看到的是 Cortex 看到的。',
+    body: '蜗牛走到哪儿，壳就跟到哪儿。每条引用的数据集、每个代理值的假设、每次版本的切换，都附在答案身上。审核员看到的是 Cortex 看到的。',
+    aside: '来源是一个字段，不是脚注。',
   },
   {
+    numeral: 'III',
     key: '痕',
-    heading: '留痕',
-    body: '监管、审核员、法务都能顺着痕迹回到原点。Cortex 把一次 LLM 对话和一份可审计的报告之间的缝，合上了。',
+    body: '监管、审核员、法务都能顺着痕迹回到原点。一次 LLM 对话和一份可审计报告之间的那条线，就是产品本身。',
+    aside: '一个数字站不住脚，就用不出去。',
   },
 ];
 ---
 
 <BaseLayout title={title} description={description} locale="zh">
-  <section class="container-wide pt-20 pb-24 md:pt-28 md:pb-32">
-    <p class="font-mono text-xs uppercase tracking-[0.2em] text-quiet">HiQ Cortex · HiQ-AI 出品</p>
-    <h1 class="heading-display mt-6 max-w-4xl text-4xl leading-[1.1] md:text-6xl">
-      慢，是我们能给出的<br />
-      <span class="text-shell-700 dark:text-shell-400">最重要的承诺</span>。
-    </h1>
-    <p class="mt-8 max-w-2xl font-serif text-lg italic text-stone-700 dark:text-stone-300 md:text-xl">
-      一层薄薄的智能中枢，坐在所有 LCA 数据库之上——把
-      <span class="not-italic font-sans font-medium">理解 → 检索 → 交叉验证 → 可追溯答案</span>
-      这条链路，压缩进一次自然语言对话。
-    </p>
-    <p class="mt-6 max-w-2xl text-base text-quiet md:text-lg">它不替代专家，它让专家的判断得以规模化。</p>
 
-    <div class="mt-12 flex flex-wrap items-center gap-4">
-      <a
-        href="/chat"
-        class="inline-flex items-center gap-2 rounded-md bg-stone-900 px-5 py-2.5 text-sm font-medium text-stone-50 hover:bg-shell-700 dark:bg-stone-50 dark:text-stone-900 dark:hover:bg-shell-400"
-      >
-        打开 Cortex Chat <span aria-hidden="true">→</span>
-      </a>
-      <a
-        href="/zh/solutions/bom-matching"
-        class="inline-flex items-center gap-2 rounded-md border border-stone-300 px-5 py-2.5 text-sm font-medium hover:border-shell-500 hover:text-shell-700 dark:border-stone-700 dark:hover:border-shell-400 dark:hover:text-shell-300"
-      >
-        看 BOM 匹配怎么跑
-      </a>
+  <section class="relative overflow-hidden">
+    <div class="container-page pt-14 md:pt-20 pb-24 md:pb-32">
+      <div class="rise rise-1 mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">HiQ Cortex · HiQ-AI 出品</p>
+        <p class="hidden sm:block" style="font-family: 'Newsreader Variable', serif; font-variation-settings: 'opsz' 14; font-style: italic; color: var(--ink-faint); font-size: 0.86rem;">
+          卷 01 · 关于慢答案
+        </p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+
+      <div class="grid gap-10 md:grid-cols-[1.25fr_1fr] md:gap-14 items-start">
+        <div class="relative">
+          <h1 class="rise rise-2 font-display" style="font-size: clamp(2.8rem, 8vw, 6.8rem); line-height: 1.05; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 30, 'opsz' 144; font-weight: 400;">
+            <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80, 'opsz' 144;">慢</em>，<br/>
+            是我们能给出的<br/>
+            <span style="color: var(--ink-faint);">最重要的承诺</span>。
+          </h1>
+
+          <p class="rise rise-3 mt-10 max-w-xl font-serif" style="font-size: 1.15rem; line-height: 1.7; font-variation-settings: 'opsz' 20; color: var(--ink);">
+            一层薄薄的智能中枢，坐在所有 LCA 数据库之上——把
+            <span class="font-mono" style="font-size: 0.88em; color: var(--shell-dim);">理解 → 检索 → 交叉验证 → 可追溯答案</span>
+            这条链路，压缩进一次自然语言对话。
+          </p>
+
+          <p class="rise rise-4 mt-6 max-w-xl font-serif italic" style="font-variation-settings: 'opsz' 14; color: var(--ink-faint); line-height: 1.65;">
+            它不替代专家。它让专家的判断得以规模化。
+          </p>
+
+          <div class="rise rise-5 mt-12 flex flex-wrap items-center gap-4">
+            <a href="/chat" class="ticket">打开 Cortex Chat <span aria-hidden="true">→</span></a>
+            <a href="/zh/solutions/bom-matching" class="ticket-ghost">看 BOM 匹配怎么跑</a>
+          </div>
+        </div>
+
+        <aside class="relative rise rise-3 md:pt-6">
+          <div class="relative flex justify-center md:justify-end" style="color: var(--ink);">
+            <SnailGlyph class="w-full max-w-md" />
+          </div>
+          <div class="margin-note mt-6 md:mt-10 grid gap-4 sm:grid-cols-2">
+            <div>
+              <span class="eyebrow block mb-2">图一</span>
+              一只驮着房子走路的蜗牛。壳装身体记不住的东西，痕迹留给别人审计。
+            </div>
+            <div>
+              <span class="eyebrow block mb-2">关于慢</span>
+              一份 CBAM 申报，是几周的系统边界辩论、BOM 拆解、十几个数据库之间的取舍。行业的瓶颈从来不是数据本身——是谁读懂了这个问题。
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>
   </section>
 
-  <section class="border-t border-stone-200/70 py-24 dark:border-stone-800/70">
-    <div class="container-wide">
-      <p class="font-mono text-xs uppercase tracking-[0.2em] text-quiet">为什么是蜗牛</p>
-      <h2 class="heading-display mt-4 max-w-3xl text-3xl md:text-4xl">
-        我们刻意挑了一个跟 "AI 代名词" 相反的符号。
-      </h2>
-      <p class="mt-6 max-w-2xl font-serif italic text-stone-700 dark:text-stone-300">
-        行业里的 AI 形象通常是闪电、火箭、神经元——快、强、无所不知。但 LCA 从来不是这种行业。一份 CBAM
-        申报背后，是几周的系统边界辩论、BOM 拆解、在十几个数据库之间的取舍。每一步都要能被审计、被质疑、被追溯。
-      </p>
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-28">
+      <SectionMark kicker="为什么是蜗牛" numeral="I–III" title="我们刻意挑了一个跟 “AI 代名词” 相反的符号。" />
 
-      <div class="mt-16 grid gap-px overflow-hidden rounded-lg border border-stone-200 bg-stone-200 dark:border-stone-800 dark:bg-stone-800 md:grid-cols-3">
+      <div class="grid max-w-5xl gap-10 md:grid-cols-2">
+        <p class="font-serif" style="font-size: 1.1rem; line-height: 1.75; font-variation-settings: 'opsz' 20; color: var(--ink);">
+          行业里的 AI 形象通常是闪电、火箭、神经元——快、强、无所不知。但 LCA 从来不是这种行业。
+          每一步都要能被审计、被质疑、被追溯。
+        </p>
+        <p class="font-serif italic" style="font-size: 1.02rem; line-height: 1.75; font-variation-settings: 'opsz' 18; color: var(--ink-faint);">
+          我们选了蜗牛。它天生慢，驮着壳，留下一条可追踪的痕迹。
+        </p>
+      </div>
+
+      <div class="mt-16 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
         {qualities.map((q) => (
-          <article class="bg-white p-8 dark:bg-stone-950">
-            <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-shell-700 dark:text-shell-400">
-              {q.key}
+          <article class="p-8 md:p-10 flex flex-col gap-5" style="background: var(--paper);">
+            <div class="flex items-baseline justify-between">
+              <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40, 'opsz' 24; font-size: 1.25rem;">§ {q.numeral}</span>
+              <span class="eyebrow">{q.key}</span>
+            </div>
+            <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.05; letter-spacing: -0.015em;">{q.key}</h3>
+            <p class="font-serif" style="line-height: 1.75; font-variation-settings: 'opsz' 18; color: var(--ink);">{q.body}</p>
+            <p class="mt-auto font-serif italic" style="font-size: 0.92rem; line-height: 1.6; font-variation-settings: 'opsz' 14; color: var(--ink-faint);">
+              <span class="eyebrow mr-2" style="color: var(--shell);">注</span>{q.aside}
             </p>
-            <h3 class="heading-display mt-3 text-2xl">{q.heading}</h3>
-            <p class="mt-4 text-sm leading-relaxed text-stone-700 dark:text-stone-300">{q.body}</p>
           </article>
         ))}
       </div>
 
-      <p class="mt-16 max-w-2xl font-serif text-xl italic leading-relaxed text-stone-800 dark:text-stone-200">
-        Cortex 在后端做的是最快的事——向量检索、并行工具调用、LLM 推理；但它对外交付的始终是最慢的事：
-        <span class="not-italic font-sans font-medium">一条能被逐条复核的推理链。</span>
-      </p>
-      <p class="mt-6 font-mono text-xs uppercase tracking-[0.2em] text-quiet">慢，不是缺陷。</p>
+      <Asterism />
+
+      <blockquote class="mx-auto max-w-3xl text-center">
+        <p class="pullquote">
+          Cortex 在后端做的是最快的事。但它对外交付的始终是最慢的事：
+          <em style="color: var(--shell); font-style: italic;">一条能被逐条复核的推理链。</em>
+        </p>
+        <footer class="eyebrow mt-6">慢，不是缺陷。</footer>
+      </blockquote>
     </div>
   </section>
+
 </BaseLayout>

@@ -1,0 +1,7 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: klass = '' } = Astro.props;
+---
+<div class:list={['asterism', klass]} role="separator" aria-hidden="true"></div>
