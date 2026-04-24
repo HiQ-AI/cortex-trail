@@ -4,34 +4,89 @@ import SnailGlyph from '@/components/SnailGlyph.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
-const title = 'HiQ Cortex — 慢，是我们能给出的最重要的承诺';
+const title = 'HiQ Cortex — 坐在所有 LCA 数据库之上的推理层';
 const description =
-  '一层薄薄的智能中枢，坐在所有 LCA 数据库之上——把"理解 → 检索 → 交叉验证 → 可追溯答案"这条链路，压缩进一次自然语言对话。';
+  'Cortex 跨 12 个数据库匹配排放因子，标记数据缺口，导出附带完整来源溯源——每一行都被引用、按 DQI 评分、随时回答审核员的问题。';
+
+const audiences = [
+  {
+    label: '给 LCA 顾问',
+    body:
+      '你 60% 的时间在查数据库。Cortex 把这段压缩：中文或英文提问，从 HiQLCD 和 Ecoinvent 取回带 DQI 评分的候选，每一条替代值假设都标注清楚。',
+    href: '/zh/solutions/bom-matching',
+    cta: '查看 BOM 匹配',
+  },
+  {
+    label: '给可持续发展与 CBAM 团队',
+    body:
+      '审核员要的是推理过程，不是那个数字。Cortex 在三道 HITL 闸处暂停——覆盖率、替代值、跨库差异——每一道都留给你判断，没有你的确认，Cortex 不会继续。',
+    href: '/zh/methodology',
+    cta: '阅读方法论',
+  },
+  {
+    label: '给基于 LCA 数据构建产品的开发者',
+    body:
+      '四种协议：REST、MCP、AG-UI、A2A。一把 API key。把 LCA 检索能力嵌进你自己的产品，不用重建搜索层。',
+    href: 'https://docs.x.hiq.earth',
+    cta: '查看 API 文档',
+  },
+];
+
+const products = [
+  {
+    name: 'Cortex Chat',
+    pitch: 'LCA 数据检索，对话即完成。中文或英文提问——结果按相关性排序、附 DQI 评分、标注来源。',
+    primary: { href: '/chat', label: '打开 Cortex Chat' },
+    secondary: { href: '/zh/product/chat', label: '产品详情' },
+  },
+  {
+    name: 'Cortex Cowork',
+    pitch: '陪你走完整个 LCA 项目的桌面 Agent——跨会话、跨重启、跨交接。',
+    primary: { href: 'https://github.com/HiQ-AI/cortex-desktop/releases/latest', label: '下载 macOS 版' },
+    secondary: { href: '/zh/product/cowork', label: '产品详情' },
+  },
+];
 
 const qualities = [
   {
     numeral: 'I',
     key: '慢',
-    body: '它不会跳过系统边界的讨论直接抛数字。每一次回答都要等到该问的问题都问清楚——系统边界、分摊规则、地理匹配度——才落笔。',
-    aside: '快只是副作用。交付物永远是一条推理链。',
+    body:
+      '在 LCA 里，快是一个陷阱。CBAM 核查员要的不是一个答案，而是这个答案背后的推理过程。Cortex 不会跳过系统边界的讨论直接抛出数字。慢，是让输出结果能被审计的那道约束。',
   },
   {
     numeral: 'II',
     key: '壳',
-    body: '蜗牛走到哪儿，壳就跟到哪儿。每条引用的数据集、每个代理值的假设、每次版本的切换，都附在答案身上。审核员看到的是 Cortex 看到的。',
-    aside: '来源是一个字段，不是脚注。',
+    body:
+      '蜗牛走到哪里，壳跟到哪里。Cortex 也是：每一条返回的数据集都携带来源、版本、系统模型，以及完整的 DQI 评分——时间性、地理性、技术性、完整性、可靠性。交出去的不是一个数字，是一个审核员可以逐项核查的数据包。',
   },
   {
     numeral: 'III',
     key: '痕',
-    body: '监管、审核员、法务都能顺着痕迹回到原点。一次 LLM 对话和一份可审计报告之间的那条线，就是产品本身。',
-    aside: '一个数字站不住脚，就用不出去。',
+    body:
+      '蜗牛爬过的地方都留下痕迹。Cortex 保留完整的运行记录：搜索了哪些数据库、候选如何排序、用了哪条替代值、在哪道闸处暂停。审核员、接手项目的下一个人——都能沿着这条痕迹回到原点。',
+  },
+];
+
+const claims = [
+  {
+    stat: '约 10 分钟，处理 100 行 BOM',
+    body: '每一行返回带 DQI 评分的候选、来源引用、所有替代值假设的标注。',
+  },
+  {
+    stat: '12 个 LCA 数据库',
+    body: 'HiQLCD、Ecoinvent、EF（环境足迹）、CarbonMinds、天工、World Steel 等——按相关性与数据质量排序，不按字母顺序。',
+  },
+  {
+    stat: '三道人工确认闸',
+    body: '覆盖率低于 80%、需要替代值、跨库差异超过 2 倍——任意一种情况触发，Cortex 暂停并等待。每道闸都由你决定。没有你的确认，流程不往下走。',
   },
 ];
 ---
 
 <BaseLayout title={title} description={description} locale="zh">
 
+  <!-- Hero -->
   <section class="relative overflow-hidden">
     <div class="container-page pt-14 md:pt-20 pb-24 md:pb-32">
       <div class="rise rise-1 mb-10 flex items-baseline justify-between border-b border-rule pb-4">
@@ -44,25 +99,23 @@ const qualities = [
 
       <div class="grid gap-10 md:grid-cols-[1.25fr_1fr] md:gap-14 items-start">
         <div class="relative">
-          <h1 class="rise rise-2 font-display" style="font-size: clamp(2.8rem, 8vw, 6.8rem); line-height: 1.05; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 30, 'opsz' 144; font-weight: 400;">
-            <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80, 'opsz' 144;">慢</em>，<br/>
-            是我们能给出的<br/>
-            <span style="color: var(--ink-faint);">最重要的承诺</span>。
+          <h1 class="rise rise-2 font-display" style="font-size: clamp(2.4rem, 5.5vw, 4.6rem); line-height: 1.15; letter-spacing: -0.01em; font-variation-settings: 'SOFT' 30, 'opsz' 144; font-weight: 400;">
+            <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">BOM</em> 300 行。<br/>
+            审核员对<span style="color: var(--ink);">每一行</span><br/>
+            <span style="color: var(--ink-faint);">都有问题。</span>
           </h1>
 
-          <p class="rise rise-3 mt-10 max-w-xl font-serif" style="font-size: 1.15rem; line-height: 1.7; font-variation-settings: 'opsz' 20; color: var(--ink);">
-            一层薄薄的智能中枢，坐在所有 LCA 数据库之上——把
-            <span class="font-mono" style="font-size: 0.88em; color: var(--shell-dim);">理解 → 检索 → 交叉验证 → 可追溯答案</span>
-            这条链路，压缩进一次自然语言对话。
+          <p class="rise rise-3 mt-10 max-w-xl font-serif" style="font-size: 1.12rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
+            Cortex 跨 <strong style="color: var(--ink); font-weight: 500;">12 个数据库</strong>匹配排放因子，标记数据缺口，导出附带完整来源溯源——每一行都被引用、按 DQI 评分、随时回答审核员的问题。
           </p>
 
-          <p class="rise rise-4 mt-6 max-w-xl font-serif italic" style="font-variation-settings: 'opsz' 14; color: var(--ink-faint); line-height: 1.65;">
+          <p class="rise rise-4 mt-6 max-w-xl font-serif italic" style="font-variation-settings: 'opsz' 14; color: var(--ink-faint); line-height: 1.7;">
             它不替代专家。它让专家的判断得以规模化。
           </p>
 
           <div class="rise rise-5 mt-12 flex flex-wrap items-center gap-4">
-            <a href="/chat" class="ticket">打开 Cortex Chat <span aria-hidden="true">→</span></a>
-            <a href="/zh/solutions/bom-matching" class="ticket-ghost">看 BOM 匹配怎么跑</a>
+            <a href="/zh/solutions/bom-matching" class="ticket">查看 BOM 演示 <span aria-hidden="true">→</span></a>
+            <a href="/chat" class="ticket-ghost">试用 Cortex Chat</a>
           </div>
         </div>
 
@@ -73,11 +126,11 @@ const qualities = [
           <div class="margin-note mt-6 md:mt-10 grid gap-4 sm:grid-cols-2">
             <div>
               <span class="eyebrow block mb-2">图一</span>
-              一只驮着房子走路的蜗牛。壳装身体记不住的东西，痕迹留给别人审计。
+              蜗牛不跳步。推理链也不跳。
             </div>
             <div>
-              <span class="eyebrow block mb-2">关于慢</span>
-              一份 CBAM 申报，是几周的系统边界辩论、BOM 拆解、十几个数据库之间的取舍。行业的瓶颈从来不是数据本身——是谁读懂了这个问题。
+              <span class="eyebrow block mb-2">图二</span>
+              每一行：一个问题。每一个答案：来源、版本、假设，全都附上。
             </div>
           </div>
         </aside>
@@ -85,32 +138,67 @@ const qualities = [
     </div>
   </section>
 
+  <!-- §II 三扇门 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="三扇门" numeral="II" title="Cortex Chat 和 Cortex Cowork 共享同一个引擎。" />
+      <p class="max-w-2xl font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        走哪扇门，取决于你面前的工作是什么。
+      </p>
+
+      <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
+        {audiences.map((a, i) => (
+          <article class="p-8 md:p-10 flex flex-col gap-5" style="background: var(--paper);">
+            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.1rem;">§ {String(i + 1).padStart(2, '0')}</span>
+            <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 40; font-size: 1.35rem; line-height: 1.3; letter-spacing: -0.005em;">{a.label}</h3>
+            <p class="font-serif" style="line-height: 1.85; font-variation-settings: 'opsz' 17; color: var(--ink); font-size: 0.96rem;">{a.body}</p>
+            <a href={a.href} class="mt-auto smallcaps" style="text-decoration: none; color: var(--shell);">{a.cta} →</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §III 两个产品 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="是什么" numeral="III" title="一个 Cortex。两个产品。" />
+      <p class="max-w-2xl font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Cortex Chat 处理对话——单次问答、BOM 上传、跨库对比。Cortex Cowork 处理项目——本地文件、跨会话记忆、代理执行。底层是同一个引擎，界面因工作场景而不同。
+      </p>
+
+      <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
+        {products.map((p) => (
+          <article class="p-10 md:p-12 flex flex-col gap-5" style="background: var(--paper);">
+            <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.7rem, 2.8vw, 2.3rem); line-height: 1.1; letter-spacing: -0.015em;">{p.name}</h3>
+            <p class="font-serif" style="line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1.02rem;">{p.pitch}</p>
+            <div class="mt-auto flex flex-wrap items-center gap-4 pt-4">
+              <a href={p.primary.href} class="ticket">{p.primary.label} <span aria-hidden="true">→</span></a>
+              <a href={p.secondary.href} class="smallcaps" style="text-decoration: none; color: var(--ink-mute);">{p.secondary.label} →</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §IV 为什么是蜗牛 -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="为什么是蜗牛" numeral="I–III" title="我们刻意挑了一个跟 “AI 代名词” 相反的符号。" />
+      <SectionMark kicker="为什么是蜗牛" numeral="IV" title="我们刻意选了一个跟火箭相反的符号。" />
+      <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        业内的 AI 形象通常是闪电和神经元——快、强、无所不知。我们选了蜗牛。理由如下。
+      </p>
 
-      <div class="grid max-w-5xl gap-10 md:grid-cols-2">
-        <p class="font-serif" style="font-size: 1.1rem; line-height: 1.75; font-variation-settings: 'opsz' 20; color: var(--ink);">
-          行业里的 AI 形象通常是闪电、火箭、神经元——快、强、无所不知。但 LCA 从来不是这种行业。
-          每一步都要能被审计、被质疑、被追溯。
-        </p>
-        <p class="font-serif italic" style="font-size: 1.02rem; line-height: 1.75; font-variation-settings: 'opsz' 18; color: var(--ink-faint);">
-          我们选了蜗牛。它天生慢，驮着壳，留下一条可追踪的痕迹。
-        </p>
-      </div>
-
-      <div class="mt-16 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
+      <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
         {qualities.map((q) => (
           <article class="p-8 md:p-10 flex flex-col gap-5" style="background: var(--paper);">
             <div class="flex items-baseline justify-between">
               <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40, 'opsz' 24; font-size: 1.25rem;">§ {q.numeral}</span>
               <span class="eyebrow">{q.key}</span>
             </div>
-            <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.05; letter-spacing: -0.015em;">{q.key}</h3>
-            <p class="font-serif" style="line-height: 1.75; font-variation-settings: 'opsz' 18; color: var(--ink);">{q.body}</p>
-            <p class="mt-auto font-serif italic" style="font-size: 0.92rem; line-height: 1.6; font-variation-settings: 'opsz' 14; color: var(--ink-faint);">
-              <span class="eyebrow mr-2" style="color: var(--shell);">注</span>{q.aside}
-            </p>
+            <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.1; letter-spacing: -0.015em;">{q.key}</h3>
+            <p class="font-serif" style="line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.98rem;">{q.body}</p>
           </article>
         ))}
       </div>
@@ -119,11 +207,45 @@ const qualities = [
 
       <blockquote class="mx-auto max-w-3xl text-center">
         <p class="pullquote">
-          Cortex 在后端做的是最快的事。但它对外交付的始终是最慢的事：
-          <em style="color: var(--shell); font-style: italic;">一条能被逐条复核的推理链。</em>
+          Cortex 在后端做的是最快的事。它交付出来的，始终是最慢的事：
+          <em style="color: var(--shell); font-style: italic;">一条能被逐行复核的推理链。</em>
         </p>
-        <footer class="eyebrow mt-6">慢，不是缺陷。</footer>
+        <footer class="eyebrow mt-6">慢，是我们能给出的最重要的承诺。</footer>
       </blockquote>
+    </div>
+  </section>
+
+  <!-- §V 三条能力声明 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="你实际得到什么" numeral="V" title="三条能力声明。每一条都可以从 Cortex 今天的实际运作中验证。" />
+
+      <div class="mt-12 border-y border-rule">
+        {claims.map((c, i) => (
+          <article class="grid items-baseline gap-6 py-10 border-b border-rule last:border-b-0 md:grid-cols-[5rem_minmax(0,_1fr)_minmax(0,_1.4fr)] md:gap-12">
+            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.6rem;">§ {String(i + 1).padStart(2, '0')}</span>
+            <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 40; font-size: clamp(1.2rem, 2.4vw, 1.7rem); line-height: 1.2; letter-spacing: -0.01em;">{c.stat}</div>
+            <p class="font-serif" style="line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink-mute); font-size: 0.96rem;">{c.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §VI 收尾 -->
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <Asterism class="mb-10" />
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.15; letter-spacing: -0.01em;">
+        从一个问题开始。
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.1rem; line-height: 1.75; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Chat 接受材料名称、BOM 中的一行，或一个标准问题，返回带来源溯源的排序数据集。不需要配置表格，不需要数据库授权才能提问。
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="/chat" class="ticket">试用 Cortex Chat <span aria-hidden="true">→</span></a>
+        <a href="mailto:info@hiqlcd.com" class="ticket-ghost">联系我们</a>
+      </div>
     </div>
   </section>
 

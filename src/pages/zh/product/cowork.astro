@@ -1,0 +1,197 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Asterism from '@/components/Asterism.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = 'Cortex Cowork — HiQ Cortex';
+const description =
+  '跟着你的 LCA 项目走的本地 Agent。Cowork 在你的机器上运行，读取你的文件，把决策跨会话、跨重启地一起带走。';
+
+const platforms = [
+  { name: 'macOS',   detail: 'Apple Silicon（M1–M4）及 Intel · .dmg', note: 'Gatekeeper：首次启动若提示来自身份不明的开发者，前往「系统设置 → 隐私与安全性 → 仍要打开」。' },
+  { name: 'Windows', detail: '.exe 安装包',                            note: null },
+  { name: 'Linux',   detail: '.AppImage 或 .deb（dpkg -i）',          note: null },
+];
+
+const scenarios = [
+  {
+    numeral: 'I',
+    label: 'BOM 清单处理',
+    before: '打开 Excel + 逐条查数据库 + 手动记录',
+    after:  '上传 BOM，自动识别材料、跨库匹配、补全缺失数据集——每条匹配都附来源',
+    detail: 'Cortex 从磁盘直接读取你的 BOM 文件，对每一行并行检索 HiQLCD、Ecoinvent 和 EF，标记覆盖率低于阈值的行，把匹配到的 GWP 值、来源和 DQI 写回新的 Excel 文件。不用复制粘贴，不用来回切标签页。',
+    proof:  'BOM.xlsx → 并行检索 → 每行：GWP · 来源 · DQI',
+  },
+  {
+    numeral: 'II',
+    label: 'Scope 3 计算',
+    before: '查 GHG Protocol + 问 AI + 手动归类',
+    after:  '只需收集数据，Cortex 自动归类、建议数据收集清单，并进行计算分析',
+    detail: '全部 15 个 GHG Protocol Scope 3 类别均支持，涵盖上游、下游和使用阶段分类，含避免排放抵扣（Category 13 / C5）。输出是含分类合计与因子来源的计算文件，不是黑盒数字。',
+    proof:  '活动数据 → 15 类别 · 因子匹配 · 计算结果',
+  },
+  {
+    numeral: 'III',
+    label: 'openLCA 操作',
+    before: '学软件操作 + 手动搭建流程 + 翻文档',
+    after:  '直接说需求，Cortex 操控 openLCA 完成建模与计算',
+    detail: 'Cortex 不替代 openLCA、SimaPro、GaBi、积木 LCA——与之协作。启动 openLCA 的 IPC Server，把 Cowork 指向你的 BOM 文件，用自然语言描述目标。Cortex 处理数据集匹配、产品系统构建、循环引用消解和结果导出。你的 openLCA 实例是模型，Cortex 是操作者。',
+    proof:  'openLCA IPC → 数据集匹配 → 产品系统搭建 → 结果导出',
+  },
+  {
+    numeral: 'IV',
+    label: 'EPD 报告生成',
+    before: '找模板 + 从软件复制数据 + 填写 Word',
+    after:  '会话触发，自动套用规范模板，输出完整 EPD 报告',
+    detail: '输出遵循 EPD 标准结构。Cortex 从计算结果中提取声明单位、系统边界、参考流和 LCIA 结果，格式化为可供审核的 .docx 文件。不用重新排版，不用二次录入。',
+    proof:  '计算结果 → EPD 模板套用 → .docx 报告输出',
+  },
+];
+
+const compare = [
+  ['会话历史',           '云端同步',                       '仅本地'],
+  ['文件访问',           '无本地文件',                     '完全读写'],
+  ['脚本执行',           '不支持',                         '本地执行'],
+  ['技能系统',           '受限',                           '完整技能市场 + 自定义 MCP'],
+  ['LCA 数据库检索',     '支持',                           '支持'],
+  ['适合场景',           '快速问答、方法论咨询',           'BOM 匹配、报告生成、项目工作'],
+];
+---
+
+<BaseLayout title={title} description={description} locale="zh">
+
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">产品 · Cortex Cowork</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.4rem, 5.5vw, 4.6rem); line-height: 1.15; letter-spacing: -0.01em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 22ch;">
+        跟着你的 LCA 项目走的<br/><em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">本地 Agent</em>。
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif" style="font-size: 1.15rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        LCA 工作装不进一次对话。Cowork 运行在你的机器上，读取你的文件，把边界决策、替代值记录、供应商数据——跨会话、跨重启，一起带走。
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="#scenarios" class="ticket-ghost">看它能跑哪些流程</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-rule">
+    <div class="container-page py-14 md:py-16">
+      <div class="eyebrow mb-3">在你的机器上跑</div>
+      <p class="max-w-2xl font-serif italic" style="font-size: 0.95rem; line-height: 1.7; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">
+        安装无需登录。登录后可同步云端服务、调用数据库检索。
+      </p>
+      <div class="mt-8 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
+        {platforms.map((p) => (
+          <div class="p-6" style="background: var(--paper);">
+            <div class="flex items-baseline justify-between mb-2">
+              <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 24; font-size: 1.2rem;">{p.name}</h3>
+              <span class="font-mono uppercase" style="font-size: 0.62rem; letter-spacing: 0.14em; color: var(--shell);">live</span>
+            </div>
+            <p class="font-mono" style="font-size: 0.78rem; letter-spacing: 0.04em; color: var(--ink-mute);">{p.detail}</p>
+            {p.note && <p class="mt-3 font-serif italic" style="font-size: 0.85rem; line-height: 1.7; font-variation-settings: 'opsz' 14; color: var(--ink-faint);">{p.note}</p>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="scenarios" class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-28">
+      <SectionMark kicker="它擅长什么" numeral="I–IV" title="Chat 跑不了的四种流程。" />
+      <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Cowork 直接操作你的文件，在本地执行工具，从上次会话结束的地方接着跑。以下四种场景，就是这件事在实践中的具体形状。
+      </p>
+
+      <div class="mt-14 border-y border-rule">
+        {scenarios.map((s) => (
+          <article class="border-b border-rule last:border-b-0 py-12">
+            <div class="grid items-start gap-6 md:grid-cols-[4rem_minmax(0,_1fr)] md:gap-10">
+              <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: clamp(1.5rem, 2.4vw, 1.9rem);">§ {s.numeral}</span>
+              <div>
+                <h3 class="font-display mb-5" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.4rem, 2.4vw, 2rem); line-height: 1.15; letter-spacing: -0.01em; color: var(--ink);">{s.label}</h3>
+
+                <div class="grid gap-4 mb-6 md:grid-cols-[5rem_minmax(0,_1fr)] md:gap-6 max-w-3xl">
+                  <span class="eyebrow" style="color: var(--ink-faint);">之前</span>
+                  <p class="font-serif" style="line-height: 1.7; font-variation-settings: 'opsz' 16; color: var(--ink-mute); font-size: 0.95rem;">{s.before}</p>
+                  <span class="eyebrow" style="color: var(--shell);">之后</span>
+                  <p class="font-serif" style="line-height: 1.7; font-variation-settings: 'opsz' 16; color: var(--ink); font-size: 0.95rem; font-weight: 500;">{s.after}</p>
+                </div>
+
+                <p class="font-serif max-w-3xl" style="line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1rem;">{s.detail}</p>
+                <p class="mt-4 font-mono" style="font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-faint);">{s.proof}</p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-rule">
+    <div class="container-page py-16 md:py-20">
+      <div class="eyebrow mb-3">相同的判断纪律 · 你的文件</div>
+      <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Cowork 继承 Cortex 的核心推理规则：按 DQI 排序的 top-k 候选、三个人工介入节点（覆盖率低于 80%、需要替代值、跨库差异超过 2×），每个假设显式命名。区别在于：在 Cowork 里，这些节点在多步会话中触发，操作的是磁盘上的真实文件，决策跨天积累。
+      </p>
+      <p class="mt-6">
+        <a href="/zh/methodology" class="smallcaps" style="color: var(--shell);">Cortex 如何推理 →</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="哪一个 Cortex" numeral="V" title="什么时候用 Cowork 而不是 Chat。" />
+
+      <p class="mt-10 max-w-3xl font-display italic" style="font-variation-settings: 'SOFT' 60, 'opsz' 36; font-size: clamp(1.4rem, 2.6vw, 1.8rem); line-height: 1.4; color: var(--ink);">
+        Chat 答问题；Cowork 跑流程——在你的机器上、你的项目文件夹里、跑完这个项目所需的每一次会话。
+      </p>
+
+      <div class="mt-10 overflow-hidden rounded-sm border border-rule" style="background: var(--paper);">
+        <table class="w-full" style="border-collapse: collapse;">
+          <thead>
+            <tr style="background: var(--paper-rim);">
+              <th class="eyebrow text-left p-4 border-b border-rule"></th>
+              <th class="eyebrow text-left p-4 border-b border-rule">Cortex Chat</th>
+              <th class="eyebrow text-left p-4 border-b border-rule" style="color: var(--shell);">Cortex Cowork</th>
+            </tr>
+          </thead>
+          <tbody class="font-serif" style="font-size: 0.94rem; line-height: 1.7; font-variation-settings: 'opsz' 16;">
+            {compare.map(([label, chat, cowork]) => (
+              <tr>
+                <td class="p-4 border-b border-rule" style="color: var(--ink-mute); font-weight: 500;">{label}</td>
+                <td class="p-4 border-b border-rule" style="color: var(--ink-mute);">{chat}</td>
+                <td class="p-4 border-b border-rule" style="color: var(--ink);">{cowork}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p class="mt-8">
+        <a href="/zh/product/chat" class="smallcaps" style="color: var(--ink-mute);">查看 Cortex Chat →</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <Asterism class="mb-10" />
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.15; letter-spacing: -0.01em;">
+        安装一次，从上次停的地方继续。
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.08rem; line-height: 1.75; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cowork 在重启之间保留项目上下文：已做的决策、已记录的替代值选择、已匹配的行。下一次会话，从上一次结束的地方接着开始。
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="mailto:info@hiqlcd.com" class="ticket-ghost">下载前有疑问 · info@hiqlcd.com</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
