@@ -1,6 +1,11 @@
-# hiq-cortex-web
+# cortex-trail
 
-Marketing + docs + blog for HiQ Cortex — https://cortex.hiq.earth (production, pending rollout) · https://preview.hiq.earth (staging).
+The public face of HiQ Cortex — marketing, methodology, docs, and blog.
+
+- **Production**: https://cortex.hiq.earth (pending rollout)
+- **Staging**: https://preview.hiq.earth
+
+The name echoes the "Trail" quality in our [BRAND.md](https://github.com/HiQ-AI/cortex/blob/main/docs/BRAND.md): a chain of reasoning you can follow back to the origin. That's what this site is, too — the public breadcrumbs that lead into Cortex.
 
 ## Stack
 
@@ -24,8 +29,7 @@ npm run dev
 - **Blog posts**: `src/content/blog/*.mdx` with frontmatter `locale: en | zh`
 - **Docs**: `src/content/docs/*.mdx` with frontmatter `section`, `order`, `locale`
 
-Brand source of truth: `../cortex/docs/BRAND.md`. Voice guide:
-`../cortex/desktop/whatsnew/_authoring/STYLE_GUIDE.md`.
+Voice guide: `desktop/whatsnew/_authoring/STYLE_GUIDE.md` in the parent Cortex repo.
 
 ## Deploy
 
@@ -45,7 +49,7 @@ Infrastructure bootstrap is a one-shot:
 ## Structure
 
 ```
-hiq-cortex-web/
+cortex-trail/
 ├── astro.config.mjs           # i18n, integrations, site URL
 ├── tailwind.config.mjs        # design tokens
 ├── src/

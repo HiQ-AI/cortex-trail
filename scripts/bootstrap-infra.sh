@@ -21,7 +21,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 DOMAIN="${DOMAIN:-preview.hiq.earth}"
-BUCKET="${BUCKET:-hiq-cortex-web-preview}"
+BUCKET="${BUCKET:-cortex-trail-preview}"
 AWS_REGION="${AWS_REGION:-us-east-1}"
 CF_ENV="${CF_ENV:-../cortex/keystone/cf/.env}"
 
