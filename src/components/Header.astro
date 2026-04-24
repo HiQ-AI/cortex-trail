@@ -1,4 +1,6 @@
 ---
+import ThemeToggle from './ThemeToggle.astro';
+
 interface Props { locale?: 'en' | 'zh' }
 const { locale = 'en' } = Astro.props;
 
@@ -45,7 +47,8 @@ const otherLocale = locale === 'zh' ? { href: '/', label: 'EN' } : { href: '/zh'
       ))}
     </nav>
 
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-3">
+      <ThemeToggle />
       <a href={otherLocale.href} class="smallcaps" style="text-decoration: none; color: var(--ink-faint);">
         {otherLocale.label}
       </a>

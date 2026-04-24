@@ -143,6 +143,36 @@ if [[ "$DIST_ID" == "None" || -z "$DIST_ID" ]]; then
     echo "  + Created OAC $OAC_ID"
   fi
 
+  # Create + publish a CloudFront Function that rewrites directory URIs to
+  # /index.html. Without this, S3 returns 403 for paths like /blog because
+  # the key "blog" doesn't exist — only "blog/index.html" does.
+  FN_NAME="${BUCKET}-rewrite"
+  FN_CODE="$(mktemp)"
+  cat > "$FN_CODE" <<'JS'
+function handler(event) {
+    var request = event.request;
+    var uri = request.uri;
+    if (uri.endsWith('/')) {
+        request.uri = uri + 'index.html';
+    } else if (!uri.includes('.')) {
+        request.uri = uri + '/index.html';
+    }
+    return request;
+}
+JS
+  FN_EXISTS="$(aws cloudfront list-functions --query "FunctionList.Items[?Name=='$FN_NAME'].Name | [0]" --output text 2>/dev/null)"
+  if [[ "$FN_EXISTS" == "None" || -z "$FN_EXISTS" ]]; then
+    aws cloudfront create-function --name "$FN_NAME" \
+      --function-config "Comment=Rewrite directory URIs to /index.html,Runtime=cloudfront-js-2.0" \
+      --function-code "fileb://$FN_CODE" >/dev/null
+    echo "  + Created CloudFront Function $FN_NAME"
+  fi
+  FN_ETAG="$(aws cloudfront describe-function --name "$FN_NAME" --query 'ETag' --output text)"
+  aws cloudfront publish-function --name "$FN_NAME" --if-match "$FN_ETAG" >/dev/null 2>&1 || true
+  FN_ARN="$(aws cloudfront describe-function --name "$FN_NAME" --query 'FunctionSummary.FunctionMetadata.FunctionARN' --output text)"
+  rm -f "$FN_CODE"
+  echo "  ✓ Function published: $FN_ARN"
+
   DIST_CFG="$(mktemp)"
   cat > "$DIST_CFG" <<JSON
 {
@@ -168,12 +198,15 @@ if [[ "$DIST_ID" == "None" || -z "$DIST_ID" ]]; then
     "AllowedMethods": { "Quantity": 2, "Items": ["GET","HEAD"], "CachedMethods": { "Quantity": 2, "Items": ["GET","HEAD"] } },
     "Compress": true,
     "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
-    "FunctionAssociations": { "Quantity": 0 },
+    "FunctionAssociations": { "Quantity": 1, "Items": [{"FunctionARN":"$FN_ARN","EventType":"viewer-request"}] },
     "LambdaFunctionAssociations": { "Quantity": 0 }
   },
   "CustomErrorResponses": {
-    "Quantity": 1,
-    "Items": [{ "ErrorCode": 404, "ResponsePagePath": "/404.html", "ResponseCode": "404", "ErrorCachingMinTTL": 10 }]
+    "Quantity": 2,
+    "Items": [
+      { "ErrorCode": 403, "ResponsePagePath": "/404.html", "ResponseCode": "404", "ErrorCachingMinTTL": 10 },
+      { "ErrorCode": 404, "ResponsePagePath": "/404.html", "ResponseCode": "404", "ErrorCachingMinTTL": 10 }
+    ]
   },
   "Comment": "cortex-trail — $DOMAIN",
   "Enabled": true,
@@ -190,7 +223,7 @@ JSON
   DIST_ID="$(aws cloudfront create-distribution --distribution-config "file://$DIST_CFG" \
     --query 'Distribution.Id' --output text)"
   rm -f "$DIST_CFG"
-  echo "  + Created distribution $DIST_ID"
+  echo "  + Created distribution $DIST_ID with URI-rewrite function"
 
   # Give S3 bucket policy access to this distribution via OAC
   ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"

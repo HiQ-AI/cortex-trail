@@ -13,11 +13,13 @@
 @tailwind utilities;
 
 /* ─────────────────────────────────────────────────────────────────────
-   Design tokens. Paper-first. Dark mode is a system-preference reply,
-   not a product.
+   Design tokens. Paper-first. Light is the default; dark is a manual
+   toggle (see ThemeToggle.astro + the FOUC-prevention bootstrap in
+   SiteHead.astro). No system-preference auto-switch — the reader picks.
 ───────────────────────────────────────────────────────────────────── */
 @layer base {
-  :root {
+  :root,
+  [data-theme="light"] {
     --paper:       oklch(98% 0.012 80);
     --paper-rim:   oklch(94% 0.014 80);
     --ink:         oklch(22% 0.020 80);
@@ -30,23 +32,23 @@
     --moss:        oklch(50% 0.060 130);
     --rule:        oklch(82% 0.012 80);
     --rule-strong: oklch(62% 0.016 80);
+    color-scheme: light;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --paper:       oklch(14% 0.018 60);
-      --paper-rim:   oklch(18% 0.018 60);
-      --ink:         oklch(92% 0.014 80);
-      --ink-mute:    oklch(72% 0.016 80);
-      --ink-faint:   oklch(52% 0.018 80);
-      --ink-whisper: oklch(32% 0.018 80);
-      --shell:       oklch(68% 0.130 60);
-      --shell-soft:  oklch(30% 0.080 55);
-      --shell-dim:   oklch(78% 0.140 62);
-      --moss:        oklch(68% 0.060 130);
-      --rule:        oklch(28% 0.012 80);
-      --rule-strong: oklch(42% 0.014 80);
-    }
+  [data-theme="dark"] {
+    --paper:       oklch(14% 0.018 60);
+    --paper-rim:   oklch(18% 0.018 60);
+    --ink:         oklch(92% 0.014 80);
+    --ink-mute:    oklch(72% 0.016 80);
+    --ink-faint:   oklch(52% 0.018 80);
+    --ink-whisper: oklch(32% 0.018 80);
+    --shell:       oklch(72% 0.140 62);
+    --shell-soft:  oklch(30% 0.080 55);
+    --shell-dim:   oklch(80% 0.140 64);
+    --moss:        oklch(68% 0.060 130);
+    --rule:        oklch(28% 0.012 80);
+    --rule-strong: oklch(42% 0.014 80);
+    color-scheme: dark;
   }
 
   html {
@@ -57,6 +59,13 @@
     font-feature-settings: 'kern', 'liga', 'onum';
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+  }
+
+  /* Subtle cross-fade on theme flip — 220ms is fast enough not to feel laggy,
+     slow enough to register as intentional. Only background/color animate;
+     borders and decorative glyphs snap so the layout doesn't shimmer. */
+  html, body {
+    transition: background-color 220ms ease, color 220ms ease;
   }
 
   body { min-height: 100vh; background: var(--paper); }
@@ -104,8 +113,8 @@
     text-transform: uppercase;
   }
 
-  .rule          { border: 0; border-top: 1px solid var(--rule); margin: 0; }
-  .rule-strong   { border: 0; border-top: 1px solid var(--rule-strong); margin: 0; }
+  .rule        { border: 0; border-top: 1px solid var(--rule); margin: 0; }
+  .rule-strong { border: 0; border-top: 1px solid var(--rule-strong); margin: 0; }
 
   .asterism {
     display: flex;
@@ -251,5 +260,6 @@
       transform: none;
       stroke-dashoffset: 0;
     }
+    html, body { transition: none; }
   }
 }
