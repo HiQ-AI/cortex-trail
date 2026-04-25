@@ -10,7 +10,7 @@ const description =
 const compare = [
   ['运行位置',     '浏览器（云端）',                                                             '桌面应用（本地）'],
   ['文件访问',     '每次会话上传',                                                               '读写项目文件夹'],
-  ['对话历史',     '云端同步；最多保留 50 轮原始对话；偏好持续保存',                           '仅本地'],
+  ['对话历史',     '云端同步；保留当前对话窗口；偏好持续保存',                           '仅本地'],
   ['本地工具执行', '不支持',                                                                     'Python、Shell、自定义 MCP 工具'],
   ['技能系统',     '核心搜索技能',                                                               '完整技能市场 + 自定义技能'],
   ['决策记录',     '提取的用户记忆',                                                             '追加写入的 progress.md，每条决策带时间戳'],
@@ -49,10 +49,10 @@ const compare = [
           海外 LCA 工具把中文工厂术语留给用户处理。Cortex 在搜索之前就把它解决掉。
         </p>
         <p>
-          中国制造业 BOM 里的术语，在 Ecoinvent 里往往没有直接对应项："背钩"（手表表壳零件）、"IGBT 模块"、"502 胶水"。这不是搜索失败——是翻译问题，此前的工具把它留给了从业者。Cortex 内置 2,083 条经人工整理的材料到数据集映射，来自多年 LCA 从业者的实际决策。"IGBT 模块"对应 Ecoinvent 3.12.0 中的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">market for insulated gate bipolar transistor, electric vehicle application</code>。"502 胶水"映射到聚氨酯胶黏剂——这是有依据的代理决策，不是猜测。"绝缘栅双极晶体管"和"IGBT 模块"是同一个元器件，但命名精度不同，匹配的数据集也不同。映射如实反映这一点。
+          中国制造业 BOM 里的术语，在 Ecoinvent 里往往没有直接对应项："背钩"（手表表壳零件）、"IGBT 模块"、"502 胶水"。这不是搜索失败——是翻译问题，此前的工具把它留给了从业者。Cortex 内置数千条经人工整理的材料到数据集映射，积累自多年 LCA 从业者的实际决策。"IGBT 模块"对应 Ecoinvent 3.12.0 中的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">market for insulated gate bipolar transistor, electric vehicle application</code>。"502 胶水"映射到聚氨酯胶黏剂——这是有依据的代理决策，不是猜测。"绝缘栅双极晶体管"和"IGBT 模块"是同一个元器件，但命名精度不同，匹配的数据集也不同。映射如实反映这一点。
         </p>
         <p>
-          搜索索引内置一部专为 LCA 中文术语调校的 20,000 词词典。没有它，"镍板"会被切分成覆盖所有含"镍"记录的词元——镍电池回收、镍精炼、镍合金铸造，一起出来。有了它，"镍板"精确对应镍板，噪声消失。
+          搜索索引内置一部专为 LCA 中文术语调校的词典，涵盖数万条 LCA 专业术语。没有它，"镍板"会被切分成覆盖所有含"镍"记录的词元——镍电池回收、镍精炼、镍合金铸造，一起出来。有了它，"镍板"精确对应镍板，噪声消失。
         </p>
         <p>
           Cortex 同时检索中文和英文名称字段。查询"304 不锈钢"，同一轮检索中既命中 HiQLCD 记录的中文名称索引，也命中 Ecoinvent 和 EF 记录的英文名称索引。结果表双语呈现——"冷硬卷，304不锈钢（Cold-rolled annealed coil, 304 stainless steel）"——中国工厂可以对应供应商报告，德国核查员可以直接读 EU 标准名称，不需要再查一次。
@@ -91,7 +91,7 @@ const compare = [
           一次搜索覆盖 14 个 LCA 数据库。返回的不是由用户串联的 14 个独立请求——而是一次统一查询，同时跨所有来源返回排名候选。
         </p>
         <p>
-          <strong style="font-weight: 500;">HiQLCD 1.4.0</strong> 是中国优先数据库：31,523 条记录，含 30 个省级电网变体。CN-BJ 和 CN-SH 的电力碳强度不同，因为西北和东部的煤电与可再生能源比例不同。Ecoinvent 的中国覆盖有 2.3 倍区域差异，HiQLCD 的是 18.7 倍。<strong style="font-weight: 500;">Ecoinvent 3.12.0</strong> 提供国际覆盖，以及从业者和核查员在 EU、全球和跨境场景中通用的标准命名。两者在同一次查询里都有。
+          <strong style="font-weight: 500;">HiQLCD 1.4.0</strong> 是中国优先数据库：数万条中国本土 LCI 记录，覆盖每一个中国省级电网。CN-BJ 和 CN-SH 的电力碳强度不同，因为西北和东部的煤电与可再生能源比例不同。Ecoinvent 的中国覆盖有 2.3 倍区域差异，HiQLCD 的是 18.7 倍。<strong style="font-weight: 500;">Ecoinvent 3.12.0</strong> 提供国际覆盖，以及从业者和核查员在 EU、全球和跨境场景中通用的标准命名。两者在同一次查询里都有。
         </p>
         <p>
           其余 14 个数据库中：<strong style="font-weight: 500;">EF 3.1.0</strong>，EU PEF 和 CBAM 合规参考数据；<strong style="font-weight: 500;">CarbonMinds 2.0.2</strong>，精细化学品；<strong style="font-weight: 500;">TianGong 1.0.0</strong>，中国学术 LCI 研究；<strong style="font-weight: 500;">WorldSteel 1.0.0</strong>，行业协会钢铁参考数据；<strong style="font-weight: 500;">HiQLCD-AL 2.0.0</strong>，铝供应链深度数据；<strong style="font-weight: 500;">Agri-footprint 7.0</strong>，食品与农业 EPD；以及其他覆盖地区和专项领域的数据库。
@@ -139,7 +139,7 @@ const compare = [
           会话结束后，Cortex 提取并存储：用户陈述的行业和 LCA 用途、偏好的数据库、最常检索的材料及指定的生产路线，以及正在进行的项目。说过"中国项目用 HiQLCD，EU EPD 用 Ecoinvent"的从业者，下次不用再说。初次接触 LCA、要求用简明语言解释术语的从业者，此后每次会话都沿用同样的表达方式，无需重新指定。
         </p>
         <p>
-          原始对话——实际消息——最多保留 50 轮历史。超过这个限制，最旧的轮次会被丢弃。提取的偏好不会丢弃。它们是用户档案，不是对话记录。
+          原始对话——实际消息——保留在当前对话窗口内。超出后，最旧的轮次会被丢弃。提取的偏好不会丢弃。它们是用户档案，不是对话记录。
         </p>
         <p>
           数据来源偏好的变更需要一次确认。会话中途说"这条查询用 Ecoinvent"，会看到一步确认提示，确认后会话的活跃数据库立即切换，并存储供后续会话使用。由用户决定；Cortex 记录下来。

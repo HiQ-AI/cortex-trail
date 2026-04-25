@@ -1,6 +1,6 @@
 ---
 title: "China manufacturing data, mapped to LCA datasets"
-description: "HiQLCD carries 31,523 rows of China-specific LCI data across 30 provincial grid variants. 2,083 expert-curated factory term mappings. Why a baseline mismatch in CBAM filings is not a rounding error."
+description: "HiQLCD carries tens of thousands of China-specific LCI records spanning every Chinese provincial grid. Thousands of expert-curated factory term mappings. Why a baseline mismatch in CBAM filings is not a rounding error."
 publishDate: 2026-04-25
 pillar: audit
 tags: ["HiQLCD", "CBAM", "China", "data sources"]
@@ -22,9 +22,8 @@ Cortex returns two results in parallel: the HiQLCD China BF-BOF dataset for the 
 
 | Dimension | Fact |
 |---|---|
-| Rows (with provincial variants) | 31,523 |
-| Deduplicated entries | 1,687 |
-| Provincial grid variants | 30 (CN-BJ, CN-SH, CN-GD…) |
+| Rows (with provincial variants) | tens of thousands |
+| Provincial grid variants | every Chinese province (CN-BJ, CN-SH, CN-GD…) |
 | China coverage multiplier vs. Ecoinvent | 18.7× (Ecoinvent: 2.3×) |
 
 Ecoinvent is the global industry standard. Its China coverage relies primarily on GLO (global average) and RoW entries, with limited provincial grid data. HiQLCD's China regional depth is more than 8× deeper.
@@ -67,11 +66,11 @@ Cortex retrieves the HiQLCD Chinese steel GWP range: BF-BOF approximately 1.7–
 
 ---
 
-## Factory terms to dataset IDs: 2,083 mappings
+## Factory terms to dataset IDs: thousands of mappings
 
-The search index carries a 20,000-term Chinese LCA terminology dictionary. It tokenizes Chinese material names as units of meaning, not as character sequences. "镍板" (nickel plate) is recognized as a single term and matched precisely — not split into "镍" (nickel) and "板" (sheet), which would match every nickel-containing dataset in the index.
+The search index carries a Chinese LCA terminology dictionary spanning tens of thousands of terms. It tokenizes Chinese material names as units of meaning, not as character sequences. "镍板" (nickel plate) is recognized as a single term and matched precisely — not split into "镍" (nickel) and "板" (sheet), which would match every nickel-containing dataset in the index.
 
-Above that, 2,083 expert-curated mappings translate Chinese factory terms into LCA dataset IDs.
+Above that, thousands of expert-curated mappings — built over years of LCA practitioner decisions — translate Chinese factory terms into LCA dataset IDs.
 
 **背钩 (watch case back hook)**
 → `HiQ | Production | Cold-rolled annealed coil, 304 stainless steel, mixed technology`, China
@@ -96,7 +95,7 @@ Cortex responds in the user's query language. Chinese question, Chinese answer. 
 
 Overseas SaaS tools default to EU grid data. Switching to "China" typically means applying a regional parameter on top of Ecoinvent's limited China entries. The underlying data is not built around Chinese manufacturing realities.
 
-HiQLCD is built from the other direction: Chinese process routes, Chinese provincial grids, Chinese industrial mix as the starting point. 30 provincial grid variants. BF-BOF as the default for Chinese steel. Coal-dominated grid intensity for Chinese aluminum smelting. These are database facts, not outputs of a configuration step.
+HiQLCD is built from the other direction: Chinese process routes, Chinese provincial grids, Chinese industrial mix as the starting point. Every Chinese provincial grid. BF-BOF as the default for Chinese steel. Coal-dominated grid intensity for Chinese aluminum smelting. These are database facts, not outputs of a configuration step.
 
 Cortex searches 14 databases in parallel — HiQLCD 1.4.0, Ecoinvent 3.12.0, EF 3.1.0, HiQLCD-AL, TianGong, and nine more — in a single query. For China manufacturing scenarios, HiQLCD is the first match. For CBAM compliance, EF is the primary reference. Which path activates depends on the declared use case.
 

@@ -10,7 +10,7 @@ const description =
 const compare = [
   ['Where it runs',         'Browser (cloud)',                                                     'Desktop app (local)'],
   ['File access',           'Upload per session',                                                  'Reads and writes your project folder'],
-  ['Conversation history',  'Cloud-synced; capped at 50 raw turns; preferences persist',          'Local only'],
+  ['Conversation history',  'Cloud-synced; active conversation window retained; preferences persist permanently',          'Local only'],
   ['Local tool execution',  'Not available',                                                       'Python, shell, custom MCP tools'],
   ['Skills system',         'Core search skills',                                                  'Full skills marketplace + custom skills'],
   ['Decision log',          'Extracted user memories',                                             'Append-only progress.md, timestamped per decision'],
@@ -49,10 +49,10 @@ const compare = [
           Most LCA tools treat Chinese factory names as the user's problem. Cortex resolves them before searching.
         </p>
         <p>
-          Chinese manufacturing BOMs arrive with terms that have no direct equivalent in Ecoinvent: "背钩" (a watch case component), "IGBT模块", "502胶水". These are not search failures — they are a translation problem that previous tools left to the practitioner. Cortex carries 2,083 curated material-to-dataset mappings, built from years of LCA practitioner decisions. "IGBT模块" resolves to <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">market for insulated gate bipolar transistor, electric vehicle application</code> in Ecoinvent 3.12.0. "502胶水" maps to polyurethane adhesive — a documented proxy decision, not a guess. "绝缘栅双极晶体管" resolves differently than "IGBT模块" — same component, different naming precision, different dataset. The mapping reflects that.
+          Chinese manufacturing BOMs arrive with terms that have no direct equivalent in Ecoinvent: "背钩" (a watch case component), "IGBT模块", "502胶水". These are not search failures — they are a translation problem that previous tools left to the practitioner. Cortex carries thousands of curated material-to-dataset mappings, built over years of LCA practitioner decisions. "IGBT模块" resolves to <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">market for insulated gate bipolar transistor, electric vehicle application</code> in Ecoinvent 3.12.0. "502胶水" maps to polyurethane adhesive — a documented proxy decision, not a guess. "绝缘栅双极晶体管" resolves differently than "IGBT模块" — same component, different naming precision, different dataset. The mapping reflects that.
         </p>
         <p>
-          The search index carries a 20,000-term dictionary tuned for LCA terminology in Chinese. Without it, "镍板" fragments into tokens that match everything containing "镍" — nickel battery recycling, nickel refining, nickel alloy casting. With it, "镍板" resolves to nickel plate, and the noise disappears.
+          The search index carries a Chinese LCA terminology dictionary spanning tens of thousands of terms, tuned specifically for LCA practice. Without it, "镍板" fragments into tokens that match everything containing "镍" — nickel battery recycling, nickel refining, nickel alloy casting. With it, "镍板" resolves to nickel plate, and the noise disappears.
         </p>
         <p>
           Cortex searches both Chinese and English name fields simultaneously. A query for "304 不锈钢" hits the Chinese name index for HiQLCD records and the English name index for Ecoinvent and EF records in the same pass. The result table shows dataset names in both languages — "冷硬卷, 304不锈钢 (Cold-rolled annealed coil, 304 stainless steel)" — so a Chinese factory can match it to a supplier report and a German verifier can read the EU-standard name without a second lookup.
@@ -91,7 +91,7 @@ const compare = [
           One search covers fourteen LCA databases. The results are not fourteen serial requests assembled by the user — they are a single unified query returning ranked candidates across all sources simultaneously.
         </p>
         <p>
-          <strong style="font-weight: 500;">HiQLCD 1.4.0</strong> is the China-first database: 31,523 rows with 30 provincial grid variants. CN-BJ and CN-SH carry different electricity carbon intensities because northwest and eastern China have different coal-to-renewables ratios. Ecoinvent's China coverage has 2.3× regional variation. HiQLCD's is 18.7×. <strong style="font-weight: 500;">Ecoinvent 3.12.0</strong> provides international coverage and the standard naming practitioners and verifiers recognize across EU, global, and cross-border contexts. Both exist in the same query.
+          <strong style="font-weight: 500;">HiQLCD 1.4.0</strong> is the China-first database: tens of thousands of China-specific LCI records spanning every Chinese provincial grid. CN-BJ and CN-SH carry different electricity carbon intensities because northwest and eastern China have different coal-to-renewables ratios. Ecoinvent's China coverage has 2.3× regional variation. HiQLCD's is 18.7×. <strong style="font-weight: 500;">Ecoinvent 3.12.0</strong> provides international coverage and the standard naming practitioners and verifiers recognize across EU, global, and cross-border contexts. Both exist in the same query.
         </p>
         <p>
           The rest of the fourteen: <strong style="font-weight: 500;">EF 3.1.0</strong> for EU PEF and CBAM compliance reference data; <strong style="font-weight: 500;">CarbonMinds 2.0.2</strong> for specialty chemicals; <strong style="font-weight: 500;">TianGong 1.0.0</strong> for Chinese academic LCI research; <strong style="font-weight: 500;">WorldSteel 1.0.0</strong> for industry-association steel reference data; <strong style="font-weight: 500;">HiQLCD-AL 2.0.0</strong> for aluminum supply chain depth; <strong style="font-weight: 500;">Agri-footprint 7.0</strong> for food and agriculture EPDs; and additional databases for regional and specialty coverage.
@@ -139,7 +139,7 @@ const compare = [
           After a session closes, Cortex extracts and stores: the industry and LCA purpose the user has stated, the databases they prefer, the materials they search most frequently and the process routes they've specified, and the projects they're working on. A practitioner who has said "I always use HiQLCD for Chinese projects, Ecoinvent for EU EPDs" does not say it again. A practitioner new to LCA who asked for terminology explained in plain language gets the same register in every subsequent session without re-specifying it.
         </p>
         <p>
-          The raw conversation — the actual messages — is capped at 50 turns of history. Beyond that, the oldest turns drop. The extracted preferences do not drop. They are a user profile, not a transcript.
+          The raw conversation — the actual messages — spans the active conversation window. Beyond that, the oldest turns drop. The extracted preferences do not drop. They are a user profile, not a transcript.
         </p>
         <p>
           Data source preference changes take one confirmation. A user mid-session who says "actually, use Ecoinvent for this query" will see a one-step confirmation prompt before the session's active database switches. Confirmed, the preference is applied immediately and stored for future sessions. The user decides; Cortex records it.

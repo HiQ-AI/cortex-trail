@@ -179,7 +179,7 @@ const compare = [
           Cowork sessions are not uploaded. BOM files are processed in the session's local context and not persisted server-side.
         </p>
         <p>
-          Four LCA catalogs are downloaded to local storage at startup — HiQLCD 1.4.0 (~11 MB), Ecoinvent 3.12.0, CarbonMinds 2.0.2, Agri-footprint 7.0 — and kept current via verified sync. Catalog search runs locally against the downloaded files. No network call is made for a catalog query. Once downloaded, catalogs work offline.
+          Four LCA catalogs are downloaded to local storage at startup — HiQLCD 1.4.0, Ecoinvent 3.12.0, CarbonMinds 2.0.2, Agri-footprint 7.0 — and kept current via verified sync. Catalog search runs locally against the downloaded files. No network call is made for a catalog query. Once downloaded, catalogs work offline.
         </p>
         <p>
           The <strong style="font-weight: 500;">out-of-workspace gate</strong> runs on every file write and shell command. A file-boundary check intercepts any operation whose path falls outside the project folder before it executes. The user sees a confirmation card: the specific path, a one-sentence reason, and three options — Allow once / Always allow this directory / Deny. The gate fires regardless of session mode. The agent cannot bypass it.
