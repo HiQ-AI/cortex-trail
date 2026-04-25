@@ -6,12 +6,14 @@ const { locale = 'en' } = Astro.props;
 
 const nav = locale === 'zh'
   ? [
+      { href: '/zh',                label: '概览' },
       { href: '/zh/product/chat',   label: 'Chat' },
       { href: '/zh/product/cowork', label: 'Cowork' },
       { href: '/zh/pricing',        label: '定价' },
       { href: '/zh/blog',           label: '博客' },
     ]
   : [
+      { href: '/',               label: 'Overview' },
       { href: '/product/chat',   label: 'Chat' },
       { href: '/product/cowork', label: 'Cowork' },
       { href: '/skills',         label: 'Skills' },
