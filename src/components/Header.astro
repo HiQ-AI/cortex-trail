@@ -21,7 +21,21 @@ const nav = locale === 'zh'
 
 const home = locale === 'zh' ? '/zh' : '/';
 const chatLabel = locale === 'zh' ? '打开 Chat' : 'Open Chat';
-const otherLocale = locale === 'zh' ? { href: '/', label: 'EN' } : { href: '/zh', label: '中文' };
+
+// Compute the current page's counterpart in the other locale.
+// Strip trailing slash and any /index suffix; map between /zh/* and /*.
+const rawPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+let counterpart: string;
+if (locale === 'zh') {
+  // /zh/foo → /foo;  /zh → /
+  counterpart = rawPath === '/zh' ? '/' : rawPath.replace(/^\/zh/, '');
+} else {
+  // /foo → /zh/foo;  / → /zh
+  counterpart = rawPath === '/' ? '/zh' : '/zh' + rawPath;
+}
+const otherLocale = locale === 'zh'
+  ? { href: counterpart, label: 'EN' }
+  : { href: counterpart, label: '中文' };
 ---
 
 <header class="relative z-20 border-b border-rule">

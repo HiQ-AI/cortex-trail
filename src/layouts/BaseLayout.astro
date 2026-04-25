@@ -20,6 +20,23 @@ const lang = locale === 'zh' ? 'zh-CN' : 'en';
 <html lang={lang} class="h-full">
   <head>
     <SiteHead title={title} description={description} canonical={canonical} ogImage={ogImage} />
+    <script is:inline define:vars={{ pageLocale: locale }}>
+      // Language preference persistence.
+      // 1. Save current page's locale to localStorage so future root visits remember.
+      // 2. On root paths, if remembered locale is 'zh' and we're on EN, redirect to ZH.
+      try {
+        if (pageLocale === 'zh' || pageLocale === 'en') {
+          localStorage.setItem('cortex.locale', pageLocale);
+        }
+        const path = window.location.pathname.replace(/\/$/, '') || '/';
+        const stored = localStorage.getItem('cortex.locale');
+        if (stored === 'zh' && pageLocale === 'en' && (path === '' || path === '/')) {
+          window.location.replace('/zh');
+        } else if (stored === 'en' && pageLocale === 'zh' && path === '/zh') {
+          // do nothing — user explicitly clicked into /zh; that itself updates the pref
+        }
+      } catch (_) { /* localStorage unavailable, continue */ }
+    </script>
   </head>
   <body class="flex min-h-full flex-col font-serif" style="font-variation-settings: 'opsz' 16;">
     <Header locale={locale} />
