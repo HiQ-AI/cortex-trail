@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import SnailGlyph from '@/components/SnailGlyph.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
@@ -86,40 +85,21 @@ const claims = [
         <p class="eyebrow">HiQ Cortex · An LCA workbench by HiQ-AI</p>
       </div>
 
-      <div class="grid gap-10 md:grid-cols-[1.25fr_1fr] md:gap-14 items-start">
+      <div class="relative">
+        <h1 class="rise rise-2 font-display" style="font-size: clamp(3rem, 9vw, 7rem); line-height: 1.02; letter-spacing: -0.03em; font-variation-settings: 'SOFT' 30, 'opsz' 144; font-weight: 400;">
+          An <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80, 'opsz' 144;">LCA workbench</em><br/>
+          you can defend,<br/>
+          <span style="color: var(--ink-faint);">line by line.</span>
+        </h1>
 
-        <div class="relative">
-          <h1 class="rise rise-2 font-display" style="font-size: clamp(2.6rem, 6vw, 5rem); line-height: 1.05; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 30, 'opsz' 144; font-weight: 400;">
-            An <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80, 'opsz' 144;">LCA workbench</em><br/>
-            you can defend,<br/>
-            <span style="color: var(--ink-faint);">line by line.</span>
-          </h1>
+        <p class="rise rise-3 mt-12 max-w-3xl font-serif italic" style="font-size: clamp(1.15rem, 1.6vw, 1.4rem); line-height: 1.55; font-variation-settings: 'opsz' 24; color: var(--ink);">
+          Most LCA tools optimize for the one-click number. Cortex optimizes for the answer that holds when an auditor asks how it was reached. <strong style="color: var(--ink); font-weight: 500; font-style: normal;">Fourteen databases</strong> in parallel. Every proxy labeled.
+        </p>
 
-          <p class="rise rise-3 mt-10 max-w-xl font-serif italic" style="font-size: 1.14rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink);">
-            Most LCA tools optimize for the one-click number. Cortex optimizes for the answer that holds when an auditor asks how it was reached. <strong style="color: var(--ink); font-weight: 500; font-style: normal;">Fourteen databases</strong> in parallel. Every proxy labeled.
-          </p>
-
-          <div class="rise rise-5 mt-12 flex flex-wrap items-center gap-4">
-            <a href="/solutions/bom-matching" class="ticket">See a BOM walkthrough <span aria-hidden="true">→</span></a>
-            <a href="/chat" class="ticket-ghost">Try Cortex Chat</a>
-          </div>
+        <div class="rise rise-5 mt-14 flex flex-wrap items-center gap-4">
+          <a href="/solutions/bom-matching" class="ticket">See a BOM walkthrough <span aria-hidden="true">→</span></a>
+          <a href="/chat" class="ticket-ghost">Try Cortex Chat</a>
         </div>
-
-        <aside class="relative rise rise-3 md:pt-6">
-          <div class="relative flex justify-center md:justify-end" style="color: var(--ink);">
-            <SnailGlyph class="w-full max-w-md" />
-          </div>
-          <div class="margin-note mt-6 md:mt-10 grid gap-4 sm:grid-cols-2">
-            <div>
-              <span class="eyebrow block mb-2">fig. 1</span>
-              <em>Cornu aspersum</em>, rendered as a house you take everywhere. Shell carries the sources. Trail carries the reasoning.
-            </div>
-            <div>
-              <span class="eyebrow block mb-2">fig. 2</span>
-              Fourteen databases. Bilingual search. Decisions you can trace. One conversation.
-            </div>
-          </div>
-        </aside>
       </div>
     </div>
   </section>

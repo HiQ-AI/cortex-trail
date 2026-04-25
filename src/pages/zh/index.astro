@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import SnailGlyph from '@/components/SnailGlyph.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
@@ -86,40 +85,21 @@ const claims = [
         <p class="eyebrow">HiQ Cortex · LCA 工作台 · HiQ-AI 出品</p>
       </div>
 
-      <div class="grid gap-10 md:grid-cols-[1.25fr_1fr] md:gap-14 items-start">
+      <div class="relative">
+        <h1 class="rise rise-2 font-display" style="font-size: clamp(2.8rem, 8vw, 6.2rem); line-height: 1.15; letter-spacing: -0.015em; font-variation-settings: 'SOFT' 30, 'opsz' 144; font-weight: 400;">
+          <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">LCA 工作台</em>，<br/>
+          每一行都<br/>
+          <span style="color: var(--ink-faint);">经得起追问。</span>
+        </h1>
 
-        <div class="relative">
-          <h1 class="rise rise-2 font-display" style="font-size: clamp(2.4rem, 5.5vw, 4.6rem); line-height: 1.15; letter-spacing: -0.01em; font-variation-settings: 'SOFT' 30, 'opsz' 144; font-weight: 400;">
-            <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">LCA 工作台</em>，<br/>
-            每一行都<br/>
-            <span style="color: var(--ink-faint);">经得起追问。</span>
-          </h1>
+        <p class="rise rise-3 mt-12 max-w-3xl font-serif italic" style="font-size: clamp(1.15rem, 1.6vw, 1.35rem); line-height: 1.85; font-variation-settings: 'opsz' 24; color: var(--ink);">
+          多数 LCA 工具以最快给出数字为目标。Cortex 以审计员追问来路时答案还站得住脚为目标。<strong style="color: var(--ink); font-weight: 500; font-style: normal;">14 个数据库</strong>并行。每条代理值有标注。
+        </p>
 
-          <p class="rise rise-3 mt-10 max-w-xl font-serif italic" style="font-size: 1.12rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-            多数 LCA 工具以最快给出数字为目标。Cortex 以审计员追问来路时答案还站得住脚为目标。<strong style="color: var(--ink); font-weight: 500; font-style: normal;">14 个数据库</strong>并行。每条代理值有标注。
-          </p>
-
-          <div class="rise rise-5 mt-12 flex flex-wrap items-center gap-4">
-            <a href="/zh/solutions/bom-matching" class="ticket">查看 BOM 匹配流程 <span aria-hidden="true">→</span></a>
-            <a href="/chat" class="ticket-ghost">试用 Cortex Chat</a>
-          </div>
+        <div class="rise rise-5 mt-14 flex flex-wrap items-center gap-4">
+          <a href="/zh/solutions/bom-matching" class="ticket">查看 BOM 匹配流程 <span aria-hidden="true">→</span></a>
+          <a href="/chat" class="ticket-ghost">试用 Cortex Chat</a>
         </div>
-
-        <aside class="relative rise rise-3 md:pt-6">
-          <div class="relative flex justify-center md:justify-end" style="color: var(--ink);">
-            <SnailGlyph class="w-full max-w-md" />
-          </div>
-          <div class="margin-note mt-6 md:mt-10 grid gap-4 sm:grid-cols-2">
-            <div>
-              <span class="eyebrow block mb-2">图一</span>
-              <em>Cornu aspersum</em>：一座随身携带的房子。壳里是数据来源，痕迹里是推理过程。
-            </div>
-            <div>
-              <span class="eyebrow block mb-2">图二</span>
-              14 个数据库。双语检索。决策可追溯。一次对话。
-            </div>
-          </div>
-        </aside>
       </div>
     </div>
   </section>
