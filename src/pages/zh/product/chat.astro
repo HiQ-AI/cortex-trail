@@ -25,7 +25,7 @@ const scenarios = [
     numeral: 'I',
     label: '批量 BOM 匹配',
     body:
-      '上传物料清单——Excel、CSV 或直接粘贴。Cortex 只问一个关键问题：合金牌号、生产工艺、所在地区。低信号行不追问。之后并行检索 HiQLCD、Ecoinvent、EF、CarbonMinds 等数据库，按行返回 DQI 评分候选。三个节点触发人工判断：覆盖率低于 80%、需要代理值替代、跨库 GWP 差异超过 2 倍。',
+      '上传物料清单——Excel、CSV 或直接粘贴。Cortex 只问一个关键问题：合金牌号、生产工艺、所在地区。低信号行不追问。之后并行检索 HiQLCD、Ecoinvent、EF、CarbonMinds 等数据库，按行返回 DQI 评分候选。在自动化会破坏审计的地方——覆盖率不够、需要代理值、跨库差异显著——Cortex 停下来把选择呈现给你判断。',
     proof: '100 行 BOM · 约 10 分钟 · 完整来源导出',
     href: '/zh/solutions/bom-matching',
     hrefLabel: '查看完整流程',
@@ -133,11 +133,11 @@ const compare = [
       <Asterism class="mb-12" />
       <blockquote class="mx-auto max-w-3xl text-center">
         <p class="pullquote">
-          top-<em style="color: var(--shell); font-style: italic;">k</em>，不是 top-1。<em style="color: var(--shell); font-style: italic;">DQI</em>，不是置信度分数。三个节点由人判断——不是模型悄悄过了某个阈值。
+          top-<em style="color: var(--shell); font-style: italic;">k</em>，不是 top-1。<em style="color: var(--shell); font-style: italic;">DQI</em>，不是置信度分数。<em style="color: var(--shell); font-style: italic;">由从业者判断</em>——不是模型悄悄过了某个阈值。
         </p>
       </blockquote>
       <p class="mx-auto mt-10 max-w-2xl font-serif text-center" style="line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink); font-size: 1.05rem;">
-        Cortex 按匹配度排名返回候选：地理区域、技术匹配、系统模型。每条记录带 DQI 五个维度——时间性、地理性、技术性、完整性、可靠性。覆盖率低于 80%、需要替代值、两个数据库 GWP 差异超过 2 倍时，Cortex 停下来问。
+        Cortex 按匹配度排名返回候选：地理区域、技术匹配、系统模型。每条记录带 DQI 五个维度——时间性、地理性、技术性、完整性、可靠性。当自动化会让答案站不住——覆盖率低于 80%、需要替代值、两个数据库 GWP 差异超过 2 倍——Cortex 停下来问。
       </p>
       <p class="text-center mt-8">
         <a href="/zh/standards" class="smallcaps" style="color: var(--shell);">标准对齐 →</a>

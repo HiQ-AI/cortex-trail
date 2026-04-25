@@ -13,7 +13,7 @@ const standards = [
     covers:
       'Quantification and communication of the carbon footprint of a product (PCF): GWP100-characterized emissions across the defined life cycle, under ISO 14040 / 14044 rules. Single impact category.',
     does:
-      "Cortex returns GWP100-characterized LCI datasets from twelve databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — scored by DQI across five dimensions: Temporal, Geographic, Technology, Completeness, Reliability. Every export carries the source URL, system model (cut-off or APOS), and proxy notes a 14067 calculation file requires. Three human-in-the-loop gates — coverage below 80%, proxy substitution required, cross-database spread above 2× — pause the run where silent automation would produce a result a verifier could not defend.",
+      "Cortex returns GWP100-characterized LCI datasets from twelve databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — scored by DQI across five dimensions: Temporal, Geographic, Technology, Completeness, Reliability. Every export carries the source URL, system model (cut-off or APOS), and proxy notes a 14067 calculation file requires. Decisions return to the practitioner where silent automation would produce a result a verifier could not defend — coverage gaps, proxy substitutions, large cross-database spread, restricted-data markers, ambiguous system-model matches.",
     notClaim:
       'Cortex does not generate ISO 14067 EPDs. An Environmental Product Declaration requires multi-impact characterization, a Product Category Rule (PCR), and third-party verification — none of which are within the tool’s scope.',
   },

@@ -6,7 +6,7 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'HiQ Cortex — An LCA workbench you can defend, line by line.';
 const description =
-  'Match emission factors across twelve LCA databases. Score every candidate by DQI. Stop at the three gates where automation breaks an audit. Every export, defendable.';
+  'Match emission factors across twelve LCA databases. Score every candidate by DQI. Pause where automation would break an audit. Every export, defendable.';
 
 // §II — Audience routing (3 doors)
 const audiences = [
@@ -27,7 +27,7 @@ const audiences = [
   {
     label: 'For developers building on LCA data',
     body:
-      'The same reasoning engine behind Cortex Chat and Cortex Cowork is reachable via four protocols: REST, MCP, AG-UI, A2A. The twelve-database surface, DQI scoring, and the three HITL gates — all behind one API key. Build LCA retrieval into your own product without maintaining the databases yourself.',
+      'The same reasoning engine behind Cortex Chat and Cortex Cowork is reachable via four protocols: REST, MCP, AG-UI, A2A. The twelve-database surface, DQI scoring, and the decision-back-to-practitioner mechanism — all behind one API key. Build LCA retrieval into your own product without maintaining the databases yourself.',
     href: '/docs',
     cta: 'Read the API docs',
   },
@@ -66,8 +66,8 @@ const claims = [
     body: 'Temporal, Geographic, Technology, Completeness, Reliability — the Pedigree Matrix operationalized per EF method. Cortex normalizes to 0–1 with higher scoring as better. The score is not a confidence interval; it is five named dimensions the practitioner can audit independently.',
   },
   {
-    stat: 'Three gates where a human decides',
-    body: 'Coverage below 80%. Proxy substitution required. Cross-database GWP spread above 2×. At each gate, Cortex pauses, surfaces the choice, and waits. The automation stops at the moment where a silent answer would break an audit. The practitioner decides; Cortex records the decision in the reasoning chain.',
+    stat: 'Decisions return to the practitioner',
+    body: "Cortex pauses where automation would break an audit — coverage gaps, proxy substitutions, large cross-database spread, restricted-data markers, ambiguous system-model matches. The practitioner decides. Cortex records the decision in the reasoning chain. There is no implicit threshold a model crosses silently.",
   },
 ];
 ---
@@ -96,7 +96,7 @@ const claims = [
           </h1>
 
           <p class="rise rise-3 mt-10 max-w-xl font-serif italic" style="font-size: 1.14rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink);">
-            Match emission factors across <strong style="color: var(--ink); font-weight: 500; font-style: normal;">twelve LCA databases</strong>. Score every candidate by DQI. Stop at the three gates where automation breaks an audit. Every export, defendable.
+            Match emission factors across <strong style="color: var(--ink); font-weight: 500; font-style: normal;">twelve LCA databases</strong>. Score every candidate by DQI. Pause where automation would break an audit. Every export, defendable.
           </p>
 
           <div class="rise rise-5 mt-12 flex flex-wrap items-center gap-4">
@@ -116,7 +116,7 @@ const claims = [
             </div>
             <div>
               <span class="eyebrow block mb-2">fig. 2</span>
-              Twelve databases. Five DQI dimensions. Three gates. One conversation.
+              Twelve databases. Five DQI dimensions. Decisions you can trace. One conversation.
             </div>
           </div>
         </aside>

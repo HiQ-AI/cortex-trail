@@ -25,7 +25,7 @@ const scenarios = [
     numeral: 'I',
     label: 'Bulk BOM matching',
     body:
-      'Upload a Bill of Materials — Excel, CSV, or pasted text. Cortex asks the clarifying question that matters: alloy grade, production route, region. Silence on low-signal rows. It then searches HiQLCD, Ecoinvent, EF, CarbonMinds, and more in parallel and returns DQI-scored candidates per row. Three gates pause for your decision: coverage below 80%, proxy substitution, or cross-database GWP spread over 2×.',
+      'Upload a Bill of Materials — Excel, CSV, or pasted text. Cortex asks the clarifying question that matters: alloy grade, production route, region. Silence on low-signal rows. It then searches HiQLCD, Ecoinvent, EF, CarbonMinds, and more in parallel and returns DQI-scored candidates per row. Cortex pauses where automation would break an audit — coverage gaps, proxy substitutions, large cross-database spread — and surfaces the choice for your decision.',
     proof: '100-row BOM · ~10 min · full provenance export',
     href: '/solutions/bom-matching',
     hrefLabel: 'See the full walkthrough',
@@ -137,11 +137,11 @@ const compare = [
       <Asterism class="mb-12" />
       <blockquote class="mx-auto max-w-3xl text-center">
         <p class="pullquote">
-          Top-<em style="color: var(--shell); font-style: italic;">k</em>, not top-1. <em style="color: var(--shell); font-style: italic;">DQI</em>, not confidence score. Three gates where a human decides — not a threshold a model crossed silently.
+          Top-<em style="color: var(--shell); font-style: italic;">k</em>, not top-1. <em style="color: var(--shell); font-style: italic;">DQI</em>, not confidence score. <em style="color: var(--shell); font-style: italic;">A practitioner decides</em> — not a threshold a model crossed silently.
         </p>
       </blockquote>
       <p class="mx-auto mt-10 max-w-2xl font-serif text-center" style="line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink); font-size: 1.05rem;">
-        Cortex returns the candidates ranked by fit: geographic region, technology match, system model. Each carries a DQI across five dimensions. Where coverage drops below 80%, where a proxy substitution is required, or where two databases disagree by more than 2× on GWP, Cortex stops and asks.
+        Cortex returns the candidates ranked by fit: geographic region, technology match, system model. Each carries a DQI across five dimensions. When automation would risk an undefendable answer — coverage drops below 80%, a proxy substitution is required, two databases disagree by more than 2× on GWP — Cortex stops and asks.
       </p>
       <p class="text-center mt-8">
         <a href="/standards" class="smallcaps" style="color: var(--shell);">Standards alignment →</a>

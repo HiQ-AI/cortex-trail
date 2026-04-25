@@ -70,15 +70,17 @@ Cortex does not return a single number per row. It returns a ranked candidate li
 
 The distinction matters. When Cortex searches twelve databases for "304 stainless steel, China, sheet form," it does not pick a winner and hand you one value. It returns the top candidates across HiQLCD, Ecoinvent, EF, and CarbonMinds, each scored on [five DQI dimensions](/blog/what-dqi-actually-measures): Temporal, Geographic, Technology, Completeness, and Reliability. You see the spread. If two databases disagree by more than 2×, Cortex surfaces the disagreement — it does not average silently.
 
-Three conditions are hard-wired to pause the process and return control to you:
+Cortex pauses and returns control to you wherever a silent answer would be undefendable. The common conditions:
 
-1. **Coverage below 80%.** If more than 20% of BOM rows have no confident match, Cortex stops and lists the unmatched rows with candidate datasets. The user decides: expand databases, accept a proxy, or defer.
+- **Coverage below 80%.** If more than 20% of BOM rows have no confident match, Cortex stops and lists the unmatched rows with candidate datasets. You decide: expand databases, accept a proxy, or defer.
 
-2. **Proxy substitution required.** When the closest match is not an exact fit, Cortex names the proxy explicitly — which dataset, what differs, and what the delta implies. You confirm or replace.
+- **Proxy substitution required.** When the closest match is not an exact fit, Cortex names the proxy explicitly — which dataset, what differs, and what the delta implies. You confirm or replace.
 
-3. **Cross-database spread above 2×.** When the same material returns factors that differ by more than 2× across databases, the spread is shown — not resolved automatically.
+- **Cross-database spread above 2×.** When the same material returns factors that differ by more than 2× across databases, the spread is shown — not resolved automatically.
 
-These are not friction. They are the three moments where an audit would later ask "what did you do here?" — and where a silent automation would leave you without an answer.
+- **Restricted data, ambiguous system models, system-boundary disagreements.** Anywhere the next step depends on a judgment call, Cortex stops and asks rather than picks one for you.
+
+These are not friction. They are the moments where an audit would later ask "what did you do here?" — and where a silent automation would leave you without an answer.
 
 Every export from a BOM matching session ships with match type, proxy notes, and source URLs per row. A downstream reviewer — your auditor, your EPD verifier, the CBAM authority — can reach any cell and trace it back to a specific database record without re-running anything.
 

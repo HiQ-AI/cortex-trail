@@ -6,7 +6,7 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'HiQ Cortex — LCA 工作台，每一行都经得起追问';
 const description =
-  '跨 12 个 LCA 数据库匹配排放因子，逐行 DQI 评分，在三道人工确认闸前停住。每一份导出，都能说清来路。';
+  '跨 12 个 LCA 数据库匹配排放因子，逐行 DQI 评分，在自动化会破坏审计的地方停下来让人判断。每一份导出，都能说清来路。';
 
 const audiences = [
   {
@@ -26,7 +26,7 @@ const audiences = [
   {
     label: '面向基于 LCA 数据开发的团队',
     body:
-      'Cortex Chat 和 Cortex Cowork 背后的推理引擎，通过四种协议开放：REST、MCP、AG-UI、A2A。12 个数据库的接入面、DQI 评分、三道人工确认闸——一把 API key 全部接入。把 LCA 检索接进你自己的产品，不用自己维护数据库。',
+      'Cortex Chat 和 Cortex Cowork 背后的推理引擎，通过四种协议开放：REST、MCP、AG-UI、A2A。12 个数据库的接入面、DQI 评分、决策回到人手里的暂停机制——一把 API key 全部接入。把 LCA 检索接进你自己的产品，不用自己维护数据库。',
     href: '/zh/docs',
     cta: '阅读 API 文档',
   },
@@ -63,8 +63,8 @@ const claims = [
     body: '时间性、地理性、技术性、完整性、可靠性——即 Pedigree Matrix 在 EF 方法中的操作化。Cortex 归一化到 0–1，分数越高越好。这不是置信区间；这是五个具名维度，从业者可以独立审查每一个。',
   },
   {
-    stat: '三道人工确认闸',
-    body: '覆盖率低于 80%。需要代理值替换。跨库 GWP 差异超过 2×。每道闸触发时，Cortex 暂停，呈现选择，等待。自动化在"沉默的答案会破坏审计"的那一刻停下来。由从业者决定；Cortex 把决定记入推理链。',
+    stat: '决策回到人手里',
+    body: 'Cortex 在自动化会破坏审计的地方停下来——覆盖率不够、需要代理值替换、跨库 GWP 差异显著、受限数据无访问、系统模型匹配不明确。由从业者判断。Cortex 把决定记入推理链。没有任何阈值是模型悄悄过掉的。',
   },
 ];
 ---
@@ -93,7 +93,7 @@ const claims = [
           </h1>
 
           <p class="rise rise-3 mt-10 max-w-xl font-serif italic" style="font-size: 1.12rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-            跨 <strong style="color: var(--ink); font-weight: 500; font-style: normal;">12 个 LCA 数据库</strong>匹配排放因子，逐行 DQI 评分，在三道人工确认闸前停住。每一份导出，都能说清来路。
+            跨 <strong style="color: var(--ink); font-weight: 500; font-style: normal;">12 个 LCA 数据库</strong>匹配排放因子，逐行 DQI 评分，在自动化会破坏审计的地方停下来让人判断。每一份导出，都能说清来路。
           </p>
 
           <div class="rise rise-5 mt-12 flex flex-wrap items-center gap-4">
@@ -113,7 +113,7 @@ const claims = [
             </div>
             <div>
               <span class="eyebrow block mb-2">图二</span>
-              12 个数据库。DQI 五维。三道确认闸。一次对话。
+              12 个数据库。DQI 五维。决策可追溯。一次对话。
             </div>
           </div>
         </aside>

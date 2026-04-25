@@ -96,7 +96,7 @@ Cortex returns all five dimensions per candidate. When you search for a material
 
 Low scores appear in the export. A candidate with a high Reliability score and low Temporal score will show both. The practitioner sees the spread and decides: accept the mismatch, search a newer source, or note the limitation in the study report.
 
-DQI scores do not gate the results. The three human-in-the-loop gates that pause Cortex — coverage below 80%, proxy substitution required, cross-database spread above 2× — are separate from DQI. A candidate can pass all three gates and still carry a low temporal score. That is intentional: gating on DQI would suppress legitimate datasets that are geographically or temporally imperfect but still the best available. Cortex surfaces the information; the practitioner carries the judgment.
+DQI scores do not gate the results. Cortex pauses on different signals — coverage gaps, required proxies, large cross-database spread, restricted data, ambiguous system-model matches — and DQI is independent of those. A candidate can clear every pause condition and still carry a low temporal score. That is intentional: filtering on DQI would suppress legitimate datasets that are geographically or temporally imperfect but still the best available. Cortex surfaces the information; the practitioner carries the judgment.
 
 ---
 
