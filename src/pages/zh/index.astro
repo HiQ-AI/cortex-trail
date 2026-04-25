@@ -53,27 +53,6 @@ const products = [
   },
 ];
 
-const qualities = [
-  {
-    numeral: 'I',
-    key: '慢',
-    body:
-      'LCA 之所以慢，不是因为工具陈旧，而是因为问题本身就难：系统边界、分摊方法、代理值论证、跨库差异。跳过这些问题，得到的数字在第一个追问面前就会崩塌。Cortex 不跳过它们。三道确认闸——覆盖率低于 80%、需要代理值、跨库 GWP 差异超过 2×——不是摩擦，是自动化应当停下来的那些时刻。',
-  },
-  {
-    numeral: 'II',
-    key: '壳',
-    body:
-      'Cortex 返回的每一条答案，都附着：引用的数据集、保留的系统模型、明确标注的代理值假设、五维 DQI 分项评分。这个包裹——壳——跟着输出一起走。三个月后打开导出文件的审计员，看到的推理链和从业者当时在对话里跑的一模一样。',
-  },
-  {
-    numeral: 'III',
-    key: '痕',
-    body:
-      '蜗牛走过的地方，会留下可见的痕迹。审计员、监管机构、法务人员需要的正是这个——一条从最终数字回溯到原始问题的路径，双向可走。Cortex 的痕迹是审计日志：搜索了哪些数据库、候选项如何排序、哪些阈值触发了暂停、从业者在每道闸前做了什么决定。痕迹本身，就是可交付物。',
-  },
-];
-
 const claims = [
   {
     stat: '跨 12 个数据库并行检索',
@@ -117,10 +96,6 @@ const claims = [
             跨 <strong style="color: var(--ink); font-weight: 500; font-style: normal;">12 个 LCA 数据库</strong>匹配排放因子，逐行 DQI 评分，在三道人工确认闸前停住。每一份导出，都能说清来路。
           </p>
 
-          <p class="rise rise-4 mt-6 max-w-xl font-serif" style="font-size: 0.96rem; line-height: 1.7; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">
-            面向 LCA 从业者、可持续发展团队，以及审计这份工作的审核员。
-          </p>
-
           <div class="rise rise-5 mt-12 flex flex-wrap items-center gap-4">
             <a href="/zh/solutions/bom-matching" class="ticket">查看 BOM 匹配流程 <span aria-hidden="true">→</span></a>
             <a href="/chat" class="ticket-ghost">试用 Cortex Chat</a>
@@ -150,11 +125,8 @@ const claims = [
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
       <SectionMark kicker="三扇门" numeral="II" title="工作内容不同，底层引擎相同。选那扇属于你的门。" />
-      <p class="max-w-2xl font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Cortex 覆盖 LCA 从业者的整个工作日——从单条物料查询，到多周 CBAM 申报。三类受众，三个入口。
-      </p>
 
-      <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
+      <div class="mt-12 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
         {audiences.map((a, i) => (
           <article class="p-8 md:p-10 flex flex-col gap-5" style="background: var(--paper);">
             <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.1rem;">§ {String(i + 1).padStart(2, '0')}</span>
@@ -195,30 +167,16 @@ const claims = [
       <SectionMark kicker="为什么是蜗牛" numeral="IV" title="刻意选了火箭的反面。" />
 
       <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        LCA 不是火箭行业。一份 CBAM 申报或 EPD 背后，每一个数字都要经得住读过 ISO 14044 的审计员的审查——他们专门在找那一行站不住的数据。
+        一份 CBAM 申报或 EPD 背后的每一个数字，都要经得住读过 ISO 14044 的审计员的审查——他们专门在找那一行站不住的数据。Cortex 在后端做的是最快的事——12 个数据库并行检索、并行工具调用、大规模 LLM 推理。但它交付的始终是最慢的那件：一条能被逐条复核的推理链。
       </p>
-
-      <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
-        {qualities.map((q) => (
-          <article class="p-8 md:p-10 flex flex-col gap-5" style="background: var(--paper);">
-            <div class="flex items-baseline justify-between">
-              <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40, 'opsz' 24; font-size: 1.25rem;">§ {q.numeral}</span>
-              <span class="eyebrow">{q.key}</span>
-            </div>
-            <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.1; letter-spacing: -0.015em;">{q.key}</h3>
-            <p class="font-serif" style="line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{q.body}</p>
-          </article>
-        ))}
-      </div>
 
       <Asterism />
 
       <blockquote class="mx-auto max-w-3xl text-center">
         <p class="pullquote">
-          Cortex 在后端做的是最快的事。但它对外交付的始终是最慢的那件：
-          <em style="color: var(--shell); font-style: italic;">一条能被逐条复核的推理链。</em>
+          慢，是 <em style="color: var(--shell); font-style: italic;">Cortex</em> 最重要的承诺。
         </p>
-        <footer class="eyebrow mt-6">慢，是 Cortex 最重要的承诺。</footer>
+        <footer class="eyebrow mt-6"><a href="/zh/about" style="color: var(--shell);">为什么选蜗牛 →</a></footer>
       </blockquote>
     </div>
   </section>

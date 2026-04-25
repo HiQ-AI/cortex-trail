@@ -106,24 +106,15 @@ curl -sN -X POST https://x.hiqlcd.com/api/cortex/a2a/agents/chat/v1/message:stre
     </div>
   </section>
 
-  <!-- §I What this page is -->
-  <section class="border-t border-rule">
-    <div class="container-page py-14 md:py-16">
-      <SectionMark kicker="本页说明" numeral="I" title="路由页，非完整参考。" />
-      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Cortex 提供 4 个协议——REST、MCP、AG-UI、A2A——完整参考在{' '}
-        <a href="https://docs.x.hiq.earth" style="color: var(--shell);">docs.x.hiq.earth</a>。
-        下面：每个协议的使用时机、一段最小调用示例，以及发送第一个请求前需要的认证和限流信息。
-      </p>
-    </div>
-  </section>
-
-  <!-- §II Authentication -->
+  <!-- §I Authentication -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-14 md:py-16">
-      <SectionMark kicker="认证" numeral="II" title="一个 header。两条限制。" />
+      <SectionMark kicker="认证" numeral="I" title="一个 header。两条限制。" />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.02rem; line-height: 1.8; font-variation-settings: 'opsz' 18; color: var(--ink);">
-        <p>所有 Cortex 端点统一使用同一个 header：</p>
+        <p>
+          API 密钥目前不支持自助开通。发邮件到 <a href="mailto:info@hiqlcd.com" style="color: var(--shell);">info@hiqlcd.com</a>，说明使用场景和所需协议；HiQ-AI 配置密钥并提供账户控制台链接。
+        </p>
+        <p>拿到密钥后，所有 Cortex 端点统一使用同一个 header：</p>
         <pre class="font-mono" style="background: var(--paper); border: 1px solid var(--rule); padding: 0.9rem 1.1rem; font-size: 0.85rem; overflow-x: auto;"><code>X-API-Key: sk_xxx</code></pre>
         <p>
           MCP 端点同时接受 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">Authorization: Bearer sk_xxx</code>。
@@ -167,7 +158,7 @@ curl -sN -X POST https://x.hiqlcd.com/api/cortex/a2a/agents/chat/v1/message:stre
   <!-- §III Four protocols -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="4 个协议" numeral="III" title="各取所需。" />
+      <SectionMark kicker="4 个协议" numeral="II" title="各取所需。" />
 
       <div class="mt-12 space-y-14">
         {protocols.map((p) => (
@@ -198,7 +189,7 @@ curl -sN -X POST https://x.hiqlcd.com/api/cortex/a2a/agents/chat/v1/message:stre
   <!-- §IV Common patterns -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-16 md:py-20">
-      <SectionMark kicker="常见用法" numeral="IV" title="按数据源和系统模型过滤。" />
+      <SectionMark kicker="常见用法" numeral="III" title="按数据源和系统模型过滤。" />
       <div class="max-w-3xl space-y-4 font-serif" style="font-size: 1.02rem; line-height: 1.8; font-variation-settings: 'opsz' 18; color: var(--ink);">
         <p>
           在 REST 请求体中以 JSON 字符串形式传递
@@ -232,14 +223,12 @@ curl -sN -X POST https://x.hiqlcd.com/api/cortex/a2a/agents/chat/v1/message:stre
   <!-- §V Get an API key -->
   <section class="border-t border-rule">
     <div class="container-page py-16 md:py-20">
-      <SectionMark kicker="申请访问" numeral="V" title="获取 API 密钥。" />
+      <SectionMark kicker="支持" numeral="IV" title="出问题怎么办。" />
       <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.8; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        API 访问目前不支持自助开通。请发邮件至{' '}
-        <a href="mailto:info@hiqlcd.com" style="color: var(--shell);">info@hiqlcd.com</a>，
-        说明使用场景和所需协议。HiQ-AI 会配置密钥并提供账户控制台链接。现有集成遇到问题——
         认证报错、限流疑问、数据集覆盖范围——请在{' '}
         <a href="https://github.com/HiQ-AI/cortex-desktop/issues" style="color: var(--shell);">GitHub Issues</a>{' '}
-        提 Issue。
+        提 Issue。账户、计费、申请新密钥相关，邮件至{' '}
+        <a href="mailto:info@hiqlcd.com" style="color: var(--shell);">info@hiqlcd.com</a>。
       </p>
     </div>
   </section>

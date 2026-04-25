@@ -52,7 +52,7 @@ const compare = [
   ['会话历史',           '云端同步',                       '仅本地'],
   ['文件访问',           '无本地文件',                     '完全读写'],
   ['脚本执行',           '不支持',                         '本地执行'],
-  ['技能系统',           '受限',                           '完整技能市场 + 自定义 MCP'],
+  ['技能系统',           '核心搜索技能',                   '完整技能市场 + 自定义 MCP'],
   ['LCA 数据库检索',     '支持',                           '支持'],
   ['适合场景',           '快速问答、方法论咨询',           'BOM 匹配、报告生成、项目工作'],
 ];
@@ -133,13 +133,9 @@ const compare = [
   </section>
 
   <section class="border-t border-rule">
-    <div class="container-page py-16 md:py-20">
-      <div class="eyebrow mb-3">相同的判断纪律 · 你的文件</div>
-      <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Cowork 继承 Cortex 的核心推理规则：按 DQI 排序的 top-k 候选、三个人工介入节点（覆盖率低于 80%、需要替代值、跨库差异超过 2×），每个假设显式命名。区别在于：在 Cowork 里，这些节点在多步会话中触发，操作的是磁盘上的真实文件，决策跨天积累。
-      </p>
-      <p class="mt-6">
-        <a href="/zh/standards" class="smallcaps" style="color: var(--shell);">标准对齐 →</a>
+    <div class="container-page py-12 md:py-14">
+      <p class="max-w-3xl font-serif italic" style="font-size: 1.05rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        三道闸在 Cowork 的多步会话里触发——决策跨天积累。<a href="/zh/standards" style="color: var(--shell); font-style: normal;">标准对齐 →</a>
       </p>
     </div>
   </section>

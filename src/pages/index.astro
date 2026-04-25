@@ -55,28 +55,6 @@ const products = [
   },
 ];
 
-// §IV — Snail triptych (Slow / Shell / Trail)
-const qualities = [
-  {
-    numeral: 'I',
-    key: 'Slow',
-    body:
-      'LCA is not slow because the tools are old. It is slow because the questions are hard: system boundary, allocation method, proxy justification, cross-database spread. Rushing past those questions produces a number that breaks under the first follow-up. Cortex does not skip them. The three gates — coverage below 80%, proxy required, cross-database spread above 2× — are not friction. They are the moments where a fast answer would break an audit.',
-  },
-  {
-    numeral: 'II',
-    key: 'Shell',
-    body:
-      'Every answer Cortex returns includes the dataset cited, the system model preserved, the proxy assumption named, the DQI dimension scores attached. That package — the shell — travels with the output. The auditor who opens the export three months later sees the same reasoning chain the practitioner ran in the conversation.',
-  },
-  {
-    numeral: 'III',
-    key: 'Trail',
-    body:
-      "A snail leaves a visible mark on everything it crosses. Auditors, regulators, and internal reviewers need exactly that — a path from the final number back to the original question, passable in either direction. Cortex's trail is the audit log: which databases were searched, which candidates were ranked, which thresholds paused the run, what the practitioner decided at each gate. The trail is the deliverable.",
-  },
-];
-
 // §V — Trust signal
 const claims = [
   {
@@ -121,10 +99,6 @@ const claims = [
             Match emission factors across <strong style="color: var(--ink); font-weight: 500; font-style: normal;">twelve LCA databases</strong>. Score every candidate by DQI. Stop at the three gates where automation breaks an audit. Every export, defendable.
           </p>
 
-          <p class="rise rise-4 mt-6 max-w-xl font-serif" style="font-size: 0.96rem; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">
-            For LCA practitioners, sustainability teams, and the auditors who review their work.
-          </p>
-
           <div class="rise rise-5 mt-12 flex flex-wrap items-center gap-4">
             <a href="/solutions/bom-matching" class="ticket">See a BOM walkthrough <span aria-hidden="true">→</span></a>
             <a href="/chat" class="ticket-ghost">Try Cortex Chat</a>
@@ -154,11 +128,8 @@ const claims = [
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
       <SectionMark kicker="Three doors in" numeral="II" title="Different work, same engine. Pick the door that matches yours." />
-      <p class="max-w-2xl font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Cortex spans the LCA practitioner's day from a single material lookup to a multi-week CBAM filing. Three audiences, three entry points.
-      </p>
 
-      <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
+      <div class="mt-12 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
         {audiences.map((a, i) => (
           <article class="p-8 md:p-10 flex flex-col gap-5" style="background: var(--paper);">
             <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.1rem;">§ {String(i + 1).padStart(2, '0')}</span>
@@ -199,30 +170,16 @@ const claims = [
       <SectionMark kicker="Why a snail" numeral="IV" title="The opposite of a rocket, on purpose." />
 
       <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        The LCA field is not a rocket industry. Every number in a CBAM filing, an EPD, or a Scope 3 report has to survive the scrutiny of an auditor who has read ISO 14044 and is looking for the row that doesn't hold.
+        Every number in a CBAM filing, an EPD, or a Scope 3 report has to survive an auditor who has read ISO 14044 and is looking for the row that doesn't hold. Cortex does the fastest things available on the backend — parallel retrieval across twelve databases, concurrent tool calls, LLM at scale. It delivers the slowest thing: a chain of reasoning you can audit, line by line.
       </p>
-
-      <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
-        {qualities.map((q) => (
-          <article class="p-8 md:p-10 flex flex-col gap-5" style="background: var(--paper);">
-            <div class="flex items-baseline justify-between">
-              <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40, 'opsz' 24; font-size: 1.25rem;">§ {q.numeral}</span>
-              <span class="eyebrow">{q.key}</span>
-            </div>
-            <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.05; letter-spacing: -0.015em;">{q.key}</h3>
-            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{q.body}</p>
-          </article>
-        ))}
-      </div>
 
       <Asterism />
 
       <blockquote class="mx-auto max-w-3xl text-center">
         <p class="pullquote">
-          Cortex does the fastest things on the backend. What it delivers is always the slowest thing:
-          <em style="color: var(--shell); font-style: italic;">a chain of reasoning you can audit, line by line.</em>
+          Slow is <em style="color: var(--shell); font-style: italic;">Cortex's</em> most important promise.
         </p>
-        <footer class="eyebrow mt-6">Slow is Cortex's most important promise.</footer>
+        <footer class="eyebrow mt-6"><a href="/about" style="color: var(--shell);">Read why we picked a snail →</a></footer>
       </blockquote>
     </div>
   </section>

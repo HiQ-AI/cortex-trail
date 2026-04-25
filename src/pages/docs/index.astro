@@ -110,25 +110,15 @@ curl -sN -X POST https://x.hiqlcd.com/api/cortex/a2a/agents/chat/v1/message:stre
     </div>
   </section>
 
-  <!-- §I What this page is -->
-  <section class="border-t border-rule">
-    <div class="container-page py-14 md:py-16">
-      <SectionMark kicker="What this page is" numeral="I" title="A routing page, not a reference." />
-      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Cortex exposes four protocols — REST, MCP, AG-UI, and A2A — each documented fully at
-        <a href="https://docs.x.hiq.earth" style="color: var(--shell);">docs.x.hiq.earth</a>.
-        Below: one paragraph per protocol explaining when to reach for it, one minimal call,
-        and the auth and rate-limit facts you need before your first request.
-      </p>
-    </div>
-  </section>
-
-  <!-- §II Authentication -->
+  <!-- §I Authentication -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-14 md:py-16">
-      <SectionMark kicker="Authentication" numeral="II" title="One header. Two limits." />
+      <SectionMark kicker="Authentication" numeral="I" title="One header. Two limits." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.02rem; line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink);">
-        <p>Every Cortex endpoint accepts one header:</p>
+        <p>
+          Keys are not self-serve at this time. Email <a href="mailto:info@hiqlcd.com" style="color: var(--shell);">info@hiqlcd.com</a> with your use case and preferred protocol; HiQ-AI provisions a key and shares the account console link.
+        </p>
+        <p>Once you have a key, every Cortex endpoint accepts one header:</p>
         <pre class="font-mono" style="background: var(--paper); border: 1px solid var(--rule); padding: 0.9rem 1.1rem; font-size: 0.85rem; overflow-x: auto;"><code>X-API-Key: sk_xxx</code></pre>
         <p>
           MCP also accepts <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">Authorization: Bearer sk_xxx</code>.
@@ -173,7 +163,7 @@ curl -sN -X POST https://x.hiqlcd.com/api/cortex/a2a/agents/chat/v1/message:stre
   <!-- §III Four protocols -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Four protocols" numeral="III" title="When to reach for each." />
+      <SectionMark kicker="Four protocols" numeral="II" title="When to reach for each." />
 
       <div class="mt-12 space-y-14">
         {protocols.map((p) => (
@@ -204,7 +194,7 @@ curl -sN -X POST https://x.hiqlcd.com/api/cortex/a2a/agents/chat/v1/message:stre
   <!-- §IV Common patterns -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-16 md:py-20">
-      <SectionMark kicker="Common patterns" numeral="IV" title="Filter by source and system model." />
+      <SectionMark kicker="Common patterns" numeral="III" title="Filter by source and system model." />
       <div class="max-w-3xl space-y-4 font-serif" style="font-size: 1.02rem; line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink);">
         <p>
           Pass <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">session_state</code>
@@ -226,14 +216,12 @@ curl -sN -X POST https://x.hiqlcd.com/api/cortex/a2a/agents/chat/v1/message:stre
   <!-- §V Get an API key -->
   <section class="border-t border-rule">
     <div class="container-page py-16 md:py-20">
-      <SectionMark kicker="Access" numeral="V" title="Get an API key." />
+      <SectionMark kicker="Support" numeral="IV" title="When something breaks." />
       <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        API access is not self-serve at this time. Send a note to{' '}
-        <a href="mailto:info@hiqlcd.com" style="color: var(--shell);">info@hiqlcd.com</a>
-        with your use case and preferred protocol. HiQ-AI will provision a key and share the
-        account console link. For issues with an existing integration — authentication
-        errors, rate-limit questions, dataset coverage — open a ticket on the{' '}
+        Authentication errors, rate-limit questions, dataset coverage gaps — open a ticket on the{' '}
         <a href="https://github.com/HiQ-AI/cortex-desktop/issues" style="color: var(--shell);">GitHub issues tracker</a>.
+        For account, billing, or new-key requests, email{' '}
+        <a href="mailto:info@hiqlcd.com" style="color: var(--shell);">info@hiqlcd.com</a>.
       </p>
     </div>
   </section>
