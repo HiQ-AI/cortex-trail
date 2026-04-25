@@ -6,38 +6,40 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'HiQ Cortex — LCA 工作台，每一行都经得起追问';
 const description =
-  '跨 12 个 LCA 数据库匹配排放因子，逐行 DQI 评分，在自动化会破坏审计的地方停下来让人判断。每一份导出，都能说清来路。';
+  '多数 LCA 工具以最快给出数字为目标。Cortex 以审计员追问来路时答案还站得住脚为目标。14 个数据库，双语检索，每条代理值有标注。';
 
+// §II — 三扇门
 const audiences = [
   {
-    label: '面向 LCA 顾问和审核员',
+    label: '面向 LCA 顾问和 EPD 审核员',
     body:
-      '在数据库标签页之间往返的时间压缩成一次对话。Cortex 跨 12 个数据库并行检索，逐行返回 DQI 评分候选项，在审核员之前替你标出缺口。方法论问答引用的是数据集记录本身，不是训练数据的摘要。',
+      '在数据库标签页之间往返的时间压缩成一次对话。Cortex 跨 14 个数据库并行检索，逐行返回附带 GWP100 的候选项，在审核员之前替你标出缺口。方法论问答引用的是数据集记录本身，不是摘要。',
     href: '/zh/solutions/bom-matching',
     cta: '查看 BOM 匹配',
   },
   {
     label: '面向可持续发展与 CBAM 团队',
     body:
-      'CBAM 申报要求嵌入式排放证据，而供应商往往还没提交。Cortex 准备《附件 IV》所需的排放因子和代理值论证材料，支持 GHG Protocol 全部 15 个范围三类别，并保留系统模型元数据——让申报内容读起来是准确的，而不是近似的。',
-    href: '/zh/standards',
-    cta: '查看标准对齐',
+      'CBAM 申报要求嵌入式排放证据，而供应商往往还没提交。HiQLCD 收录 31,523 行中国特定 LCI 数据——30 个省级电网变体，中国钢铁默认 BF-BOF 路线，铝的 GWP100 值基于中国电网强度构建。一次查询，中国工厂数据与 EU 参考数据集并排呈现。',
+    href: '/zh/china',
+    cta: '查看中国数据',
   },
   {
     label: '面向基于 LCA 数据开发的团队',
     body:
-      'Cortex Chat 和 Cortex Cowork 背后的推理引擎，通过四种协议开放：REST、MCP、AG-UI、A2A。12 个数据库的接入面、DQI 评分、决策回到人手里的暂停机制——一把 API key 全部接入。把 LCA 检索接进你自己的产品，不用自己维护数据库。',
+      'Cortex Chat 和 Cortex Cowork 背后的推理引擎，通过四种协议开放：REST、MCP、AG-UI、A2A。14 个数据库的接入面、双语检索、决策回到人手里的暂停机制——一把 API key 全部接入。把 LCA 检索接进你自己的产品，不用自己维护数据库。',
     href: '/zh/docs',
     cta: '阅读 API 文档',
   },
 ];
 
+// §III — 两款产品
 const products = [
   {
     name: 'Cortex Chat',
     label: 'CORTEX CHAT · WEB',
     body:
-      '带来物料名称、一行 BOM，或一个标准问题。Cortex 先问一个澄清问题——合金牌号、生产路线、地区——然后跨 12 个数据库检索，返回附带 GWP100 和五维 DQI 评分的候选数据集。不需要配置表格，不需要数据库许可证才能发问。',
+      '带来物料名称、一行 BOM、中文工厂术语，或一个方法论问题。Cortex 先问一个澄清问题——生产路线、地区、合金牌号——然后跨 14 个数据库检索，返回附带 GWP100 和来源溯源的候选数据集排名。不需要配置表格，响应语言跟随提问语言。',
     proof: '物料查询 · 约 2 分钟 · 附溯源的数据集排名',
     primary: { href: '/chat', label: '打开 Cortex Chat' },
     secondary: { href: '/zh/product/chat', label: '产品详情' },
@@ -46,25 +48,30 @@ const products = [
     name: 'Cortex Cowork',
     label: 'CORTEX COWORK · DESKTOP',
     body:
-      'LCA 项目跨越数周。CBAM 申报有完整的文件轨迹。Cowork 跨会话保留项目状态——项目工作区、决策日志、引用历史、六层记忆，让周一的代理值替换在周五仍然可查。从本地磁盘读取文件，运行本地工具，在一次对话中驱动 openLCA。',
+      'LCA 项目跨越数周。Cowork 跨会话保留项目状态：项目工作区、六层记忆、只追加不覆盖的审计日志，记录每一次决策和代理值替换。从本地磁盘读取 BOM 文件，把匹配结果写回四表 xlsx，本地驱动 openLCA。支持 macOS、Windows 和 Linux。',
     proof: '多会话项目 · 完整溯源 · 可导出的推理链',
     primary: { href: 'https://github.com/HiQ-AI/cortex-desktop/releases/latest', label: '下载 Cortex Desktop' },
     secondary: { href: '/zh/product/cowork', label: '产品详情' },
   },
 ];
 
+// §V — 四条声明
 const claims = [
   {
-    stat: '跨 12 个数据库并行检索',
-    body: 'HiQLCD、Ecoinvent、EF（环境足迹）、CarbonMinds、天工、World Steel、HiQLCD-AL，以及其他数据库。每条候选项返回 GWP100 值、单位、地理区域和系统模型。受限（需授权）的数据集返回标记，GWP 值在获得访问权限前不展示。返回的是 top-k，不是 top-1。从业者看到的是数据的分布，不是单一答案。',
+    stat: '14 个数据库并行检索',
+    body: 'HiQLCD 1.4.0、Ecoinvent 3.12.0、EF 3.1.0、CarbonMinds 2.0.2、Agri-footprint 7.0、TianGong、WorldSteel、HiQLCD-AL 2.0.0，以及另外六个。每条候选项返回数据集名称、单位、地理区域、系统模型，以及——在许可范围内——GWP100。受限数据集返回授权标记；不用文献值代替。返回的是 top-k，不是 top-1。从业者看到的是数据的分布。',
   },
   {
-    stat: 'DQI 五维评分',
-    body: '时间性、地理性、技术性、完整性、可靠性——即 Pedigree Matrix 在 EF 方法中的操作化。Cortex 归一化到 0–1，分数越高越好。这不是置信区间；这是五个具名维度，从业者可以独立审查每一个。',
+    stat: '双语检索：工厂术语到数据集 ID',
+    body: '20,000 条中文 LCA 术语词典，加上 2,083 条专家人工标注的从中文工厂名称到 LCA 数据集 ID 的映射。"背钩"解析到 HiQLCD 中 304 不锈钢冷轧退火卷材数据集。"IGBT 模块"命中 Ecoinvent 中电动汽车应用 IGBT 数据集，而不是通用晶体管条目。Cortex 响应语言跟随查询语言；数据集名称双语返回。',
   },
   {
-    stat: '决策回到人手里',
-    body: 'Cortex 在自动化会破坏审计的地方停下来——覆盖率不够、需要代理值替换、跨库 GWP 差异显著、受限数据无访问、系统模型匹配不明确。由从业者判断。Cortex 把决定记入推理链。没有任何阈值是模型悄悄过掉的。',
+    stat: '每条结果附带溯源',
+    body: '来源数据库、版本字符串、系统模型、数据集键——每条候选项、每次导出、每次查询时均包含。历史导出在提供方发布新版本时不会被追溯修改。每次导出记录的是导出时刻的版本。',
+  },
+  {
+    stat: '平台从从业者的工作中持续复利',
+    body: 'Cortex Cowork 在后台对会话建立索引。当两个或更多会话共享相同的工作流形态时，后台进程读取对话记录并写入一条技能——一份结构化的操作指南，在下次遇到类似任务时由 agent 加载。无需用户操作。技能可贡献至共享市集；平台的 LCA 智识不固定在安装时的版本。',
   },
 ];
 ---
@@ -93,7 +100,7 @@ const claims = [
           </h1>
 
           <p class="rise rise-3 mt-10 max-w-xl font-serif italic" style="font-size: 1.12rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-            跨 <strong style="color: var(--ink); font-weight: 500; font-style: normal;">12 个 LCA 数据库</strong>匹配排放因子，逐行 DQI 评分，在自动化会破坏审计的地方停下来让人判断。每一份导出，都能说清来路。
+            多数 LCA 工具以最快给出数字为目标。Cortex 以审计员追问来路时答案还站得住脚为目标。<strong style="color: var(--ink); font-weight: 500; font-style: normal;">14 个数据库</strong>并行。每条代理值有标注。
           </p>
 
           <div class="rise rise-5 mt-12 flex flex-wrap items-center gap-4">
@@ -113,7 +120,7 @@ const claims = [
             </div>
             <div>
               <span class="eyebrow block mb-2">图二</span>
-              12 个数据库。DQI 五维。决策可追溯。一次对话。
+              14 个数据库。双语检索。决策可追溯。一次对话。
             </div>
           </div>
         </aside>
@@ -167,7 +174,7 @@ const claims = [
       <SectionMark kicker="为什么是蜗牛" numeral="IV" title="刻意选了火箭的反面。" />
 
       <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        一份 CBAM 申报或 EPD 背后的每一个数字，都要经得住读过 ISO 14044 的审计员的审查——他们专门在找那一行站不住的数据。Cortex 在后端做的是最快的事——12 个数据库并行检索、并行工具调用、大规模 LLM 推理。但它交付的始终是最慢的那件：一条能被逐条复核的推理链。
+        一份 CBAM 申报、一份 EPD、一份范围三报告里的每一个数字，都要经得住读过 ISO 14044 的审计员的审查——他们专门在找那一行站不住的数据。Cortex 在后端做的是最快的事——跨 14 个数据库并行检索、并行工具调用、大规模 LLM 推理。但它交付的始终是最慢的那件：一条能被逐条复核的推理链。
       </p>
 
       <Asterism />
@@ -181,10 +188,10 @@ const claims = [
     </div>
   </section>
 
-  <!-- §V 三条声明 -->
+  <!-- §V 四条声明 -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="壳里装着什么" numeral="V" title="三条声明，每一条都能从 Cortex 的工作方式里验证。" />
+      <SectionMark kicker="壳里装着什么" numeral="V" title="四条声明，每一条都能从 Cortex 的工作方式里验证。" />
 
       <div class="mt-12 border-y border-rule">
         {claims.map((c, i) => (
@@ -206,11 +213,11 @@ const claims = [
         从一个问题开始。
       </h2>
       <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.1rem; line-height: 1.75; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        粘贴一个物料名称。上传一份 BOM。询问那个排放因子对中国供应商是否适用。Cortex 给出答案——并展示推导过程。不需要配置表格。发问不需要数据库许可证。
+        粘贴一个物料名称。上传一份 BOM。询问那个排放因子对中国供应商是否适用。Cortex 给出答案——并展示推导过程。
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
         <a href="/chat" class="ticket">试用 Cortex Chat <span aria-hidden="true">→</span></a>
-        <a href="/zh/standards" class="ticket-ghost">查看标准对齐</a>
+        <a href="/pricing" class="ticket-ghost">查看定价</a>
       </div>
       <p class="mt-6 font-mono" style="font-size: 0.78rem; letter-spacing: 0.06em; color: var(--ink-faint);">
         <a href="mailto:info@hiqlcd.com" style="color: var(--ink-faint); text-decoration: none;">info@hiqlcd.com</a>

@@ -1,0 +1,173 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Asterism from '@/components/Asterism.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = '技能库 — HiQ Cortex';
+const description =
+  '随工作积累的能力库。Cortex 内置核心 LCA 工作流；重复出现的模式自动沉淀为技能，由平台持续携带。';
+
+const tiers = [
+  {
+    label: '内置',
+    body: '每次安装已装载核心技能：bom-analysis（从原始 BOM 到 DQI 评分候选的 6 步工作流）、querying-lca-datasets（跨 14 个数据库的检索匹配流程）、scope3-guidance（GHG Protocol 全部 15 个范围三类别）、en-15804-indicators。首次会话即可运行，无需任何配置。',
+  },
+  {
+    label: '市场',
+    body: '由从业者贡献、经 HiQ-AI 审核、向所有用户开放的技能。Cortex 在启动时静默检查更新并下载。标记为离线可用的技能在断网状态下仍可使用。平台必要技能不可停用；其余技能均可在 SkillsCenter 安装、卸载或切换。',
+  },
+  {
+    label: '自定义',
+    body: '仅存在于本机、针对你的工作场景定制的技能。可导入自己编写的技能，也可在会话结束后由自动观察流程生成。',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} locale="zh">
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">产品 · 技能库</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 22ch;">
+        随工作<em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">积累</em>的能力库。
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex 内置核心 LCA 工作流，开箱即用。会话在后台持续被索引——重复出现的模式自动沉淀为技能，由平台携带进下一次会话。
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="#tiers" class="ticket">查看技能库 <span aria-hidden="true">→</span></a>
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket-ghost">下载 Cortex</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- §I 什么是技能 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="什么是技能" numeral="I" title="给 Agent 的操作手册。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          每个 LCA 工作流都有自己的形状：需要哪些输入、先查哪几个数据库、覆盖率通常在哪里断掉、代理值决策如何处理。有经验的从业者把这套形状装在脑子里。技能把它编码下来，让下一次会话一开始就知道。
+        </p>
+        <p>
+          技能是 Agent 在会话启动时加载的结构化文件。它包含触发描述、编号步骤，以及可选的参考文档。实际效果是：Agent 走进一个任务时已经知道步骤顺序，用户不必从头再解释一遍。
+        </p>
+        <p>
+          技能不是代码插件，加载时不执行任何程序。它是给 Agent 的操作手册；在每个需要判断的环节，从业者始终是决策者。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §II 三个层级 -->
+  <section id="tiers" class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="三个层级" numeral="II" title="其中两个什么都不用你做。" />
+      <div class="mt-10 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
+        {tiers.map((t) => (
+          <article class="p-7 md:p-8 flex flex-col gap-4" style="background: var(--paper);">
+            <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 36; font-size: 1.4rem; line-height: 1.1; letter-spacing: -0.01em; color: var(--shell);">{t.label}</div>
+            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{t.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §III 自动观察流程 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="无需配置的积累机制" numeral="III" title="你做你的工作。Cortex 读懂它。技能自然出现。" />
+
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          大多数工具从使用中什么都积累不下来。第 365 天的功能集和第 1 天相比，除了补丁，没有区别。
+        </p>
+        <p>
+          Cortex Cowork 在每次会话结束后对其建立索引。索引记录初始意图、调用工具的顺序，以及当时激活的技能。当两次或更多会话呈现相同的形状——同一类任务、相似的工具调用序列——后台流程随即运行。
+        </p>
+        <p>
+          它读取实际会话记录，写出一个技能，保存到你的自定义技能库。
+        </p>
+        <p>
+          下一次看起来像那个工作流的会话，启动时技能已经装载好了。
+        </p>
+        <p>
+          触发阈值是有意为之的：单次会话可能只是偶发。两次会话才构成值得编码的模式。
+        </p>
+        <p>
+          通过这种方式沉淀的技能在 SkillsCenter 中带有"已观察"标记。"近期学习"面板按时间倒序显示，时间戳即你的工作成为会话起点的那一刻。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §IV 市场贡献 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="从本机到市场" numeral="IV" title="两次点击。整个社区。" />
+
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          任何自定义技能——无论是你自己编写的、Agent 在会话后写出的，还是自动观察流程沉淀的——都可以贡献到共享市场。
+        </p>
+        <p>
+          在 SkillsCenter 详情面板点击"贡献"，选择显示名称、分类，以及可选的贡献者署名。
+        </p>
+        <p>
+          在技能离开本机之前，系统会对技能内容进行 PII 扫描。API 密钥、内部 URL、电子邮件地址：任何形似凭据的 token 都会触发拒绝，并给出行号和脱敏预览。系统不会自动修改。从业者自己决定如何处理。
+        </p>
+        <p>
+          扫描通过后，技能以 Pull Request 的形式提交至社区仓库。HiQ-AI 审核后合并，合并后的技能在下次应用启动时对所有用户可用。
+        </p>
+        <p>
+          一位从业者周四为联产品情景开发出新的分摊方案，最快下周就能出现在同事的 Cowork 会话里。不用论坛帖子，也不用提交工单——通过平台本身。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §V 架构核心主张 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="架构的核心主张" numeral="V" title="技能库不会停留在你安装时的版本。" />
+
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.7; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          大多数 LCA 软件交付的是一套固定能力。一位在区域电网因子、分摊边界案例和跨数据库一致性上积累了三年判断力的从业者——那些判断不在产品里。关上标签页，它们就消失了。
+        </p>
+        <p>
+          Cortex 持不同立场：平台的 LCA 能力不归软件厂商所有。它从从业者的实际工作中积累而来。
+        </p>
+      </div>
+
+      <Asterism />
+
+      <blockquote class="mx-auto max-w-3xl text-center">
+        <p class="pullquote">
+          平台的 LCA 能力不归软件厂商所有。它从<em style="color: var(--shell); font-style: italic;">从业者的实际工作</em>中积累而来。
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- 结语 -->
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
+        安装一次。技能库从你现有的工作出发。
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork 支持 macOS、Windows 和 Linux。首次会话即可看到 SkillsCenter——内置技能已装载，市场技能可浏览。经过几次真实工作后，"近期学习"面板开始填充。
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 macOS 版 <span aria-hidden="true">→</span></a>
+        <a href="/zh/pricing" class="ticket-ghost">查看定价</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

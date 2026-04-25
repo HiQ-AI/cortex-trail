@@ -1,0 +1,219 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Asterism from '@/components/Asterism.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = 'BOM 匹配 — HiQ Cortex';
+const description =
+  'BOM 进。匹配的 xlsx 出。每个数据集格都是链接。100 行约 90–180 秒，跨 14 个数据库。';
+
+const sheets = [
+  {
+    n: '01',
+    name: '摘要',
+    body: "总览覆盖情况：已匹配 %、代理 %、缺口 %、材料总数、对比数据库数量，进度条以绿 / 琥珀 / 空白三段显示，并附分类细目（黑色金属 / 有色金属 / 塑料 / 化学品 / 电子 / 能源 / 水 / 运输 / 其他）。",
+  },
+  {
+    n: '02',
+    name: '结果',
+    body: "主体交付件。每行对应 BOM 一条物料，每列组对应一个数据库。每个数据集格为超链接，点击可在 hiqlcd.com/dataset/{Source}/{Version}/{Model}/{UUID}/{Name} 打开源记录。GWP100 数值带色阶条件格式；跨数据库 Δ% 按行计算。左侧固定列在横向滚动时保持可见。",
+  },
+  {
+    n: '03',
+    name: '缺口',
+    body: "汇总所有未匹配及代理行，注明已检索的数据库、未能直接匹配的原因，以及建议的处理方向。",
+  },
+  {
+    n: '04',
+    name: '方法学',
+    body: "运行参数（源文件、日期、数据库、系统模型、功能单位）及五条固定说明：GWP 表征方法、代理定义、替代选项说明、系统模型选择依据，以及从业者审核要求。",
+  },
+];
+
+const hitlOptions = [
+  '以通用代理值继续',
+  '将剩余行标记为不适用',
+  '逐行确认',
+];
+---
+
+<BaseLayout title={title} description={description} locale="zh">
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">Solutions · BOM 匹配</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 22ch;">
+        BOM 进。匹配的 xlsx 出。<em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">每个数据集格都是链接。</em>
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork 接收物料清单（BOM）——Excel、CSV 或直接粘贴文本——返回一份四页工作簿。100 行约 90–180 秒。不是 10 小时。
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/zh/chat" class="ticket-ghost">在 Chat 中查询单项材料</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- §I 输入与输出 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="输入与输出" numeral="I" title="无需预设格式。返回一份工作簿。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          <strong style="font-weight: 500;">输入：</strong>Excel 文件、CSV，或直接粘贴的列表。列名、零件编号、自由格式规格——Cortex 读取其实际结构，不要求预先整理。
+        </p>
+        <p>
+          <strong style="font-weight: 500;">输出：</strong>一份含四个工作表的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">.xlsx</code> 工作簿，直接交付在会话窗口内。
+        </p>
+      </div>
+
+      <div class="mt-10 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
+        {sheets.map((s) => (
+          <article class="p-6 md:p-7" style="background: var(--paper);">
+            <div class="flex items-baseline gap-3 mb-3">
+              <span class="font-mono" style="color: var(--shell); font-size: 0.85rem; letter-spacing: 0.04em;">Tab {s.n}</span>
+              <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.18rem; color: var(--ink);">{s.name}</h3>
+            </div>
+            <p class="font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{s.body}</p>
+          </article>
+        ))}
+      </div>
+
+      <p class="mt-10 max-w-3xl font-serif italic" style="font-size: 1rem; line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink-mute);">
+        导出文件不含 DQI 列。DQI 评分在会话过程中及 API 响应里可见；不写入工作簿。导出文件的溯源凭据是数据集名称、版本和超链接——不是数值质量评分。
+      </p>
+    </div>
+  </section>
+
+  <!-- §II 跨数据库速度 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="跨数据库速度" numeral="II" title="100 行约 90–180 秒。不是 10 小时。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          在 Cortex Cowork 中，100 行 BOM 跨 14 个数据库的匹配约在 90–180 秒内完成。检索运行于统一索引之上——不是 14 次顺序查询——因此数据库数量不会成倍拉长时间。
+        </p>
+        <p>
+          人工操作的等价工作量：每行需要打开数据库界面、输入检索词、比对结果、记录选择。以保守估算——每种材料查 3 个数据库、每次查询 3–5 分钟——100 行 BOM 在开始任何跨数据库比对之前，就已需要 10–25 小时。
+        </p>
+        <p class="font-serif italic" style="color: var(--ink-mute);">
+          速度差异来自并行检索进程作用于统一索引。这不是四舍五入之后的说法。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §III xlsx 详解 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="xlsx 详解" numeral="III" title="一个具体的例子。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          结果工作表是本页的核心承诺，值得用具体例子说清楚。
+        </p>
+        <p>
+          第 3 行，HiQLCD 列：数据集格显示 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">钢坯, 转炉, 304不锈钢</code>，带下划线蓝色链接。点击后在浏览器中打开 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">https://www.hiqlcd.com/dataset/HiQLCD/1.4.0/CUT_OFF/…</code>——即实际使用的那条记录。相邻的 GWP 格显示 <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.92em;">1.95 kgCO₂e</span>，蓝色深浅与该列排名成比例。
+        </p>
+        <p>
+          同一行的 Ecoinvent 列显示 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">market for steel, chromium steel 18/8, hot rolled</code>——GWP 格内容为 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Licensed</code>，因为 Ecoinvent 访问需要订阅授权。Δ% 列为空；两边数值缺一，无法比较。
+        </p>
+        <p>
+          <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Licensed</code> 这格就是正确行为。Cortex 不会用文献估值、模型生成数字或通用代理来填补缺口。数据集的名称、地区、单位和链接照常显示；GWP 数值等待访问权限。
+        </p>
+        <p>
+          方法学工作表在工作簿末尾给出说明："GWP 数值为 GWP100（kgCO₂e），采用 IPCC AR6 表征因子。"参数表记录了检索的数据库、各数据库的版本，以及本次运行的系统模型。从这些参数出发，报告可以复现。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §IV 代理与缺口 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="代理与缺口" numeral="IV" title="有据可查的结果，不是静默的遗漏。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          当没有单一数据集与某行 BOM 匹配时，Cortex 可能采用加权平均。以黄铜为例：65% 阴极铜 × 35% 锌锭。结果工作表备注列明确列出分解方式——每个组分的数据集名称、权重、GWP100 值及计算过程。每个组分行仍各自携带超链接数据集格。代理可追溯至其来源，不被压缩成一个不透明的数字。
+        </p>
+        <p>
+          代理行在状态列标记 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">~ 代理</code>。备注列注明偏差方向：若替代数据集可能低估内含能耗，会明确写出。代理状态不是脚注条件——它与已匹配行并排出现在同一工作表中。
+        </p>
+        <p>
+          当没有可站得住脚的代理时，状态列显示 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">✗ 缺口</code>。缺口工作表汇总这些行，附上尝试过的检索词及失败原因。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §V 决策回到从业者手里 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="决策回到从业者手里" numeral="V" title="没有静默的默认值。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          当一批 BOM 经过三轮检索后覆盖率仍低于 80%，Cowork 暂停，将未处理的行呈现给从业者。从业者选择：
+        </p>
+        <ul class="space-y-2 list-disc pl-6 marker:text-[var(--ink-faint)]">
+          {hitlOptions.map((o) => <li>{o}</li>)}
+        </ul>
+        <p>
+          该决策连同时间戳一起记录在项目进度日志中。导出文件反映从业者的选择。没有静默的默认值。
+        </p>
+        <p>
+          同一机制在其他条件下也会触发：材料名称模糊，候选数据集之间 GWP 跨度达 3–10 倍；当前数据源的系统模型与项目要求冲突；某行唯一可用的匹配是代理，需要从业者确认后才能写入工作簿。
+        </p>
+        <p>
+          Cortex 在暂停之前先给出分析——推理过程在输入表单之前出现在会话中。从业者看到跨度、候选选项和各自的影响，判断表单在这些上下文之后呈现，而不是取而代之。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §VI 中文 BOM -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="中文 BOM 术语" numeral="VI" title="工厂现场用语，检索前先解析。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          中国工厂的 BOM 使用现场术语："502 胶水"、"IGBT 模块"、"背钩"。这些不是 LCA 数据集名称。Cortex 内置 2,083 条从中国工厂术语到 LCA 数据集标识符的精选映射——"502 胶水"解析为聚氨酯胶黏剂（标记代理，偏差方向已注明），"IGBT 模块"解析为电动汽车应用的绝缘栅双极型晶体管数据集。
+        </p>
+        <p>
+          检索索引对中英文字段赋予同等权重。中文输入查询中文字段；Agent 同时构建双语检索词，覆盖 Ecoinvent、EF 等英文命名数据库。专用中文分词器载有 20,000 条 LCA 专业词汇——"镍板"作为单一词元分词，而非拆分为"镍"加"板"（后者会从蓄电池回收数据集中带回噪音）。
+        </p>
+        <p>
+          HiQLCD 收录 30 个省级电网变体。中国以煤为主的电网与欧洲电网差异显著，对原铝这类材料尤为关键：中国约 14–20 kgCO₂e/kg，欧盟约 8–10 kgCO₂e/kg。
+        </p>
+        <p class="font-serif italic" style="color: var(--ink-mute);">
+          地理匹配对 CBAM 申报或以中国供应链为基础的 EPD 而言不可或缺。数据库有这些数据；匹配取到正确的地理范围。
+        </p>
+      </div>
+
+      <Asterism />
+
+      <p class="mx-auto mt-2 max-w-3xl text-center font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 60, 'opsz' 36; font-size: 1.4rem; line-height: 1.3;">
+        100 行约 90–180 秒。<em>不是 10 小时。</em>
+      </p>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
+        BOM 进。匹配的 xlsx 出。每个数据集格都可追溯。
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork 支持 macOS、Windows 和 Linux。BOM 会话在本地运行——文件留在本机，不上传至服务器。
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 macOS 版 <span aria-hidden="true">→</span></a>
+        <a href="/zh/chat" class="ticket-ghost">试用 Cortex Chat</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -5,85 +5,98 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'Cortex Cowork — HiQ Cortex';
 const description =
-  '跟着你的 LCA 项目走的本地 Agent。Cowork 在你的机器上运行，读取你的文件，把决策跨会话、跨重启地一起带走。';
+  '你的文件。你的机器。你的审计记录。Cowork 是专为跨周 LCA 项目设计的桌面端 Agent——读取 BOM、驱动 openLCA、把每一个决策写入可版本管理的审计日志。';
 
 const platforms = [
-  { name: 'macOS',   detail: 'Apple Silicon（M1–M4）及 Intel · .dmg', note: 'Gatekeeper：首次启动若提示来自身份不明的开发者，前往「系统设置 → 隐私与安全性 → 仍要打开」。' },
-  { name: 'Windows', detail: '.exe 安装包',                            note: null },
-  { name: 'Linux',   detail: '.AppImage 或 .deb（dpkg -i）',          note: null },
+  { name: 'macOS',   detail: '.dmg — Apple Silicon（arm64）和 Intel（x86-64）', note: 'Gatekeeper：首次启动若弹出来自身份不明的开发者提示，前往「系统设置 → 隐私与安全性 → 仍要打开」。' },
+  { name: 'Windows', detail: '.exe 安装包',                                       note: '需要 Git for Windows。应用首次启动时自动检测系统 Git。' },
+  { name: 'Linux',   detail: '.AppImage 或 .deb（dpkg -i）',                     note: '支持 glibc（x86-64）和 musl（x86-64）。' },
 ];
 
 const scenarios = [
   {
     numeral: 'I',
     label: 'BOM 清单处理',
-    before: '打开 Excel + 逐条查数据库 + 手动记录',
-    after:  '上传 BOM，自动识别材料、跨库匹配、补全缺失数据集——每条匹配都附来源',
-    detail: 'Cortex 从磁盘直接读取你的 BOM 文件，对每一行跨 HiQLCD、Ecoinvent、EF 等 12 个数据库并行检索，标记覆盖率低于阈值的行，把匹配到的 GWP100 值、来源和 DQI 写回新的 Excel 文件。不用复制粘贴，不用来回切标签页。',
-    proof:  'BOM.xlsx → 并行检索 → 每行：GWP100 · 来源 · DQI',
+    before: '打开 Excel。逐库查询。手动记录结果。在多个标签页之间来回核对。',
+    after:  '上传 BOM。Cowork 从磁盘直接读取文件，对每一行跨 14 个 LCA 数据库并行检索，标记无可信匹配的行，将结果写回新 Excel 工作簿——每行附来源。',
+    detail: '结果表中每行对应 BOM 的一种物料：匹配到的数据集名称（超链接至 hiqlcd.com 对应记录）、单位、地区、已获授权时的 GWP100 值、未获授权时显示 Licensed 占位符，以及使用替代值时的说明注释。',
+    proof:  'BOM.xlsx → 并行检索 → 每行：GWP100 · 来源 · 替代值注释',
   },
   {
     numeral: 'II',
     label: 'Scope 3 计算',
-    before: '查 GHG Protocol + 问 AI + 手动归类',
-    after:  '只需收集数据，Cortex 自动归类、建议数据收集清单，并进行计算分析',
-    detail: '全部 15 个 GHG Protocol Scope 3 类别均支持。Cortex 处理上游、下游和使用阶段分类——类别 1（采购商品与服务）支持 BOM 行级别的因子匹配，其他类别提供因子识别与数据收集清单辅助。输出是含分类合计与因子来源的计算文件，不是黑盒数字。',
-    proof:  '活动数据 → 15 类别 · 因子匹配 · 计算结果',
+    before: '查阅 GHG Protocol 文件。手动归类。分别收集排放因子。',
+    after:  '提供活动数据文件。Cowork 对全部 15 个 GHG Protocol Scope 3 类别进行分类，建立数据收集清单，并以 14 个数据库的排放因子运行计算。',
+    detail: '输出是含分类合计与因子来源的计算文件。类别 1（采购商品与服务）在 BOM 行级别完成匹配。',
+    proof:  '活动数据输入 → 15 类别 · 因子匹配 · 计算结果输出',
   },
   {
     numeral: 'III',
     label: 'openLCA 操作',
-    before: '学软件操作 + 手动搭建流程 + 翻文档',
-    after:  '直接说需求，Cortex 操控 openLCA 完成建模与计算',
-    detail: 'Cortex 不替代 openLCA、SimaPro、GaBi、积木 LCA——与之协作。启动 openLCA 的 IPC Server，把 Cowork 指向你的 BOM 文件，用自然语言描述目标。Cortex 处理数据集匹配、产品系统构建、循环引用消解和结果导出。你的 openLCA 实例是模型，Cortex 是操作者。',
-    proof:  'openLCA → 数据集匹配 → 产品系统搭建 → 结果导出',
+    before: '在 openLCA 中手动建立流程。逐一匹配背景数据集。逐步翻查界面。',
+    after:  '用自然语言描述目标。Cowork 匹配背景数据集、构建产品系统、解决循环引用、运行计算——在用户本地的 openLCA 实例中完成。',
+    detail: 'Cowork 不替代 openLCA，而是驱动它。用户的 openLCA 实例是模型，Cowork 是操作者。启用 Computer Use（仅限 macOS）后，Cowork 可直接与 openLCA 的 GUI 交互——点击对话框、读取结果窗口、粘贴数值——无需 openLCA 的命令行接口。',
+    proof:  'openLCA → 数据集匹配 → 产品系统构建 → 结果导出',
   },
   {
     numeral: 'IV',
-    label: 'EPD 报告生成',
-    before: '找模板 + 从软件复制数据 + 填写 Word',
-    after:  '一次会话触发，Cortex 套用规范模板从计算结果中拉取数据，生成遵循 EPD 标准结构的 .docx 文件',
-    detail: 'Cortex 从计算结果中提取声明单位、系统边界、参考流和 LCIA 结果，格式化为遵循 EPD 标准结构的 .docx 文件。产品类别规则（PCR）的选择和第三方核查仍是从业者的工作。不用重新排版，不用二次录入。',
-    proof:  '计算结果 → EPD 结构套用 → .docx 输出 · PCR 由从业者负责',
+    label: 'EPD 数据准备',
+    before: '手动从建模工具拉取 LCIA 指标值。单独整理方法论文档。再次录入 EPD 模板。',
+    after:  'Cowork 从预计算矩阵服务查询 GWP100 和 EN 15804+A2 多指标结果，生成含匹配数据集与替代决策的方法论摘要，输出从业者导入 EPD 工具的 Markdown 文档。',
+    detail: '产品类别规则（PCR）的选择、第三方核查和正式 EPD 提交仍是从业者的步骤。Cowork 提供数据层和方法论文档，不是符合规范的 EPD 文件。',
+    proof:  'LCIA 指标提取 · 方法论记录 · 从业者组装 EPD',
   },
 ];
 
+const memoryLayers = [
+  ['L1 用户档案',        '角色、偏好数据库（HiQLCD、Ecoinvent）、偏好影响方法、报告语言、估算策略', '用户通过设置配置'],
+  ['L2 全局指令',        '适用于所有项目的规则（"始终使用 cut-off 系统模型"、"输出中文"）',         '用户通过设置配置'],
+  ['L3 自动观察',        '尚未经用户确认的推断偏好',                                                '后台静默观察'],
+  ['L4 Cortex.md',      '本项目的功能单位、系统边界、方法论选择。随项目文件夹一起走。',             '用户 + Agent'],
+  ['L5 progress.md',    '只追加的审计记录：每个决策、数据缺口、假设、核查、质疑、里程碑。',         '仅限 Agent 通过追加专用工具写入'],
+  ['L6 项目记忆',        'AI 维护的知识文件：已核查的数据集 UUID、电网因子注释、供应商专属数据。',  'Agent'],
+];
+
 const compare = [
-  ['会话历史',           '云端同步',                       '仅本地'],
-  ['文件访问',           '无本地文件',                     '完全读写'],
-  ['脚本执行',           '不支持',                         '本地执行'],
-  ['技能系统',           '核心搜索技能',                   '完整技能市场 + 自定义 MCP'],
-  ['LCA 数据库检索',     '支持',                           '支持'],
-  ['适合场景',           '快速问答、方法论咨询',           'BOM 匹配、报告生成、项目工作'],
+  ['会话历史',        '云端同步',                      '仅本地'],
+  ['文件访问',        '无本地文件',                    '完全读写'],
+  ['脚本执行',        '不支持',                        '本地执行'],
+  ['LCA 目录检索',    '服务端',                        '本地文件系统，支持离线'],
+  ['技能系统',        '核心检索技能',                  '完整市场技能 + 自定义 + 观察沉淀'],
+  ['审计记录',        '对话历史',                      'L5 progress.md，只追加，可版本管理'],
+  ['Computer Use',    '不支持',                        '21 个工具，仅限 macOS'],
+  ['适合场景',        '快速问答、方法论咨询',          'BOM 匹配、项目工作、EPD 数据准备'],
 ];
 ---
 
 <BaseLayout title={title} description={description} locale="zh">
 
+  <!-- Hero -->
   <section class="relative">
     <div class="container-page pt-14 md:pt-20 pb-14">
       <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
         <p class="eyebrow">产品 · Cortex Cowork</p>
         <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
       </div>
-      <h1 class="font-display" style="font-size: clamp(2.4rem, 5.5vw, 4.6rem); line-height: 1.15; letter-spacing: -0.01em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 22ch;">
-        跟着你的 LCA 项目走的<br/><em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">本地 Agent</em>。
+      <h1 class="font-display" style="font-size: clamp(2.4rem, 6vw, 5rem); line-height: 1.05; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 22ch;">
+        你的文件。你的机器。<em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">你的审计记录。</em>
       </h1>
-      <p class="mt-10 max-w-2xl font-serif" style="font-size: 1.15rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        LCA 工作装不进一次对话。Cowork 运行在你的机器上，读取你的文件，把边界决策、替代值记录、供应商数据——跨会话、跨重启，一起带走。
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cowork 是专为跨周 LCA 项目设计的桌面端 Agent。它从磁盘直接读取 BOM 文件，在本地执行工具，将每一个决策写入随项目文件夹一同走的只追加日志。
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
         <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
-        <a href="#scenarios" class="ticket-ghost">看它能跑哪些流程</a>
+        <a href="#scenarios" class="ticket-ghost">它能处理什么</a>
       </div>
     </div>
   </section>
 
+  <!-- §I 平台 -->
   <section class="border-t border-rule">
     <div class="container-page py-14 md:py-16">
-      <div class="eyebrow mb-3">在你的机器上跑</div>
-      <p class="max-w-2xl font-serif italic" style="font-size: 0.95rem; line-height: 1.7; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">
-        安装无需登录。登录后可同步云端服务、调用数据库检索。
+      <div class="eyebrow mb-3">在你的机器上运行</div>
+      <p class="max-w-2xl font-serif italic" style="font-size: 0.95rem; line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">
+        Cortex Cowork 以三平台原生二进制发布。<strong style="font-style: normal; color: var(--ink);">Computer Use 仅支持 macOS。</strong>
       </p>
       <div class="mt-8 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
         {platforms.map((p) => (
@@ -93,19 +106,17 @@ const compare = [
               <span class="font-mono uppercase" style="font-size: 0.62rem; letter-spacing: 0.14em; color: var(--shell);">live</span>
             </div>
             <p class="font-mono" style="font-size: 0.78rem; letter-spacing: 0.04em; color: var(--ink-mute);">{p.detail}</p>
-            {p.note && <p class="mt-3 font-serif italic" style="font-size: 0.85rem; line-height: 1.7; font-variation-settings: 'opsz' 14; color: var(--ink-faint);">{p.note}</p>}
+            {p.note && <p class="mt-3 font-serif italic" style="font-size: 0.85rem; line-height: 1.5; font-variation-settings: 'opsz' 14; color: var(--ink-faint);">{p.note}</p>}
           </div>
         ))}
       </div>
     </div>
   </section>
 
+  <!-- §II 场景 -->
   <section id="scenarios" class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="它擅长什么" numeral="I–IV" title="Chat 跑不了的四种流程。" />
-      <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Cowork 直接操作你的文件，在本地执行工具，从上次会话结束的地方接着跑。以下四种场景，就是这件事在实践中的具体形状。
-      </p>
+      <SectionMark kicker="它能处理什么" numeral="II" title="Chat 跑不了的四种流程。" />
 
       <div class="mt-14 border-y border-rule">
         {scenarios.map((s) => (
@@ -113,16 +124,16 @@ const compare = [
             <div class="grid items-start gap-6 md:grid-cols-[4rem_minmax(0,_1fr)] md:gap-10">
               <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: clamp(1.5rem, 2.4vw, 1.9rem);">§ {s.numeral}</span>
               <div>
-                <h3 class="font-display mb-5" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.4rem, 2.4vw, 2rem); line-height: 1.15; letter-spacing: -0.01em; color: var(--ink);">{s.label}</h3>
+                <h3 class="font-display mb-5" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.5rem, 2.6vw, 2.1rem); line-height: 1.1; letter-spacing: -0.015em; color: var(--ink);">{s.label}</h3>
 
                 <div class="grid gap-4 mb-6 md:grid-cols-[5rem_minmax(0,_1fr)] md:gap-6 max-w-3xl">
                   <span class="eyebrow" style="color: var(--ink-faint);">之前</span>
-                  <p class="font-serif" style="line-height: 1.7; font-variation-settings: 'opsz' 16; color: var(--ink-mute); font-size: 0.95rem;">{s.before}</p>
+                  <p class="font-serif" style="line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink-mute); font-size: 0.95rem;">{s.before}</p>
                   <span class="eyebrow" style="color: var(--shell);">之后</span>
-                  <p class="font-serif" style="line-height: 1.7; font-variation-settings: 'opsz' 16; color: var(--ink); font-size: 0.95rem; font-weight: 500;">{s.after}</p>
+                  <p class="font-serif" style="line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink); font-size: 0.95rem; font-weight: 500;">{s.after}</p>
                 </div>
 
-                <p class="font-serif max-w-3xl" style="line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1rem;">{s.detail}</p>
+                <p class="font-serif max-w-3xl" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1rem;">{s.detail}</p>
                 <p class="mt-4 font-mono" style="font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-faint);">{s.proof}</p>
               </div>
             </div>
@@ -132,21 +143,151 @@ const compare = [
     </div>
   </section>
 
+  <!-- §III BOM xlsx 四张表 -->
   <section class="border-t border-rule">
-    <div class="container-page py-12 md:py-14">
-      <p class="max-w-3xl font-serif italic" style="font-size: 1.05rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        在 Cowork 的多步会话里，决策回到从业者手里——并跨天积累。<a href="/zh/standards" style="color: var(--shell); font-style: normal;">标准对齐 →</a>
-      </p>
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="BOM 导出" numeral="III" title="四张表，一个工作簿。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          BOM 匹配会话的交付物是一个包含四张表的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">.xlsx</code> 工作簿。
+        </p>
+        <p>
+          <strong style="font-weight: 500;">摘要表</strong> — 整体覆盖情况一览：匹配率、物料数量、对比数据库。色段进度条按比例展示已匹配（绿）、替代值（琥珀）、缺口（空白）。附物料类别分类汇总。
+        </p>
+        <p>
+          <strong style="font-weight: 500;">结果表</strong> — 主数据表。每行对应 BOM 中一种物料，每列组对应一个数据库。数据集单元格为超链接：点击直接打开 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">hiqlcd.com/dataset/...</code> 的详情页。相邻列显示单位、地区与 GWP100（蓝色色阶，按值排名等比着色）。<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">Δ%</code> 列计算同一行两个数据库之间的百分比差异。<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">状态</code>列显示 ✓ 已匹配 / ~ 替代值 / ✗ 缺口。<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">备注</code>列记录替代值理由、复合物料的加权平均分解说明，以及备选候选。
+        </p>
+        <p>
+          受许可限制的行在 GWP 列显示 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">Licensed</code>。数据集名称、地区、单位和超链接仍然可见。不会以文献值替代填充。
+        </p>
+        <p>
+          <strong style="font-weight: 500;">缺口表</strong> — 列出所有未匹配和替代值行，注明有匹配的数据库、无匹配的数据库、原因及建议操作。
+        </p>
+        <p>
+          <strong style="font-weight: 500;">方法论表</strong> — 参数：源文件名、生成日期、数据库列表、系统模型、功能单位。五条固定方法论说明，包括：GWP 值采用 IPCC AR6 下的 GWP100、替代值定义、备选说明、默认系统模型，以及需从业者审查的要求。
+        </p>
+      </div>
     </div>
   </section>
 
+  <!-- §IV 数据隐私 -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="哪一个 Cortex" numeral="V" title="什么时候用 Cowork 而不是 Chat。" />
+      <SectionMark kicker="数据留在你的机器上" numeral="IV" title="本地目录。本地会话。本地审计记录。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cowork 会话不上传。BOM 文件在会话的本地上下文中处理，不在服务端持久化。
+        </p>
+        <p>
+          启动时，4 个 LCA 目录下载到本地存储——HiQLCD 1.4.0（约 11 MB）、Ecoinvent 3.12.0、CarbonMinds 2.0.2、Agri-footprint 7.0——并通过验证同步保持更新。目录检索在本地对已下载文件运行，目录查询不发起网络请求。下载完成后，目录支持离线使用。
+        </p>
+        <p>
+          <strong style="font-weight: 500;">项目外路径检查</strong>在每次文件写入和 Shell 命令时触发。文件边界检查在执行前拦截任何路径落在项目文件夹外的操作。用户会看到确认卡片：具体路径、一句话原因，以及三个选项——仅此一次允许 / 始终允许此目录 / 拒绝。该检查无论会话模式如何均会触发，Agent 无法绕过。
+        </p>
+        <p>
+          项目的 L5 审计日志（<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code>，详见下方）和 L6 项目记忆文件存储在用户本地文件系统，与项目数据同目录。它们可以提交到版本控制系统。
+        </p>
+      </div>
+    </div>
+  </section>
 
-      <p class="mt-10 max-w-3xl font-display italic" style="font-variation-settings: 'SOFT' 60, 'opsz' 36; font-size: clamp(1.4rem, 2.6vw, 1.8rem); line-height: 1.4; color: var(--ink);">
-        Chat 答问题；Cowork 跑流程——在你的机器上、你的项目文件夹里、跑完这个项目所需的每一次会话。
-      </p>
+  <!-- §V 六层记忆 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="六层记忆" numeral="V" title="每次 Cowork 会话开始时，六层上下文已就位。" />
+
+      <div class="mt-10 overflow-hidden border border-rule" style="background: var(--paper);">
+        <table class="w-full" style="border-collapse: collapse;">
+          <thead>
+            <tr style="background: var(--paper-rim);">
+              <th class="eyebrow text-left p-4 border-b border-rule">层级</th>
+              <th class="eyebrow text-left p-4 border-b border-rule">携带内容</th>
+              <th class="eyebrow text-left p-4 border-b border-rule">写入方</th>
+            </tr>
+          </thead>
+          <tbody class="font-serif" style="font-size: 0.9rem; line-height: 1.5; font-variation-settings: 'opsz' 16;">
+            {memoryLayers.map(([layer, what, who]) => (
+              <tr>
+                <td class="p-4 border-b border-rule" style="color: var(--shell); font-weight: 500;">{layer}</td>
+                <td class="p-4 border-b border-rule" style="color: var(--ink);">{what}</td>
+                <td class="p-4 border-b border-rule" style="color: var(--ink-mute);">{who}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-10 max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          <strong style="font-weight: 500;">L5 是审计记录。</strong> Agent 无法直接编辑 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code>。只有专用的追加工具被允许写入——在系统层面强制执行，而非依赖约定。每条记录包含类型（六种之一：<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">decision</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">data_gap</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">assumption</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">verification</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">challenge</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">milestone</code>）、主题、带时间戳的内容，以及可选的下一步说明。
+        </p>
+        <p>
+          一次 BOM 匹配会话会产生以下记录：<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">[decision]</code> — 选择了哪个数据集及原因；<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">[data_gap]</code> — 无目录匹配的物料；<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">[assumption]</code> — 使用的替代值及其偏差方向。
+        </p>
+      </div>
+
+      <Asterism />
+
+      <blockquote class="mx-auto max-w-3xl text-center">
+        <p class="pullquote">
+          审计员问"这个 GWP100 值是怎么来的"，读的是 <em style="color: var(--shell); font-style: italic;">progress.md</em>。
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- §VI 技能 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="技能" numeral="VI" title="从实际工作中积累的平台智识。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cowork 内置技能随应用出厂即加载。平台从两个来源持续扩充：共享市场和从业者自身的会话。
+        </p>
+        <p>
+          <strong style="font-weight: 500;">内置技能</strong>随应用发布：<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">bom-analysis</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">querying-lca-datasets</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">scope3-guidance</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">en-15804-indicators</code>。从第一次会话起即可使用。
+        </p>
+        <p>
+          <strong style="font-weight: 500;">市场技能</strong>由从业者贡献、经 HiQ-AI 审核后向所有用户开放。Cowork 在启动时检查更新并静默下载。技能缓存后支持离线使用。
+        </p>
+        <p>
+          <strong style="font-weight: 500;">自定义技能</strong>从从业者自身的工作中积累。观察流水线在每次会话结束后对其建立索引。当两次或更多会话呈现相同的工作流形态时，后台进程读取实际会话记录并生成可复用技能。无需用户操作。技能出现在近期学习面板，并在下一次类似任务时自动加载。
+        </p>
+        <p>
+          任何自定义技能均可贡献到共享市场。离开本机前会进行个人信息扫描。扫描通过后，向 HiQ-AI 开启拉取请求供审核。合并后，下次启动时该技能对所有用户可用。
+        </p>
+        <p class="font-display italic" style="color: var(--shell); font-size: 1.15rem; line-height: 1.4;">
+          平台的 LCA 专业积累不归供应商所有，而是从从业者的实际工作中沉淀而来。
+        </p>
+        <p>
+          <a href="/zh/skills" class="smallcaps" style="color: var(--shell);">查看技能详情 →</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §VII Computer Use -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Computer Use" numeral="VII" title="仅限 macOS — 直接控制已安装应用的 GUI。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          启用 Computer Use 后，Cowork 获得 21 个 MCP 工具用于直接 GUI 交互：截图、缩放、点击（左键、右键、双击、三击、中键）、输入文字、按键、滚动、拖拽、启动应用、剪贴板读写等。
+        </p>
+        <p>
+          这意味着 Agent 可以驱动任何已安装的桌面应用——openLCA 对话框、SimaPro 结果窗口、旧版 ERP、用户 PATH 中的任何程序——无需命令行接口。每次操作前，用户审批 Agent 可控制哪些应用。主窗口缩至侧边面板；可见遮罩显示"Claude is using your computer."随时按 Escape 中断。
+        </p>
+        <p class="font-serif italic" style="color: var(--ink-mute);">
+          Computer Use 不支持 Windows 和 Linux。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §VIII 对比 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Cowork 与 Chat" numeral="VIII" title="Cortex Cowork 跑流程。在你的机器上。在你的项目文件夹里。" />
 
       <div class="mt-10 overflow-hidden rounded-sm border border-rule" style="background: var(--paper);">
         <table class="w-full" style="border-collapse: collapse;">
@@ -157,7 +298,7 @@ const compare = [
               <th class="eyebrow text-left p-4 border-b border-rule" style="color: var(--shell);">Cortex Cowork</th>
             </tr>
           </thead>
-          <tbody class="font-serif" style="font-size: 0.94rem; line-height: 1.7; font-variation-settings: 'opsz' 16;">
+          <tbody class="font-serif" style="font-size: 0.92rem; line-height: 1.5; font-variation-settings: 'opsz' 16;">
             {compare.map(([label, chat, cowork]) => (
               <tr>
                 <td class="p-4 border-b border-rule" style="color: var(--ink-mute); font-weight: 500;">{label}</td>
@@ -175,18 +316,18 @@ const compare = [
     </div>
   </section>
 
+  <!-- 结语 -->
   <section class="border-t border-rule">
     <div class="container-prose py-24 text-center">
-      <Asterism class="mb-10" />
-      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.15; letter-spacing: -0.01em;">
-        安装一次，从上次停的地方继续。
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
+        安装一次。从上次停下的地方接着跑。
       </h2>
-      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.08rem; line-height: 1.75; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Cowork 在重启之间保留项目上下文：已做的决策、已记录的替代值选择、已匹配的行。下一次会话，从上一次结束的地方接着开始。
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cowork 在重启之间保留项目上下文：已做的决策、已记录的替代值选择、已匹配的行。六层记忆在磁盘上，不在云端会话里。项目下次打开时，Agent 从上次会话结束的地方开始。
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
         <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
-        <a href="mailto:info@hiqlcd.com" class="ticket-ghost">下载前有疑问 · info@hiqlcd.com</a>
+        <a href="mailto:info@hiqlcd.com" class="ticket-ghost">有疑问 · info@hiqlcd.com</a>
       </div>
     </div>
   </section>

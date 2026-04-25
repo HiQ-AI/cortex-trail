@@ -1,0 +1,186 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = '安全说明 — HiQ Cortex';
+const description =
+  'Cortex 存储什么、不存储什么、存在哪里。9 条可追溯的数据处理声明，以及 2 个尚未完成的功能，直接说明。';
+
+const localArtifacts = [
+  ['Cowork 会话记录', 'Cowork 与本地 Agent 的每次对话，以文件形式存储在你的设备上，归属于你的系统账户。服务端没有副本。'],
+  ['项目 wiki', 'Wiki 数据存放在你选定的目录内。Cortex 不会读取或上传 wiki 内容到任何服务器。'],
+  ['Observer 摩擦日志', '工具调用的错误与重试记录写入本地设备，无论上传开关是否开启，该日志都不离开设备。'],
+  ['从你的工作中沉淀的自定义技能', 'Observer 流程从会话中提取的技能，以文件形式写入你指定的技能目录，在你主动贡献到技能市场之前，始终保持本地。'],
+];
+
+const claims = [
+  ['传输过程中所有流量均经过加密。', '所有面向用户的连接使用 HTTPS。用户数据不存在明文 HTTP 路径。'],
+  ['Chat 会话存储在你的账户下，其他用户无法访问。', '对话历史与长期记忆以你的用户 ID 为键。会话存储在查询时执行隔离——一个账户无法读取另一个账户的数据。'],
+  ['商业授权数据库的 GWP 值仅对订阅用户开放。', '如果你的账户不包含某数据库的授权，该条目的 GWP 数值在服务端响应组装前就已移除，结果行标注为 Licensed。数据集名称、地区、单位与链接仍然返回。不会以文献值或估算值替代。'],
+  ['Cowork 会话不离开你的设备。', '本地 Agent 会话存储在应用的本地数据目录中。服务端没有副本，也没有访问路径。'],
+  ['项目 wiki 存储在本地。', 'Wiki 数据存放在你的设备上你选定的目录内，不上传到 Cortex 服务器。'],
+  ['每条 GWP 结果都包含来源数据库与版本信息。', '数据库名称、版本字符串与系统模型是每条结果的组成部分。历史导出不会因数据提供方发布新版本而被追溯修改；每份导出记录的是查询时的版本。'],
+  ['你的数据不用于训练 AI 模型。', '代码库中不存在读取对话历史并发送给模型训练任务的流程。'],
+  ['Observer 上传开关可以关闭。', '上传开关按设备存储，持久化在本地。关闭后，所有后台上传停止。本地摩擦日志不受影响，持续写入。'],
+  ['上传的 BOM 文件不持久化存储。', 'Chat 会话中上传的文件，在该次对话期间传递给 AI 使用，请求完成后不写入任何数据库表。'],
+];
+---
+
+<BaseLayout title={title} description={description} locale="zh">
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">参考 · 安全说明</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 22ch;">
+        Cortex 存什么。不存什么。存在哪里。
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        9 条数据处理声明——每一条都能追溯到代码中执行它的逻辑。另有 2 个尚未完成的功能，直接说明。
+      </p>
+    </div>
+  </section>
+
+  <!-- §I 留在设备上的数据 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="留在你设备上的数据" numeral="I" title="Cowork 是本地 Agent。" />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        它运行的会话、积累的项目记忆、生成的文件——这些都不离开你的设备。除非你主动发起操作，否则没有任何一项会上传。
+      </p>
+
+      <div class="mt-10 grid gap-6 md:grid-cols-2">
+        {localArtifacts.map(([title, body]) => (
+          <article class="border border-rule p-6" style="background: var(--paper);">
+            <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.08rem; line-height: 1.2; color: var(--ink);">{title}</h3>
+            <p class="mt-3 font-serif" style="font-size: 0.96rem; line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink);">{body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §II 发送到服务端的数据 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="发送到服务端的数据" numeral="II" title="Chat 与 Cowork 不同。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>Chat 会话持久化在服务端，以便 Agent 跨对话延续上下文。</p>
+        <p><strong style="font-weight: 500;">Cortex 为 Chat 用户在服务端存储的内容：</strong></p>
+        <ul class="space-y-2 list-disc pl-6 marker:text-[var(--ink-faint)]">
+          <li>对话历史，以你的用户 ID 为键。其他账户无法读取你的会话。</li>
+          <li>长期记忆——从对话轮次中提取的偏好、数据库选择与 LCA 上下文的汇编档案。同样以你的用户 ID 为键。</li>
+        </ul>
+        <p><strong style="font-weight: 500;">Cortex 不存储的内容：</strong></p>
+        <ul class="space-y-2 list-disc pl-6 marker:text-[var(--ink-faint)]">
+          <li>Chat 会话中上传的 BOM 文件。上传的文件在该次对话期间传递给 AI，请求完成后不写入任何数据库表。</li>
+        </ul>
+        <p class="font-serif italic" style="color: var(--ink-mute); font-size: 0.98rem;">
+          区别在于：Cowork 的数据属于你的设备；Chat 的历史属于你在服务端的账户。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §III 9 条可验证声明 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="9 条可验证声明" numeral="III" title="关于系统行为的陈述。" />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        每一条都对应代码库中执行它的实现。
+      </p>
+
+      <ol class="mt-10 space-y-7 font-serif" style="font-size: 1rem; line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink);">
+        {claims.map(([head, body], i) => (
+          <li class="grid grid-cols-[3rem_1fr] gap-4">
+            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.05rem;">§ {String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <p class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 28; font-size: 1.08rem; line-height: 1.25; color: var(--ink);">{head}</p>
+              <p class="mt-2">{body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- §IV 受限数据 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="受限数据" numeral="IV" title="许多 LCA 工具在没有经过核实的数值时仍然返回一个数字。Cortex 不是这类工具。" />
+
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cortex 索引了 14 个数据库，其中若干需要向数据提供方购买授权。对于来自这些数据库的条目，权限校验在服务端响应组装前执行。如果你的账户不包含相应授权，GWP 字段在到达模型层之前就已从结果对象中移除——模型收到的是一条不含 GWP 数值的结果。
+        </p>
+        <p>
+          你看到的是：名称、地区、单位与链接——以及 GWP 列中的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Licensed</code> 标记。数据集的存在是公开的；数值的访问需要授权。
+        </p>
+        <p>
+          不存在以文献值或 LLM 估算值静默替代的情况。Agent 的操作规则对此有明确约束：用无法核实的替代值填充结果，等同于向交付物中注入不可追溯的数字。这一约束在代码中执行，不仅仅依赖提示词。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §V 两个尚未完成的功能 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="两个尚未完成的功能" numeral="V" title="" />
+
+      <div class="mt-6 grid gap-6 md:grid-cols-2">
+        <article class="border border-rule p-7" style="background: var(--paper);">
+          <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.18rem; line-height: 1.2; color: var(--ink);">没有面向用户的数据导出接口</h3>
+          <p class="mt-4 font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.98rem;">
+            Chat 用户目前无法自助下载对话历史、汇编记忆或活动日志的结构化导出文件。这些数据管理员内部可以访问。GDPR 数据访问请求目前需要人工管理员操作。
+          </p>
+          <p class="mt-3 font-serif italic" style="color: var(--ink-mute); font-size: 0.94rem;">
+            这是一个尚未完成的功能。我们还没有做自助导出。
+          </p>
+        </article>
+
+        <article class="border border-rule p-7" style="background: var(--paper);">
+          <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.18rem; line-height: 1.2; color: var(--ink);">没有用户自主注销账户的入口</h3>
+          <p class="mt-4 font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.98rem;">
+            删除账户并清除服务端关联数据，目前需要人工管理员操作，没有自助注销接口。
+          </p>
+          <p class="mt-3 font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">
+            仅存于你设备上的数据——Cowork 会话记录、wiki、自定义技能、摩擦日志——随时可以由你从设备上删除对应目录来清除。
+          </p>
+          <p class="mt-3 font-serif italic" style="color: var(--ink-mute); font-size: 0.94rem;">
+            如果采购流程要求确认自助注销能力，当前的答案是：需要联系我们。
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- §VI 企业采购 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-16 md:py-20">
+      <SectionMark kicker="企业采购" numeral="VI" title="具体问题，不走销售漏斗。" />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        关于数据处理、数据驻留或企业授权的问题：<a href="mailto:hi@hiq.earth" style="color: var(--shell);">hi@hiq.earth</a>。通常在两个工作日内给出具体答复。
+      </p>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
+        本地 Agent 在我们的服务器上不存储任何内容。
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        从这里开始。
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 macOS 版 <span aria-hidden="true">→</span></a>
+        <a href="/zh/chat" class="ticket-ghost">打开 Cortex Chat</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -5,151 +5,155 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'Cortex Chat — HiQ Cortex';
 const description =
-  'LCA 数据检索，一次对话说清楚。中文英文均可输入。Cortex 并行搜索 12 个数据库，返回 DQI 评分候选——每条假设附在结果旁边。';
-
-const surfaces = [
-  {
-    name: 'Web',
-    address: 'cortex.hiq.earth/chat',
-    body: '登录即用。对话历史同步到云端：任意浏览器、任意设备可续上。中文英文输入无需切换。',
-  },
-  {
-    name: 'API',
-    address: 'docs.x.hiq.earth',
-    body: '四种接入方式：REST、MCP、AG-UI、A2A。REST 用于后端一次性批量检索；MCP 用于 Cursor、Claude Desktop 或任何兼容 MCP 的客户端；AG-UI 用于前端流式对接；A2A 用于 Agent 之间互联。',
-  },
-];
-
-const scenarios = [
-  {
-    numeral: 'I',
-    label: '批量 BOM 匹配',
-    body:
-      '上传物料清单——Excel、CSV 或直接粘贴。Cortex 只问一个关键问题：合金牌号、生产工艺、所在地区。低信号行不追问。之后并行检索 HiQLCD、Ecoinvent、EF、CarbonMinds 等数据库，按行返回 DQI 评分候选。在自动化会破坏审计的地方——覆盖率不够、需要代理值、跨库差异显著——Cortex 停下来把选择呈现给你判断。',
-    proof: '100 行 BOM · 约 10 分钟 · 完整来源导出',
-    href: '/zh/solutions/bom-matching',
-    hrefLabel: '查看完整流程',
-  },
-  {
-    numeral: 'II',
-    label: '单材料碳足迹搜索',
-    body:
-      '输入材料名称——"热轧钢，中国"或"HDPE 颗粒，挤出级"——Cortex 在所有已接入数据库中返回排名候选。每条结果显示 GWP100 值、单位、地理区域、系统模型，以及 HiQLCD 上的来源记录链接。中文或英文查询均可；数据库两种语言都接。',
-    proof: '自然语言查询 · 跨库检索 · DQI 排名 top-k',
-  },
-  {
-    numeral: 'III',
-    label: 'CBAM 范围逐条核查',
-    body:
-      '在对话中逐项走过 CBAM 附件 IV 要求：嵌入式排放边界、直接与间接排放拆分、核查员会质疑的代理值假设。Cortex 在每一步引用数据集键值和 GWP100 数值——不是模糊表述，是具名记录。核查员拿到的就是这条推理链，逐行可追溯。',
-    proof: '具名数据集 · 嵌入式排放边界 · 推理链 per 行',
-  },
-  {
-    numeral: 'IV',
-    label: '方法学专业问答',
-    body:
-      '"我的不锈钢行，Ecoinvent cut-off 和 APOS 有什么区别？"Cortex 从数据集记录和系统模型文档作答——不是训练数据的泛化摘要。可以问 ISO 14040/44 系统边界、分配方法、EPD 标准，或 CBAM 默认值。引用指向来源；答案可追溯回具体行。',
-    proof: '引用数据集键值 + 系统模型 · 非泛化摘要',
-  },
-];
+  'LCA 数据检索，在一次对话里完成。中文英文均可输入。Cortex 搜索前只问一个问题，从 14 个数据库返回排名候选——来源标注，每条假设都摆在明处。';
 
 const compare = [
-  ['运行位置',         '浏览器（云端）',                                   '桌面应用（本地优先）'],
-  ['文件访问',         '每次会话上传',                                     '读写项目文件夹'],
-  ['对话历史',         '云端同步，可搜索',                                 '仅本地'],
-  ['本地工具执行',     '不支持',                                           'Python、Shell、自定义 MCP 工具'],
-  ['技能系统',         '核心搜索技能',                                     '完整技能市场 + 自定义技能'],
-  ['最适合',           '单次检索：一份 BOM、一个材料、一个方法学问题',     '跨天项目：决策记录、多会话记忆、openLCA 建模'],
+  ['运行位置',     '浏览器（云端）',                                                             '桌面应用（本地）'],
+  ['文件访问',     '每次会话上传',                                                               '读写项目文件夹'],
+  ['对话历史',     '云端同步；最多保留 50 轮原始对话；偏好持续保存',                           '仅本地'],
+  ['本地工具执行', '不支持',                                                                     'Python、Shell、自定义 MCP 工具'],
+  ['技能系统',     '核心搜索技能',                                                               '完整技能市场 + 自定义技能'],
+  ['决策记录',     '提取的用户记忆',                                                             '追加写入的 progress.md，每条决策带时间戳'],
+  ['最适合',       '单次检索：一个材料、一份 BOM、一个方法学问题',                             '跨天项目：审计追踪、多会话记忆、结构化导出'],
 ];
 ---
 
 <BaseLayout title={title} description={description} locale="zh">
 
+  <!-- Hero -->
   <section class="relative">
     <div class="container-page pt-14 md:pt-20 pb-14">
       <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
         <p class="eyebrow">产品 · Cortex Chat</p>
         <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
       </div>
-      <h1 class="font-display" style="font-size: clamp(2.4rem, 5.5vw, 4.6rem); line-height: 1.15; letter-spacing: -0.01em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 22ch;">
-        LCA 数据检索：<em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">一次对话</em>，说清楚。
+      <h1 class="font-display" style="font-size: clamp(2.4rem, 6vw, 5rem); line-height: 1.05; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 20ch;">
+        LCA 数据检索：<em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">在一次对话里</em>完成。
       </h1>
-      <p class="mt-10 max-w-2xl font-serif" style="font-size: 1.15rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        中文英文均可输入。上传 BOM。Cortex 并行搜索 <strong style="font-weight: 500;">12 个数据库</strong>，返回 DQI 评分候选——每条假设附在结果旁边。
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        中文英文均可输入。Cortex 搜索前只问一个问题。从 14 个数据库返回排名候选——来源标注，数据质量评分，每条假设都摆在明处。
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
         <a href="/chat" class="ticket">打开 Cortex Chat <span aria-hidden="true">→</span></a>
-        <a href="/zh/solutions/bom-matching" class="ticket-ghost">查看 BOM 演示</a>
+        <a href="/zh/solutions/bom-matching" class="ticket-ghost">查看 BOM 匹配流程</a>
       </div>
     </div>
   </section>
 
-  <section class="border-t border-rule">
-    <div class="container-page py-14 md:py-16">
-      <div class="eyebrow mb-3">Chat 在哪里跑</div>
-      <div class="mt-8 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
-        {surfaces.map((s) => (
-          <div class="p-6 md:p-8" style="background: var(--paper);">
-            <div class="flex items-baseline justify-between mb-3">
-              <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 24; font-size: 1.3rem;">{s.name}</h3>
-              <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--shell);">{s.address}</code>
-            </div>
-            <p class="font-serif" style="font-size: 0.96rem; line-height: 1.85; font-variation-settings: 'opsz' 16; color: var(--ink);">{s.body}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="border-t border-rule" style="background: var(--paper-rim);">
-    <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="人们用它做什么" numeral="I–IV" title="LCA 从业者在一次对话里能跑完的四类场景。" />
-      <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        每次都返回命名工件，不是含糊的摘要。
-      </p>
-
-      <div class="mt-14 border-y border-rule">
-        {scenarios.map((s) => (
-          <article class="border-b border-rule last:border-b-0">
-            <div class="grid items-baseline gap-6 py-10 md:grid-cols-[4rem_minmax(0,_1fr)] md:gap-10">
-              <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: clamp(1.5rem, 2.4vw, 1.9rem);">§ {s.numeral}</span>
-              <div>
-                <h3 class="font-display mb-3" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.4rem, 2.4vw, 2rem); line-height: 1.15; letter-spacing: -0.01em; color: var(--ink);">{s.label}</h3>
-                <p class="font-serif max-w-2xl" style="line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1rem;">{s.body}</p>
-                <p class="mt-4 font-mono" style="font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-faint);">{s.proof}</p>
-                {s.href && (
-                  <a href={s.href} class="mt-4 inline-block smallcaps" style="text-decoration: none; color: var(--shell);">{s.hrefLabel} →</a>
-                )}
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
+  <!-- §I 双语检索 -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <Asterism class="mb-12" />
-      <blockquote class="mx-auto max-w-3xl text-center">
-        <p class="pullquote">
-          top-<em style="color: var(--shell); font-style: italic;">k</em>，不是 top-1。<em style="color: var(--shell); font-style: italic;">DQI</em>，不是置信度分数。<em style="color: var(--shell); font-style: italic;">由从业者判断</em>——不是模型悄悄过了某个阈值。
+      <SectionMark kicker="双语检索" numeral="I" title="中文工厂术语：搜索之前就解决。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          海外 LCA 工具把中文工厂术语留给用户处理。Cortex 在搜索之前就把它解决掉。
         </p>
-      </blockquote>
-      <p class="mx-auto mt-10 max-w-2xl font-serif text-center" style="line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink); font-size: 1.05rem;">
-        Cortex 按匹配度排名返回候选：地理区域、技术匹配、系统模型。每条记录带 DQI 五个维度——时间性、地理性、技术性、完整性、可靠性。当自动化会让答案站不住——覆盖率低于 80%、需要替代值、两个数据库 GWP 差异超过 2 倍——Cortex 停下来问。
-      </p>
-      <p class="text-center mt-8">
-        <a href="/zh/standards" class="smallcaps" style="color: var(--shell);">标准对齐 →</a>
-      </p>
+        <p>
+          中国制造业 BOM 里的术语，在 Ecoinvent 里往往没有直接对应项："背钩"（手表表壳零件）、"IGBT 模块"、"502 胶水"。这不是搜索失败——是翻译问题，此前的工具把它留给了从业者。Cortex 内置 2,083 条经人工整理的材料到数据集映射，来自多年 LCA 从业者的实际决策。"IGBT 模块"对应 Ecoinvent 3.12.0 中的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">market for insulated gate bipolar transistor, electric vehicle application</code>。"502 胶水"映射到聚氨酯胶黏剂——这是有依据的代理决策，不是猜测。"绝缘栅双极晶体管"和"IGBT 模块"是同一个元器件，但命名精度不同，匹配的数据集也不同。映射如实反映这一点。
+        </p>
+        <p>
+          搜索索引内置一部专为 LCA 中文术语调校的 20,000 词词典。没有它，"镍板"会被切分成覆盖所有含"镍"记录的词元——镍电池回收、镍精炼、镍合金铸造，一起出来。有了它，"镍板"精确对应镍板，噪声消失。
+        </p>
+        <p>
+          Cortex 同时检索中文和英文名称字段。查询"304 不锈钢"，同一轮检索中既命中 HiQLCD 记录的中文名称索引，也命中 Ecoinvent 和 EF 记录的英文名称索引。结果表双语呈现——"冷硬卷，304不锈钢（Cold-rolled annealed coil, 304 stainless steel）"——中国工厂可以对应供应商报告，德国核查员可以直接读 EU 标准名称，不需要再查一次。
+        </p>
+      </div>
     </div>
   </section>
 
+  <!-- §II 澄清问题 -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="哪一个 Cortex" numeral="V" title="Chat 是浏览器入口，Cowork 是桌面入口。" />
-      <p class="max-w-2xl font-serif" style="font-size: 1.05rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Chat 和 Cowork 共用同一个检索引擎。项目规模决定打开哪个。
+      <SectionMark kicker="澄清问题" numeral="II" title="在搜索之前问，不是之后。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          当答案会实质性影响检索结果时，Cortex 在搜索前问一个问题。其余情况不问。
+        </p>
+        <p>
+          条件是精确的。原铝和再生铝的碳强度相差约 10 倍——中国原铝约 14–20 kgCO₂e/kg，再生铝 0.5–1.5。一个没有指定生产路线的"铝"查询，返回的结果集既不能用于 EPD，也不能用于 CBAM 申报。Cortex 在暂停前明确说出这一点：差距量级、两个选项，以及同时搜索两者的第三选项。界面呈现可点击按钮，而不是要求从业者在文本框里输入一个也许没背下来的答案。
+        </p>
+        <p>
+          碳钢方面，BF-BOF 和 EAF 路线相差 3–5 倍。区域电网，跨网格的差异可达 20 倍。对于"胶黏剂"或"塑料"这类映射到几十种不同物质类别的通用词，任何不经澄清的结果都是噪声。在这些情况下，Cortex 会问。材料已经精确指定时——"冷轧 304 不锈钢卷板"带了合金牌号、工艺和产品形态——不追问。
+        </p>
+        <p>
+          每次澄清都包含一个默认值和"同时搜索"的出口。不回答推进搜索，不中断搜索。每轮最多问一次，一次面板覆盖最多三个维度。不循环。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §III 14 个数据库 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="14 个数据库" numeral="III" title="一次查询：供应链两侧都覆盖。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          一次搜索覆盖 14 个 LCA 数据库。返回的不是由用户串联的 14 个独立请求——而是一次统一查询，同时跨所有来源返回排名候选。
+        </p>
+        <p>
+          <strong style="font-weight: 500;">HiQLCD 1.4.0</strong> 是中国优先数据库：31,523 条记录，含 30 个省级电网变体。CN-BJ 和 CN-SH 的电力碳强度不同，因为西北和东部的煤电与可再生能源比例不同。Ecoinvent 的中国覆盖有 2.3 倍区域差异，HiQLCD 的是 18.7 倍。<strong style="font-weight: 500;">Ecoinvent 3.12.0</strong> 提供国际覆盖，以及从业者和核查员在 EU、全球和跨境场景中通用的标准命名。两者在同一次查询里都有。
+        </p>
+        <p>
+          其余 14 个数据库中：<strong style="font-weight: 500;">EF 3.1.0</strong>，EU PEF 和 CBAM 合规参考数据；<strong style="font-weight: 500;">CarbonMinds 2.0.2</strong>，精细化学品；<strong style="font-weight: 500;">TianGong 1.0.0</strong>，中国学术 LCI 研究；<strong style="font-weight: 500;">WorldSteel 1.0.0</strong>，行业协会钢铁参考数据；<strong style="font-weight: 500;">HiQLCD-AL 2.0.0</strong>，铝供应链深度数据；<strong style="font-weight: 500;">Agri-footprint 7.0</strong>，食品与农业 EPD；以及其他覆盖地区和专项领域的数据库。
+        </p>
+        <p>
+          CBAM 场景下，Cortex 在单次响应中呈现双侧数据。中国钢铁出口商既需要来自 HiQLCD 的实际生产 GWP——中国 BF-BOF 路线约 1.7–2.5 kgCO₂e/kg——也需要 EF 或 Ecoinvent 的 EU 参考值用于申报。Cortex 同时检索两者，并排返回。
+        </p>
+        <p>
+          每条结果携带：数据集键值、GWP100（已授权的情况下）、单位、地理区域、系统模型、数据库名称和版本，以及数据集详情页链接。搜索是一次对话轮次。来源记录完整。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §IV 数据质量 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="数据质量" numeral="IV" title="分数反映什么，不反映什么。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          每个搜索候选都附带数据质量指标。分数反映两件 Cortex 可以从记录本身计算的事：版本时效——数据集来自当前数据库版本还是旧版本——以及字段完整性——记录是否携带让它可用的元数据。
+        </p>
+        <p>
+          这是一个结构性代理指标，不是 Pedigree Matrix（Pedigree 矩阵）的五维度评分。Pedigree Matrix 的五个维度——时间性、地理性、技术性、完整性、可靠性——由人工 LCA 从业者在数据集进入来源数据库时给出。Cortex 从来源数据库提供这些维度分数的地方检索并展示它们。Cortex 自身的 DQI 浮点数是一个规则引擎数值：0–1，在查询时计算，基于版本时效（权重 60%）和字段完整性（权重 40%）。
+        </p>
+        <p>
+          这个区别重要。两个候选来自同一数据库的同一版本，版本时效分量相同；如果其中一个有明确的系统边界定义而另一个没有，字段完整性分量会把它们区分开来。分数是筛选器和加权参考，不是替代阅读数据集记录的依据。
+        </p>
+        <p>
+          DQI 在搜索响应和 API 中均可见。它不是导出 Excel 文件中的列——导出文件携带 GWP、来源、版本、系统模型、代理说明和数据集链接。DQI 的讨论发生在搜索过程中；导出文件携带的是证据。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §V 记忆 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="记忆" numeral="V" title="什么保留，什么不保留。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cortex 保留对下一次搜索有用的内容。对话本身不保留。
+        </p>
+        <p>
+          会话结束后，Cortex 提取并存储：用户陈述的行业和 LCA 用途、偏好的数据库、最常检索的材料及指定的生产路线，以及正在进行的项目。说过"中国项目用 HiQLCD，EU EPD 用 Ecoinvent"的从业者，下次不用再说。初次接触 LCA、要求用简明语言解释术语的从业者，此后每次会话都沿用同样的表达方式，无需重新指定。
+        </p>
+        <p>
+          原始对话——实际消息——最多保留 50 轮历史。超过这个限制，最旧的轮次会被丢弃。提取的偏好不会丢弃。它们是用户档案，不是对话记录。
+        </p>
+        <p>
+          数据来源偏好的变更需要一次确认。会话中途说"这条查询用 Ecoinvent"，会看到一步确认提示，确认后会话的活跃数据库立即切换，并存储供后续会话使用。由用户决定；Cortex 记录下来。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §VI Chat vs Cowork -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="选哪个 Cortex" numeral="VI" title="Chat 答问题。Cowork 跑流程。" />
+      <p class="max-w-2xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Chat 和 Cowork 共用同一个检索引擎。工作的规模决定打开哪个。
       </p>
 
       <div class="mt-10 overflow-hidden rounded-sm border border-rule" style="background: var(--paper);">
@@ -161,7 +165,7 @@ const compare = [
               <th class="eyebrow text-left p-4 border-b border-rule">Cortex Cowork</th>
             </tr>
           </thead>
-          <tbody class="font-serif" style="font-size: 0.94rem; line-height: 1.7; font-variation-settings: 'opsz' 16;">
+          <tbody class="font-serif" style="font-size: 0.92rem; line-height: 1.5; font-variation-settings: 'opsz' 16;">
             {compare.map(([label, chat, cowork]) => (
               <tr>
                 <td class="p-4 border-b border-rule" style="color: var(--ink-mute); font-weight: 500;">{label}</td>
@@ -173,8 +177,8 @@ const compare = [
         </table>
       </div>
 
-      <p class="mt-10 max-w-3xl font-display italic" style="font-variation-settings: 'SOFT' 60, 'opsz' 36; font-size: 1.4rem; line-height: 1.4; color: var(--ink);">
-        Chat 答问题 · Cowork 跑流程。
+      <p class="mt-10 max-w-3xl font-serif" style="font-size: 1.02rem; line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink);">
+        在 Chat 里处理 CBAM 查询，返回带来源的候选，供申报人自行计算。在 Cowork 里跑 CBAM 流程，匹配完整 BOM，在追加写入的日志中记录每条代理替换及其偏差方向，导出核查员会读的 Excel 文件。
       </p>
 
       <p class="mt-6">
@@ -183,17 +187,18 @@ const compare = [
     </div>
   </section>
 
+  <!-- Closing -->
   <section class="border-t border-rule">
     <div class="container-prose py-24 text-center">
-      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.15; letter-spacing: -0.01em;">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
         问 Cortex 查个材料。
       </h2>
-      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.08rem; line-height: 1.75; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        一个问题就能开始。不需要配置，不需要 schema——输入材料名，Cortex 把候选连同来源一起返回。
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        一个问题就够。输入材料名——中文或英文——Cortex 从 14 个数据库返回候选，来源附在旁边。
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
         <a href="/chat" class="ticket">打开 Cortex Chat <span aria-hidden="true">→</span></a>
-        <a href="mailto:info@hiqlcd.com" class="ticket-ghost">API 接入 · info@hiqlcd.com</a>
+        <a href="/zh/docs" class="ticket-ghost">API 接入</a>
       </div>
     </div>
   </section>
