@@ -1,0 +1,246 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = 'API 文档 — HiQ Cortex';
+const description =
+  'Cortex API 接入面，4 个协议——REST、MCP、AG-UI、A2A。每个协议的使用时机、最小调用示例，以及完整参考的去处。';
+
+const protocols = [
+  {
+    code: 'REST',
+    when:
+      '有一批物料需要匹配，要拿回经 DQI 评分的 LCA 数据集候选——不需要流式，不需要客户端配置。后端批处理 job、CBAM 申报范围梳理、BOM 筛选流水线：发一个 POST，解析 JSON 响应即可。',
+    detail:
+      'Cortex 在内部完成查询拆解、向量检索、字段校验。响应包含 datasets 数组，每条含 name、loc、src、ver、model、dqi、gwp（非受限数据集才有）以及 fit 评级（high / medium / low）。加 stream=true 改为 SSE 事件流返回。',
+    endpoint: 'POST https://x.hiqlcd.com/api/cortex/search',
+    example: `curl -s -X POST https://x.hiqlcd.com/api/cortex/search \\
+  -H "X-API-Key: sk_xxx" \\
+  -H "Content-Type: application/x-www-form-urlencoded" \\
+  -d 'message=stainless+steel+304&stream=false'`,
+  },
+  {
+    code: 'MCP',
+    when:
+      '你在使用 AI 编程助手——Cursor、Claude Desktop、Claude Code、Cline，或任何支持 Model Context Protocol 的客户端——并希望把 Cortex LCA 检索作为原生工具直接集成进去。',
+    detail:
+      'MCP 暴露 2 个工具：search_datasets（语义检索，返回 top-k 候选）和 lookup_datasets（按数据集 key 批量获取详情）。Claude Desktop、Cursor、Claude Code 使用同一份配置结构；仅文件路径不同。',
+    endpoint: 'POST https://x.hiqlcd.com/api/cortex/mcp  (Streamable HTTP, JSON-RPC over SSE)',
+    example: `// ~/.cursor/mcp.json  (或项目级 .cursor/mcp.json)
+{
+  "mcpServers": {
+    "cortex": {
+      "url": "https://x.hiqlcd.com/api/cortex/mcp",
+      "headers": {
+        "X-API-Key": "sk_xxx"
+      }
+    }
+  }
+}`,
+  },
+  {
+    code: 'AG-UI',
+    when:
+      '你在构建前端聊天界面，或对接支持 AG-UI 协议的 Agent 框架。一个 POST 返回 SSE 事件流：RUN_STARTED、TEXT_MESSAGE_CONTENT 增量、RUN_FINISHED。CORS 已开放，可以从浏览器直接调用。',
+    detail:
+      'thread_id 字段在多次调用之间保持会话连续性。用 @ag-ui/client 解析 SSE 流，无需自己实现事件状态机。',
+    endpoint: 'POST https://x.hiqlcd.com/api/cortex/agui',
+    example: `curl -sN -X POST https://x.hiqlcd.com/api/cortex/agui \\
+  -H "Content-Type: application/json" \\
+  -H "Accept: text/event-stream" \\
+  -H "X-API-Key: sk_xxx" \\
+  -d '{
+    "thread_id": "thread-001",
+    "run_id": "run-001",
+    "messages": [
+      {"id": "msg-1", "role": "user", "content": "Find datasets for polyethylene, GLO region"}
+    ],
+    "tools": [], "context": [], "state": {}
+  }'`,
+  },
+  {
+    code: 'A2A',
+    when:
+      '你的系统遵循 Google Agent-to-Agent 协议，需要把 Cortex Chat 注册为对等 Agent。先拉 agent card 做能力发现，实质性查询一律用 message:stream；仅不触发 LLM streaming 的短交互才可用 message:send。',
+    detail:
+      '响应为 SSE 流，每条是携带 TaskStatusUpdateEvent 和 TaskArtifactUpdateEvent 增量的 JSON-RPC 对象，直到 status.state 变为 completed。',
+    endpoint: '端点根前缀 · https://x.hiqlcd.com/api/cortex/a2a',
+    example: `# 发现 Agent 能力
+curl -s https://x.hiqlcd.com/api/cortex/a2a/agents/chat/.well-known/agent-card.json \\
+  -H "X-API-Key: sk_xxx"
+
+# 流式查询
+curl -sN -X POST https://x.hiqlcd.com/api/cortex/a2a/agents/chat/v1/message:stream \\
+  -H "Content-Type: application/json" \\
+  -H "Accept: text/event-stream" \\
+  -H "X-API-Key: sk_xxx" \\
+  -d '{
+    "jsonrpc": "2.0", "id": "req-1", "method": "message/stream",
+    "params": {
+      "message": {
+        "messageId": "msg-1", "contextId": "ctx-001", "role": "user",
+        "parts": [{"kind": "text", "text": "Carbon footprint data for polyethylene"}]
+      }
+    }
+  }'`,
+  },
+];
+---
+
+<BaseLayout title={title} description={description} locale="zh">
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">参考 · API 文档</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.15; letter-spacing: -0.01em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 22ch;">
+        Cortex API 接入面，4 个协议。
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.15rem; line-height: 1.75; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        本页讲：选哪个协议、第一个调用怎么发。完整参考在
+        <a href="https://docs.x.hiq.earth" style="color: var(--shell);">docs.x.hiq.earth</a>。
+      </p>
+    </div>
+  </section>
+
+  <!-- §I What this page is -->
+  <section class="border-t border-rule">
+    <div class="container-page py-14 md:py-16">
+      <SectionMark kicker="本页说明" numeral="I" title="路由页，非完整参考。" />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Cortex 提供 4 个协议——REST、MCP、AG-UI、A2A——完整参考在{' '}
+        <a href="https://docs.x.hiq.earth" style="color: var(--shell);">docs.x.hiq.earth</a>。
+        下面：每个协议的使用时机、一段最小调用示例，以及发送第一个请求前需要的认证和限流信息。
+      </p>
+    </div>
+  </section>
+
+  <!-- §II Authentication -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-14 md:py-16">
+      <SectionMark kicker="认证" numeral="II" title="一个 header。两条限制。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.02rem; line-height: 1.8; font-variation-settings: 'opsz' 18; color: var(--ink);">
+        <p>所有 Cortex 端点统一使用同一个 header：</p>
+        <pre class="font-mono" style="background: var(--paper); border: 1px solid var(--rule); padding: 0.9rem 1.1rem; font-size: 0.85rem; overflow-x: auto;"><code>X-API-Key: sk_xxx</code></pre>
+        <p>
+          MCP 端点同时接受 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">Authorization: Bearer sk_xxx</code>。
+          不要在请求体或 URL query string 里传密钥——凡是进了日志或浏览器历史的凭据必须重置。
+        </p>
+      </div>
+
+      <div class="mt-8 max-w-3xl overflow-hidden border border-rule" style="background: var(--paper);">
+        <table class="w-full" style="border-collapse: collapse;">
+          <thead>
+            <tr style="background: var(--paper-rim);">
+              <th class="eyebrow text-left p-4 border-b border-rule">协议</th>
+              <th class="eyebrow text-left p-4 border-b border-rule">Per-key</th>
+              <th class="eyebrow text-left p-4 border-b border-rule">Per-IP</th>
+            </tr>
+          </thead>
+          <tbody class="font-mono" style="font-size: 0.85rem;">
+            <tr>
+              <td class="p-4 border-b border-rule" style="color: var(--ink);">REST / AG-UI / A2A</td>
+              <td class="p-4 border-b border-rule" style="color: var(--ink);">300 req/min</td>
+              <td class="p-4 border-b border-rule" style="color: var(--ink);">500 req/min</td>
+            </tr>
+            <tr>
+              <td class="p-4" style="color: var(--ink);">MCP</td>
+              <td class="p-4" style="color: var(--ink-mute);">—</td>
+              <td class="p-4" style="color: var(--ink);">100 req/min</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="mt-6 max-w-3xl font-serif" style="font-size: 1rem; line-height: 1.8; font-variation-settings: 'opsz' 18; color: var(--ink-mute);">
+        超过任一限额返回 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">429 Too Many Requests</code>。
+        每把密钥在账户层级设有月度 LLM 成本上限。
+        <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">401</code>：密钥缺失、无效或已吊销。
+        <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">403</code>：当前订阅不覆盖所请求的数据源。
+      </p>
+    </div>
+  </section>
+
+  <!-- §III Four protocols -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="4 个协议" numeral="III" title="各取所需。" />
+
+      <div class="mt-12 space-y-14">
+        {protocols.map((p) => (
+          <article>
+            <div class="grid gap-6 md:grid-cols-[10rem_minmax(0,_1fr)] md:gap-10">
+              <div>
+                <p class="font-mono" style="font-size: 1.05rem; letter-spacing: 0.03em; color: var(--shell);">{p.code}</p>
+                <p class="mt-2 font-mono" style="font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-faint); line-height: 1.5;">{p.endpoint}</p>
+              </div>
+              <div class="space-y-4">
+                <div>
+                  <span class="eyebrow" style="color: var(--shell);">使用时机</span>
+                  <p class="mt-2 font-serif" style="line-height: 1.8; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1rem;">{p.when}</p>
+                </div>
+                <p class="font-serif" style="line-height: 1.8; font-variation-settings: 'opsz' 18; color: var(--ink-mute); font-size: 0.96rem;">{p.detail}</p>
+                <pre class="font-mono" style="background: var(--paper-rim); border: 1px solid var(--rule); padding: 0.95rem 1.1rem; font-size: 0.78rem; line-height: 1.5; overflow-x: auto; color: var(--ink);"><code>{p.example}</code></pre>
+                <p class="mt-2">
+                  <a href="https://docs.x.hiq.earth" class="smallcaps" style="color: var(--shell); text-decoration: none;">完整 {p.code} 参考 →</a>
+                </p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §IV Common patterns -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-16 md:py-20">
+      <SectionMark kicker="常见用法" numeral="IV" title="按数据源和系统模型过滤。" />
+      <div class="max-w-3xl space-y-4 font-serif" style="font-size: 1.02rem; line-height: 1.8; font-variation-settings: 'opsz' 18; color: var(--ink);">
+        <p>
+          在 REST 请求体中以 JSON 字符串形式传递
+          <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">session_state</code>，
+          可以缩小检索范围。
+        </p>
+        <ul class="space-y-2 list-disc pl-6 marker:text-[var(--ink-faint)]">
+          <li>
+            <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">session_state.sources</code> 接受
+            <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">"HiQLCD"</code>、
+            <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">"Ecoinvent:3.12.0"</code>，
+            或管道符分隔的多个值（<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">"HiQLCD:1.4.0|Ecoinvent:3.12.0"</code>）。
+          </li>
+          <li>
+            <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">session_state.system_model</code> 接受
+            <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">cut_off</code>、
+            <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">apos</code> 或
+            <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">consequential</code>。
+          </li>
+        </ul>
+        <p>
+          两个字段默认为空（不应用过滤）。MCP 的
+          <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">search_datasets</code>
+          工具将 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">sources</code>
+          作为直接参数暴露。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §V Get an API key -->
+  <section class="border-t border-rule">
+    <div class="container-page py-16 md:py-20">
+      <SectionMark kicker="申请访问" numeral="V" title="获取 API 密钥。" />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.8; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        API 访问目前不支持自助开通。请发邮件至{' '}
+        <a href="mailto:info@hiqlcd.com" style="color: var(--shell);">info@hiqlcd.com</a>，
+        说明使用场景和所需协议。HiQ-AI 会配置密钥并提供账户控制台链接。现有集成遇到问题——
+        认证报错、限流疑问、数据集覆盖范围——请在{' '}
+        <a href="https://github.com/HiQ-AI/cortex-desktop/issues" style="color: var(--shell);">GitHub Issues</a>{' '}
+        提 Issue。
+      </p>
+    </div>
+  </section>
+</BaseLayout>

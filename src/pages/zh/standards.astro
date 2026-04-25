@@ -1,0 +1,197 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = '标准对齐 — HiQ Cortex';
+const description =
+  'Cortex 输出与哪些标准对齐——ISO 14067、14044、GHG Protocol、PEF / EF、CBAM、Scope 3——以及"对齐"在实际操作中的含义。';
+
+const standards = [
+  {
+    code: 'ISO 14067',
+    name: '产品碳足迹',
+    covers:
+      '产品碳足迹（PCF）的量化与传达：在 ISO 14040 / 14044 框架下，对所定义生命周期范围内经 GWP100 表征的排放量进行核算。单一影响类别。',
+    does:
+      'Cortex 从 12 个数据库——HiQLCD、Ecoinvent、EF、CarbonMinds 等——返回经 GWP100 表征的 LCI 数据集，并按 DQI 5 个维度评分：时间性、地理性、技术性、完整性、可靠性。每次导出均附带数据集来源 URL、系统模型（截断或 APOS）及替代值说明，这是 ISO 14067 计算文件所必需的信息。3 个人工审核节点在 BOM 覆盖率低于 80%、需要替代值、跨数据库差异超过 2 倍时暂停运行——在静默自动化可能产出核查员无法支撑的结果时，运行会在此等待判断。',
+    notClaim:
+      'Cortex 不生成 ISO 14067 EPD。环境产品声明要求多影响类别表征、产品类别规则（PCR）以及第三方核查——均不在本工具的职责范围内。',
+  },
+  {
+    code: 'ISO 14044',
+    name: 'LCA 要求与指南',
+    covers:
+      '开展生命周期评价（LCA）的要求、指南与方法体系：目标与范围界定、LCI、生命周期影响评价（LCIA）及解释。LCA 工具互操作性与审核员审查的共同技术基础。',
+    does:
+      'Cortex 在数据筛选与记录层应用 ISO 14044 原则。检索结果保留功能单位、参考流、系统边界及系统模型作为可查询的元数据。分摊方法保存在数据集元数据中并在导出时呈现——Cortex 不代替用户执行分摊。推理链——输入材料、候选数据集排序、替代值说明——随每次导出一并附上，审查方可据此逐行复核或质疑，无需重新运行系统。',
+    notClaim: null,
+  },
+  {
+    code: 'GHG Protocol',
+    name: '产品标准',
+    covers:
+      'GHG Protocol 产品生命周期核算与报告标准：面向企业的产品级温室气体清单方法，与 ISO 14067 原则对齐，并对 Scope 3 类别 1 的数据收集提供专项指导。',
+    does:
+      'Cortex Cowork 支持全部 15 个 GHG Protocol Scope 3 类别，提供分类辅助与数据收集清单。针对类别 1（采购商品与服务），Cortex 在 BOM 行级别跨 12 个数据库匹配排放因子，返回附有 DQI 评分的 GWP100 表征候选集。其他类别提供因子识别与记录辅助；组织边界的划定由从业者负责。',
+    notClaim: null,
+  },
+  {
+    code: 'PEF / EF 3.1',
+    name: '欧盟产品环境足迹',
+    covers:
+      '欧盟产品环境足迹方法，通过 EF 3.1 表征因子与授权数据集实施。欧盟监管的 PCF 及 EPD 声明须以此为准；在 CBAM 嵌入式排放计算中居于核心地位。',
+    does:
+      'Cortex 索引 EF 授权数据集（在检索结果中标注为 "EF (Environmental Footprint)"），并在数据集携带相关信息时应用 EF 3.1 表征因子。对于 CBAM 覆盖材料——钢铁、水泥、铝、化肥、电力、氢——EF 数据集与 Ecoinvent 及 HiQLCD 结果并列出现在排序候选列表中。导出文件标明哪些候选集来自 EF，供 CBAM 申报方或 PEF 核查员筛选使用。系统模型保存于元数据；Cortex 不静默混用 EF 与非 EF 数据集。',
+    notClaim: null,
+  },
+  {
+    code: 'CBAM',
+    name: '欧盟碳边境调节机制',
+    covers:
+      'CBAM 要求覆盖商品（钢铁、水泥、铝、化肥、电力、氢）的进口商，依照附件 IV 计算规则申报嵌入式温室气体排放——含直接排放、间接排放及前驱投入的嵌入式排放。过渡期（2023–2025 年）要求按季报告；正式期（2026 年起）须购买 CBAM 证书并接受第三方核查。',
+    does:
+      'Cortex 准备 CBAM 申报所需的排放因子材料与替代值说明文档。它返回 CBAM 实施条例所引用的 EF 数据集中的排放因子，对任何替代值注明所需的地理偏差与工艺偏差说明，并标记跨数据库差异，供申报方记录因子选择依据。DQI 评分与 CBAM 核查员所应用的数据质量评估标准直接对应。在供应商特定数据缺失时，Cortex 识别相关默认值并注明其地理依据。',
+    notClaim:
+      'Cortex 不提交 CBAM 报告，亦不保证符合各国海关当局的具体解释口径。申报是申报方的行为。',
+  },
+  {
+    code: 'Scope 3',
+    name: 'GHG Protocol 企业标准',
+    covers:
+      '组织价值链中 15 个类别的间接温室气体排放。Scope 3 是组织级核算（以机构为单位，按年度统计）——非产品级核算。对制造商而言，类别 1（采购商品与服务）和类别 11（已售产品的使用）数据需求最为密集。',
+    does:
+      'Cortex Cowork 支持全部 15 个类别，提供分类辅助与数据收集清单。BOM 行级别的排放因子匹配主要覆盖类别 1。针对上游运输（类别 4）、商务出行（类别 6）、资本品（类别 2）等类别，Cortex 提供因子识别辅助；组织边界的划定及数据收集协议由从业者负责。',
+    notClaim: null,
+  },
+];
+
+const limits = [
+  {
+    title: '认证与对齐',
+    body:
+      '认证研究须具备：明确的目标与范围、声明的功能单位、选定的系统边界、覆盖相关影响类别的 LCIA 表征、关键审查（ISO 14044 §6.1），以及第三方核查（ISO 14067 §7）。这些步骤属于从业者与核查机构的职责——不属于数据检索工具的范畴。',
+  },
+  {
+    title: 'EPD 须以 PCR 为前提',
+    body:
+      '环境产品声明（ISO 14025）须以产品类别规则（PCR）为前提：PCR 规定了哪些影响类别在范围内、适用哪些 LCIA 表征因子，以及声明单位是什么。Cortex Cowork 生成遵循 EPD 标准结构的 .docx 文件；PCR 属于从业者的文件，须向相关 EPD 项目运营方获取。',
+  },
+  {
+    title: 'CBAM 申报是申报方的行为',
+    body:
+      'Cortex 准备 CBAM 申报所需的排放因子文档。向海关当局提交申报、在供应商数据缺失时选用适用的国家默认值、购买 CBAM 证书——均在工具职责范围之外。',
+  },
+  {
+    title: '系统模型的选择由从业者决定',
+    body:
+      'Cortex 返回标注了系统模型的数据集（截断、APOS、后果性）。工具不代替用户选择系统模型。在同一研究中混用系统模型将使计算失效；Cortex 随每条结果呈现系统模型，供从业者自行确保一致性。',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} locale="zh">
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">参考 · 标准</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.15; letter-spacing: -0.01em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 22ch;">
+        Cortex 输出与哪些标准对齐。
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.15rem; line-height: 1.75; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        面向核准员、CBAM 申报方及可持续发展团队：在正式申报或审计中引用数据前，先确认 Cortex 产出的边界与性质。
+      </p>
+    </div>
+  </section>
+
+  <!-- §I How alignment works -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="对齐机制" numeral="I" title="对齐，不等于认证。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cortex 的输出设计为与 §II 中所列标准兼容。所谓"对齐"，指数据筛选、来源溯源及替代值说明的方法，与各标准的要求相对应。
+        </p>
+        <p>
+          正式认证属于项目范畴，由核查机构主导——取决于研究边界、声明功能单位及第三方审查。这些步骤不属于工具的职责。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §II Per-standard reference -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="逐标准参考" numeral="II" title="各标准覆盖范围，及 Cortex 的对应做法。" />
+
+      <div class="mt-12 border-y border-rule">
+        {standards.map((s) => (
+          <article class="border-b border-rule last:border-b-0 py-10">
+            <div class="grid items-start gap-6 md:grid-cols-[10rem_minmax(0,_1fr)] md:gap-10">
+              <div>
+                <p class="font-mono" style="font-size: 0.95rem; letter-spacing: 0.02em; color: var(--shell);">{s.code}</p>
+                <p class="mt-2 font-display italic" style="font-variation-settings: 'SOFT' 40, 'opsz' 18; font-size: 1rem; line-height: 1.35; color: var(--ink-mute);">{s.name}</p>
+              </div>
+              <div class="space-y-5">
+                <div>
+                  <span class="eyebrow" style="color: var(--ink-faint);">覆盖范围</span>
+                  <p class="mt-2 font-serif" style="line-height: 1.8; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1rem;">{s.covers}</p>
+                </div>
+                <div>
+                  <span class="eyebrow" style="color: var(--shell);">Cortex 做什么</span>
+                  <p class="mt-2 font-serif" style="line-height: 1.8; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1rem;">{s.does}</p>
+                </div>
+                {s.notClaim && (
+                  <div>
+                    <span class="eyebrow" style="color: var(--ink-faint);">不主张</span>
+                    <p class="mt-2 font-serif italic" style="line-height: 1.8; font-variation-settings: 'opsz' 16; color: var(--ink-mute); font-size: 0.96rem;">{s.notClaim}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §III Explicit limits -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="明确边界" numeral="III" title="输出对齐。认证在其后。" />
+
+      <div class="mt-10 grid gap-6 md:grid-cols-2">
+        {limits.map((l) => (
+          <article class="border border-rule p-7" style="background: var(--paper);">
+            <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.18rem; line-height: 1.3; letter-spacing: -0.01em; color: var(--ink);">{l.title}</h3>
+            <p class="mt-4 font-serif" style="line-height: 1.8; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.98rem;">{l.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §IV Closing -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-16 md:py-20">
+      <SectionMark kicker="延伸阅读" numeral="IV" title="方法学、操作演示与联系方式。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.8; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cortex 数据筛选与排序的推理规则——DQI 评分、HITL 节点阈值、替代值策略——详见
+          <a href="/zh/methodology" style="color: var(--shell);">方法学</a>页面。
+        </p>
+        <p>
+          BOM 匹配工作流与标准对齐输出的完整演示，见{' '}
+          <a href="/zh/solutions/bom-matching" style="color: var(--shell);">BOM 匹配</a>。
+        </p>
+        <p>
+          标准范围、CBAM 申报要求或 EPD 项目规则方面的问题，联系：{' '}
+          <a href="mailto:info@hiqlcd.com" style="color: var(--shell);">info@hiqlcd.com</a>。
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
