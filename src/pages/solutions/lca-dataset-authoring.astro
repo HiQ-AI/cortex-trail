@@ -35,6 +35,8 @@ const stages = [
   },
 ];
 
+const videoUrl = '';
+
 const checkpoints = [
   ['Mass balance failure', 'Input mass does not equal output mass plus losses. Cortex pauses and lists every flow so the user can identify the gap — missing water vapor, missing co-products, or a unit conversion error are the common causes.'],
   ['Magnitude anomaly', 'Single-calculation result differs from comparable datasets by an order of magnitude. Cortex stops, names what is off and the most likely cause, and asks the user whether the data is wrong or the model is wrong before continuing.'],
@@ -65,6 +67,17 @@ const checkpoints = [
     </div>
   </section>
 
+  <!-- Video demo (set videoUrl to enable) -->
+  {videoUrl && (
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-14 md:py-16">
+      <div class="mx-auto max-w-4xl aspect-video overflow-hidden border border-rule">
+        <iframe src={videoUrl} class="w-full h-full" allowfullscreen loading="lazy" title="LCA dataset authoring demo" />
+      </div>
+    </div>
+  </section>
+  )}
+
   <!-- §I Five stages -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
@@ -93,13 +106,13 @@ const checkpoints = [
       <SectionMark kicker="HiQ Editor integration" numeral="II" title="Cortex operates HiQ Editor. The dataset lives in your account." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          HiQ Editor is HiQ's LCA background database authoring SaaS — the platform where background datasets are created, validated, and submitted for publication to HiQLCD. Cortex Cowork connects to HiQ Editor through the <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">hiq-editor</code> skill and operates it: creating and editing datasets, adding flows, triggering single calculations, and submitting the final package for review.
+          HiQ Editor is HiQ's LCA background database authoring SaaS — the platform where background datasets are created, validated, and submitted for publication to HiQLCD. Cortex Cowork connects to HiQ Editor directly and operates it: creating and editing datasets, adding flows, running single calculations, and submitting the final package for review.
         </p>
         <p>
           The dataset lives in the user's HiQ Editor account throughout. Cortex does not hold a copy. At every stage — metadata entry, flow editing, DQI scoring — the changes are written to the dataset record in HiQ Editor, not to a local file that has to be uploaded at the end.
         </p>
         <p>
-          Cross-session continuity works the same way as in the product carbon footprint workflow: the dataset ID, finalized metadata, flow entry state, and any pitfalls encountered are written to the project's <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Cortex.md</code> at the end of each session. The next session reads them first and continues from where the last one stopped.
+          Cross-session continuity works the same way as in the product carbon footprint workflow: the dataset ID, finalized metadata, flow entry state, and any pitfalls encountered are recorded at the end of each session. The next session reads them first and continues from where the last one stopped.
         </p>
       </div>
     </div>

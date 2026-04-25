@@ -1,0 +1,234 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Asterism from '@/components/Asterism.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = 'EPD 审核（面向项目运营方）— HiQ Cortex';
+const description =
+  '在注册发布前检查 EPD 提交材料。每条发现引用规范条款原文，并摘录 EPD 文件中触发该发现的段落。风险分级覆盖格式合规、PCR 符合性、数值合理性、CPR 准备情况及验证方质量。';
+
+const checks = [
+  {
+    n: '01',
+    name: '格式与完整性',
+    body: '检查 ISO 14025 §7 要求的所有必填字段和文件材料是否存在且完整。缺失的声明、不完整的行政元数据以及项目专属字段的缺漏，均在提交材料进入审查流程前浮出水面。',
+  },
+  {
+    n: '02',
+    name: 'PCR 与标准符合性',
+    body: 'EPD 声明逐条对照适用的产品品类规则（PCR）及 EN 15804+A2 进行核查——涵盖声明范围、系统边界定义、功能单位及模块覆盖。凡 EPD 主张与 PCR 存在约束关系之处，均引用该约束条款。',
+  },
+  {
+    n: '03',
+    name: '数值合理性',
+    body: '声明的 GWP 及其他影响值与 HiQLCD 数据及该产品品类的参考区间进行基准比对，不作默认接受。声明值偏离同类产品预期范围的 EPD 将被标记——即便格式完全正确。',
+  },
+  {
+    n: '04',
+    name: 'EU CPR 准备情况',
+    body: 'CPR 2024/3110 要求的模块逐一核查其存在性与完整性。第一阶段截止日期的准备情况被明确报告——不是从当前是否符合要求推断，而是从是否能满足即将生效的要求来判断。',
+  },
+  {
+    n: '05',
+    name: '工具溯源',
+    body: '对于使用预认证工具生成的 EPD，Cortex 核查工具版本及嵌入的 LCA 数据库版本是否在当前批准清单之内。使用过时工具版本或已被取代数据库生成的 EPD 将被标记。',
+  },
+  {
+    n: '06',
+    name: '验证方质量',
+    body: '验证报告的完整性与独立性逐一核查。系统性规律——如验证方在职责限于核查的情况下发出建议——将被标记。验证方质量发现可跨提交材料累积，供项目层面的质量监控使用。',
+  },
+  {
+    n: '07',
+    name: '跨 EPD 一致性',
+    body: '当申请方在同一产品系列中有历史 EPD 时，前后提交之间的重大数值变动将被标记并要求说明。申请方产品组合中无法解释的 GWP 声明值阶跃变化属于发现项，而非背景噪声。',
+  },
+];
+
+const depthLevels = [
+  {
+    level: '01',
+    label: '仅 EPD 文件',
+    depth: '表层检查',
+    body: '对照 ISO 14025 必填字段进行完整性核查，检查 CPR 模块准备情况，并对照参考区间进行数值合理性评估。适用于对新进提交材料进行初步筛查。',
+  },
+  {
+    level: '02',
+    label: 'EPD + 适用 PCR',
+    depth: '标准检查',
+    body: '增加 PCR 对齐核查——声明单位、系统边界、范围及模块覆盖均对照 PCR 文本核验。适用于已注册 EPD 的常规审查配置。',
+  },
+  {
+    level: '03',
+    label: 'EPD + 背景 LCA 报告',
+    depth: '深度检查',
+    body: '增加对背景研究的方法论审查与数据源核查。影响类别覆盖范围、特征化因子及数据源版本均对照所声明的方法论进行核查。',
+  },
+  {
+    level: '04',
+    label: '完整材料包（EPD + PCR + LCA + 验证报告）',
+    depth: '全面审核',
+    body: '执行所有检查项，包括验证方质量审查。验证报告与 EPD 并行阅读；EPD 中验证方未作说明的任何主张，或超出验证方既定职责范围的任何建议，均构成发现项。',
+  },
+];
+
+const checkpoints = [
+  ['Critical 发现不触发自动注册', 'Critical 级别的发现将阻止审核结论达到"通过"。Cortex 不会根据上下文静默降低严重程度——检查定义决定基准，项目运营方决定是否接受风险。'],
+  ['数值合理性对照参考数据核查，而非仅核查是否存在', '声明的 GWP 值与 HiQLCD 参考数据及产品品类区间进行基准比对，而不仅仅是核查其是否填写。声明值比同类产品低 10 倍的 EPD 将被标记——即便格式完全正确。'],
+  ['流程认证型 EPD 适用更严格的审查标准', '当 EPD 为流程认证而非单独验证时，Cortex 适用更保守的阈值。在没有独立验证方对具体提交材料进行审查的情况下，审核成为主要的质量把关环节。'],
+  ['报告包含 CPR 前瞻性分析', '除当前合规性外，报告还标记即将生效的 CPR 要求——使项目运营方和申请方能够提前做好准备，而不仅仅是核查当下要求。'],
+];
+
+const videoUrl = '';
+---
+
+<BaseLayout title={title} description={description} locale="zh">
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">解决方案 · EPD 审核</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 24ch;">
+        EPD 已提交。注册条件达到了吗？<em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">每条发现引用规范条款原文。</em>
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex 在注册决策作出之前，对 EPD 提交材料进行合规问题检查——涵盖格式、PCR 对齐、数值合理性、CPR 2024/3110 准备情况、工具溯源及验证方质量。每条发现均引用规范条款，并摘录 EPD 中触发该发现的原文段落。
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/chat" class="ticket-ghost">在 Chat 中试用</a>
+      </div>
+    </div>
+  </section>
+
+  {videoUrl && (
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-14 md:py-16">
+      <div class="mx-auto max-w-4xl aspect-video overflow-hidden border border-rule">
+        <iframe src={videoUrl} class="w-full h-full" allowfullscreen loading="lazy" title="EPD 审核演示" />
+      </div>
+    </div>
+  </section>
+  )}
+
+  <!-- §I 检查内容 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="检查内容" numeral="I" title="七类检查项。每条发现均有规范来源。" />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Cortex 依据 ISO 14025、EN 15804+A2、适用 PCR 及 EU CPR 2024/3110 对 EPD 材料包进行检查。每条发现包含：适用的规范条款、EPD 文件中触发该发现的原文段落，以及向申请方或验证方提出的具体问题。不是"发现问题"，而是标准要求什么、EPD 写了什么、两者在哪里出现分歧。
+      </p>
+
+      <div class="mt-10 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
+        {checks.map((c) => (
+          <article class="p-6 md:p-7" style="background: var(--paper);">
+            <div class="flex items-baseline gap-3 mb-3">
+              <span class="font-mono" style="color: var(--shell); font-size: 0.85rem; letter-spacing: 0.04em;">{c.n}</span>
+              <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.18rem; color: var(--ink);">{c.name}</h3>
+            </div>
+            <p class="font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{c.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §II 审核报告 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="审核报告" numeral="II" title="封面显示结论。结论背后是完整的证据链。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          审核生成两份输出，均基于同一套经审查的发现集合。
+        </p>
+        <p>
+          <strong style="font-weight: 500;">品牌化 PDF 报告。</strong>封面注明审核结论——通过、标记或不通过——以及按严重程度统计的发现数量。正文中每条发现均展示：引用的规范条款、EPD 中触发该发现的原文段落，以及向申请方或验证方提出的具体问题。报告格式适用于注册往来文件，可直接发送给申请方。
+        </p>
+        <p>
+          <strong style="font-weight: 500;">Excel 工作簿。</strong>所有发现以可排序表格呈现——按严重程度（Critical / Warning / Info）、检查组及产品分类。专为项目运营方内部使用设计：批量筛查一个发布周期内的提交材料、审核员质量保证，以及跟踪申请方的回复情况。发现项可按 Critical 项目筛选，或按检查类别分组，分析整个提交池的规律。
+        </p>
+        <p>
+          风险分级分三级。<strong style="font-weight: 500;">Critical（严重）</strong>——必须解决后注册才能继续推进。<strong style="font-weight: 500;">Warning（警告）</strong>——提交项目运营方审查；由项目运营方决定是否要求申请方作出回应。<strong style="font-weight: 500;">Info（提示）</strong>——告知申请方参考；注册无需处理。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §III 审核深度 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="审核深度" numeral="III" title="根据可用材料自适应。材料越全，检查越深。" />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        审核在现有材料基础上运行。仅提供 EPD 时执行表层检查；提供完整材料包时执行全面审核。Cortex 说明当前生效的深度级别，以及因材料不足而无法执行的检查项——项目运营方始终清楚哪些内容已被审查、哪些未被审查。
+      </p>
+
+      <div class="mt-10 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
+        {depthLevels.map((d) => (
+          <article class="p-6 md:p-7" style="background: var(--paper);">
+            <div class="flex items-baseline gap-3 mb-2">
+              <span class="font-mono" style="color: var(--shell); font-size: 0.85rem; letter-spacing: 0.04em;">{d.level}</span>
+              <div>
+                <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.05rem; color: var(--ink);">{d.label}</h3>
+                <p class="font-mono" style="color: var(--shell); font-size: 0.8rem; letter-spacing: 0.06em; margin-top: 0.15rem;">{d.depth}</p>
+              </div>
+            </div>
+            <p class="mt-3 font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{d.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §IV 强制停止点 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="强制停止点" numeral="IV" title="四个不可绕过的立场。" />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        这些不是可配置的阈值。它们描述的是审核行为的固定逻辑，与上下文无关——项目运营方可以接受某项风险，但 Cortex 不会为此调低发现的级别。
+      </p>
+
+      <ol class="mt-10 space-y-6 font-serif" style="font-size: 1rem; line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink);">
+        {checkpoints.map(([head, body], i) => (
+          <li class="grid grid-cols-[3rem_1fr] gap-4">
+            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.05rem;">§ {String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <p class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 28; font-size: 1.05rem; line-height: 1.25; color: var(--ink);">{head}</p>
+              <p class="mt-2">{body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <Asterism />
+
+      <blockquote class="mx-auto max-w-3xl text-center">
+        <p class="pullquote">
+          注册决策留有记录。不只是结论——<em style="color: var(--shell); font-style: italic;">而是完整的证据链。</em>
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
+        每条发现有据可查。每项决策留有记录。
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork 支持 macOS、Windows 和 Linux 本地运行。EPD 材料包在本机处理——文件不上传至服务器。
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/chat" class="ticket-ghost">在 Chat 中试用</a>
+      </div>
+      <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">
+        <a href="/zh/standards" style="color: var(--ink-mute);">标准对齐 — ISO 14025、EN 15804+A2、CPR 2024/3110</a>
+        <a href="/zh/security" style="color: var(--ink-mute);">数据不离开你的设备</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

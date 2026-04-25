@@ -3,6 +3,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
+const videoUrl = '';
+
 const title = 'ILCD 校验与转换 — HiQ Cortex';
 const description =
   '对 ILCD 数据包进行 schema 校验，在 ILCD 与 JSON-LD 之间互转，不丢字段。每个错误定位，每条映射选择有记录。';
@@ -49,6 +51,17 @@ const checkpoints = [
       </div>
     </div>
   </section>
+
+  <!-- 视频演示（设置 videoUrl 以启用） -->
+  {videoUrl && (
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-14 md:py-16">
+      <div class="mx-auto max-w-4xl aspect-video overflow-hidden border border-rule">
+        <iframe src={videoUrl} class="w-full h-full" allowfullscreen loading="lazy" title="ILCD 校验演示" />
+      </div>
+    </div>
+  </section>
+  )}
 
   <!-- §I 两项操作 -->
   <section class="border-t border-rule">

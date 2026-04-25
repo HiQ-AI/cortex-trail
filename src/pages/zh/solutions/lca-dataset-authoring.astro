@@ -3,6 +3,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
+const videoUrl = '';
+
 const title = 'LCA 数据集创作 — HiQ Cortex';
 const description =
   '从一手测量数据到 HiQ 编辑器中可发布的背景数据集。Cortex 引导元数据、流量录入、DQI 评分与质量平衡验证——每个决定在提交前都有记录。';
@@ -65,6 +67,17 @@ const checkpoints = [
     </div>
   </section>
 
+  <!-- 视频演示（设置 videoUrl 以启用） -->
+  {videoUrl && (
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-14 md:py-16">
+      <div class="mx-auto max-w-4xl aspect-video overflow-hidden border border-rule">
+        <iframe src={videoUrl} class="w-full h-full" allowfullscreen loading="lazy" title="LCA 数据集创作演示" />
+      </div>
+    </div>
+  </section>
+  )}
+
   <!-- §I 五个阶段 -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
@@ -93,13 +106,13 @@ const checkpoints = [
       <SectionMark kicker="HiQ 编辑器集成" numeral="II" title="Cortex 操作 HiQ 编辑器。数据集归属你的账户。" />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          HiQ 编辑器是 HiQ 的 LCA 背景数据库创作 SaaS——背景数据集在此创建、验证并提交至 HiQLCD 发布。Cortex Cowork 通过 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">hiq-editor</code> 技能连接并操作 HiQ 编辑器：创建和编辑数据集、添加流量、触发单条计算、提交最终包供审核。
+          HiQ 编辑器是 HiQ 的 LCA 背景数据库创作 SaaS——背景数据集在此创建、验证并提交至 HiQLCD 发布。Cortex Cowork 直接连接 HiQ 编辑器并操作其功能：创建和编辑数据集、添加流量、触发单条计算、提交最终包供审核。
         </p>
         <p>
           数据集全程保存在用户的 HiQ 编辑器账户中，Cortex 不持有副本。在每个阶段——元数据录入、流量编辑、DQI 评分——变更都写入 HiQ 编辑器的数据集记录，而非最后再上传的本地文件。
         </p>
         <p>
-          跨会话连续性与产品碳足迹工作流相同：数据集 ID、已定稿的元数据、流量录入状态以及遇到的坑，在每次会话结束时写入项目的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Cortex.md</code> 文件。下次会话开始时首先读取，从上次中断的地方继续。
+          跨会话连续性与产品碳足迹工作流相同：数据集 ID、已定稿的元数据、流量录入状态以及遇到的坑，在每次会话结束时记录。下次会话开始时首先读取，从上次中断的地方继续。
         </p>
       </div>
     </div>

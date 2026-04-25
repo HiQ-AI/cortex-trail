@@ -3,6 +3,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
+const videoUrl = '';
+
 const title = '产品碳足迹核算 — HiQ Cortex';
 const description =
   '从 BOM 到 LCIA 结果，在 openLCA 内完成。Cortex Cowork 处理数据集匹配、产品系统构建与 LCIA 计算——每条假设有记录，每个决定经确认。';
@@ -35,7 +37,7 @@ const checkpoints = [
   ['边界简化', '上游过程截断需要一个准则——质量 <1%，还是环境影响 <1%。Cortex 说明准则并提问，由从业者决定。'],
   ['分配方法', '共产品需要分配。Cortex 说明经济分配、质量分配与能量分配对结果的影响，并在建模前请从业者选择。'],
   ['量级核查', 'LCIA 结果与可比研究相差一个数量级。Cortex 暂停，列出可能原因（单位换算、功能单位不一致、边界错误），在导出前请求确认。'],
-  ['openLCA 连接', '桌面端未打开或 IPC 端口冲突。Cortex 识别原因并给出修复步骤，而非静默重试。'],
+  ['openLCA 连接', '桌面端未打开或连接无法建立。Cortex 识别原因并给出修复步骤，而非静默重试。'],
 ];
 ---
 
@@ -60,6 +62,17 @@ const checkpoints = [
       </div>
     </div>
   </section>
+
+  <!-- 视频演示（设置 videoUrl 以启用） -->
+  {videoUrl && (
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-14 md:py-16">
+      <div class="mx-auto max-w-4xl aspect-video overflow-hidden border border-rule">
+        <iframe src={videoUrl} class="w-full h-full" allowfullscreen loading="lazy" title="产品碳足迹演示" />
+      </div>
+    </div>
+  </section>
+  )}
 
   <!-- §I 四个阶段 -->
   <section class="border-t border-rule">
@@ -89,16 +102,16 @@ const checkpoints = [
       <SectionMark kicker="openLCA 集成" numeral="II" title="Cortex 操作 openLCA。模型归你所有。" />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Cortex Cowork 不替代 openLCA，而是操作它。用户本地的 openLCA 实例始终是模型的载体——Cortex 是操作者，通过 openLCA 的 IPC 接口创建流、建立过程连接、运行计算。
+          Cortex Cowork 不替代 openLCA，而是操作它。用户本地的 openLCA 实例始终是模型的载体——Cortex 在 openLCA 内部创建流、建立过程连接、运行计算。
         </p>
         <p>
-          在 macOS 上启用 Computer Use 时，Cortex 可以直接与 openLCA 的图形界面交互——点击对话框、读取结果窗口、确认数据集选择——无需命令行或自定义插件。Windows 和 Linux 上的交互通过 openLCA 的 IPC 服务器进行。
+          在 macOS 上启用 Computer Use 时，Cortex 可以直接与 openLCA 的图形界面交互——点击对话框、读取结果窗口、确认数据集选择——无需命令行或自定义插件。Windows 和 Linux 上的交互通过 openLCA 的内置连接接口进行。
         </p>
         <p>
           模型保存在从业者的 openLCA 数据库中，Cortex 不持有副本。会话结束后，产品系统、过程与流仍保存在 openLCA 原位——从业者可访问、可编辑、可版本管理。
         </p>
         <p class="font-serif italic" style="color: var(--ink-mute);">
-          Computer Use（GUI 交互）仅限 macOS。基于 IPC 的交互在三个平台上均可用。
+          Computer Use（GUI 交互）仅限 macOS。与 openLCA 的连接支持三个平台。
         </p>
       </div>
     </div>
@@ -161,7 +174,7 @@ const checkpoints = [
           产品碳足迹研究很少在一次会话内完成。功能单位、系统边界、LCIA 方法与分配规则在早期会话中确定，必须贯穿整个计算过程，不能在后续会话中重新讨论。
         </p>
         <p>
-          Cowork 在这四项建模要素确定的会话结束时，将它们写入项目的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Cortex.md</code> 文件。后续每次会话开始时首先读取该文件，并将其内容作为约束条件执行。在第二次会话中确定了"摇篮到出厂、截断系统模型、IPCC 2021 GWP100、质量分配"的从业者，在第七次会话中无需重新声明。
+          Cowork 在这四项建模要素确定的会话结束时，将这四项建模要素记录在项目中。后续每次会话开始时首先读取这些记录，并将其内容作为约束条件执行。在第二次会话中确定了"摇篮到出厂、截断系统模型、IPCC 2021 GWP100、质量分配"的从业者，在第七次会话中无需重新声明。
         </p>
         <p>
           数据替换决定以同样方式累积：如果第三次会话确认"IGBT 模块"映射到 HiQLCD 中的电动汽车应用数据集，第八次会话不会重新执行该查询。映射已在记录中。会话从项目中断的地方继续。

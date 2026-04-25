@@ -4,9 +4,9 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'Solutions — HiQ Cortex';
 const description =
-  'Cortex Cowork handles the mechanical work in four LCA workflows — BOM matching, product carbon footprint, dataset authoring, and ILCD validation — so practitioners can focus on the decisions that determine the result.';
+  'Cortex Cowork handles the mechanical work across LCA workflows — BOM matching, product carbon footprint, dataset authoring, ILCD validation, and EPD audit — so practitioners and programme operators can focus on the decisions that determine the result.';
 
-const solutions = [
+const practitionerSolutions = [
   {
     href: '/solutions/bom-matching',
     kicker: 'BOM matching',
@@ -36,6 +36,16 @@ const solutions = [
     cta: 'See the workflow →',
   },
 ];
+
+const operatorSolutions = [
+  {
+    href: '/solutions/epd-audit',
+    kicker: 'EPD audit',
+    title: 'EPD submitted. Is it ready to register?',
+    body: 'Cortex audits EPDs against ISO 14025, EN 15804+A2, the applicable PCR, and EU CPR 2024/3110 — returning a structured report where every finding cites the clause, quotes the EPD text, and states the registration consequence. Critical issues block; warnings are split by severity so programme operators can prioritise.',
+    cta: 'See the workflow →',
+  },
+];
 ---
 
 <BaseLayout title={title} description={description}>
@@ -48,19 +58,37 @@ const solutions = [
         <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
       </div>
       <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 26ch;">
-        Four LCA workflows. <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">Each one with a complete audit trail.</em>
+        LCA and EPD workflows. <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">Each one with a complete audit trail.</em>
       </h1>
       <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Cortex Cowork handles the mechanical work in each workflow — matching, modeling, authoring, validating — and returns control to the practitioner at every point where a judgment call determines the result.
+        Cortex Cowork handles the mechanical work in each workflow — matching, modeling, authoring, validating, auditing — and returns control to the practitioner or programme operator at every point where a judgment call determines the result.
       </p>
     </div>
   </section>
 
-  <!-- Solutions grid -->
+  <!-- LCA practitioner solutions -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
+      <p class="eyebrow mb-8" style="color: var(--ink-mute);">For LCA practitioners</p>
       <div class="grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
-        {solutions.map((s) => (
+        {practitionerSolutions.map((s) => (
+          <article class="p-8 md:p-10" style="background: var(--paper);">
+            <p class="eyebrow mb-4">{s.kicker}</p>
+            <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 48; font-size: clamp(1.4rem, 2.5vw, 1.9rem); line-height: 1.1; letter-spacing: -0.015em; color: var(--ink);">{s.title}</h2>
+            <p class="mt-5 font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.97rem;">{s.body}</p>
+            <a href={s.href} class="mt-6 inline-block font-serif text-sm" style="color: var(--shell); font-variation-settings: 'opsz' 14;">{s.cta}</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Programme operator solutions -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <p class="eyebrow mb-8" style="color: var(--ink-mute);">For programme operators</p>
+      <div class="grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
+        {operatorSolutions.map((s) => (
           <article class="p-8 md:p-10" style="background: var(--paper);">
             <p class="eyebrow mb-4">{s.kicker}</p>
             <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 48; font-size: clamp(1.4rem, 2.5vw, 1.9rem); line-height: 1.1; letter-spacing: -0.015em; color: var(--ink);">{s.title}</h2>
@@ -84,7 +112,7 @@ const solutions = [
           Decisions made in one session carry forward to the next. The project log accumulates assumptions, confirmations, and resolved pitfalls across sessions. A verifier arriving at a finished deliverable can trace any result back to the session in which the underlying choice was made — without re-running the model or contacting the author.
         </p>
         <p>
-          All four workflows run locally. No files leave the machine unless the practitioner initiates the action.
+          All workflows run locally. No files leave the machine unless the practitioner initiates the action.
         </p>
       </div>
     </div>

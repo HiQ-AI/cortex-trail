@@ -3,6 +3,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
+const videoUrl = '';
+
 const title = 'BOM 匹配 — HiQ Cortex';
 const description =
   'BOM 进。匹配的 xlsx 出。每个数据集格都是链接。分钟级完成，不是小时级，任意规模 BOM，跨 14 个数据库。';
@@ -58,6 +60,17 @@ const hitlOptions = [
       </div>
     </div>
   </section>
+
+  <!-- 视频演示（设置 videoUrl 以启用） -->
+  {videoUrl && (
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-14 md:py-16">
+      <div class="mx-auto max-w-4xl aspect-video overflow-hidden border border-rule">
+        <iframe src={videoUrl} class="w-full h-full" allowfullscreen loading="lazy" title="BOM 匹配演示" />
+      </div>
+    </div>
+  </section>
+  )}
 
   <!-- §I 输入与输出 -->
   <section class="border-t border-rule">
@@ -180,7 +193,7 @@ const hitlOptions = [
           中国工厂的 BOM 使用现场术语："502 胶水"、"IGBT 模块"、"背钩"。这些不是 LCA 数据集名称。从手表配件到电动汽车功率模块再到工业胶黏剂——Cortex 内置数千条从中国工厂术语到 LCA 数据集标识符的精选映射，积累自多年从业者的实际决策。"502 胶水"解析为聚氨酯胶黏剂（标记代理，偏差方向已注明），"IGBT 模块"解析为电动汽车应用的绝缘栅双极型晶体管数据集。
         </p>
         <p>
-          检索索引对中英文字段赋予同等权重。中文输入查询中文字段；Agent 同时构建双语检索词，覆盖 Ecoinvent、EF 等英文命名数据库。专用中文分词器涵盖数万条 LCA 专业词汇——"镍板"作为单一词元分词，而非拆分为"镍"加"板"（后者会从蓄电池回收数据集中带回噪音）。
+          检索索引对中英文字段赋予同等权重。Cortex 同时检索中文与英文字段——中文输入词自动匹配中文记录，同时检索 Ecoinvent、EF 等英文数据库。该系统识别数以万计的 LCA 专用中文术语，将它们作为独立的材料标识符处理，区分外观相似但指代不同材料的词条。
         </p>
         <p>
           HiQLCD 覆盖每一个中国省级电网。中国以煤为主的电网与欧洲电网差异显著，对原铝这类材料尤为关键：中国约 14–20 kgCO₂e/kg，欧盟约 8–10 kgCO₂e/kg。

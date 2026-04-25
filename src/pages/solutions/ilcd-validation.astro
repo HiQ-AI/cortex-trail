@@ -20,6 +20,8 @@ const operations = [
   },
 ];
 
+const videoUrl = '';
+
 const checkpoints = [
   ['Hard errors — no auto-fix', 'When validation finds an Error, Cortex stops and presents each one: location, severity, and a suggested fix. The user decides whether to fix or accept the risk. No silent repair.'],
   ['Warnings — split by consequence', "Warnings are presented in two groups: those that affect interoperability with other systems (fix recommended) and those that are style issues (optional). The distinction matters — a practitioner accepting a risk needs to know what the risk actually is."],
@@ -49,6 +51,17 @@ const checkpoints = [
       </div>
     </div>
   </section>
+
+  <!-- Video demo (set videoUrl to enable) -->
+  {videoUrl && (
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-14 md:py-16">
+      <div class="mx-auto max-w-4xl aspect-video overflow-hidden border border-rule">
+        <iframe src={videoUrl} class="w-full h-full" allowfullscreen loading="lazy" title="ILCD validation demo" />
+      </div>
+    </div>
+  </section>
+  )}
 
   <!-- §I Two operations -->
   <section class="border-t border-rule">

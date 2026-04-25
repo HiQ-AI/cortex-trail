@@ -30,6 +30,8 @@ const sheets = [
   },
 ];
 
+const videoUrl = '';
+
 const hitlOptions = [
   'Continue with generic proxy values',
   'Mark remaining rows as not applicable',
@@ -58,6 +60,17 @@ const hitlOptions = [
       </div>
     </div>
   </section>
+
+  <!-- Video demo (set videoUrl to enable) -->
+  {videoUrl && (
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-14 md:py-16">
+      <div class="mx-auto max-w-4xl aspect-video overflow-hidden border border-rule">
+        <iframe src={videoUrl} class="w-full h-full" allowfullscreen loading="lazy" title="BOM matching demo" />
+      </div>
+    </div>
+  </section>
+  )}
 
   <!-- §I Inputs and outputs -->
   <section class="border-t border-rule">
@@ -180,7 +193,7 @@ const hitlOptions = [
           Chinese factory BOMs use factory-floor names: "502 胶水," "IGBT 模块," "背钩." These are not LCA dataset names. From watch components to EV power modules to industrial adhesives — Cortex carries thousands of curated mappings from Chinese factory terminology to LCA dataset identifiers, built over years of practitioner decisions. "502 胶水" resolves to polyurethane adhesive (marked proxy, with the bias direction documented). "IGBT 模块" resolves to the insulated gate bipolar transistor dataset for electric vehicle applications.
         </p>
         <p>
-          The search index holds Chinese and English fields at equal weight. Chinese input queries the Chinese fields; the agent constructs bilingual search terms to simultaneously hit English-named databases like Ecoinvent and EF. The custom Chinese tokenizer spans tens of thousands of LCA-specific terms — "镍板" tokenizes as a single term, not as "镍" plus "板," which would return noise from battery recycling datasets.
+          Cortex searches both Chinese and English fields simultaneously — Chinese input terms are automatically matched against Chinese-language records while also reaching English-named databases like Ecoinvent and EF. The system recognizes tens of thousands of LCA-specific Chinese terms as distinct material identifiers, distinguishing between terms that look similar but refer to different materials.
         </p>
         <p>
           HiQLCD covers every Chinese provincial grid. The difference between China's coal-heavy grid and the European mix is decisive for materials like primary aluminum: 14–20 kg CO₂e/kg in China versus 8–10 in the EU.

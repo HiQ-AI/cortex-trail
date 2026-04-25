@@ -30,12 +30,14 @@ const stages = [
   },
 ];
 
+const videoUrl = '';
+
 const checkpoints = [
   ['Data substitution', 'Target dataset not found. Cortex names the substitute, explains the gap (region, production route, DQI), and asks for confirmation before proceeding.'],
   ['Boundary simplification', 'Upstream process cut-off requires a criterion — mass < 1%, environmental relevance < 1%. Cortex states the criterion and asks. The practitioner decides.'],
   ['Allocation method', 'Co-products require allocation. Cortex explains the effect of economic, mass, and energy allocation on the result — and asks the practitioner to choose before the model is built.'],
   ['Magnitude check', 'LCIA result differs from comparable studies by an order of magnitude. Cortex pauses, lists possible causes (unit conversion, functional unit mismatch, boundary error), and asks before exporting.'],
-  ['openLCA connection', 'Desktop not open or IPC port conflict. Cortex identifies the cause and gives the fix — rather than retrying silently.'],
+  ['openLCA connection', 'openLCA is not running or the connection cannot be established. Cortex identifies the cause and gives the fix — rather than retrying silently.'],
 ];
 ---
 
@@ -60,6 +62,17 @@ const checkpoints = [
       </div>
     </div>
   </section>
+
+  <!-- Video demo (set videoUrl to enable) -->
+  {videoUrl && (
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-14 md:py-16">
+      <div class="mx-auto max-w-4xl aspect-video overflow-hidden border border-rule">
+        <iframe src={videoUrl} class="w-full h-full" allowfullscreen loading="lazy" title="Product carbon footprint demo" />
+      </div>
+    </div>
+  </section>
+  )}
 
   <!-- §I Four stages -->
   <section class="border-t border-rule">
@@ -89,16 +102,16 @@ const checkpoints = [
       <SectionMark kicker="openLCA integration" numeral="II" title="Cortex drives openLCA. You keep the model." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Cortex Cowork does not replace openLCA. It operates it. The user's local openLCA instance remains the model — Cortex is the operator, working through openLCA's IPC interface to create flows, build process connections, and run calculations.
+          Cortex Cowork does not replace openLCA. It operates it. The user's local openLCA instance remains the model — Cortex is the operator, working within openLCA to create flows, build process connections, and run calculations.
         </p>
         <p>
-          When Computer Use is enabled on macOS, Cortex can interact directly with the openLCA GUI — clicking through dialogs, reading result windows, confirming dataset selections — without requiring a command-line interface or custom plugin. For Windows and Linux, the interaction runs through openLCA's IPC server.
+          On macOS, Cortex can interact directly with the openLCA interface — navigating dialogs, reading result windows, confirming dataset selections. On Windows and Linux, Cortex connects to openLCA through its built-in server interface.
         </p>
         <p>
           The model stays in the practitioner's openLCA database. Cortex does not hold a copy. When the session ends, the product system, processes, and flows remain where openLCA keeps them — accessible, editable, and version-controllable by the practitioner.
         </p>
         <p class="font-serif italic" style="color: var(--ink-mute);">
-          Computer Use (GUI interaction) is available on macOS only. IPC-based interaction works on all three platforms.
+          Direct GUI interaction is available on macOS. The connection to openLCA works on all three platforms.
         </p>
       </div>
     </div>
@@ -161,7 +174,7 @@ const checkpoints = [
           A product carbon footprint study rarely completes in one session. Functional unit, system boundary, LCIA method, and allocation rules are decided in early sessions and must carry through to the final calculation without being re-litigated.
         </p>
         <p>
-          Cowork writes these four modeling essentials into the project's <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Cortex.md</code> file at the close of the session in which they are decided. Every subsequent session reads that file first and treats its contents as binding constraints. A practitioner who specified "cradle-to-gate, cut-off system model, IPCC 2021 GWP100, mass allocation" in session two does not need to re-specify them in session seven.
+          Cowork records these four modeling essentials in the project at the close of the session in which they are decided. Every subsequent session reads them first and treats their contents as binding constraints. A practitioner who specified "cradle-to-gate, cut-off system model, IPCC 2021 GWP100, mass allocation" in session two does not need to re-specify them in session seven.
         </p>
         <p>
           Data substitution decisions accumulate the same way: if session three established that "IGBT module" maps to the electric vehicle application dataset in HiQLCD, session eight does not re-run that lookup. The mapping is on record. The session starts from where the project left off.
