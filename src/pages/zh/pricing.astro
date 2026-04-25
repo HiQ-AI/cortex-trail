@@ -144,15 +144,21 @@ const faqs = [
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
       <SectionMark kicker="必要说明" numeral="III" title="数据库授权。" />
-      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Cortex 代替用户检索 Ecoinvent、CarbonMinds 和 HiQLCD-AL。订阅 Cortex，不等于获得上述数据提供方对其数据集的授权许可。
+          Cortex 代用户检索商业 LCA 数据库——Ecoinvent、CarbonMinds 等。订阅 Cortex 不等于获得这些数据提供方对其数据集的授权许可，每个商业数据库都需向提供方单独购买授权。
         </p>
         <p>
-          Ecoinvent 和 CarbonMinds 各需向数据提供方单独购买授权。HiQLCD-AL 为 HiQ-AI 自有数据集，全体 Cortex 订阅用户均可访问。
+          <strong style="font-weight: 500;">HiQLCD</strong> 与 <strong style="font-weight: 500;">HiQLCD-AL</strong> 是 HiQ-AI 自有数据集，全体 Cortex 订阅用户均可访问。欧盟授权的 <strong style="font-weight: 500;">EF</strong> 参考数据集为公开可用。
         </p>
         <p>
-          若账户未持有有效的 Ecoinvent 或 CarbonMinds 授权，Cortex 将从其可访问的数据库中检索，并在输出中注明缺口。输出结果经得起审计——它如实反映实际检索范围。
+          <strong style="font-weight: 500;">没有授权，仍可检索与发现。</strong>Cortex 返回数据集名称、来源数据库、版本、地理区域、系统模型，以及指向源记录的链接。数据集是否存在、属于哪一类型，完全可见。
+        </p>
+        <p>
+          <strong style="font-weight: 500;">授权才能解锁的内容：</strong>GWP100 数值、底层 LCI 清单（单元过程的物质流输入输出），以及多指标 LCIA 评价结果（酸化、富营养化、水耗、以及 EN 15804+A2 / PEF 影响集中的其他指标）。无授权时，这些字段以 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Licensed</code> 标记代替数值返回。Cortex 从不以文献估算或模型生成的数字代替缺失值。
+        </p>
+        <p>
+          输出结果经得起审计——它如实反映实际检索范围、返回了什么、保留了什么。带上授权后，数值出现，其他不变。
         </p>
       </div>
     </div>

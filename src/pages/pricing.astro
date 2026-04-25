@@ -146,13 +146,19 @@ const faqs = [
       <SectionMark kicker="A necessary clarification" numeral="III" title="Database licensing." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Cortex searches Ecoinvent, CarbonMinds, and HiQLCD-AL on your behalf. Subscription to Cortex does not include a license to those datasets from the data providers.
+          Cortex searches commercial LCA databases — Ecoinvent, CarbonMinds, and others — on your behalf. A Cortex subscription does not include a license to those datasets from the data providers. Each commercial database requires an independent license purchased directly from the provider.
         </p>
         <p>
-          Ecoinvent and CarbonMinds each require an independent license purchased directly from the provider. HiQLCD-AL is HiQ-AI's own dataset; access is included for all Cortex subscribers.
+          <strong style="font-weight: 500;">HiQLCD</strong> and <strong style="font-weight: 500;">HiQLCD-AL</strong> are HiQ-AI's own datasets; access is included for all Cortex subscribers. EU-authorised <strong style="font-weight: 500;">EF</strong> reference datasets are publicly available.
         </p>
         <p>
-          If your account does not carry a valid Ecoinvent or CarbonMinds license, Cortex will retrieve from the databases it can access and note the gap in the output. The output remains auditable — it reflects what was actually searched.
+          <strong style="font-weight: 500;">Without a license, you can still query and discover.</strong> Cortex returns the dataset name, source database, version, geographic region, system model, and a link to the source record. The dataset's existence is fully visible.
+        </p>
+        <p>
+          <strong style="font-weight: 500;">What is gated by the license:</strong> the GWP100 value, the underlying LCI inventory (unit-process inputs and outputs), and the multi-indicator LCIA results (acidification, eutrophication, water depletion, and the rest of the EN 15804+A2 / PEF impact set). Without a license, those fields return a <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Licensed</code> marker in place of the value. Cortex never substitutes a literature estimate or a model-generated number to fill the gap.
+        </p>
+        <p>
+          The output remains auditable — it reflects exactly what was searched, what was returned, and what was withheld. When you bring a license, the values appear; nothing else changes.
         </p>
       </div>
     </div>
