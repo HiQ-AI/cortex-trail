@@ -16,7 +16,7 @@ const localArtifacts = [
 const claims = [
   ["All traffic is encrypted in transit.", "Every user-facing connection uses HTTPS. There are no plaintext HTTP paths for user data."],
   ["Chat sessions are stored under your account and are not accessible to other users.", "Conversation history and long-term memory are keyed to your user ID. The session store enforces this isolation at query time — one account cannot read another's."],
-  ["Licensed database GWP values are gated to subscribers.", "If your account does not include a license for a given database, the numeric GWP is withheld and the result is marked restricted. The dataset name, region, unit, and link are still returned. No literature value is substituted."],
+  ["Commercial-database values are gated to license holders.", "Without a license, Cortex still returns the dataset name, region, unit, version, and link — enough to confirm the dataset exists. The licensed values are withheld until access is brought. No literature value is substituted."],
   ["Your Cowork sessions never leave your device.", "Local agent sessions are stored in your app's local data directory. The server has no copy and no access path to them."],
   ["Your project wiki is stored locally.", "Wiki data lives in the directory you choose on your machine. It is not uploaded to Cortex servers."],
   ["Every GWP result includes its source database and version.", "The database name, version string, and system model are part of every result. Historical exports are not retroactively modified when a data provider releases a new version; each export captures the version at query time."],
@@ -114,13 +114,16 @@ const claims = [
 
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Fourteen databases are indexed in Cortex. Several require a paid license from the data provider. For rows from those databases, the permission check runs server-side before the response is assembled. If your account does not include the relevant license, the GWP field is removed from the result object before it reaches the model layer. The model receives a result with no GWP value to read.
+          Several of the databases Cortex indexes are commercial — Ecoinvent, CarbonMinds, and others — and require a paid license from the data provider. The permission check runs on Cortex's side, before any result reaches the model.
         </p>
         <p>
-          What you see: a result row with name, region, unit, and a link — and a <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Licensed</code> marker in the GWP column. The dataset's existence is disclosed. The value is withheld until you have access.
+          <strong style="font-weight: 500;">Without a license:</strong> you can still find the dataset. The name, source, version, region, system model, and link return normally — enough to confirm a dataset exists and decide whether the license is worth bringing.
         </p>
         <p>
-          There is no silent substitution with literature values or LLM-estimated figures. The agent's operational rules are explicit on this point: fabricating a substitute value pollutes the deliverable with unverifiable numbers. The enforcement is in the code, not in instructions alone.
+          <strong style="font-weight: 500;">With a license:</strong> the values appear. The license-protected fields — emission factors, inventory detail, the broader impact assessment results — show up in place of the <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Licensed</code> marker.
+        </p>
+        <p>
+          There is no silent substitution with literature values or model-generated figures. Fabricating a substitute would pollute the deliverable with unverifiable numbers. The enforcement is in the code, not in instructions alone.
         </p>
       </div>
     </div>

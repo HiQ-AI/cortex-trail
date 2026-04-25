@@ -90,13 +90,27 @@ Completeness in DQI means modeled-flow coverage: which upstream processes were i
 
 ---
 
-## How Cortex surfaces DQI
+## What Cortex actually does with the scores
 
-Cortex returns all five dimensions per candidate. When you search for a material, the output shows Temporal, Geographic, Technology, Completeness, and Reliability individually — not averaged, not hidden inside a single "quality" label.
+The five dimensions matter to your verifier. They should not be your job to interpret one by one.
 
-Low scores appear in the export. A candidate with a high Reliability score and low Temporal score will show both. The practitioner sees the spread and decides: accept the mismatch, search a newer source, or note the limitation in the study report.
+When you search a material, Cortex reads the scores on every candidate and gives you the answer in the form a working LCA practitioner needs:
 
-DQI scores do not gate the results. Cortex pauses on different signals — coverage gaps, required proxies, large cross-database spread, restricted data, ambiguous system-model matches — and DQI is independent of those. A candidate can clear every pause condition and still carry a low temporal score. That is intentional: filtering on DQI would suppress legitimate datasets that are geographically or temporally imperfect but still the best available. Cortex surfaces the information; the practitioner carries the judgment.
+- *Can this row be used for my BOM?*
+- *Of the candidates Cortex returned, which is the best fit for my situation?*
+- *Why this one, and why not that one?*
+
+A worked example. You search "304 stainless coil, Chinese mill." Two candidates come back: an Ecoinvent EU-average dataset, and HiQLCD's North China BF-BOF entry. The Ecoinvent record has high reliability — well-sourced, well-documented — but the geographic score is low for your context. The HiQLCD record has the right geography and the right process route, with a slightly older reference year.
+
+Cortex tells you: *the HiQLCD candidate is the better fit for a Chinese-mill BOM. The geographic and technology accuracy outweighs the smaller temporal gap. The choice is defensible to a verifier — the proxy notes can document the reasoning.*
+
+The scores are still right there if your verifier wants to see them. You did not have to read all five and infer the answer.
+
+## When the scores tell you not to use a row
+
+A low Temporal score on every candidate means the database has not been updated for your time window. A low Geographic score with no better candidate means a proxy decision is the only option — and Cortex will say so explicitly, with the bias direction named, before that row enters the export.
+
+Cortex does not silently filter low-quality candidates out of the result list. Filtering would suppress legitimate datasets that are imperfect but the best available for an unusual material. Instead the candidates appear with the scores attached, and Cortex calls the choice — leaving the practitioner the final word.
 
 ---
 

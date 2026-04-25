@@ -16,7 +16,7 @@ const localArtifacts = [
 const claims = [
   ['传输过程中所有流量均经过加密。', '所有面向用户的连接使用 HTTPS。用户数据不存在明文 HTTP 路径。'],
   ['Chat 会话存储在你的账户下，其他用户无法访问。', '对话历史与长期记忆以你的用户 ID 为键。会话存储在查询时执行隔离——一个账户无法读取另一个账户的数据。'],
-  ['商业授权数据库的 GWP 值仅对订阅用户开放。', '如果你的账户不包含某数据库的授权，该条目的 GWP 数值在服务端响应组装前就已移除，结果行标注为 Licensed。数据集名称、地区、单位与链接仍然返回。不会以文献值或估算值替代。'],
+  ['商业数据库的数值仅对授权持有者开放。', '若账户未包含某商业数据库的授权，GWP100 数值、底层 LCI 清单、以及多指标 LCIA 评价结果在响应组装前就已移除，结果行标注为 Licensed。数据集名称、地区、单位、版本与链接仍然返回。不会以文献值或估算值替代。'],
   ['Cowork 会话不离开你的设备。', '本地 Agent 会话存储在应用的本地数据目录中。服务端没有副本，也没有访问路径。'],
   ['项目 wiki 存储在本地。', 'Wiki 数据存放在你的设备上你选定的目录内，不上传到 Cortex 服务器。'],
   ['每条 GWP 结果都包含来源数据库与版本信息。', '数据库名称、版本字符串与系统模型是每条结果的组成部分。历史导出不会因数据提供方发布新版本而被追溯修改；每份导出记录的是查询时的版本。'],
@@ -112,15 +112,18 @@ const claims = [
     <div class="container-page py-20 md:py-24">
       <SectionMark kicker="受限数据" numeral="IV" title="许多 LCA 工具在没有经过核实的数值时仍然返回一个数字。Cortex 不是这类工具。" />
 
-      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Cortex 索引了 14 个数据库，其中若干需要向数据提供方购买授权。对于来自这些数据库的条目，权限校验在服务端响应组装前执行。如果你的账户不包含相应授权，GWP 字段在到达模型层之前就已从结果对象中移除——模型收到的是一条不含 GWP 数值的结果。
+          Cortex 索引的若干数据库为商业数据库——Ecoinvent、CarbonMinds 等——需要向数据提供方购买授权。权限校验在 Cortex 这一侧完成，结果到达模型之前。
         </p>
         <p>
-          你看到的是：名称、地区、单位与链接——以及 GWP 列中的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Licensed</code> 标记。数据集的存在是公开的；数值的访问需要授权。
+          <strong style="font-weight: 500;">没有授权：</strong>仍可检索发现。数据集名称、来源、版本、地区、系统模型与链接照常返回——足够确认数据集存在、决定要不要去买授权。
         </p>
         <p>
-          不存在以文献值或 LLM 估算值静默替代的情况。Agent 的操作规则对此有明确约束：用无法核实的替代值填充结果，等同于向交付物中注入不可追溯的数字。这一约束在代码中执行，不仅仅依赖提示词。
+          <strong style="font-weight: 500;">有授权：</strong>数值出现。授权所覆盖的字段——排放因子、清单细节、更广的影响评价结果——替代 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Licensed</code> 标记，在结果中显示。
+        </p>
+        <p>
+          不存在以文献值或模型估算值静默替代的情况。用无法核实的替代值填充结果，等同于向交付物中注入不可追溯的数字。这一约束在代码中执行，不仅仅依赖提示词。
         </p>
       </div>
     </div>
