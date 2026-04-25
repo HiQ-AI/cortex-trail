@@ -1,0 +1,107 @@
+---
+title: "What DQI actually measures (and what it doesn't)"
+description: "DQI is five named, independently scored dimensions from the Pedigree Matrix — not a single confidence score, not a data-fill percentage. Here's what each dimension means and how Cortex surfaces them."
+publishDate: 2026-04-26
+pillar: audit
+tags: ["DQI", "methodology", "verification"]
+locale: en
+draft: false
+---
+
+<span class="dropcap">Y</span>our verifier pulls up the export. Row 47 — hot-rolled steel coil, Chinese mill. She asks: "What's the DQI on this one?"
+
+You reach for an answer. "It's… about 70%? Pretty good."
+
+That answer is wrong — not because the number is off, but because "pretty good" isn't what she's asking for. She's asking for five named scores, each measuring a different thing. One of them may be high while another is not, and conflating them into a single confidence number destroys the information she actually needs.
+
+DQI is not a confidence score. It is five independently scored dimensions from the Pedigree Matrix. Each can disagree with the others. Your auditor knows this. Your report should reflect it.
+
+---
+
+## The Pedigree Matrix lineage
+
+The framework originates with Weidema and Wesnaes (1996), operationalized for EU methods in the Product Environmental Footprint (EF) guidance. The original matrix uses a 1–5 scale where lower is better. Cortex normalizes to 0–1 where higher is better — cleaner for the "score" reading most practitioners expect — but the underlying logic is identical.
+
+The framework exists because the quality of an emission factor is not one thing. A dataset measured in a German steel mill in 1998 for a 2024 Chinese EAF facility is old, wrong-geography, and wrong-technology at the same time. Averaging those failures into a single number obscures exactly what a verifier needs to know to write her review.
+
+Five dimensions. Named, in order.
+
+---
+
+## The five dimensions
+
+### Temporal
+
+**What it measures:** alignment between the dataset's reference year and the target study window.
+
+A dataset's GWP value reflects the production processes and energy mix of its reference year. When those have shifted — cleaner grid, new process chemistry, upstream supplier changes — the factor becomes less representative.
+
+**Example:** You are building a cradle-to-gate PCF for a cement plant commissioned in 2024. The best match in the database is a cement sector factor with a reference year of 2012. That is a twelve-year gap — spanning the ETS carbon price trajectory, coal-to-gas fuel switches in several EU markets, and multiple clinker efficiency improvements. The temporal score on that candidate will be low. It does not mean the dataset is wrong; it means the mismatch is on record and the practitioner must decide whether to accept the proxy or search for a more recent source.
+
+### Geographic
+
+**What it measures:** region match between the dataset and the actual production location.
+
+Electricity mixes, transport distances, feedstock origins, and regulatory environments all vary by region. A dataset modeled on EU-average conditions does not represent a Chinese mill, a Brazilian smelter, or a South Asian garment factory at the same precision it represents a German facility.
+
+**Example:** Your BOM contains a hot-rolled steel coil sourced from a mill in Hebei province. The best Ecoinvent match is `steel, hot-rolled {RER}` — the European regional average. The geographic score will reflect that gap. The EU average embeds a carbon grid and scrap-input ratio that differs materially from the North China grid and BF-BOF ratios dominant in Hebei. The verifier reading geographic DQI < 0.5 knows immediately to ask whether a China-specific factor was searched.
+
+### Technology
+
+**What it measures:** production-route and technology match between the dataset and the actual process.
+
+This dimension is the one most often collapsed into geographic score in informal use. It is a separate question. The same region can have multiple production routes; the same production route can span multiple geographies. A BF-BOF (blast furnace–basic oxygen furnace) factor should not be applied to an EAF (electric arc furnace) facility without a named technology penalty, even if both are in the same country.
+
+**Example:** You know from the supplier questionnaire that the steel is produced via EAF — scrap-based, lower embodied carbon per tonne than integrated BF-BOF. The database candidate is a global average steel factor, weighted toward BF-BOF. The technology score will be low. Applying this factor to an EAF plant over-states the product carbon footprint — a direction the conservative verifier tolerates less than under-statement.
+
+*The technology dimension is why "steel" is not a lookup, it is a disambiguation.*
+
+### Completeness
+
+**What it measures:** coverage of modeled flows in the dataset — specifically, whether upstream cradle-to-gate processes are included.
+
+This dimension is not about whether the data has missing fields or nulls. It is about scope: which upstream inputs were modeled in the LCI and which were scoped out. A dataset that excludes capital goods, or models only the final assembly step without upstream raw material inputs, will have low completeness — regardless of how precisely the modeled flows are measured.
+
+**Example:** A specialty chemicals dataset was built from plant-gate measurement data. The measurement quality is high — reliability score will reflect that. But the original study scoped out upstream catalyst production and packaging materials, both of which carry non-trivial GWP contributions for this chemistry. The completeness score is low. Reliability and Completeness disagree. That disagreement is information: the dataset is measured well, but it does not cover what you need it to cover.
+
+### Reliability
+
+**What it measures:** provenance type of the source — what kind of evidence underlies the emission factor.
+
+The Pedigree Matrix defines a hierarchy: measured data (direct from a facility) > modeled / calculated data > expert estimate > literature value. Each step down increases uncertainty that cannot be quantified from the factor value alone. Two datasets can report the same GWP100 number; one is a measured primary source, the other is a literature estimate from a 2005 review paper. Reliability distinguishes them.
+
+**Example:** Two candidate datasets for flat glass return similar GWP100 values — 1.35 and 1.42 kgCO₂e/kg respectively. The first is modeled from verified process simulation data submitted by a glass manufacturer under the EU ETS. The second is a literature estimate cited in an academic secondary source. Reliability scores differ substantially. If your verifier is asking whether the factor can be defended under ISO 14067, she will ask which type.
+
+---
+
+## What DQI is not
+
+### Not a confidence score or probability
+
+DQI does not output "83% confident this factor is correct." Confidence scores imply a distributional model of uncertainty that the Pedigree Matrix was not designed to express. DQI describes *how the dataset was produced and what it covers*, not how likely it is to be accurate. A high-reliability, high-completeness dataset from 1998 (low temporal) is not "50% confident" — it is precise on what it measured and old on when it was measured. These are orthogonal.
+
+### Not a data-fill percentage
+
+Completeness in DQI means modeled-flow coverage: which upstream processes were included in the LCI boundary. It does not mean "what percentage of the dataset fields are populated." A dataset with every metadata field filled in and clean unit conversions can have low completeness because the study scoped out capital goods. A sparsely documented dataset can have high completeness if it modeled the full cradle-to-gate boundary. These are different questions.
+
+### Not trustworthiness in the colloquial sense
+
+"Low DQI" does not mean the dataset is wrong, fabricated, or unreliable in the everyday-language sense. A low temporal score means the reference year is old. A low geographic score means the region is a proxy. Both are perfectly legitimate if the practitioner names the mismatch, states the directionality of the error, and records the decision. DQI is a vocabulary for describing what you know about a factor — not a verdict on whether to use it.
+
+---
+
+## How Cortex surfaces DQI
+
+Cortex returns all five dimensions per candidate. When you search for a material, the output shows Temporal, Geographic, Technology, Completeness, and Reliability individually — not averaged, not hidden inside a single "quality" label.
+
+Low scores appear in the export. A candidate with a high Reliability score and low Temporal score will show both. The practitioner sees the spread and decides: accept the mismatch, search a newer source, or note the limitation in the study report.
+
+DQI scores do not gate the results. The three human-in-the-loop gates that pause Cortex — coverage below 80%, proxy substitution required, cross-database spread above 2× — are separate from DQI. A candidate can pass all three gates and still carry a low temporal score. That is intentional: gating on DQI would suppress legitimate datasets that are geographically or temporally imperfect but still the best available. Cortex surfaces the information; the practitioner carries the judgment.
+
+---
+
+Five dimensions. Named. Independently scored. Visible in every export.
+
+That is the answer your verifier is asking for. Not "about 70%."
+
+To see how Cortex's three HITL gates interact with DQI in the broader matching workflow, read the [Methodology](/methodology) page. To run a search and see DQI scores on live candidates, open [Cortex Chat](/product/chat).

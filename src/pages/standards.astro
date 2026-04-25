@@ -1,0 +1,203 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = 'Standards alignment — HiQ Cortex';
+const description =
+  'Which standards Cortex outputs align with — ISO 14067, 14044, GHG Protocol, PEF / EF, CBAM, Scope 3 — and what alignment means in practice.';
+
+const standards = [
+  {
+    code: 'ISO 14067',
+    name: 'Product Carbon Footprint',
+    covers:
+      'Quantification and communication of the carbon footprint of a product (PCF): GWP100-characterized emissions across the defined life cycle, under ISO 14040 / 14044 rules. Single impact category.',
+    does:
+      "Cortex returns GWP100-characterized LCI datasets from twelve databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — scored by DQI across five dimensions: Temporal, Geographic, Technology, Completeness, Reliability. Every export carries the source URL, system model (cut-off or APOS), and proxy notes a 14067 calculation file requires. Three human-in-the-loop gates — coverage below 80%, proxy substitution required, cross-database spread above 2× — pause the run where silent automation would produce a result a verifier could not defend.",
+    notClaim:
+      'Cortex does not generate ISO 14067 EPDs. An Environmental Product Declaration requires multi-impact characterization, a Product Category Rule (PCR), and third-party verification — none of which are within the tool’s scope.',
+  },
+  {
+    code: 'ISO 14044',
+    name: 'LCA Requirements and Guidelines',
+    covers:
+      'The requirements, guidelines, and methodology for conducting a life cycle assessment — goal and scope definition, LCI, LCIA, and interpretation. The common technical substrate for LCA-tool interoperability and auditor review.',
+    does:
+      'Cortex applies 14044 principles at the data-selection and documentation layer. Searches preserve unit, reference flow, system boundary, and system model as queryable metadata. Allocation method is carried in dataset metadata and exposed in the export — Cortex does not apply allocation on the user’s behalf. The reasoning chain — input material, ranked candidates, proxy justification — is attached to every export so a reviewer can reproduce or challenge any row without re-running the system.',
+    notClaim: null,
+  },
+  {
+    code: 'GHG Protocol',
+    name: 'Product Standard',
+    covers:
+      'The GHG Protocol Product Life Cycle Accounting and Reporting Standard — corporate-facing product-level GHG inventory methodology, aligned with ISO 14067 principles, with specific guidance on Scope 3 Category 1 data collection.',
+    does:
+      'Cortex Cowork supports all 15 GHG Protocol Scope 3 categories with categorization assistance and data-collection checklists. For Category 1 (Purchased goods and services), Cortex matches emission factors at the BOM-row level across twelve databases, returning GWP100-characterized candidates with DQI scores. For other categories, it assists with factor identification and documentation; the organizational boundary remains the practitioner’s.',
+    notClaim: null,
+  },
+  {
+    code: 'PEF / EF 3.1',
+    name: 'EU Product Environmental Footprint',
+    covers:
+      'The EU Product Environmental Footprint method, operationalized through EF 3.1 characterization factors and authorized datasets. Required for EU-regulated PCF and EPD claims; central to CBAM embedded-emissions calculations for goods covered under the regulation.',
+    does:
+      'Cortex indexes EF-authorized datasets (labelled "EF (Environmental Footprint)" in search results) and applies EF 3.1 characterization factors where the dataset carries them. For CBAM-covered materials — steel, cement, aluminum, fertilizers, electricity, hydrogen — EF datasets appear in the ranked candidate list alongside Ecoinvent and HiQLCD results. The export identifies which candidates are EF-sourced so a CBAM declarant or PEF verifier can filter accordingly. System model is preserved in metadata; Cortex does not mix EF and non-EF datasets silently.',
+    notClaim: null,
+  },
+  {
+    code: 'CBAM',
+    name: 'EU Carbon Border Adjustment Mechanism',
+    covers:
+      'CBAM requires importers of covered goods (steel, iron, cement, aluminum, fertilizers, electricity, hydrogen) to declare embedded GHG emissions under Annex IV calculation rules — direct, indirect, and precursor-input embedded emissions. The transitional period (2023–2025) requires quarterly reporting; the definitive period (from 2026) requires CBAM certificates and third-party verification.',
+    does:
+      'Cortex prepares the emission-factor and proxy-justification material a CBAM declaration requires. It returns emission factors from EF datasets referenced in CBAM implementing regulations, names any proxy substitutions with the required region and process deviation notes, and flags cross-database spread so the declarant can document the factor choice. DQI scores correspond directly to the data-quality assessment a CBAM verifier will apply. Where supplier-specific data is unavailable, Cortex identifies relevant default values and indicates their geographic basis.',
+    notClaim:
+      'Cortex does not submit CBAM reports or guarantee compliance with national customs-authority interpretations. Filing is the declarant’s act.',
+  },
+  {
+    code: 'Scope 3',
+    name: 'GHG Protocol Corporate Standard',
+    covers:
+      'The 15 categories of indirect GHG emissions from an organization’s value chain. Scope 3 is organizational accounting (per entity, per year) — not product-level. Category 1 (Purchased goods and services) and Category 11 (Use of sold products) are the most data-intensive for manufacturers.',
+    does:
+      'Cortex Cowork supports all 15 categories with categorization assistance and data-collection checklists. Emission-factor matching at the BOM-row level covers Category 1 most directly. For categories like upstream transportation (4), business travel (6), and capital goods (2), Cortex assists with factor identification; the organizational boundary and data-collection protocol remain the practitioner’s responsibility.',
+    notClaim: null,
+  },
+];
+
+const limits = [
+  {
+    title: 'Certification vs. alignment',
+    body:
+      'A certified study requires a defined goal and scope, a declared functional unit, a chosen system boundary, LCIA characterization across the relevant impact categories, critical review (ISO 14044 §6.1), and third-party verification (ISO 14067 §7). These steps belong to the practitioner and the verifier — not the data-retrieval tool.',
+  },
+  {
+    title: 'EPDs require PCRs',
+    body:
+      'An Environmental Product Declaration (ISO 14025) requires a Product Category Rule specifying which impact categories are in scope, which LCIA characterization factors apply, and what the declared unit is. Cortex Cowork produces a structured .docx file following EPD-standard layout; the PCR is the practitioner’s document and must be obtained from the relevant EPD program operator.',
+  },
+  {
+    title: 'CBAM filing is the declarant’s act',
+    body:
+      'Cortex prepares the emission-factor documentation a CBAM declaration requires. Submission to the customs authority, selection of the applicable national default value where supplier data is unavailable, and CBAM certificate purchases are outside the tool’s scope.',
+  },
+  {
+    title: 'System-model selection is the practitioner’s choice',
+    body:
+      'Cortex returns datasets with their system models labeled (cut-off, APOS, consequential). It does not select a system model on behalf of the user. Mixing system models within a single study invalidates the calculation; Cortex surfaces the system model with every result so the practitioner can enforce consistency.',
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">Reference · Standards</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.03; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 22ch;">
+        Which standards Cortex outputs align with.
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.15rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        For verifiers, CBAM declarants, and sustainability teams who need to know what Cortex
+        produces before they cite a number in a filing or audit.
+      </p>
+    </div>
+  </section>
+
+  <!-- §I How alignment works -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="How alignment works" numeral="I" title="Alignment is not certification." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cortex outputs are designed to be compatible with the standards in §II. Alignment
+          means data selection, provenance, and proxy-justification methodology correspond
+          to each standard’s requirements.
+        </p>
+        <p>
+          Formal certification is project-scope and verifier-led — it depends on study
+          boundary, declared functional unit, and third-party review. These are not tool
+          properties.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §II Per-standard reference -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Standard by standard" numeral="II" title="What each standard covers, and what Cortex does." />
+
+      <div class="mt-12 border-y border-rule">
+        {standards.map((s) => (
+          <article class="border-b border-rule last:border-b-0 py-10">
+            <div class="grid items-start gap-6 md:grid-cols-[10rem_minmax(0,_1fr)] md:gap-10">
+              <div>
+                <p class="font-mono" style="font-size: 0.95rem; letter-spacing: 0.02em; color: var(--shell);">{s.code}</p>
+                <p class="mt-2 font-display italic" style="font-variation-settings: 'SOFT' 40, 'opsz' 18; font-size: 1rem; line-height: 1.25; color: var(--ink-mute);">{s.name}</p>
+              </div>
+              <div class="space-y-5">
+                <div>
+                  <span class="eyebrow" style="color: var(--ink-faint);">Covers</span>
+                  <p class="mt-2 font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1rem;">{s.covers}</p>
+                </div>
+                <div>
+                  <span class="eyebrow" style="color: var(--shell);">What Cortex does</span>
+                  <p class="mt-2 font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1rem;">{s.does}</p>
+                </div>
+                {s.notClaim && (
+                  <div>
+                    <span class="eyebrow" style="color: var(--ink-faint);">Not claimed</span>
+                    <p class="mt-2 font-serif italic" style="line-height: 1.6; font-variation-settings: 'opsz' 16; color: var(--ink-mute); font-size: 0.96rem;">{s.notClaim}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §III Explicit limits -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Explicit limits" numeral="III" title="Outputs align. Certification is downstream." />
+
+      <div class="mt-10 grid gap-6 md:grid-cols-2">
+        {limits.map((l) => (
+          <article class="border border-rule p-7" style="background: var(--paper);">
+            <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.18rem; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink);">{l.title}</h3>
+            <p class="mt-4 font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.98rem;">{l.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §IV Closing -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-16 md:py-20">
+      <SectionMark kicker="Further reading" numeral="IV" title="Methodology, walkthrough, and contact." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          For the reasoning rules that govern how Cortex selects and ranks datasets — DQI
+          scoring, HITL gate thresholds, proxy strategy — see the
+          <a href="/methodology" style="color: var(--shell);">methodology</a> page.
+        </p>
+        <p>
+          For a full walkthrough of a BOM-matching workflow with standards-aligned output,
+          see <a href="/solutions/bom-matching" style="color: var(--shell);">BOM matching</a>.
+        </p>
+        <p>
+          Questions on standards scope, CBAM declarant requirements, or EPD program rules:{' '}
+          <a href="mailto:info@hiqlcd.com" style="color: var(--shell);">info@hiqlcd.com</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
