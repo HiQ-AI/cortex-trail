@@ -1,0 +1,107 @@
+---
+title: "China manufacturing data, mapped to LCA datasets"
+description: "HiQLCD carries 31,523 rows of China-specific LCI data across 30 provincial grid variants. 2,083 expert-curated factory term mappings. Why a baseline mismatch in CBAM filings is not a rounding error."
+publishDate: 2026-04-25
+pillar: audit
+tags: ["HiQLCD", "CBAM", "China", "data sources"]
+locale: en
+draft: false
+---
+
+A Chinese exporter receives a request from their European buyer: declare embedded GHG emissions for hot-rolled steel coil under CBAM Annex IV rules. The quarterly deadline is approaching.
+
+They open an overseas LCA tool. Search "cold-rolled steel." The results return a European Ecoinvent dataset — EAF process, low-carbon grid.
+
+The problem: their Shanghai facility runs BF-BOF. Roughly 90% of Chinese steel production is BF-BOF (blast furnace–basic oxygen furnace, the integrated long route). The GWP difference between BF-BOF and EAF is 3–5×. Using European EAF data to represent a Chinese BF-BOF facility is not a rounding error. It is a baseline mismatch.
+
+Cortex returns two results in parallel: the HiQLCD China BF-BOF dataset for the declaration, and the EF / Ecoinvent EU reference dataset for the buyer's verification. Both in one query.
+
+---
+
+## HiQLCD: 18.7× China regional coverage
+
+| Dimension | Fact |
+|---|---|
+| Rows (with provincial variants) | 31,523 |
+| Deduplicated entries | 1,687 |
+| Provincial grid variants | 30 (CN-BJ, CN-SH, CN-GD…) |
+| China coverage multiplier vs. Ecoinvent | 18.7× (Ecoinvent: 2.3×) |
+
+Ecoinvent is the global industry standard. Its China coverage relies primarily on GLO (global average) and RoW entries, with limited provincial grid data. HiQLCD's China regional depth is more than 8× deeper.
+
+The difference shows up sharpest in specific materials.
+
+### Primary aluminum: why the number changes with location
+
+China primary aluminum GWP: 14–20 kgCO₂e/kg. Aluminum smelting is electricity-intensive; China's grid is coal-heavy.
+
+EU primary aluminum GWP: 8–10 kgCO₂e/kg. European smelters run on hydro-dominated grids.
+
+In a CBAM filing or EPD comparison, this gap is decisive. A declaration built on EU aluminum data for a Chinese factory underestimates embedded emissions by roughly 50–60%. HiQLCD-AL, the aluminum-sector database, carries China-specific data across primary production, secondary (recycled), die casting, and rolling.
+
+### Steel: BF-BOF is the Chinese default
+
+Ecoinvent's Chinese steel data is sparse; its baseline reflects European EAF proportions. HiQLCD is built around the BF-BOF reality of Chinese steel production, with explicit BF-BOF process datasets at the provincial level.
+
+This is a difference in data foundations, not a configurable parameter.
+
+---
+
+## CBAM dual direction: one query, two reference points
+
+CBAM involves two sides of the same supply chain. Cortex holds data for both.
+
+**Chinese exporter → EU declaration**
+
+> "Our Shanghai facility produces 304 stainless steel sheet. We need CBAM-compliant emission factors."
+
+Cortex recognizes the CBAM context and applies the correct boundary: Scope 1 + Scope 2, not full cradle-to-gate. HiQLCD returns the Chinese BF-BOF production dataset. EF and Ecoinvent return the EU reference values the CBAM declaration requires. Both sets appear in the same response, with the GWP spread visible.
+
+Dataset names return bilingual: "冷硬卷，304 不锈钢 (Cold-rolled annealed coil, 304 stainless steel)." The Chinese name helps the exporter cross-reference their factory records; the English name aligns with the buyer's declaration form.
+
+**EU buyer → verifying supplier data**
+
+> "Our Chinese supplier declared steel at 1.9 kgCO₂e/kg. Is that credible?"
+
+Cortex retrieves the HiQLCD Chinese steel GWP range: BF-BOF approximately 1.7–2.5, EAF approximately 0.4–0.8. It places 1.9 in the BF-BOF range and explains why Chinese EAF steel has higher GWP than European EAF — because the Chinese grid's carbon intensity is higher even for the same process route. Ecoinvent does not carry the provincial grid BF-BOF breakdown needed to give this answer.
+
+---
+
+## Factory terms to dataset IDs: 2,083 mappings
+
+The search index carries a 20,000-term Chinese LCA terminology dictionary. It tokenizes Chinese material names as units of meaning, not as character sequences. "镍板" (nickel plate) is recognized as a single term and matched precisely — not split into "镍" (nickel) and "板" (sheet), which would match every nickel-containing dataset in the index.
+
+Above that, 2,083 expert-curated mappings translate Chinese factory terms into LCA dataset IDs.
+
+**背钩 (watch case back hook)**
+→ `HiQ | Production | Cold-rolled annealed coil, 304 stainless steel, mixed technology`, China
+
+The mapping encodes an expert decision: the primary material for a watch back hook is 304 stainless cold-rolled annealed coil. The user does not need to know the decision chain — the mapping carries it.
+
+**IGBT模块 (IGBT module)**
+→ `market for insulated gate bipolar transistor, electric vehicle application`, Ecoinvent 3.12.0, Global
+
+The specific factory term "IGBT模块" hits the EV-application dataset, not the generic transistor entry. The distinction matters: these are different datasets with different GWP profiles.
+
+**502胶水 (502 adhesive, cyanoacrylate)**
+→ `market for polyurethane adhesive`, Ecoinvent 3.12.0, Global *(proxy substitution, flagged)*
+
+There is no 502 adhesive dataset in the LCA databases. The mapping captures an expert proxy decision: polyurethane adhesive as the closest equivalent. Cortex does not make this substitution silently — the result is labeled as a proxy, with the assumption named for audit purposes.
+
+Cortex responds in the user's query language. Chinese question, Chinese answer. English question, English answer. Dataset names always return bilingual.
+
+---
+
+## Different data foundations, not configurable parameters
+
+Overseas SaaS tools default to EU grid data. Switching to "China" typically means applying a regional parameter on top of Ecoinvent's limited China entries. The underlying data is not built around Chinese manufacturing realities.
+
+HiQLCD is built from the other direction: Chinese process routes, Chinese provincial grids, Chinese industrial mix as the starting point. 30 provincial grid variants. BF-BOF as the default for Chinese steel. Coal-dominated grid intensity for Chinese aluminum smelting. These are database facts, not outputs of a configuration step.
+
+Cortex searches 14 databases in parallel — HiQLCD 1.4.0, Ecoinvent 3.12.0, EF 3.1.0, HiQLCD-AL, TianGong, and nine more — in a single query. For China manufacturing scenarios, HiQLCD is the first match. For CBAM compliance, EF is the primary reference. Which path activates depends on the declared use case.
+
+Cortex does not replace the LCA practitioner. It scales their judgment across Chinese supply chain data.
+
+---
+
+To run a query against the China dataset, open [Cortex Chat](/product/chat). For full BOM processing across 14 databases, see [BOM matching](/solutions/bom-matching).
