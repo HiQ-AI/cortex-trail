@@ -5,56 +5,67 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'Cortex Cowork — HiQ Cortex';
 const description =
-  'The desktop agent that stays with your LCA project. Cowork runs on your machine, reads your files, and carries decisions across sessions and restarts.';
+  'Your files. Your machine. Your audit trail. The desktop agent for LCA projects that span weeks — reads BOMs, drives openLCA, writes every decision into a versionable audit log.';
 
 const platforms = [
-  { name: 'macOS',   detail: 'Apple Silicon (M1–M4) and Intel · .dmg', note: 'Gatekeeper: System Settings → Privacy & Security → Open Anyway on first launch.' },
-  { name: 'Windows', detail: '.exe installer',                          note: null },
-  { name: 'Linux',   detail: '.AppImage or .deb (dpkg -i)',            note: null },
+  { name: 'macOS',   detail: '.dmg — Apple Silicon (arm64) and Intel (x86-64)', note: 'Gatekeeper: System Settings → Privacy & Security → Open Anyway on first launch.' },
+  { name: 'Windows', detail: '.exe installer',                                  note: 'Requires Git for Windows. App auto-detects system Git on first launch.' },
+  { name: 'Linux',   detail: '.AppImage or .deb (dpkg -i)',                     note: 'glibc (x86-64) and musl (x86-64) supported.' },
 ];
 
 const scenarios = [
   {
     numeral: 'I',
     label: 'BOM processing',
-    before: 'Open Excel + query databases one by one + log results manually.',
-    after:  'Upload the BOM. Cortex identifies materials, runs cross-database matching, and fills in missing datasets — row by row, with every match sourced.',
-    detail: 'Cortex reads your BOM file directly from disk. It searches HiQLCD, Ecoinvent, EF, and the rest of the twelve-database surface in parallel per row, flags rows where coverage is below threshold, and writes the matched GWP100 values back into a new Excel file. No copy-paste. No tab-switching.',
-    proof:  'BOM.xlsx → parallel search → matched GWP100 · source · DQI per row',
+    before: 'Open Excel. Query databases one by one. Log results manually. Reconcile across tabs.',
+    after:  'Upload the BOM. Cowork reads the file from disk, runs cross-database matching across fourteen LCA databases in parallel per row, flags rows where no confident match exists, and writes results back into a new Excel workbook — row by row, with every match sourced.',
+    detail: 'Each row in the Results sheet carries: matched dataset name (hyperlinked to the source record at hiqlcd.com), unit, region, GWP100 value where licensed, a Licensed placeholder where the user lacks access, and proxy notes where a surrogate was used.',
+    proof:  'BOM.xlsx → parallel search → matched GWP100 · source · proxy notes per row',
   },
   {
     numeral: 'II',
     label: 'Scope 3 calculation',
-    before: 'Consult GHG Protocol documentation + ask an AI separately + classify categories by hand.',
-    after:  'Provide the activity data file. Cortex classifies categories automatically, builds the data-collection checklist, and runs the calculation.',
-    detail: 'All 15 GHG Protocol Scope 3 categories are supported. Cortex handles upstream, downstream, and use-phase classifications — Category 1 (Purchased goods and services) at the BOM-row level, the rest with factor identification and data-collection checklists. The output is a calculation file with category totals and factor sources, not a black-box number.',
+    before: 'Consult GHG Protocol documentation. Classify categories by hand. Collect emission factors separately.',
+    after:  'Provide the activity data file. Cowork classifies all 15 GHG Protocol Scope 3 categories, builds data-collection checklists, and runs the calculation with emission factors from the fourteen-database surface.',
+    detail: 'The output is a calculation file with category totals and factor sources. Category 1 (Purchased goods and services) is matched at the BOM-row level.',
     proof:  'Activity data in → 15 categories · factor matching · calculation out',
   },
   {
     numeral: 'III',
     label: 'openLCA operation',
-    before: 'Learn the openLCA interface + build flows by hand + read the documentation.',
-    after:  'Describe what you need. Cortex connects to openLCA, matches background datasets, builds the product system, and runs the calculation.',
-    detail: "Cortex does not replace openLCA — it drives it. Start openLCA's IPC server, point Cowork at your BOM file, and describe the goal in plain language. Cortex handles the dataset matching, system construction, circular-reference resolution, and result export. Your openLCA instance is the model; Cortex is the operator.",
+    before: 'Build flows by hand in openLCA. Match background datasets manually. Navigate the interface for each step.',
+    after:  'Describe the goal in plain language. Cowork matches background datasets, builds the product system, resolves circular references, and runs the calculation — inside the user\'s local openLCA instance.',
+    detail: "Cowork does not replace openLCA. It drives it. The user's openLCA instance is the model; Cowork is the operator. When Computer Use is enabled (macOS), Cowork can interact directly with the openLCA GUI — clicking through dialogs, reading result windows, pasting values — without requiring openLCA's command-line interface.",
     proof:  'openLCA → dataset match → product system built → results exported',
   },
   {
     numeral: 'IV',
-    label: 'EPD report generation',
-    before: 'Find the template + copy data out of the LCA software + fill in Word by hand.',
-    after:  'One request. Cortex pulls from the calculation results and produces a structured .docx file following EPD standard layout.',
-    detail: 'Cortex pulls declared unit, system boundary, reference flows, and LCIA results from the calculation — and formats them into a .docx file following EPD standard structure. The Product Category Rule (PCR) selection and third-party verification remain the practitioner\'s step. No reformatting. No re-entry.',
-    proof:  'Calculation results → EPD layout applied → .docx out · PCR practitioner-led',
+    label: 'EPD data preparation',
+    before: 'Pull LCIA indicator values from the modeling tool by hand. Assemble methodology documentation separately. Re-enter into the EPD authoring template.',
+    after:  'Cowork queries GWP100 and EN 15804+A2 multi-indicator results from the pre-computed matrix service, generates a methodology summary with matched datasets and proxy decisions, and produces a Markdown document the practitioner imports into their EPD authoring tool.',
+    detail: 'PCR selection, third-party verification, and formal EPD submission remain practitioner steps. Cowork provides the data layer and the methodology documentation — not the conformant EPD file.',
+    proof:  'LCIA indicators retrieved · methodology documented · practitioner assembles EPD',
   },
+];
+
+const memoryLayers = [
+  ['L1 User Profile',         'Role, preferred databases (HiQLCD, Ecoinvent), preferred impact method, report language, estimation policy', 'User via Settings'],
+  ['L2 Global Instructions',  'Rules that apply across all projects ("always cut-off system model," "output Chinese")',                       'User via Settings'],
+  ['L3 Auto-observation',     'Inferred preferences not yet confirmed by the user',                                                          'Quiet background observation'],
+  ['L4 Cortex.md',            'Functional unit, system boundary, methodology choices for this project. Travels with the project folder.',  'User + agent'],
+  ['L5 progress.md',          'Append-only audit trail: every decision, data gap, assumption, verification, challenge, milestone.',         'Agent via append-only tool only'],
+  ['L6 Project memory',       'AI-maintained knowledge files: verified dataset UUIDs, electricity grid factor notes, supplier-specific data.', 'Agent'],
 ];
 
 const compare = [
   ['Session history',         'Cloud-synced',                          'Local only'],
   ['File access',             'No local files',                        'Full read/write'],
   ['Script execution',        'Not available',                         'Local execution'],
-  ['Skills system',           'Core search skills',                    'Full skills marketplace + custom MCP'],
-  ['LCA database search',     'Yes',                                   'Yes'],
-  ['Best for',                'Quick queries, methodology Q&A',        'BOM matching, report generation, project work'],
+  ['LCA catalog search',      'Server-side',                           'Local filesystem, offline-capable'],
+  ['Skills system',           'Core search skills',                    'Full marketplace + custom + observer-sedimented'],
+  ['Audit trail',             'Conversation history',                  'L5 progress.md, append-only, versionable'],
+  ['Computer Use',            'Not available',                         '21 tools, macOS only'],
+  ['Best for',                'Quick queries, methodology Q&A',        'BOM matching, project work, EPD data prep'],
 ];
 ---
 
@@ -67,11 +78,11 @@ const compare = [
         <p class="eyebrow">Product · Cortex Cowork</p>
         <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
       </div>
-      <h1 class="font-display" style="font-size: clamp(2.4rem, 6vw, 5rem); line-height: 1.02; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 20ch;">
-        The desktop agent that <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">stays with</em> your LCA project.
+      <h1 class="font-display" style="font-size: clamp(2.4rem, 6vw, 5rem); line-height: 1.05; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 22ch;">
+        Your files. Your machine. <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">Your audit trail.</em>
       </h1>
-      <p class="mt-10 max-w-2xl font-serif" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        LCA work doesn't fit in one conversation. Cowork runs on your machine, reads your files, and carries the boundary decisions, the proxy log, and the supplier data — across sessions, across restarts.
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cowork is a desktop agent for LCA projects that span weeks. It reads BOM files directly from disk, runs tools on your machine, and writes every decision into an append-only log that travels with the project folder.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
         <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
@@ -80,12 +91,12 @@ const compare = [
     </div>
   </section>
 
-  <!-- Platforms -->
+  <!-- §I Platforms -->
   <section class="border-t border-rule">
     <div class="container-page py-14 md:py-16">
       <div class="eyebrow mb-3">Available on your machine</div>
       <p class="max-w-2xl font-serif italic" style="font-size: 0.95rem; line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">
-        No login required to install. Login required to sync cloud services and run database searches.
+        Cortex Cowork ships as a native binary for three platforms. <strong style="font-style: normal; color: var(--ink);">Computer Use is macOS only.</strong>
       </p>
       <div class="mt-8 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
         {platforms.map((p) => (
@@ -102,13 +113,10 @@ const compare = [
     </div>
   </section>
 
-  <!-- Scenarios -->
+  <!-- §II Scenarios -->
   <section id="scenarios" class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="What it's good for" numeral="I–IV" title="Four workflows Chat can't run." />
-      <p class="max-w-3xl font-serif" style="font-size: 1.1rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Cowork operates on your files, executes tools locally, and picks up where the last session ended. These four workflows show what that means in practice.
-      </p>
+      <SectionMark kicker="What it handles" numeral="II" title="Four workflows Chat cannot run." />
 
       <div class="mt-14 border-y border-rule">
         {scenarios.map((s) => (
@@ -135,23 +143,151 @@ const compare = [
     </div>
   </section>
 
-  <!-- Reasoning chain (compressed) -->
+  <!-- §III BOM xlsx 4 sheets -->
   <section class="border-t border-rule">
-    <div class="container-page py-12 md:py-14">
-      <p class="max-w-3xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Decisions return to the practitioner inside Cowork's multi-step sessions — and they accumulate across days. <a href="/standards" style="color: var(--shell); font-style: normal;">Standards alignment →</a>
-      </p>
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="The BOM export" numeral="III" title="Four sheets, one workbook." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          The deliverable from a BOM matching session is a single <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">.xlsx</code> workbook with four sheets.
+        </p>
+        <p>
+          <strong style="font-weight: 500;">Summary</strong> — Coverage at a glance: percentage matched, count of materials, databases compared. A color-segmented progress bar shows matched (green), proxy (amber), and gap (empty) proportions. A breakdown table by material category.
+        </p>
+        <p>
+          <strong style="font-weight: 500;">Results</strong> — The main table. Each row is one BOM material; each column group is one database. The dataset cell is a hyperlink: clicking it opens the dataset's detail page at <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">hiqlcd.com/dataset/...</code> directly. Adjacent columns carry unit, region, and GWP100 (blue color-scale, proportional to value rank). A <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">Δ%</code> column computes the percentage difference between two databases for the same row. The <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">Status</code> column shows ✓ Matched / ~ Proxy / ✗ Gap. The <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">Notes</code> column carries proxy reasoning, weighted-average decomposition for composite materials, and alternative candidates.
+        </p>
+        <p>
+          Restricted rows show <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">Licensed</code> in the GWP column. The dataset name, region, unit, and hyperlink remain visible. No literature fallback is substituted.
+        </p>
+        <p>
+          <strong style="font-weight: 500;">Gaps</strong> — All unmatched and proxy rows, with the databases that have a match, the databases that don't, the reason, and a suggested action.
+        </p>
+        <p>
+          <strong style="font-weight: 500;">Methodology</strong> — Parameters: source file name, date generated, databases, system model, functional unit. Five fixed methodology notes including: GWP values are GWP100 per IPCC AR6, proxy definition, alternatives explanation, default system model, and the practitioner-review requirement.
+        </p>
+      </div>
     </div>
   </section>
 
-  <!-- Chat vs Cowork -->
+  <!-- §IV Data privacy -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Which Cortex" numeral="V" title="When to use Cowork instead of Chat." />
+      <SectionMark kicker="Data stays on your machine" numeral="IV" title="Local catalogs. Local sessions. Local audit trail." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cowork sessions are not uploaded. BOM files are processed in the session's local context and not persisted server-side.
+        </p>
+        <p>
+          Four LCA catalogs are downloaded to local storage at startup — HiQLCD 1.4.0 (~11 MB), Ecoinvent 3.12.0, CarbonMinds 2.0.2, Agri-footprint 7.0 — and kept current via verified sync. Catalog search runs locally against the downloaded files. No network call is made for a catalog query. Once downloaded, catalogs work offline.
+        </p>
+        <p>
+          The <strong style="font-weight: 500;">out-of-workspace gate</strong> runs on every file write and shell command. A file-boundary check intercepts any operation whose path falls outside the project folder before it executes. The user sees a confirmation card: the specific path, a one-sentence reason, and three options — Allow once / Always allow this directory / Deny. The gate fires regardless of session mode. The agent cannot bypass it.
+        </p>
+        <p>
+          The project's L5 audit log (<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code>, described below) and L6 project memory files live on the user's local filesystem, co-located with the project data. They can be committed to version control.
+        </p>
+      </div>
+    </div>
+  </section>
 
-      <p class="mt-10 max-w-3xl font-display italic" style="font-variation-settings: 'SOFT' 60, 'opsz' 36; font-size: clamp(1.4rem, 2.6vw, 1.8rem); line-height: 1.3; color: var(--ink);">
-        Cortex Chat answers questions. Cortex Cowork runs workflows — on your machine, in your project folder, across as many sessions as the work takes.
-      </p>
+  <!-- §V Six layers -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Six-layer memory" numeral="V" title="Every Cowork session starts with six layers of context already loaded." />
+
+      <div class="mt-10 overflow-hidden border border-rule" style="background: var(--paper);">
+        <table class="w-full" style="border-collapse: collapse;">
+          <thead>
+            <tr style="background: var(--paper-rim);">
+              <th class="eyebrow text-left p-4 border-b border-rule">Layer</th>
+              <th class="eyebrow text-left p-4 border-b border-rule">What it carries</th>
+              <th class="eyebrow text-left p-4 border-b border-rule">Who writes it</th>
+            </tr>
+          </thead>
+          <tbody class="font-serif" style="font-size: 0.9rem; line-height: 1.5; font-variation-settings: 'opsz' 16;">
+            {memoryLayers.map(([layer, what, who]) => (
+              <tr>
+                <td class="p-4 border-b border-rule" style="color: var(--shell); font-weight: 500;">{layer}</td>
+                <td class="p-4 border-b border-rule" style="color: var(--ink);">{what}</td>
+                <td class="p-4 border-b border-rule" style="color: var(--ink-mute);">{who}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-10 max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          <strong style="font-weight: 500;">L5 is the audit trail.</strong> The agent cannot directly edit <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code>. Only a dedicated append-only tool is permitted — enforced at the system level, not by convention. Each entry carries a type (one of six: <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">decision</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">data_gap</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">assumption</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">verification</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">challenge</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">milestone</code>), a topic, a timestamped body, and an optional next step.
+        </p>
+        <p>
+          A BOM matching session produces entries like: <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">[decision]</code> — which dataset was chosen and why; <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">[data_gap]</code> — a material with no catalog match; <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">[assumption]</code> — the proxy used and its bias direction.
+        </p>
+      </div>
+
+      <Asterism />
+
+      <blockquote class="mx-auto max-w-3xl text-center">
+        <p class="pullquote">
+          An auditor asking "where did this GWP100 value come from?" reads <em style="color: var(--shell); font-style: italic;">progress.md</em>.
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- §VI Skills -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Skills" numeral="VI" title="The platform that learns from the work." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cowork ships with bundled skills already loaded. The platform adds more from two sources: a shared marketplace and the practitioner's own sessions.
+        </p>
+        <p>
+          <strong style="font-weight: 500;">Bundled skills</strong> ship with the application: <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">bom-analysis</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">querying-lca-datasets</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">scope3-guidance</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">en-15804-indicators</code>. These run from the first session.
+        </p>
+        <p>
+          <strong style="font-weight: 500;">Marketplace skills</strong> are contributed by practitioners, reviewed by HiQ-AI, and available to every user. Cowork checks for updates on launch and downloads silently. Skills work offline once cached.
+        </p>
+        <p>
+          <strong style="font-weight: 500;">Custom skills</strong> accumulate from the practitioner's own work. The observer pipeline indexes every session after it closes. When two or more sessions show the same workflow shape, a background process reads the actual session transcripts and writes a reusable skill. No user action is required. The skill appears in the Recent Learnings panel and loads automatically on the next similar task.
+        </p>
+        <p>
+          Any custom skill can be contributed to the shared marketplace. A PII scan runs before anything leaves the machine. If the scan passes, a pull request opens for HiQ-AI review. On merge, the skill is available to every user on next launch.
+        </p>
+        <p class="font-display italic" style="color: var(--shell); font-size: 1.15rem; line-height: 1.4;">
+          The platform's LCA intelligence is not owned by the vendor. It accumulates from actual practitioner work.
+        </p>
+        <p>
+          <a href="/skills" class="smallcaps" style="color: var(--shell);">More on Skills →</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §VII Computer Use -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Computer Use" numeral="VII" title="macOS only — direct GUI control of installed apps." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          When Computer Use is enabled, Cowork gains 21 MCP tools for direct GUI interaction: screenshot, zoom, click (left, right, double, triple, middle), type, key press, scroll, drag, application launch, clipboard read/write, and others.
+        </p>
+        <p>
+          This means the agent can drive any installed desktop application — openLCA dialogs, SimaPro result windows, a legacy ERP, any app in the user's PATH — without requiring a command-line interface. Before each action, the user approves which applications the agent may control. The main window docks to a side panel; a visible overlay displays "Claude is using your computer." Pressing Escape interrupts at any point.
+        </p>
+        <p class="font-serif italic" style="color: var(--ink-mute);">
+          Computer Use is not available on Windows or Linux.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §VIII Compare -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Cowork vs Chat" numeral="VIII" title="Cortex Cowork runs workflows. On your machine. In your project folder." />
 
       <div class="mt-10 overflow-hidden rounded-sm border border-rule" style="background: var(--paper);">
         <table class="w-full" style="border-collapse: collapse;">
@@ -162,7 +298,7 @@ const compare = [
               <th class="eyebrow text-left p-4 border-b border-rule" style="color: var(--shell);">Cortex Cowork</th>
             </tr>
           </thead>
-          <tbody class="font-serif" style="font-size: 0.94rem; line-height: 1.5; font-variation-settings: 'opsz' 16;">
+          <tbody class="font-serif" style="font-size: 0.92rem; line-height: 1.5; font-variation-settings: 'opsz' 16;">
             {compare.map(([label, chat, cowork]) => (
               <tr>
                 <td class="p-4 border-b border-rule" style="color: var(--ink-mute); font-weight: 500;">{label}</td>
@@ -180,15 +316,14 @@ const compare = [
     </div>
   </section>
 
-  <!-- Closer -->
+  <!-- Closing -->
   <section class="border-t border-rule">
     <div class="container-prose py-24 text-center">
-      <Asterism class="mb-10" />
-      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.02; letter-spacing: -0.02em;">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
         Install once. Pick up where you left off.
       </h2>
-      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.1rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Cowork keeps the project context between restarts: the decisions made, the proxy choices logged, the rows already matched. The next session starts where the last one ended.
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cowork keeps the project context between restarts: the decisions made, the proxy choices documented, the rows already matched. The six-layer memory is on disk, not in a cloud session. The next time the project opens, the agent starts from where the last session ended.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
         <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>

@@ -5,61 +5,16 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'Cortex Chat — HiQ Cortex';
 const description =
-  'LCA data retrieval, in a conversation. Ask in Chinese or English. Cortex searches twelve databases in parallel and returns ranked candidates — DQI scored, every assumption attached.';
-
-const surfaces = [
-  {
-    name: 'Web',
-    address: 'cortex.hiq.earth/chat',
-    body: 'Sign in, start typing. Conversation history syncs to the cloud. Supports Chinese and English input without switching modes.',
-  },
-  {
-    name: 'API',
-    address: 'docs.x.hiq.earth',
-    body: 'Four protocols: REST, MCP, AG-UI, A2A. REST for batch lookups. MCP for Cursor / Claude Desktop / any MCP-compatible client. AG-UI for front-end streaming. A2A for agent-to-agent calls.',
-  },
-];
-
-const scenarios = [
-  {
-    numeral: 'I',
-    label: 'Bulk BOM matching',
-    body:
-      'Upload a Bill of Materials — Excel, CSV, or pasted text. Cortex asks the clarifying question that matters: alloy grade, production route, region. Silence on low-signal rows. It then searches HiQLCD, Ecoinvent, EF, CarbonMinds, and more in parallel and returns DQI-scored candidates per row. Cortex pauses where automation would break an audit — coverage gaps, proxy substitutions, large cross-database spread — and surfaces the choice for your decision.',
-    proof: '100-row BOM · ~10 min · full provenance export',
-    href: '/solutions/bom-matching',
-    hrefLabel: 'See the full walkthrough',
-  },
-  {
-    numeral: 'II',
-    label: 'Single-material search',
-    body:
-      'Type a material name — "hot-rolled steel, China" or "HDPE granules, extrusion grade" — and Cortex returns a ranked list across all connected databases. Each hit shows GWP100 value, unit, geographic region, system model, and a link to the source record on HiQLCD. Results in Chinese or English; the databases answer either way.',
-    proof: 'Natural-language query · multi-database · DQI-ranked top-k',
-  },
-  {
-    numeral: 'III',
-    label: 'CBAM scope checking',
-    body:
-      'Walk a product row through CBAM Annex IV requirements in conversation: embedded emissions boundary, direct vs. indirect emissions split, and which proxy assumptions the verifier will question. Cortex cites the dataset key and GWP100 value at each step — not a hand-wave, a named record.',
-    proof: 'Named dataset · embedded emissions boundary · reasoning chain per row',
-  },
-  {
-    numeral: 'IV',
-    label: 'Methodology Q&A',
-    body:
-      '"What is the difference between Ecoinvent cut-off and APOS for my stainless steel row?" Cortex answers from the dataset record and system-model documentation — not from a training-data summary. Ask about ISO 14040/44 system boundaries, allocation approaches, EPD standards, or CBAM default values.',
-    proof: 'Cites dataset key + system model · not a paraphrase',
-  },
-];
+  'LCA data retrieval, in a conversation. Ask in Chinese or English. Cortex asks one question before searching, returns ranked candidates from fourteen databases — source labeled, every assumption surfaced.';
 
 const compare = [
-  ['Where it runs',         'Browser (cloud)',                                                     'Desktop app (local-first)'],
+  ['Where it runs',         'Browser (cloud)',                                                     'Desktop app (local)'],
   ['File access',           'Upload per session',                                                  'Reads and writes your project folder'],
-  ['Conversation history',  'Cloud-synced, searchable',                                            'Local only'],
+  ['Conversation history',  'Cloud-synced; capped at 50 raw turns; preferences persist',          'Local only'],
   ['Local tool execution',  'Not available',                                                       'Python, shell, custom MCP tools'],
   ['Skills system',         'Core search skills',                                                  'Full skills marketplace + custom skills'],
-  ['Best for',              'Single-session lookups: a BOM, a material, a methodology question',  'Projects spanning days: decision logs, multi-session memory, openLCA modeling'],
+  ['Decision log',          'Extracted user memories',                                             'Append-only progress.md, timestamped per decision'],
+  ['Best for',              'Single-session lookups: a material, a BOM, a methodology question',  'Projects spanning days: audit trails, multi-session memory, structured exports'],
 ];
 ---
 
@@ -72,89 +27,133 @@ const compare = [
         <p class="eyebrow">Product · Cortex Chat</p>
         <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
       </div>
-      <h1 class="font-display" style="font-size: clamp(2.4rem, 6vw, 5rem); line-height: 1.02; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 18ch;">
+      <h1 class="font-display" style="font-size: clamp(2.4rem, 6vw, 5rem); line-height: 1.05; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 20ch;">
         LCA data retrieval, <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">in a conversation</em>.
       </h1>
-      <p class="mt-10 max-w-2xl font-serif" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Ask in Chinese or English. Upload a BOM. Cortex searches <strong style="font-weight: 500;">twelve databases</strong> in parallel and returns ranked candidates — DQI-scored, every assumption attached.
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Ask in Chinese or English. Cortex asks one question before searching. Returns ranked candidates from fourteen databases — source labeled, data quality scored, every assumption surfaced.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
         <a href="/chat" class="ticket">Open Cortex Chat <span aria-hidden="true">→</span></a>
-        <a href="/solutions/bom-matching" class="ticket-ghost">See a BOM walkthrough</a>
+        <a href="/solutions/bom-matching" class="ticket-ghost">See how BOM matching works</a>
       </div>
     </div>
   </section>
 
-  <!-- Where Chat runs -->
-  <section class="border-t border-rule">
-    <div class="container-page py-14 md:py-16">
-      <div class="eyebrow mb-3">Where Chat runs</div>
-      <div class="mt-8 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
-        {surfaces.map((s) => (
-          <div class="p-6 md:p-8" style="background: var(--paper);">
-            <div class="flex items-baseline justify-between mb-3">
-              <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 24; font-size: 1.3rem;">{s.name}</h3>
-              <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--shell);">{s.address}</code>
-            </div>
-            <p class="font-serif" style="font-size: 0.98rem; line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink);">{s.body}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Scenarios -->
-  <section class="border-t border-rule" style="background: var(--paper-rim);">
-    <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="What people use it for" numeral="I–IV" title="Four scenarios LCA practitioners run inside one conversation." />
-      <p class="max-w-3xl font-serif" style="font-size: 1.1rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Each returns a named result, not a hedged summary.
-      </p>
-
-      <div class="mt-14 border-y border-rule">
-        {scenarios.map((s) => (
-          <article class="border-b border-rule last:border-b-0">
-            <div class="grid items-baseline gap-6 py-10 md:grid-cols-[4rem_minmax(0,_1fr)] md:gap-10">
-              <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: clamp(1.5rem, 2.4vw, 1.9rem);">§ {s.numeral}</span>
-              <div>
-                <h3 class="font-display mb-3" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.5rem, 2.6vw, 2.1rem); line-height: 1.1; letter-spacing: -0.015em; color: var(--ink);">{s.label}</h3>
-                <p class="font-serif max-w-2xl" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1rem;">{s.body}</p>
-                <p class="mt-4 font-mono" style="font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-faint);">{s.proof}</p>
-                {s.href && (
-                  <a href={s.href} class="mt-4 inline-block smallcaps" style="text-decoration: none; color: var(--shell);">{s.hrefLabel} →</a>
-                )}
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- The reasoning chain -->
+  <!-- §I Bilingual retrieval -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <Asterism class="mb-12" />
-      <blockquote class="mx-auto max-w-3xl text-center">
-        <p class="pullquote">
-          Top-<em style="color: var(--shell); font-style: italic;">k</em>, not top-1. <em style="color: var(--shell); font-style: italic;">DQI</em>, not confidence score. <em style="color: var(--shell); font-style: italic;">A practitioner decides</em> — not a threshold a model crossed silently.
+      <SectionMark kicker="Bilingual retrieval" numeral="I" title="Chinese factory names, resolved before searching." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Most LCA tools treat Chinese factory names as the user's problem. Cortex resolves them before searching.
         </p>
-      </blockquote>
-      <p class="mx-auto mt-10 max-w-2xl font-serif text-center" style="line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink); font-size: 1.05rem;">
-        Cortex returns the candidates ranked by fit: geographic region, technology match, system model. Each carries a DQI across five dimensions. When automation would risk an undefendable answer — coverage drops below 80%, a proxy substitution is required, two databases disagree by more than 2× on GWP — Cortex stops and asks.
-      </p>
-      <p class="text-center mt-8">
-        <a href="/standards" class="smallcaps" style="color: var(--shell);">Standards alignment →</a>
-      </p>
+        <p>
+          Chinese manufacturing BOMs arrive with terms that have no direct equivalent in Ecoinvent: "背钩" (a watch case component), "IGBT模块", "502胶水". These are not search failures — they are a translation problem that previous tools left to the practitioner. Cortex carries 2,083 curated material-to-dataset mappings, built from years of LCA practitioner decisions. "IGBT模块" resolves to <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">market for insulated gate bipolar transistor, electric vehicle application</code> in Ecoinvent 3.12.0. "502胶水" maps to polyurethane adhesive — a documented proxy decision, not a guess. "绝缘栅双极晶体管" resolves differently than "IGBT模块" — same component, different naming precision, different dataset. The mapping reflects that.
+        </p>
+        <p>
+          The search index carries a 20,000-term dictionary tuned for LCA terminology in Chinese. Without it, "镍板" fragments into tokens that match everything containing "镍" — nickel battery recycling, nickel refining, nickel alloy casting. With it, "镍板" resolves to nickel plate, and the noise disappears.
+        </p>
+        <p>
+          Cortex searches both Chinese and English name fields simultaneously. A query for "304 不锈钢" hits the Chinese name index for HiQLCD records and the English name index for Ecoinvent and EF records in the same pass. The result table shows dataset names in both languages — "冷硬卷, 304不锈钢 (Cold-rolled annealed coil, 304 stainless steel)" — so a Chinese factory can match it to a supplier report and a German verifier can read the EU-standard name without a second lookup.
+        </p>
+      </div>
     </div>
   </section>
 
-  <!-- Chat vs Cowork -->
+  <!-- §II Clarifying question -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Which Cortex" numeral="V" title="Chat is the web surface. Cowork is the desktop one." />
+      <SectionMark kicker="The clarifying question" numeral="II" title="Before the search, not after." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cortex asks one question before searching when the answer would materially change the result. It does not ask otherwise.
+        </p>
+        <p>
+          The conditions are precise. Primary aluminum and recycled aluminum differ by roughly 10× in carbon intensity — primary in China runs 14–20 kgCO₂e/kg, recycled aluminum 0.5–1.5. A query for "铝" without a route specification produces a result set that cannot be used for either an EPD or a CBAM filing. Cortex says this explicitly before pausing: the magnitude, the two options, and a third option to search both. The interface renders clickable buttons, not a text field asking the practitioner to type an answer they may not have memorized.
+        </p>
+        <p>
+          For carbon steel, the BF-BOF and EAF routes differ by 3–5×. For regional electricity, the spread across grids reaches 20×. For generic terms like "adhesive" or "plastic" that map to dozens of distinct substance classes, any result without disambiguation would be noise. Cortex asks in these cases. It skips the question when the material is already specified precisely: "冷轧 304 不锈钢卷板" carries an alloy grade, a process, and a product form. No question follows.
+        </p>
+        <p>
+          Every clarification includes a default value and a "search both" escape. Declining advances the search; it does not abort it. Per turn, Cortex asks at most once, covering at most three dimensions in a single panel. It does not loop.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §III Fourteen databases -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Fourteen databases" numeral="III" title="One query. Both sides of the supply chain." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          One search covers fourteen LCA databases. The results are not fourteen serial requests assembled by the user — they are a single unified query returning ranked candidates across all sources simultaneously.
+        </p>
+        <p>
+          <strong style="font-weight: 500;">HiQLCD 1.4.0</strong> is the China-first database: 31,523 rows with 30 provincial grid variants. CN-BJ and CN-SH carry different electricity carbon intensities because northwest and eastern China have different coal-to-renewables ratios. Ecoinvent's China coverage has 2.3× regional variation. HiQLCD's is 18.7×. <strong style="font-weight: 500;">Ecoinvent 3.12.0</strong> provides international coverage and the standard naming practitioners and verifiers recognize across EU, global, and cross-border contexts. Both exist in the same query.
+        </p>
+        <p>
+          The rest of the fourteen: <strong style="font-weight: 500;">EF 3.1.0</strong> for EU PEF and CBAM compliance reference data; <strong style="font-weight: 500;">CarbonMinds 2.0.2</strong> for specialty chemicals; <strong style="font-weight: 500;">TianGong 1.0.0</strong> for Chinese academic LCI research; <strong style="font-weight: 500;">WorldSteel 1.0.0</strong> for industry-association steel reference data; <strong style="font-weight: 500;">HiQLCD-AL 2.0.0</strong> for aluminum supply chain depth; <strong style="font-weight: 500;">Agri-footprint 7.0</strong> for food and agriculture EPDs; and additional databases for regional and specialty coverage.
+        </p>
+        <p>
+          For CBAM, Cortex presents both sides in a single response. A Chinese steel exporter needs the actual production GWP from HiQLCD — the Chinese BF-BOF route at roughly 1.7–2.5 kgCO₂e/kg — and the EU reference value from EF or Ecoinvent for the declaration. Cortex retrieves both and returns them alongside each other.
+        </p>
+        <p>
+          Every result carries: dataset key, GWP100 (where licensed), unit, geographic region, system model, database name and version, and a link to the dataset detail page. The search is one conversation turn. The provenance is complete.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §IV Data quality -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Data quality" numeral="IV" title="What the score reflects, and what it doesn't." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Every search candidate returns a data quality indicator. The score reflects two things Cortex can compute from the record itself: version currency — whether the dataset is from the current database release or an older one — and field completeness — whether the record carries the metadata that makes it usable.
+        </p>
+        <p>
+          This is a structural proxy, not a five-dimension Pedigree Matrix evaluation. The Pedigree Matrix scores — Temporal, Geographic, Technology, Completeness, Reliability — are authored by human LCA practitioners when a dataset enters a source database. Cortex retrieves and displays those scores where the source database provides them. Cortex's own DQI float is a rule-engine number: 0–1, computed at query time, based on version currency (weighted 60%) and field completeness (40%).
+        </p>
+        <p>
+          The distinction matters. A practitioner choosing between two candidates from the same database at the same version level will see the same version-currency component; the field-completeness component will separate them if one has a defined system boundary and the other does not. The score is a tiebreaker and a filter, not a substitute for reading the dataset record.
+        </p>
+        <p>
+          DQI is visible in the search response and in the API. It is not a column in the exported Excel file — the export carries GWP, source, version, system model, proxy notes, and dataset links. The DQI conversation happens in the search; the export carries the evidence.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §V Memory -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Memory" numeral="V" title="What persists, what doesn't." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cortex retains what matters for the next search. It does not retain the conversation itself.
+        </p>
+        <p>
+          After a session closes, Cortex extracts and stores: the industry and LCA purpose the user has stated, the databases they prefer, the materials they search most frequently and the process routes they've specified, and the projects they're working on. A practitioner who has said "I always use HiQLCD for Chinese projects, Ecoinvent for EU EPDs" does not say it again. A practitioner new to LCA who asked for terminology explained in plain language gets the same register in every subsequent session without re-specifying it.
+        </p>
+        <p>
+          The raw conversation — the actual messages — is capped at 50 turns of history. Beyond that, the oldest turns drop. The extracted preferences do not drop. They are a user profile, not a transcript.
+        </p>
+        <p>
+          Data source preference changes take one confirmation. A user mid-session who says "actually, use Ecoinvent for this query" will see a one-step confirmation prompt before the session's active database switches. Confirmed, the preference is applied immediately and stored for future sessions. The user decides; Cortex records it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §VI Chat vs Cowork -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Which Cortex" numeral="VI" title="Chat answers questions. Cowork runs workflows." />
       <p class="max-w-2xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Chat and Cowork share the same retrieval engine. The project scope decides which to open.
+        Chat and Cowork share the same retrieval engine. The scope of the work decides which to open.
       </p>
 
       <div class="mt-10 overflow-hidden rounded-sm border border-rule" style="background: var(--paper);">
@@ -166,7 +165,7 @@ const compare = [
               <th class="eyebrow text-left p-4 border-b border-rule">Cortex Cowork</th>
             </tr>
           </thead>
-          <tbody class="font-serif" style="font-size: 0.94rem; line-height: 1.5; font-variation-settings: 'opsz' 16;">
+          <tbody class="font-serif" style="font-size: 0.92rem; line-height: 1.5; font-variation-settings: 'opsz' 16;">
             {compare.map(([label, chat, cowork]) => (
               <tr>
                 <td class="p-4 border-b border-rule" style="color: var(--ink-mute); font-weight: 500;">{label}</td>
@@ -178,8 +177,8 @@ const compare = [
         </table>
       </div>
 
-      <p class="mt-10 max-w-3xl font-display italic" style="font-variation-settings: 'SOFT' 60, 'opsz' 36; font-size: 1.4rem; line-height: 1.3; color: var(--ink);">
-        Chat answers questions. Cowork runs workflows.
+      <p class="mt-10 max-w-3xl font-serif" style="font-size: 1.02rem; line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink);">
+        A CBAM query in Chat returns candidates with sources attached, ready for the declarant's own calculation. A CBAM workflow in Cowork matches a full BOM, records every proxy substitution with bias direction in an append-only log, and exports an Excel file the verifier will read.
       </p>
 
       <p class="mt-6">
@@ -188,18 +187,18 @@ const compare = [
     </div>
   </section>
 
-  <!-- Closer -->
+  <!-- Closing -->
   <section class="border-t border-rule">
     <div class="container-prose py-24 text-center">
-      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.02; letter-spacing: -0.02em;">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
         Ask Cortex about a material.
       </h2>
-      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.1rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        One question is enough to start. No schema, no setup — type the material name, and Cortex returns candidates with sources attached.
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        One question is enough to start. Type a material name — in Chinese or English — and Cortex returns candidates from fourteen databases with sources attached.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
         <a href="/chat" class="ticket">Open Cortex Chat <span aria-hidden="true">→</span></a>
-        <a href="mailto:info@hiqlcd.com" class="ticket-ghost">API access · info@hiqlcd.com</a>
+        <a href="/docs" class="ticket-ghost">API access</a>
       </div>
     </div>
   </section>

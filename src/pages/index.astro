@@ -6,28 +6,28 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'HiQ Cortex — An LCA workbench you can defend, line by line.';
 const description =
-  'Match emission factors across twelve LCA databases. Score every candidate by DQI. Pause where automation would break an audit. Every export, defendable.';
+  'Most LCA tools optimize for the one-click number. Cortex optimizes for the answer that holds when an auditor asks how it was reached. Fourteen databases, bilingual search, every proxy labeled.';
 
 // §II — Audience routing (3 doors)
 const audiences = [
   {
-    label: 'For LCA consultants and verifiers',
+    label: 'For LCA consultants and EPD verifiers',
     body:
-      'The hours spent moving between database tabs compress to a conversation. Cortex searches twelve databases in parallel, returns DQI-scored candidates per row, flags gaps before your verifier does. Methodology Q&A cites the dataset record, not a paraphrase.',
+      'The hours spent moving between database tabs compress to a conversation. Cortex searches fourteen databases in parallel, returns ranked candidates with GWP100 per row, and flags gaps before your verifier does. Methodology Q&A cites the dataset record, not a paraphrase.',
     href: '/solutions/bom-matching',
     cta: 'See BOM matching',
   },
   {
     label: 'For sustainability and CBAM teams',
     body:
-      "CBAM filings require embedded-emissions evidence your suppliers haven't filed yet. Cortex prepares the emission-factor and proxy-justification material Annex IV requires. It supports all 15 GHG Protocol Scope 3 categories and preserves system-model metadata so the declaration reads correctly, not approximately.",
-    href: '/standards',
-    cta: 'See standards alignment',
+      'CBAM filings require embedded-emissions evidence suppliers have not filed yet. HiQLCD carries 31,523 rows of China-specific LCI data — 30 provincial grid variants, BF-BOF routes as the default for Chinese steel, aluminum GWP values built from Chinese grid intensity. One query returns the Chinese factory data and the EU reference dataset side by side.',
+    href: '/china',
+    cta: 'See China data',
   },
   {
     label: 'For developers building on LCA data',
     body:
-      'The same reasoning engine behind Cortex Chat and Cortex Cowork is reachable via four protocols: REST, MCP, AG-UI, A2A. The twelve-database surface, DQI scoring, and the decision-back-to-practitioner mechanism — all behind one API key. Build LCA retrieval into your own product without maintaining the databases yourself.',
+      'The same reasoning engine behind Cortex Chat and Cortex Cowork is reachable via four protocols: REST, MCP, AG-UI, A2A. Fourteen databases, bilingual search, and the decision-back-to-practitioner mechanism — all behind one API key. Build LCA retrieval into your product without maintaining the databases yourself.',
     href: '/docs',
     cta: 'Read the API docs',
   },
@@ -39,7 +39,7 @@ const products = [
     name: 'Cortex Chat',
     label: 'CORTEX CHAT · WEB',
     body:
-      'Bring a material name, a BOM row, or a standards question. Cortex asks one clarifying question — alloy grade, production route, region — then searches twelve databases and returns top-k candidates with GWP100 and DQI scored across all five dimensions. No spreadsheet setup.',
+      'Bring a material name, a BOM row, a Chinese factory term, or a methodology question. Cortex asks one clarifying question — production route, region, alloy grade — then searches fourteen databases and returns ranked candidates with GWP100 and source provenance. No spreadsheet setup. Responds in the language used.',
     proof: 'material query · ~2 min · ranked datasets with provenance',
     primary: { href: '/chat', label: 'Open Cortex Chat' },
     secondary: { href: '/product/chat', label: 'Product overview' },
@@ -48,7 +48,7 @@ const products = [
     name: 'Cortex Cowork',
     label: 'CORTEX COWORK · DESKTOP',
     body:
-      "LCA projects span weeks. CBAM filings have document trails. Cowork keeps state across sessions — project workspace, decision log, citation history, six-layer memory that makes Monday's proxy substitution reviewable on Friday. Reads files from disk, runs local tools, drives openLCA from a single conversation.",
+      'LCA projects span weeks. Cowork keeps state across sessions: project workspace, six-layer memory, an append-only audit log that records every decision and proxy substitution. Reads BOM files from disk, writes matched results back to a four-sheet xlsx, drives openLCA locally. Available for macOS, Windows, and Linux.',
     proof: 'multi-session project · full provenance · exportable reasoning chain',
     primary: { href: 'https://github.com/HiQ-AI/cortex-desktop/releases/latest', label: 'Download Cortex Desktop' },
     secondary: { href: '/product/cowork', label: 'Product overview' },
@@ -58,16 +58,20 @@ const products = [
 // §V — Trust signal
 const claims = [
   {
-    stat: 'Twelve databases searched in parallel',
-    body: 'HiQLCD, Ecoinvent, EF (Environmental Footprint), CarbonMinds, Tiangong, World Steel, HiQLCD-AL, and others. Each candidate returns GWP100 value, unit, geographic region, and system model. Restricted datasets return a marker; GWP is withheld until the user has access. Top-k, not top-1. The practitioner sees the spread.',
+    stat: 'Fourteen databases searched in parallel',
+    body: 'HiQLCD 1.4.0, Ecoinvent 3.12.0, EF 3.1.0, CarbonMinds 2.0.2, Agri-footprint 7.0, TianGong, WorldSteel, HiQLCD-AL 2.0.0, and six more. Each candidate returns the dataset name, unit, geographic region, system model, and — where licensed — GWP100. Restricted datasets return a Licensed marker; no literature value is substituted. Top-k, not top-1. The practitioner sees the spread.',
   },
   {
-    stat: 'Five DQI dimensions, scored per candidate',
-    body: 'Temporal, Geographic, Technology, Completeness, Reliability — the Pedigree Matrix operationalized per EF method. Cortex normalizes to 0–1 with higher scoring as better. The score is not a confidence interval; it is five named dimensions the practitioner can audit independently.',
+    stat: 'Bilingual search: factory terms to dataset IDs',
+    body: 'A 20,000-term Chinese LCA terminology dictionary plus 2,083 expert-curated mappings from Chinese factory names to LCA dataset IDs. "背钩" resolves to the 304 stainless cold-rolled annealed coil dataset in HiQLCD. "IGBT 模块" hits the EV-application IGBT dataset in Ecoinvent, not the generic transistor entry. Cortex responds in the language of the query. Dataset names return bilingual.',
   },
   {
-    stat: 'Decisions return to the practitioner',
-    body: "Cortex pauses where automation would break an audit — coverage gaps, proxy substitutions, large cross-database spread, restricted-data markers, ambiguous system-model matches. The practitioner decides. Cortex records the decision in the reasoning chain. There is no implicit threshold a model crosses silently.",
+    stat: 'Every result carries provenance',
+    body: 'Source database, version string, system model, and dataset key — included in every candidate, in every export, at query time. Historical exports are not retroactively modified when a provider releases a new version. Each export captures the version at the moment it was made.',
+  },
+  {
+    stat: 'The platform compounds from practitioner work',
+    body: 'Cortex Cowork indexes sessions in the background. When two or more sessions share the same workflow shape, a background process reads the transcripts and writes a skill — a structured how-to the agent loads at the next similar task. No user action required. Skills can be contributed to the shared marketplace; the platform\'s LCA intelligence is not fixed at the version installed.',
   },
 ];
 ---
@@ -96,7 +100,7 @@ const claims = [
           </h1>
 
           <p class="rise rise-3 mt-10 max-w-xl font-serif italic" style="font-size: 1.14rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink);">
-            Match emission factors across <strong style="color: var(--ink); font-weight: 500; font-style: normal;">twelve LCA databases</strong>. Score every candidate by DQI. Pause where automation would break an audit. Every export, defendable.
+            Most LCA tools optimize for the one-click number. Cortex optimizes for the answer that holds when an auditor asks how it was reached. <strong style="color: var(--ink); font-weight: 500; font-style: normal;">Fourteen databases</strong> in parallel. Every proxy labeled.
           </p>
 
           <div class="rise rise-5 mt-12 flex flex-wrap items-center gap-4">
@@ -116,7 +120,7 @@ const claims = [
             </div>
             <div>
               <span class="eyebrow block mb-2">fig. 2</span>
-              Twelve databases. Five DQI dimensions. Decisions you can trace. One conversation.
+              Fourteen databases. Bilingual search. Decisions you can trace. One conversation.
             </div>
           </div>
         </aside>
@@ -170,7 +174,7 @@ const claims = [
       <SectionMark kicker="Why a snail" numeral="IV" title="The opposite of a rocket, on purpose." />
 
       <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Every number in a CBAM filing, an EPD, or a Scope 3 report has to survive an auditor who has read ISO 14044 and is looking for the row that doesn't hold. Cortex does the fastest things available on the backend — parallel retrieval across twelve databases, concurrent tool calls, LLM at scale. It delivers the slowest thing: a chain of reasoning you can audit, line by line.
+        Every number in a CBAM filing, an EPD, or a Scope 3 report has to survive an auditor who has read ISO 14044 and is looking for the row that doesn't hold. Cortex does the fastest things available on the backend — parallel retrieval across fourteen databases, concurrent tool calls, LLM at scale. It delivers the slowest thing: a chain of reasoning you can audit, line by line.
       </p>
 
       <Asterism />
@@ -209,11 +213,11 @@ const claims = [
         Start with one question.
       </h2>
       <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.12rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Paste a material name. Upload a BOM. Ask whether that emission factor holds for a Chinese supplier. Cortex answers — and shows its work. No spreadsheet setup. No database license required to ask.
+        Paste a material name. Upload a BOM. Ask whether that emission factor holds for a Chinese supplier. Cortex answers — and shows its work.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
         <a href="/chat" class="ticket">Try Cortex Chat <span aria-hidden="true">→</span></a>
-        <a href="/standards" class="ticket-ghost">See standards alignment</a>
+        <a href="/pricing" class="ticket-ghost">See pricing</a>
       </div>
       <p class="mt-6 font-mono" style="font-size: 0.78rem; letter-spacing: 0.06em; color: var(--ink-faint);">
         <a href="mailto:info@hiqlcd.com" style="color: var(--ink-faint); text-decoration: none;">info@hiqlcd.com</a>
