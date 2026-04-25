@@ -5,20 +5,113 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = '技能库 — HiQ Cortex';
 const description =
-  '随工作积累的能力库。Cortex 内置核心 LCA 工作流；重复出现的模式自动沉淀为技能，由平台持续携带。';
+  'Cortex 内置 LCA 工作能力。技能覆盖：14 个数据库的数据查询、CBAM 与范围三合规、EPD 审核、openLCA 计算、ILCD 校验、数据集创作、文档导出——随使用持续增长。';
 
-const tiers = [
+const skillGroups = [
   {
-    label: '内置',
-    body: '每次安装已装载核心技能：bom-analysis（从原始 BOM 到 DQI 评分候选的 6 步工作流）、querying-lca-datasets（跨 14 个数据库的检索匹配流程）、scope3-guidance（GHG Protocol 全部 15 个范围三类别）、en-15804-indicators。首次会话即可运行，无需任何配置。',
+    category: '碳数据与数据库',
+    skills: [
+      {
+        name: '数据集查询',
+        body: '查找任意材料的碳数据——Chat 中单条查询，或将整份 BOM 批量导出至 Excel。同时搜索 14 个数据库，并排比较 GWP 值，找不到直接匹配时提供代理数据及其偏差方向说明。',
+        tag: '内置',
+      },
+      {
+        name: '产品系统图',
+        body: '为任意 LCA 产品系统生成流程图——单元过程、物质与能量流、系统边界、截断点。输出可直接嵌入报告的独立文件。',
+        tag: '',
+      },
+      {
+        name: '数据质量评估',
+        body: '对任意数据集按 Pedigree Matrix 五个维度评分——可靠性、完整性、时间关联性、地理关联性、技术关联性。评分依据来自原始来源记录，不靠估算。',
+        tag: '内置',
+      },
+    ],
   },
   {
-    label: '市场',
-    body: '由从业者贡献、经 HiQ-AI 审核、向所有用户开放的技能。Cortex 在启动时静默检查更新并下载。标记为离线可用的技能在断网状态下仍可使用。平台必要技能不可停用；其余技能均可在 SkillsCenter 安装、卸载或切换。',
+    category: '合规与报告',
+    skills: [
+      {
+        name: 'CBAM 合规',
+        body: '梳理 EU 碳边境调节机制：判断产品是否在申报范围内、明确需要计算和报告的内嵌排放、应用适用的默认值、在申报截止前核查报告要求。',
+        tag: '内置',
+      },
+      {
+        name: '范围三指南',
+        body: '逐类梳理 GHG Protocol 全部 15 个范围三类别，包含各类别的边界界定、计算方法与数据收集模板。明确哪些类别适用于你的业务，哪些是重大排放来源。',
+        tag: '内置',
+      },
+      {
+        name: 'EN 15804 指标参考',
+        body: '建筑产品 EPD 完整指标参考：EN 15804+A2 与 PCR 2019:14 的全套指标（GWP 系列、PERM/PERE/PENRM 系列、废物与输出流指标）、生命周期模块定义（A1-D），以及常见范围混淆说明。',
+        tag: '内置',
+      },
+      {
+        name: 'EPD 审核',
+        body: '注册前对 EPD 文件做合规检查。读取 PDF 或 ILCD+EPD XML，按 ISO 14025、EN 15804+A2、PCR 2019:14 和 EU CPR 2024/3110 逐项核查。每条发现引用规范条款原文，并摘录文件中的对应证据。输出带风险分级的结构化审核报告。',
+        tag: '按需',
+      },
+    ],
+  },
+  {
+    category: '计算与建模',
+    skills: [
+      {
+        name: 'openLCA 集成',
+        body: 'Cortex 直接驱动你本地的 openLCA 实例——建产品系统、连接前景与背景过程、按 ReCiPe、CML 或 EF 3.0 运行 LCIA 计算，并将结果读回会话。模型留在你的 openLCA 数据库，Cortex 不持有副本。',
+        tag: '内置',
+      },
+      {
+        name: '数据集创作',
+        body: '在 HiQ 编辑器中创建并发布 LCA 背景数据集。覆盖完整创作流程：元数据、流量录入、质量平衡验证、DQI 评分、提交前 checklist 以及给审核者的说明。质量平衡不通过或结果数量级异常时自动停止。',
+        tag: '按需',
+      },
+      {
+        name: 'ILCD 校验',
+        body: '对 ILCD 数据包进行 schema 校验，并在 ILCD 与 JSON-LD 之间互转。按文件位置与修复建议逐条报告每个 Error 和 Warning。修改任何字段前记录每条映射选择——不静默丢字段。',
+        tag: '内置',
+      },
+    ],
+  },
+  {
+    category: '交付文档',
+    skills: [
+      {
+        name: 'Excel',
+        body: '读取、创建和编辑 Excel 表格——数据清洗、公式计算、图表生成、结构化导出。用于 BOM 匹配结果、敏感性分析表格和多情景比较。',
+        tag: '内置',
+      },
+      {
+        name: 'PDF',
+        body: '读取和提取 PDF 报告内容，合并或拆分文件，填写表单，并将会话结果输出为新的 PDF 交付物。',
+        tag: '内置',
+      },
+      {
+        name: 'Word',
+        body: '创建和编辑 Word 文档，支持目录、标题、页眉与修订记录。适用于建模范围说明、假设记录、以及可供审核的报告章节。',
+        tag: '内置',
+      },
+      {
+        name: 'PowerPoint',
+        body: '从会话结果生成和编辑演示文稿——用于向相关方汇报、EPD 摘要或内部方法论评审。',
+        tag: '内置',
+      },
+    ],
+  },
+];
+
+const sources = [
+  {
+    label: '内置',
+    body: '核心 LCA 工作流随每次安装预载，首次会话即可使用——数据集查询、CBAM 指南、范围三、EN 15804 指标、openLCA 集成、数据质量评估、ILCD 校验，以及全部文档导出格式。无需任何配置。',
+  },
+  {
+    label: '技能市场',
+    body: '由从业者贡献、经 HiQ 审核、向所有用户开放的技能。Cortex 启动时自动检查更新。专项技能——如面向项目运营方的 EPD 审核，或面向 HiQ 编辑器的数据集创作——在对应工作场景下按需安装。',
   },
   {
     label: '自定义',
-    body: '仅存在于本机、针对你的工作场景定制的技能。可导入自己编写的技能，也可在会话结束后由自动观察流程生成。',
+    body: '导入你为特定工作流自建的技能，或让 Cortex 根据你已运行的会话写出来。做了两遍的工作流是值得沉淀的模式——它会成为下次同类任务的起点。',
   },
 ];
 ---
@@ -32,116 +125,114 @@ const tiers = [
         <p class="eyebrow">产品 · 技能库</p>
         <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
       </div>
-      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 22ch;">
-        随工作<em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">积累</em>的能力库。
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 24ch;">
+        Cortex 开箱就会的 LCA 工作。<em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">开口前已就绪。</em>
       </h1>
       <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Cortex 内置核心 LCA 工作流，开箱即用。会话在后台持续被索引——重复出现的模式自动沉淀为技能，由平台携带进下一次会话。
+        Cortex 内置 LCA 工作能力——数据查询、合规指南、EPD 审核、计算、格式校验与文档导出。技能覆盖从业者反复遇到的场景，随使用持续扩充。
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
-        <a href="#tiers" class="ticket">查看技能库 <span aria-hidden="true">→</span></a>
+        <a href="#catalog" class="ticket">查看技能目录 <span aria-hidden="true">→</span></a>
         <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket-ghost">下载 Cortex</a>
       </div>
     </div>
   </section>
 
-  <!-- §I 什么是技能 -->
-  <section class="border-t border-rule">
+  <!-- §I 技能目录 -->
+  <section id="catalog" class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="什么是技能" numeral="I" title="给 Agent 的操作手册。" />
-      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        <p>
-          每个 LCA 工作流都有自己的形状：需要哪些输入、先查哪几个数据库、覆盖率通常在哪里断掉、代理值决策如何处理。有经验的从业者把这套形状装在脑子里。技能把它编码下来，让下一次会话一开始就知道。
-        </p>
-        <p>
-          技能是 Agent 在会话启动时加载的结构化文件。它包含触发描述、编号步骤，以及可选的参考文档。实际效果是：Agent 走进一个任务时已经知道步骤顺序，用户不必从头再解释一遍。
-        </p>
-        <p>
-          技能不是代码插件，加载时不执行任何程序。它是给 Agent 的操作手册；在每个需要判断的环节，从业者始终是决策者。
-        </p>
+      <SectionMark kicker="技能涵盖的范围" numeral="I" title="具体的工作流，不是宽泛的类别。" />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        每项技能覆盖 LCA 从业者频繁遇到的工作流——频繁到每次会话重新解释一遍是在浪费时间。目录按你想完成的事情来组织。
+      </p>
+
+      <div class="mt-12 space-y-12">
+        {skillGroups.map((group) => (
+          <div>
+            <h2 class="eyebrow mb-6">{group.category}</h2>
+            <div class="grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
+              {group.skills.map((s) => (
+                <article class="p-6 md:p-7" style="background: var(--paper);">
+                  <div class="flex items-baseline justify-between gap-3 mb-3">
+                    <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.12rem; color: var(--ink);">{s.name}</h3>
+                    {s.tag && (
+                      <span class="font-mono shrink-0" style="font-size: 0.75rem; color: var(--ink-faint); letter-spacing: 0.04em;">{s.tag}</span>
+                    )}
+                  </div>
+                  <p class="font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.95rem;">{s.body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- §II 三个层级 -->
-  <section id="tiers" class="border-t border-rule" style="background: var(--paper-rim);">
+  <!-- §II 三个来源 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="三个层级" numeral="II" title="其中两个什么都不用你做。" />
+      <SectionMark kicker="技能从哪里来" numeral="II" title="三个来源。其中两个什么都不用你做。" />
       <div class="mt-10 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
-        {tiers.map((t) => (
+        {sources.map((s) => (
           <article class="p-7 md:p-8 flex flex-col gap-4" style="background: var(--paper);">
-            <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 36; font-size: 1.4rem; line-height: 1.1; letter-spacing: -0.01em; color: var(--shell);">{t.label}</div>
-            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{t.body}</p>
+            <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 36; font-size: 1.4rem; line-height: 1.1; letter-spacing: -0.01em; color: var(--shell);">{s.label}</div>
+            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{s.body}</p>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- §III 自动观察流程 -->
+  <!-- §III 随使用增长 -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="无需配置的积累机制" numeral="III" title="你做你的工作。Cortex 读懂它。技能自然出现。" />
+      <SectionMark kicker="越用越强" numeral="III" title="做了两遍的工作流，会变成一项技能。" />
 
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          大多数工具从使用中什么都积累不下来。第 365 天的功能集和第 1 天相比，除了补丁，没有区别。
+          大多数工具第 365 天和第 1 天看起来没有区别。从业者积累三年的判断力——某类材料该先查哪几个数据库、某种分摊边界案例如何处理、某个产品品类的 GWP 合理区间在哪里——留在人脑里，不在平台上。
         </p>
         <p>
-          Cortex Cowork 在每次会话结束后对其建立索引。索引记录初始意图、调用工具的顺序，以及当时激活的技能。当两次或更多会话呈现相同的形状——同一类任务、相似的工具调用序列——后台流程随即运行。
+          Cortex 持不同立场。当同一个工作流在多次会话中出现时，Cortex 识别这个模式，并将它加入你的技能库。下次同类任务来了，会话一开始就知道你已经摸索出来的东西——步骤顺序、数据库选择、常见决策点。
         </p>
         <p>
-          它读取实际会话记录，写出一个技能，保存到你的自定义技能库。
-        </p>
-        <p>
-          下一次看起来像那个工作流的会话，启动时技能已经装载好了。
-        </p>
-        <p>
-          触发阈值是有意为之的：单次会话可能只是偶发。两次会话才构成值得编码的模式。
-        </p>
-        <p>
-          通过这种方式沉淀的技能在 SkillsCenter 中带有"已观察"标记。"近期学习"面板按时间倒序显示，时间戳即你的工作成为会话起点的那一刻。
+          触发阈值是有意为之的：一次会话可能只是偶发。两次会话才构成值得沉淀的模式。写出来的技能反映的是你的实际决策，不是通用模板。
         </p>
       </div>
     </div>
   </section>
 
-  <!-- §IV 市场贡献 -->
+  <!-- §IV 社区共享 -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="从本机到市场" numeral="IV" title="两次点击。整个社区。" />
+      <SectionMark kicker="向社区贡献" numeral="IV" title="一项专项工作流，向所有从业者开放。" />
 
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          任何自定义技能——无论是你自己编写的、Agent 在会话后写出的，还是自动观察流程沉淀的——都可以贡献到共享市场。
+          你构建或优化的任何技能——无论是处理特定地区数据库组合、某种联产品分摊方案，还是默认设置未覆盖的司法管辖区合规检查——都可以分享给更广泛的社区。
         </p>
         <p>
-          在 SkillsCenter 详情面板点击"贡献"，选择显示名称、分类，以及可选的贡献者署名。
+          技能上架前经过审核。通过后，下次应用启动时对所有 Cortex 用户可用。一位从业者周四开发出更好的解决方案，最快下周就能出现在同事的会话里——不用论坛帖子，也不用提交工单，通过平台本身。
         </p>
         <p>
-          在技能离开本机之前，系统会对技能内容进行 PII 扫描。API 密钥、内部 URL、电子邮件地址：任何形似凭据的 token 都会触发拒绝，并给出行号和脱敏预览。系统不会自动修改。从业者自己决定如何处理。
-        </p>
-        <p>
-          扫描通过后，技能以 Pull Request 的形式提交至社区仓库。HiQ-AI 审核后合并，合并后的技能在下次应用启动时对所有用户可用。
-        </p>
-        <p>
-          一位从业者周四为联产品情景开发出新的分摊方案，最快下周就能出现在同事的 Cowork 会话里。不用论坛帖子，也不用提交工单——通过平台本身。
+          技能离开本机前，会检查是否包含不该外传的凭据或内部地址。如果有标记，由你决定如何处理，不自动修改。
         </p>
       </div>
     </div>
   </section>
 
-  <!-- §V 架构核心主张 -->
+  <!-- §V 核心主张 -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="架构的核心主张" numeral="V" title="技能库不会停留在你安装时的版本。" />
+      <SectionMark kicker="核心主张" numeral="V" title="LCA 能力归从业者所有，不归软件厂商。" />
 
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.7; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          大多数 LCA 软件交付的是一套固定能力。一位在区域电网因子、分摊边界案例和跨数据库一致性上积累了三年判断力的从业者——那些判断不在产品里。关上标签页，它们就消失了。
+          大多数 LCA 软件交付的是一套固定能力。一位在区域电网因子、分摊边界案例、跨数据库一致性上积累了三年判断力的从业者——那些判断不在产品里，关上窗口就没了。
         </p>
         <p>
-          Cortex 持不同立场：平台的 LCA 能力不归软件厂商所有。它从从业者的实际工作中积累而来。
+          技能库是 Cortex 留住这些判断的方式。不是厂商掌控的黑箱，而是可读、可共享、可编辑的记录——记录着有经验的从业者如何处理反复出现的问题。
         </p>
       </div>
 
@@ -159,13 +250,13 @@ const tiers = [
   <section class="border-t border-rule">
     <div class="container-prose py-24 text-center">
       <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
-        安装一次。技能库从你现有的工作出发。
+        核心工作流第一天就绪。随使用持续扩充。
       </h2>
       <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Cortex Cowork 支持 macOS、Windows 和 Linux。首次会话即可看到 SkillsCenter——内置技能已装载，市场技能可浏览。经过几次真实工作后，"近期学习"面板开始填充。
+        Cortex Cowork 支持 macOS、Windows 和 Linux。内置技能首次会话即激活。市场技能与自定义技能一步安装。
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 macOS 版 <span aria-hidden="true">→</span></a>
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
         <a href="/zh/pricing" class="ticket-ghost">查看定价</a>
       </div>
     </div>

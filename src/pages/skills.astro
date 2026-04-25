@@ -5,20 +5,113 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'Skills — HiQ Cortex';
 const description =
-  'A capability library that grows with the work. Cortex ships with core LCA workflows already loaded; recurring patterns become skills the platform carries forward.';
+  'Cortex ships knowing how to do LCA work. Skills cover dataset lookup across 14 databases, CBAM and Scope 3 compliance, EPD audit, openLCA calculation, ILCD validation, dataset authoring — and grow as you use them.';
 
-const tiers = [
+const skillGroups = [
   {
-    label: 'Bundled',
-    body: "Every installation ships with core skills already loaded: bom-analysis (a six-step workflow from raw BOM to DQI-scored candidates), querying-lca-datasets (the search-to-match pipeline across fourteen databases), scope3-guidance (all fifteen GHG Protocol Scope 3 categories), en-15804-indicators. These run from the first session. No configuration.",
+    category: 'Carbon data & databases',
+    skills: [
+      {
+        name: 'Dataset Lookup',
+        body: 'Find carbon data for any material — single lookup in Chat or full BOM export to Excel. Search across 14 databases simultaneously, compare GWP values side by side, and get proxies with their bias direction documented when no direct match exists.',
+        tag: 'Core',
+      },
+      {
+        name: 'Product System Diagram',
+        body: 'Generate a process-flow diagram for any LCA product system — unit processes, material and energy flows, system boundary, cut-off points. Outputs a self-contained file ready to drop into a report.',
+        tag: '',
+      },
+      {
+        name: 'Data Quality Assessment',
+        body: 'Score any dataset across the five Pedigree Matrix dimensions — reliability, completeness, temporal, geographic, and technical correlation — with evidence-based justification grounded in the source record, not estimates.',
+        tag: 'Core',
+      },
+    ],
+  },
+  {
+    category: 'Compliance & reporting',
+    skills: [
+      {
+        name: 'CBAM Compliance',
+        body: 'Navigate the EU Carbon Border Adjustment Mechanism: identify whether your products are in scope, understand which embedded emissions to calculate and report, apply the right default values, and check reporting requirements before a filing deadline.',
+        tag: 'Core',
+      },
+      {
+        name: 'Scope 3 Guidance',
+        body: 'Work through all 15 GHG Protocol Scope 3 categories with boundary scoping, calculation methods, and data collection templates for each. Clarifies which categories apply to your business and what counts as a material emission source.',
+        tag: 'Core',
+      },
+      {
+        name: 'EN 15804 Indicators',
+        body: 'Reference guide for construction product EPDs: the full EN 15804+A2 and PCR 2019:14 indicator set — GWP family, PERM/PERE/PENRM, waste and output-flow indicators — lifecycle module definitions (A1–D), and explanations of common scope confusions.',
+        tag: 'Core',
+      },
+      {
+        name: 'EPD Audit',
+        body: 'Check an EPD document for compliance before registration. Reads PDF or ILCD+EPD XML, runs checks against ISO 14025, EN 15804+A2, PCR 2019:14, and EU CPR 2024/3110. Every finding cites the normative clause and quotes the evidence from the document. Outputs a structured audit report with risk-graded findings.',
+        tag: 'Optional',
+      },
+    ],
+  },
+  {
+    category: 'Calculation & modeling',
+    skills: [
+      {
+        name: 'openLCA Integration',
+        body: "Cortex drives your local openLCA instance directly — build product systems, connect foreground to background processes, run LCIA calculations across ReCiPe, CML, or EF 3.0, and read results back into the session. The model stays in your openLCA database. Cortex doesn't hold a copy.",
+        tag: 'Core',
+      },
+      {
+        name: 'Dataset Authoring',
+        body: 'Create and publish LCA background datasets in HiQ Editor. Covers the full authoring sequence: metadata, flow entry, mass-balance validation, DQI scoring, pre-submission checklist, and the covering note for the reviewer. Stops if mass balance fails or a result magnitude looks wrong.',
+        tag: 'Optional',
+      },
+      {
+        name: 'ILCD Validation',
+        body: 'Validate ILCD data packages against schema requirements and convert between ILCD and JSON-LD. Reports every Error and Warning by file location and fix suggestion. Documents every mapping choice before any field is changed — no silent drop.',
+        tag: 'Core',
+      },
+    ],
+  },
+  {
+    category: 'Deliverables',
+    skills: [
+      {
+        name: 'Excel',
+        body: 'Read, create, and edit spreadsheets — data cleaning, formula calculation, chart generation, and structured export. Used in BOM matching results, sensitivity analysis tables, and multi-scenario comparisons.',
+        tag: 'Core',
+      },
+      {
+        name: 'PDF',
+        body: 'Read and extract content from PDF reports, merge or split documents, fill forms, and produce new PDF deliverables from session results.',
+        tag: 'Core',
+      },
+      {
+        name: 'Word',
+        body: 'Create and edit Word documents with tables of contents, headings, headers, and tracked changes. Useful for modeling scope documentation, assumption records, and audit-ready report sections.',
+        tag: 'Core',
+      },
+      {
+        name: 'PowerPoint',
+        body: 'Build and edit slide decks from session results — for stakeholder presentations, EPD summaries, and internal methodology reviews.',
+        tag: 'Core',
+      },
+    ],
+  },
+];
+
+const sources = [
+  {
+    label: 'Pre-installed',
+    body: 'Core LCA workflows ship with every installation and are active from the first session — dataset lookup, CBAM guidance, Scope 3, EN 15804 indicators, openLCA integration, data quality assessment, ILCD validation, and all document export formats. No setup required.',
   },
   {
     label: 'Marketplace',
-    body: "Skills contributed by practitioners, reviewed by HiQ-AI, available to every user. Cortex checks for updates on launch and downloads silently. Skills flagged for offline availability stay usable when the connection drops. Required platform skills cannot be disabled; everything else installs, uninstalls, and toggles from SkillsCenter.",
+    body: 'Skills contributed by practitioners, reviewed by HiQ, and available to every user. Cortex checks for updates on launch. Specialist skills — like EPD audit for Programme Operators or dataset authoring for HiQ Editor — are available to install when the workflow applies to your work.',
   },
   {
-    label: 'Custom',
-    body: "Skills that live on your machine, shaped to your work. Import one you authored. Or let the agent write one after observing what you do.",
+    label: 'Your own',
+    body: 'Import a skill you built for a specific workflow, or let Cortex write one based on sessions you have already run. A workflow you have done twice is a pattern worth carrying forward — it becomes a starting point the next time the same task comes up.',
   },
 ];
 ---
@@ -32,116 +125,114 @@ const tiers = [
         <p class="eyebrow">Product · Skills</p>
         <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
       </div>
-      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 22ch;">
-        A capability library that <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">grows</em> with the work.
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 26ch;">
+        Everything Cortex knows how to do. <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">Ready before you start asking.</em>
       </h1>
       <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Cortex ships with core LCA workflows already loaded. Sessions are indexed in the background — recurring patterns become skills the platform carries forward.
+        Cortex ships knowing how to do LCA work — dataset lookup, compliance guidance, EPD audit, calculation, format validation, and document export. Skills cover the scenarios LCA practitioners encounter repeatedly, and the library grows as you use it.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
-        <a href="#tiers" class="ticket">See what's in the library <span aria-hidden="true">→</span></a>
+        <a href="#catalog" class="ticket">See the skill catalog <span aria-hidden="true">→</span></a>
         <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket-ghost">Download Cortex</a>
       </div>
     </div>
   </section>
 
-  <!-- §I What a skill is -->
-  <section class="border-t border-rule">
+  <!-- §I Skill catalog -->
+  <section id="catalog" class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="What a skill is" numeral="I" title="A how-to document for the agent." />
-      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        <p>
-          Every LCA workflow has a shape: what inputs it needs, which databases to consult first, where coverage typically breaks down, how to handle the proxy decision. A skilled practitioner carries that shape in their head. A skill encodes it so that the next session starts knowing it too.
-        </p>
-        <p>
-          A skill is a structured file the agent loads at session start. It carries a trigger description, a numbered workflow, and optional reference documents. The practical effect: the agent walks into a task already knowing the step sequence — without the user re-explaining it from scratch.
-        </p>
-        <p>
-          Skills are not code plugins. They do not execute on load. They are how-to documents for the agent; the practitioner remains the actor at every step that requires judgment.
-        </p>
+      <SectionMark kicker="What skills cover" numeral="I" title="Specific workflows, not general categories." />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Each skill covers a workflow LCA practitioners encounter often enough that re-explaining it session by session wastes time. The catalog is organized by what you are trying to accomplish.
+      </p>
+
+      <div class="mt-12 space-y-12">
+        {skillGroups.map((group) => (
+          <div>
+            <h2 class="eyebrow mb-6">{group.category}</h2>
+            <div class="grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
+              {group.skills.map((s) => (
+                <article class="p-6 md:p-7" style="background: var(--paper);">
+                  <div class="flex items-baseline justify-between gap-3 mb-3">
+                    <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.12rem; color: var(--ink);">{s.name}</h3>
+                    {s.tag && (
+                      <span class="font-mono shrink-0" style="font-size: 0.75rem; color: var(--ink-faint); letter-spacing: 0.04em;">{s.tag}</span>
+                    )}
+                  </div>
+                  <p class="font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.95rem;">{s.body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- §II Three tiers -->
-  <section id="tiers" class="border-t border-rule" style="background: var(--paper-rim);">
+  <!-- §II Three sources -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Three tiers" numeral="II" title="Two of which require nothing from you." />
+      <SectionMark kicker="Where skills come from" numeral="II" title="Three sources. Two of which require nothing from you." />
       <div class="mt-10 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
-        {tiers.map((t) => (
+        {sources.map((s) => (
           <article class="p-7 md:p-8 flex flex-col gap-4" style="background: var(--paper);">
-            <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 36; font-size: 1.4rem; line-height: 1.1; letter-spacing: -0.01em; color: var(--shell);">{t.label}</div>
-            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{t.body}</p>
+            <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 36; font-size: 1.4rem; line-height: 1.1; letter-spacing: -0.01em; color: var(--shell);">{s.label}</div>
+            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{s.body}</p>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- §III Observer pipeline -->
+  <!-- §III Grows with use -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="The mechanism that requires no configuration" numeral="III" title="You do your work. Cortex reads it. The skill appears." />
+      <SectionMark kicker="Gets better as you use it" numeral="III" title="A workflow you've done twice becomes a skill." />
 
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Most tools accumulate nothing from use. The feature set on day 365 is the feature set from day one, minus the patches.
+          Most tools look the same on day 365 as they did on day one. The institutional knowledge a practitioner builds — which databases to check first for a particular material type, how to handle a specific allocation edge case, what a reasonable GWP range looks like for a given product category — stays in the practitioner's head, not in the platform.
         </p>
         <p>
-          Cortex Cowork indexes every session after it closes. The index captures initial intent, the sequence of tools called, and which skills were active. When two or more sessions show the same shape — same task type, similar tool sequence — a background process runs.
+          Cortex takes a different position. When the same workflow shows up across multiple sessions, Cortex identifies the pattern and adds it to your skill library. The next time that workflow comes up, the session starts knowing what you've already worked out — the step sequence, the databases, the common decision points.
         </p>
         <p>
-          It reads the actual session transcripts. It writes a skill. It saves it to your custom-skills library.
-        </p>
-        <p>
-          The next session that looks like that workflow starts with the skill already loaded.
-        </p>
-        <p>
-          The rate is intentional: a single session could be a one-off. Two sessions establish a pattern worth encoding.
-        </p>
-        <p>
-          Skills sedimented this way carry an "Observed" marker in SkillsCenter. The Recent Learnings panel shows them newest-first, with the timestamp from when your work became the session's starting point.
+          The threshold is intentional: one session could be a one-off. Two sessions establish a pattern worth carrying forward. The skill that gets written reflects your actual decisions, not a generic template.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- §IV Marketplace contribution -->
+  <!-- §IV Community -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="From your machine to the marketplace" numeral="IV" title="Two clicks. The whole community." />
+      <SectionMark kicker="Sharing with the community" numeral="IV" title="A specialist workflow becomes available to every practitioner." />
 
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Any custom skill — whether you wrote it, the agent wrote it after a session, or the observer pipeline sedimented it — can be contributed to the shared marketplace.
+          Any skill you have built or refined — whether it handles a specific regional database combination, a particular allocation approach for co-product scenarios, or a compliance check for a jurisdiction not covered in the defaults — can be shared with the broader community.
         </p>
         <p>
-          From the SkillsCenter detail panel: click "Contribute." Choose a display name, a category, an optional contributor handle.
+          Skills go through a review before appearing in the marketplace. Once approved, they are available to every Cortex user on next launch. A practitioner who develops a better approach to a recurring problem on Thursday can have it in front of a colleague's session by the following week — not via a forum post or a support ticket, but through the platform itself.
         </p>
         <p>
-          Before anything leaves the machine, a PII scan runs on the skill body. API keys, internal URLs, email addresses: any token that resembles a credential triggers a rejection with line numbers and masked previews. No automatic redaction. The practitioner decides what to change.
-        </p>
-        <p>
-          If the scan passes, a pull request opens in the community repository. HiQ-AI reviews before merge. On merge, the skill is available to every user on the next app launch.
-        </p>
-        <p>
-          A practitioner who develops a new allocation approach for co-product scenarios on Thursday can have it in front of a colleague's Cowork session by the following week. Not via a forum post or a support ticket. Via the platform itself.
+          Before any skill leaves your machine, it is checked for credentials or internal URLs that should not travel with it. You decide what to change if anything is flagged. No automatic redaction.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- §V Architecture claim -->
+  <!-- §V Core claim -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="The architecture's core claim" numeral="V" title="The library is not fixed at the version you installed." />
+      <SectionMark kicker="The point" numeral="V" title="LCA intelligence owned by practitioners, not by the vendor." />
 
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.7; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Most LCA software ships a fixed set of capabilities. The practitioner who has spent three years developing judgment about regional grid factors, allocation edge cases, and cross-database consistency — that judgment is not in the product. It leaves when they close the tab.
+          Most LCA software ships a fixed set of capabilities. The practitioner who has spent three years developing judgment about regional grid factors, allocation edge cases, and cross-database consistency — that judgment lives in their head. It does not accumulate in the platform.
         </p>
         <p>
-          Cortex takes a different position: the platform's LCA intelligence is not owned by the vendor. It accumulates from actual practitioner work.
+          The skill library is how Cortex captures it. Not as a black box the vendor controls, but as a readable, shareable, editable record of how experienced practitioners handle recurring problems.
         </p>
       </div>
 
@@ -149,7 +240,7 @@ const tiers = [
 
       <blockquote class="mx-auto max-w-3xl text-center">
         <p class="pullquote">
-          The platform's LCA intelligence is not owned by the vendor. It accumulates from <em style="color: var(--shell); font-style: italic;">actual practitioner work</em>.
+          The platform's LCA expertise is not owned by the vendor. It accumulates from <em style="color: var(--shell); font-style: italic;">actual practitioner work.</em>
         </p>
       </blockquote>
     </div>
@@ -159,13 +250,13 @@ const tiers = [
   <section class="border-t border-rule">
     <div class="container-prose py-24 text-center">
       <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
-        Install once. The library starts where you are.
+        Core workflows ready on day one. More added as you work.
       </h2>
       <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Cortex Cowork is available for macOS, Windows, and Linux. SkillsCenter is visible from the first session — bundled skills loaded, marketplace browsable. After a few sessions of real work, the Recent Learnings panel begins to fill.
+        Cortex Cowork is available for macOS, Windows, and Linux. Pre-installed skills are active from the first session. Marketplace and custom skills install in one step.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download for macOS <span aria-hidden="true">→</span></a>
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
         <a href="/pricing" class="ticket-ghost">See pricing</a>
       </div>
     </div>
