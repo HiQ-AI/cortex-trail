@@ -9,9 +9,9 @@ const description =
 
 const principles = [
   {
-    heading: '数字来自工具，不来自模型。',
+    heading: 'LLM 只负责排序，不负责发明因子。',
     body:
-      'GWP 值、DQI 评分和数据集说明来自经过整理的数据库。LLM 负责问题解析、候选排序和解释——不生成排放因子。',
+      'Cortex 的 LLM 解析问题、提出澄清追问、对检索到的数据集排序、为每条结果写解释。导出的每一个排放因子都能追溯到一条数据集记录——不会出现一个生成的数值。候选缺失时，答案会如实说出来；它不会用看起来合理的数字把缺口糊上。',
   },
   {
     heading: '领域知识用于解释，不用于伪造数据。',
@@ -84,6 +84,10 @@ const standards = [
       </h1>
       <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.15rem; line-height: 1.75; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
         面向核查员、审计员与采购团队：在采信 Cortex 产出的数字之前，先了解它实际做了什么。
+      </p>
+
+      <p class="mt-12 max-w-3xl font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.4rem, 2.6vw, 1.95rem); line-height: 1.3; letter-spacing: -0.005em; color: var(--ink);">
+        数字来自工具，不来自模型。<span style="color: var(--ink-mute);">GWP100 值、DQI 评分和数据集说明都来自经过整理的数据库。LLM 负责问题解析、候选排序、解释——不生成排放因子。</span>
       </p>
     </div>
   </section>

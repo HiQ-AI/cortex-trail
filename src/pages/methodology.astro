@@ -9,9 +9,9 @@ const description =
 
 const principles = [
   {
-    heading: 'Numbers come from tools, not from the model.',
+    heading: 'The LLM ranks candidates. It does not invent factors.',
     body:
-      'GWP values, DQI scores, and dataset descriptions come from curated databases. The LLM handles question parsing, candidate ranking, and explanation — not emission factor generation.',
+      "Cortex's LLM parses the question, picks clarifying follow-ups, ranks retrieved datasets, and writes the explanation alongside each result. Every emission factor in the export traces back to a dataset record — never to a generated value. If a candidate is missing, the answer says so; it does not paper over the gap with plausible-looking numbers.",
   },
   {
     heading: 'Domain knowledge informs commentary, not data.',
@@ -85,6 +85,10 @@ const standards = [
       <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
         For reviewers, auditors, and procurement teams who need to understand what Cortex does
         before they trust a number it produced.
+      </p>
+
+      <p class="mt-12 max-w-3xl font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.4rem, 2.6vw, 1.95rem); line-height: 1.2; letter-spacing: -0.015em; color: var(--ink);">
+        Numbers come from tools, not from the model. <span style="color: var(--ink-mute);">GWP100 values, DQI scores, and dataset descriptions come from curated databases. The LLM handles question parsing, candidate ranking, and explanation — not emission factor generation.</span>
       </p>
     </div>
   </section>
