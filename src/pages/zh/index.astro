@@ -5,7 +5,7 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'HiQ Cortex — LCA 工作台，每一行都经得起追问';
 const description =
-  '多数 LCA 工具以最快给出数字为目标。Cortex 以审计员追问来路时答案还站得住脚为目标。14 个数据库，双语检索，每条代理值有标注。';
+  '多数 LCA 工具求一键出数。Cortex 求行行讲得清：14 个权威 LCA 数据库为底，每一次替代都留下推理。';
 
 // 两款产品 — 首页摘要版
 const products = [
@@ -13,7 +13,7 @@ const products = [
     name: 'Cortex Chat',
     label: 'CORTEX CHAT · WEB',
     body:
-      '一次对话——中文或英文。Cortex 先问一个澄清问题，跨 14 个数据库检索，返回附带溯源的候选数据集排名。',
+      '中英文都行：Cortex 先反问一句——牌号、地区、年份。再按方法学挑库检索，回来的是按贴合度排序的候选清单，每条注明来路。不平均，不出单一数字。',
     primary: { href: '/chat', label: '打开 Cortex Chat' },
     secondary: { href: '/zh/product/chat', label: '产品详情' },
   },
@@ -21,7 +21,7 @@ const products = [
     name: 'Cortex Cowork',
     label: 'CORTEX COWORK · DESKTOP',
     body:
-      '面向跨周 LCA 项目的桌面 Agent。读取你的 BOM 文件，本地驱动 openLCA，把每一个决策写入可版本管理的审计日志。',
+      '落在你电脑上：读项目文件，驱动本地 openLCA，把每一次替代决策写进项目里的版本化日志。日志随项目留存，复核时可沿原路走回去。',
     primary: { href: 'https://github.com/HiQ-AI/cortex-desktop/releases/latest', label: '下载 Cortex Desktop' },
     secondary: { href: '/zh/product/cowork', label: '产品详情' },
   },
@@ -35,23 +35,22 @@ const products = [
     <div class="container-page pt-14 md:pt-20 pb-24 md:pb-32">
 
       <div class="rise rise-1 mb-10 border-b border-rule pb-4">
-        <p class="eyebrow">HiQ Cortex · LCA 工作台 · HiQ-AI 出品</p>
+        <p class="eyebrow">HiQ Cortex · LCA 工作台</p>
       </div>
 
       <div class="relative">
         <h1 class="rise rise-2 font-display" style="font-size: clamp(2.8rem, 8vw, 6.2rem); line-height: 1.15; letter-spacing: -0.015em; font-variation-settings: 'SOFT' 30, 'opsz' 144; font-weight: 400;">
           <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">LCA 工作台</em>，<br/>
-          每一行都<br/>
-          <span style="color: var(--ink-faint);">经得起追问。</span>
+          每一行都<span style="color: var(--ink-faint);">经得起追问。</span>
         </h1>
 
         <p class="rise rise-3 mt-12 max-w-3xl font-serif italic" style="font-size: clamp(1.15rem, 1.6vw, 1.35rem); line-height: 1.85; font-variation-settings: 'opsz' 24; color: var(--ink);">
-          多数 LCA 工具以最快给出数字为目标。Cortex 以审计员追问来路时答案还站得住脚为目标。<strong style="color: var(--ink); font-weight: 500; font-style: normal;">14 个数据库</strong>并行。每条代理值有标注。
+          多数 LCA 工具求一键出数。Cortex 求行行讲得清：<strong style="color: var(--ink); font-weight: 500; font-style: normal;">14 个权威 LCA 数据库</strong>为底，每一次替代都留下推理。
         </p>
 
         <div class="rise rise-5 mt-14 flex flex-wrap items-center gap-4">
-          <a href="/zh/solutions/bom-matching" class="ticket">查看 BOM 匹配流程 <span aria-hidden="true">→</span></a>
-          <a href="/chat" class="ticket-ghost">试用 Cortex Chat</a>
+          <a href="/chat" class="ticket">试用 Cortex Chat <span aria-hidden="true">→</span></a>
+          <a href="/zh/product/chat" class="ticket-ghost">看产品怎么工作</a>
         </div>
       </div>
     </div>
@@ -84,7 +83,15 @@ const products = [
       <SectionMark kicker="为什么是蜗牛" numeral="II" title="刻意选了火箭的反面。" />
 
       <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        一份 CBAM 申报、一份 EPD、一份范围三报告里的每一个数字，都要经得住读过 ISO 14044 的审计员的审查——他们专门在找那一行站不住的数据。Cortex 在后端做的是最快的事——跨 14 个数据库并行检索、并行工具调用、大规模 LLM 推理。但它交付的始终是最慢的那件：一条能被逐条复核的推理链。
+        一份 CBAM 申报、一份 EPD、一份 Scope 3 报告，从签字那一刻起就在等待审核员追问。今天图快省下的那道判断、那条注释、那行推理，三个月后会变成一封必须正面回答的邮件。
+      </p>
+
+      <p class="mt-6 max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Cortex 在后端做最快的事：工具并发、按方法学挑库检索、大模型推理。交付的却是最慢的那件：每一行替代决策，都记到能让人沿原路走回去。
+      </p>
+
+      <p class="mt-6 max-w-3xl font-serif italic" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        慢不是姿态。慢是这件事立得住的前提。
       </p>
 
       <Asterism />
@@ -106,7 +113,7 @@ const products = [
         从一个问题开始。
       </h2>
       <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.1rem; line-height: 1.75; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        粘贴一个物料名称。上传一份 BOM。询问那个排放因子对中国供应商是否适用。Cortex 给出答案——并展示推导过程。
+        不必准备齐全。一个材料名、一道工艺问题、一个拿不准的因子，任一都是起点。Cortex 会把推理写给你看。
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
         <a href="/chat" class="ticket">试用 Cortex Chat <span aria-hidden="true">→</span></a>

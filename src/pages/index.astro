@@ -5,7 +5,7 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'HiQ Cortex — An LCA workbench you can defend, line by line.';
 const description =
-  'Most LCA tools optimize for the one-click number. Cortex optimizes for the answer that holds when an auditor asks how it was reached. Fourteen databases, bilingual search, every proxy labeled.';
+  'Most LCA tools optimize for the one-click number. Cortex optimizes for the line you can defend: fourteen authoritative LCA databases as substrate, every substitution recorded.';
 
 // Two products — body trimmed for landing-page weight
 const products = [
@@ -13,7 +13,7 @@ const products = [
     name: 'Cortex Chat',
     label: 'CORTEX CHAT · WEB',
     body:
-      'A conversation, in Chinese or English. Cortex asks one clarifying question, searches fourteen databases, and returns ranked candidates with source attached.',
+      'Ask in Chinese or English. Cortex asks one clarifying question first: alloy grade, region, time window. Then it queries the LCA databases scoped to that case, and returns ranked candidates with sources. No averaging, no single number.',
     primary: { href: '/chat', label: 'Open Cortex Chat' },
     secondary: { href: '/product/chat', label: 'Product overview' },
   },
@@ -21,7 +21,7 @@ const products = [
     name: 'Cortex Cowork',
     label: 'CORTEX COWORK · DESKTOP',
     body:
-      'A desktop agent for LCA projects that span weeks. Reads your BOM files, drives openLCA locally, and writes every decision into a versionable audit log.',
+      'Runs on your machine. Reads your project files, drives openLCA locally, writes each substitution decision into a versioned log inside the project. The log persists with the project, walkable on review.',
     primary: { href: 'https://github.com/HiQ-AI/cortex-desktop/releases/latest', label: 'Download Cortex Desktop' },
     secondary: { href: '/product/cowork', label: 'Product overview' },
   },
@@ -35,7 +35,7 @@ const products = [
     <div class="container-page pt-14 md:pt-20 pb-24 md:pb-32">
 
       <div class="rise rise-1 mb-10 border-b border-rule pb-4">
-        <p class="eyebrow">HiQ Cortex · An LCA workbench by HiQ-AI</p>
+        <p class="eyebrow">HiQ Cortex · An LCA workbench</p>
       </div>
 
       <div class="relative">
@@ -46,12 +46,12 @@ const products = [
         </h1>
 
         <p class="rise rise-3 mt-12 max-w-3xl font-serif italic" style="font-size: clamp(1.15rem, 1.6vw, 1.4rem); line-height: 1.55; font-variation-settings: 'opsz' 24; color: var(--ink);">
-          Most LCA tools optimize for the one-click number. Cortex optimizes for the answer that holds when an auditor asks how it was reached. <strong style="color: var(--ink); font-weight: 500; font-style: normal;">Fourteen databases</strong> in parallel. Every proxy labeled.
+          Most LCA tools optimize for the one-click number. Cortex optimizes for the line you can defend: <strong style="color: var(--ink); font-weight: 500; font-style: normal;">fourteen authoritative LCA databases</strong> as substrate, every substitution recorded.
         </p>
 
         <div class="rise rise-5 mt-14 flex flex-wrap items-center gap-4">
-          <a href="/solutions/bom-matching" class="ticket">See a BOM walkthrough <span aria-hidden="true">→</span></a>
-          <a href="/chat" class="ticket-ghost">Try Cortex Chat</a>
+          <a href="/chat" class="ticket">Try Cortex Chat <span aria-hidden="true">→</span></a>
+          <a href="/product/chat" class="ticket-ghost">See how it works</a>
         </div>
       </div>
     </div>
@@ -84,7 +84,15 @@ const products = [
       <SectionMark kicker="Why a snail" numeral="II" title="The opposite of a rocket, on purpose." />
 
       <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Every number in a CBAM filing, an EPD, or a Scope 3 report has to survive an auditor who has read ISO 14044 and is looking for the row that doesn't hold. Cortex does the fastest things available on the backend — parallel retrieval across fourteen databases, concurrent tool calls, LLM at scale. It delivers the slowest thing: a chain of reasoning you can audit, line by line.
+        A CBAM filing, an EPD, a Scope 3 report — from the moment it's signed, it's waiting for the next question. The shortcut you took today, the comment you skipped, the reasoning you compressed — three months from now it returns as an email you have to answer.
+      </p>
+
+      <p class="mt-6 max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Cortex runs the fast work backend-side: parallel tool calls, methodologically scoped retrieval, LLM inference at scale. The deliverable is the slowest one: every substitution decision documented enough to be walked back along.
+      </p>
+
+      <p class="mt-6 max-w-3xl font-serif italic" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Slow isn't a posture. Slow is what makes the work hold.
       </p>
 
       <Asterism />
@@ -106,7 +114,7 @@ const products = [
         Start with one question.
       </h2>
       <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.12rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Paste a material name. Upload a BOM. Ask whether that emission factor holds for a Chinese supplier. Cortex answers — and shows its work.
+        You don't need everything in hand. A material name, a process question, a factor you're uncertain about — any of these is a starting point. Cortex shows the reasoning.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
         <a href="/chat" class="ticket">Try Cortex Chat <span aria-hidden="true">→</span></a>
