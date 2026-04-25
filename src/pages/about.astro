@@ -62,7 +62,7 @@ const description =
           Translating a real production scenario into a search query; navigating between the terminology conventions of HiQLCD, Ecoinvent, and EF in a single session; deciding whether a proxy value from one database can stand in for a missing entry in another — this work has always depended on expert judgment. It is time-consuming, expensive to scale, and nearly impossible to audit after the fact.
         </p>
         <p>
-          Cortex is our answer. A thin intelligence layer sitting above the databases, methods, and calculation tools — compressing the chain from <em>understand the question → retrieve candidates → cross-check → produce a traceable answer</em> into one conversation.
+          Cortex is our answer. It sits above the databases and the methods — compressing a practitioner's chain from question to traceable answer into one conversation, without skipping any of the steps that make the answer worth trusting.
         </p>
       </div>
 
@@ -132,9 +132,9 @@ const description =
   <!-- Open interfaces -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-16 md:py-20">
-      <SectionMark kicker="Built to connect" numeral="IV" title="Four protocols. One API key." />
+      <SectionMark kicker="Built to connect" numeral="IV" title="The same surface, exposed." />
       <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Cortex exposes its full retrieval and reasoning surface through four protocols: <strong style="font-weight: 500;">REST</strong> for direct HTTP integration, <strong style="font-weight: 500;">MCP</strong> for tool-call-compatible clients, <strong style="font-weight: 500;">AG-UI</strong> for streaming agent interfaces, and <strong style="font-weight: 500;">A2A</strong> for agent-to-agent handoffs. Every capability available in Cortex Chat and Cortex Cowork is reachable through the API — the products are built on the same surface they expose. Complete reference, with examples and authentication, is at <a href="https://docs.x.hiq.earth">docs.x.hiq.earth</a>.
+        Cortex Chat and Cortex Cowork are both built on Cortex's API. Anything either product can do, an integrator can do — over <strong style="font-weight: 500;">REST</strong>, <strong style="font-weight: 500;">MCP</strong>, <strong style="font-weight: 500;">AG-UI</strong>, or <strong style="font-weight: 500;">A2A</strong>. Reference, examples, authentication: <a href="/docs">/docs</a>.
       </p>
     </div>
   </section>

@@ -19,15 +19,15 @@ const scenarios = [
     label: 'BOM processing',
     before: 'Open Excel + query databases one by one + log results manually.',
     after:  'Upload the BOM. Cortex identifies materials, runs cross-database matching, and fills in missing datasets — row by row, with every match sourced.',
-    detail: 'Cortex reads your BOM file directly from disk. It searches HiQLCD, Ecoinvent, and EF in parallel per row, flags rows where coverage is below threshold, and writes the matched GWP values back into a new Excel file. No copy-paste. No tab-switching.',
-    proof:  'BOM.xlsx → parallel search → matched GWP · source · DQI per row',
+    detail: 'Cortex reads your BOM file directly from disk. It searches HiQLCD, Ecoinvent, EF, and the rest of the twelve-database surface in parallel per row, flags rows where coverage is below threshold, and writes the matched GWP100 values back into a new Excel file. No copy-paste. No tab-switching.',
+    proof:  'BOM.xlsx → parallel search → matched GWP100 · source · DQI per row',
   },
   {
     numeral: 'II',
     label: 'Scope 3 calculation',
     before: 'Consult GHG Protocol documentation + ask an AI separately + classify categories by hand.',
     after:  'Provide the activity data file. Cortex classifies categories automatically, builds the data-collection checklist, and runs the calculation.',
-    detail: 'All 15 GHG Protocol Scope 3 categories are supported. Cortex handles upstream, downstream, and use-phase classifications — including avoided-emissions credit (Category 13 / C5). The output is a calculation file with category totals and factor sources, not a black-box number.',
+    detail: 'All 15 GHG Protocol Scope 3 categories are supported. Cortex handles upstream, downstream, and use-phase classifications — Category 1 (Purchased goods and services) at the BOM-row level, the rest with factor identification and data-collection checklists. The output is a calculation file with category totals and factor sources, not a black-box number.',
     proof:  'Activity data in → 15 categories · factor matching · calculation out',
   },
   {
@@ -36,15 +36,15 @@ const scenarios = [
     before: 'Learn the openLCA interface + build flows by hand + read the documentation.',
     after:  'Describe what you need. Cortex connects to openLCA, matches background datasets, builds the product system, and runs the calculation.',
     detail: "Cortex does not replace openLCA — it drives it. Start openLCA's IPC server, point Cowork at your BOM file, and describe the goal in plain language. Cortex handles the dataset matching, system construction, circular-reference resolution, and result export. Your openLCA instance is the model; Cortex is the operator.",
-    proof:  'openLCA IPC → dataset match → product system built → results exported',
+    proof:  'openLCA → dataset match → product system built → results exported',
   },
   {
     numeral: 'IV',
     label: 'EPD report generation',
     before: 'Find the template + copy data out of the LCA software + fill in Word by hand.',
-    after:  'One conversation trigger. Cortex applies the standard template, pulls from the calculation results, and outputs a complete EPD report.',
-    detail: 'The output follows the EPD standard structure. Cortex pulls declared unit, system boundary, reference flows, and LCIA results from the calculation — and formats them into a .docx file ready for review. No reformatting. No re-entry.',
-    proof:  'Calculation results → EPD template applied → .docx report out',
+    after:  'One request. Cortex pulls from the calculation results and produces a structured .docx file following EPD standard layout.',
+    detail: 'Cortex pulls declared unit, system boundary, reference flows, and LCIA results from the calculation — and formats them into a .docx file following EPD standard structure. The Product Category Rule (PCR) selection and third-party verification remain the practitioner\'s step. No reformatting. No re-entry.',
+    proof:  'Calculation results → EPD layout applied → .docx out · PCR practitioner-led',
   },
 ];
 

@@ -31,8 +31,8 @@ const principles = [
 ];
 
 const sources = [
-  { name: 'HiQLCD',                      coverage: 'China-focused primary data, 800k+ unit processes' },
-  { name: 'Ecoinvent',                   coverage: 'Global LCI, cutoff + APOS system models' },
+  { name: 'HiQLCD',                      coverage: 'China-focused primary data; materials, processes, supply-chain proxies' },
+  { name: 'Ecoinvent',                   coverage: 'Global LCI, cut-off + APOS system models' },
   { name: 'EF (Environmental Footprint)', coverage: 'EU-authorized datasets for PEF and CBAM scope' },
   { name: 'CarbonMinds',                 coverage: 'Chemicals and polymers, process-specific' },
   { name: 'Industry secondaries',        coverage: 'Supplier-issued EPDs and verified PCFs, on request' },
@@ -110,8 +110,10 @@ const standards = [
     <div class="container-page py-20 md:py-24">
       <SectionMark kicker="Section" numeral="II" title="Data sources" />
       <p class="max-w-2xl font-serif" style="font-size: 1.08rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Cortex searches curated LCI and LCA databases, each indexed with its own unit, region,
-        and system-model vocabulary. Nothing is merged blindly.
+        Cortex searches twelve curated LCI and LCA databases, each indexed with its own unit, region,
+        and system-model vocabulary. Nothing is merged blindly. The five named below are the most
+        frequently cited; the remainder are queried in parallel and surfaced when their datasets
+        rank against the BOM row.
       </p>
       <div class="mt-10">
         {sources.map((s, i) => (
