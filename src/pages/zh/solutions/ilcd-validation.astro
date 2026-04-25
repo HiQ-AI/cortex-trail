@@ -1,0 +1,160 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Asterism from '@/components/Asterism.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = 'ILCD 校验与转换 — HiQ Cortex';
+const description =
+  '对 ILCD 数据包进行 schema 校验，在 ILCD 与 JSON-LD 之间互转，不丢字段。每个错误定位，每条映射选择有记录。';
+
+const operations = [
+  {
+    n: '01',
+    name: '校验',
+    body: 'Cortex 对 ILCD 数据包运行 schema 校验，并返回结构化报告：Error、Warning 与 Info 的数量，以及每条记录的位置（文件名 + XPath 或 JSON 路径）、描述与修复建议。总结明确说明数据包是否可发布、需要修复，还是有警告但可用。',
+  },
+  {
+    n: '02',
+    name: '转换',
+    body: 'Cortex 支持 ILCD 与 JSON-LD 之间的双向转换。交付内容包括：使用的映射规则、所有被丢弃、合并或默认填充的字段，以及将转换结果反向校验的报告。在条件允许时，执行双向转换校验（A → B → A），确认是否无损。',
+  },
+];
+
+const checkpoints = [
+  ['硬性错误——不自动修复', '校验发现 Error 时，Cortex 停止并逐条呈现：位置、严重程度与建议修法。由用户决定是修还是接受风险。不静默修复。'],
+  ['警告——按后果分类', '警告分两类呈现：影响与其他系统互操作性的（建议修）和风格问题（可选修）。区分很重要——接受风险的从业者需要知道风险具体是什么。'],
+  ['转换时结构不对齐', 'ILCD 的某些构造无法干净地映射到 JSON-LD——多语言字段、继承的 flow property、特定 schema 版本的扩展字段是常见来源。出现不对齐时，Cortex 指明字段名称、说明映射选择以及将会损失的信息，不静默丢字段。'],
+  ['schema 版本需明确', 'ILCD 1.1 与 EF 3.0 使用不同的映射规则。当目标版本对提交注册或校验有影响时，Cortex 在应用转换规则前询问确认。'],
+];
+---
+
+<BaseLayout title={title} description={description} locale="zh">
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">解决方案 · ILCD 校验与转换</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 24ch;">
+        ILCD 数据包进来。错误定位。<em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">没有字段被静默丢弃。</em>
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork 对 ILCD 数据包进行 schema 校验，并在 ILCD 与 JSON-LD 之间互转——按位置和严重程度报告每个错误，并在修改任何字段前记录每条映射选择。
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/zh/product/cowork" class="ticket-ghost">Cowork 如何工作</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- §I 两项操作 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Cortex 能做什么" numeral="I" title="校验与转换。两项操作，均有完整审计路径。" />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        ILCD 数据包的失败模式是可预测的：缺少必填字段、单位引用错误、schema 版本不匹配，以及仅在转换为其他格式时才暴露的结构问题。Cortex 系统性地将这些问题浮出水面——不是通过/不通过的一句话，而是从业者可以逐条处理的结构化清单。
+      </p>
+
+      <div class="mt-10 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
+        {operations.map((s) => (
+          <article class="p-6 md:p-8" style="background: var(--paper);">
+            <div class="flex items-baseline gap-3 mb-3">
+              <span class="font-mono" style="color: var(--shell); font-size: 0.85rem; letter-spacing: 0.04em;">{s.n}</span>
+              <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.15rem; color: var(--ink);">{s.name}</h3>
+            </div>
+            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{s.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §II 校验报告结构 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="校验报告" numeral="II" title="错误已定位。警告已分类。从业者可据此行动的结论。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          校验报告按严重程度组织结果。Error 是硬性失败——数据包违反了 schema 的必要条件。Warning 是影响互操作性或信号数据不完整的问题。Info 是不需要处理的观察，但可能对提交上下文有参考价值。
+        </p>
+        <p>
+          每条记录包含文件名与问题所在的 XPath 或 JSON 路径、通俗的问题描述，以及具体的修复建议。报告以总结结论收尾：数据包是否可以原样提交、需要修复后才能提交，还是有警告但对目标用途可接受。
+        </p>
+        <p>
+          在一个数据包中出现的问题，往往在同一来源的其他数据包中重复出现。在校验会话结束时，Cortex 识别任何系统性规律——始终缺失的字段、始终格式错误的值——并将其写入项目记录，让来自同一厂商的下一个数据包跳过发现阶段。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §III 不丢字段的转换 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="转换" numeral="III" title="每条映射选择有文档。每个被丢弃的字段有名字。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          ILCD 与 JSON-LD 在结构上不同。一次没有报错的转换，仍然可能丢失或改变了源文件中存在的字段——多语言标签处理、继承的 flow property 引用和扩展字段是信息损失的常见位置。
+        </p>
+        <p>
+          Cortex 记录每个字段组使用的映射规则，列出每个做出了选择的字段（保留原样、合并、默认填充或丢弃），并说明该选择的后果。当后果较为重大——目标注册机构要求的字段在源格式中以不同方式编码——Cortex 在继续前暂停并询问。
+        </p>
+        <p>
+          转换完成后，将输出结果反向校验，验证其符合目标 schema。在条件允许时，运行双向转换校验：将转换后的结果转换回来，与原始文件进行对比。经历完整往返不变的字段是无损的；未能经历的字段标记为需要人工审核。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §IV 强制检查点 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="强制检查点" numeral="IV" title="四个场景：Cortex 停止并将决定交还从业者。" />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        静默修复是造成下游损害最大的失败模式——数据包看起来没问题，但字段已被悄悄改动或丢弃。Cortex 不静默修复，它停止、指明问题，并将决定交回给从业者。
+      </p>
+
+      <ol class="mt-10 space-y-6 font-serif" style="font-size: 1rem; line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink);">
+        {checkpoints.map(([head, body], i) => (
+          <li class="grid grid-cols-[3rem_1fr] gap-4">
+            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.05rem;">§ {String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <p class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 28; font-size: 1.05rem; line-height: 1.25; color: var(--ink);">{head}</p>
+              <p class="mt-2">{body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <Asterism />
+
+      <blockquote class="mx-auto max-w-3xl text-center">
+        <p class="pullquote">
+          每个错误已定位。每条映射选择<em style="color: var(--shell); font-style: italic;">有记录。</em>
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
+        数据包合规。转换干净。映射规则完整留档。
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork 本地运行。ILCD 数据包留在你的机器上。每次校验会话发现的已知陷阱累积在项目记录中。
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/zh/solutions/lca-dataset-authoring" class="ticket-ghost">数据集创作</a>
+      </div>
+      <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">
+        <a href="/zh/standards" style="color: var(--ink-mute);">标准对齐 — ISO 14067、CBAM、EF 方法</a>
+        <a href="/zh/security" style="color: var(--ink-mute);">数据不离开你的设备</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,192 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Asterism from '@/components/Asterism.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = 'Product Carbon Footprint Calculation — HiQ Cortex';
+const description =
+  'From BOM to LCIA results, inside openLCA. Cortex Cowork handles dataset matching, product system construction, and LCIA calculation — every assumption recorded, every decision confirmed.';
+
+const stages = [
+  {
+    n: '01',
+    name: 'BOM → background data',
+    body: 'Upload the BOM. Cortex matches each row to the closest background dataset across fourteen LCA databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and more. Proxy substitutions are named, their bias direction documented. Rows without a defensible match are flagged for practitioner review before the model is built.',
+  },
+  {
+    n: '02',
+    name: 'Product system construction',
+    body: 'Cortex drives openLCA directly: creates flows, assembles the product system, connects foreground to background processes. The practitioner specifies functional unit, system boundary, and LCIA method once — Cowork carries those decisions forward across every session for the life of the project.',
+  },
+  {
+    n: '03',
+    name: 'LCIA calculation',
+    body: 'Cortex runs the impact assessment inside the user\'s local openLCA instance. Default method: IPCC 2021 GWP100. Additional categories — acidification, eutrophication, water scarcity — available on request. Results are returned as a contribution analysis: top contributors by process and by flow, not just a single number.',
+  },
+  {
+    n: '04',
+    name: 'Export and documentation',
+    body: 'Results export as a structured report: modeling scope, data sources per process, full assumptions list, LCIA results by impact category, DQI summary. Sensitive analysis runs where specified. The export is reproducible from the parameters recorded — a verifier can follow the chain without re-running the model.',
+  },
+];
+
+const checkpoints = [
+  ['Data substitution', 'Target dataset not found. Cortex names the substitute, explains the gap (region, production route, DQI), and asks for confirmation before proceeding.'],
+  ['Boundary simplification', 'Upstream process cut-off requires a criterion — mass < 1%, environmental relevance < 1%. Cortex states the criterion and asks. The practitioner decides.'],
+  ['Allocation method', 'Co-products require allocation. Cortex explains the effect of economic, mass, and energy allocation on the result — and asks the practitioner to choose before the model is built.'],
+  ['Magnitude check', 'LCIA result differs from comparable studies by an order of magnitude. Cortex pauses, lists possible causes (unit conversion, functional unit mismatch, boundary error), and asks before exporting.'],
+  ['openLCA connection', 'Desktop not open or IPC port conflict. Cortex identifies the cause and gives the fix — rather than retrying silently.'],
+];
+---
+
+<BaseLayout title={title} description={description}>
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">Solutions · Product carbon footprint</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 24ch;">
+        From BOM to LCIA results. <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">Every assumption on record.</em>
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork runs the full product carbon footprint workflow inside your local openLCA instance — dataset matching, product system construction, LCIA calculation — and writes every modeling decision into an append-only project log.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/product/cowork" class="ticket-ghost">How Cowork works</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- §I Four stages -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="The workflow" numeral="I" title="Four stages. One project log." />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        A product carbon footprint study involves a fixed sequence of decisions. Cortex Cowork handles the mechanical work at each stage; the practitioner retains control at every point where a judgment call determines the answer.
+      </p>
+
+      <div class="mt-10 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
+        {stages.map((s) => (
+          <article class="p-6 md:p-8" style="background: var(--paper);">
+            <div class="flex items-baseline gap-3 mb-3">
+              <span class="font-mono" style="color: var(--shell); font-size: 0.85rem; letter-spacing: 0.04em;">{s.n}</span>
+              <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.15rem; color: var(--ink);">{s.name}</h3>
+            </div>
+            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{s.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §II openLCA integration -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="openLCA integration" numeral="II" title="Cortex drives openLCA. You keep the model." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cortex Cowork does not replace openLCA. It operates it. The user's local openLCA instance remains the model — Cortex is the operator, working through openLCA's IPC interface to create flows, build process connections, and run calculations.
+        </p>
+        <p>
+          When Computer Use is enabled on macOS, Cortex can interact directly with the openLCA GUI — clicking through dialogs, reading result windows, confirming dataset selections — without requiring a command-line interface or custom plugin. For Windows and Linux, the interaction runs through openLCA's IPC server.
+        </p>
+        <p>
+          The model stays in the practitioner's openLCA database. Cortex does not hold a copy. When the session ends, the product system, processes, and flows remain where openLCA keeps them — accessible, editable, and version-controllable by the practitioner.
+        </p>
+        <p class="font-serif italic" style="color: var(--ink-mute);">
+          Computer Use (GUI interaction) is available on macOS only. IPC-based interaction works on all three platforms.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §III Checkpoints -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Mandatory checkpoints" numeral="III" title="Five situations where Cortex stops and asks." />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        A carbon footprint model is only as defensible as its assumptions. Cortex is configured to pause at every point where a silent default would introduce an unresolvable question in review. These are not interruptions — they are the moments a verifier would later ask about.
+      </p>
+
+      <ol class="mt-10 space-y-6 font-serif" style="font-size: 1rem; line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink);">
+        {checkpoints.map(([head, body], i) => (
+          <li class="grid grid-cols-[3rem_1fr] gap-4">
+            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.05rem;">§ {String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <p class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 28; font-size: 1.05rem; line-height: 1.25; color: var(--ink);">{head}</p>
+              <p class="mt-2">{body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <Asterism />
+
+      <blockquote class="mx-auto max-w-3xl text-center">
+        <p class="pullquote">
+          Every assumption is confirmed. Every confirmation is <em style="color: var(--shell); font-style: italic;">recorded.</em>
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- §IV The deliverable -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="The deliverable" numeral="IV" title="A report a verifier can follow without re-running the model." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          The final report from a product carbon footprint session contains: modeling scope (product, functional unit, reference flow, system boundary, geographic and temporal scope); data sources (database, version, and region for each process); a complete assumptions list covering every data substitution, boundary simplification, and allocation choice; LCIA results by impact category with a contribution analysis showing the top five contributors; and a DQI summary identifying datasets with low reliability scores.
+        </p>
+        <p>
+          Where sensitivity analysis is requested, Cortex runs it and includes the results. The standard cases: substituting a proxy with a higher-DQI alternative, changing the allocation method, and shifting the system boundary at a specified cut-off criterion. The report records both the base-case result and the sensitivity range, with the assumption changed identified by name.
+        </p>
+        <p>
+          The project log (<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code>) accumulates every decision across all sessions — decisions made in session one are still visible in session ten. A verifier arriving at the final report can trace any result back to the session in which the underlying choice was made.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §V Cross-session continuity -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Cross-session continuity" numeral="V" title="The project remembers what was decided." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          A product carbon footprint study rarely completes in one session. Functional unit, system boundary, LCIA method, and allocation rules are decided in early sessions and must carry through to the final calculation without being re-litigated.
+        </p>
+        <p>
+          Cowork writes these four modeling essentials into the project's <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Cortex.md</code> file at the close of the session in which they are decided. Every subsequent session reads that file first and treats its contents as binding constraints. A practitioner who specified "cradle-to-gate, cut-off system model, IPCC 2021 GWP100, mass allocation" in session two does not need to re-specify them in session seven.
+        </p>
+        <p>
+          Data substitution decisions accumulate the same way: if session three established that "IGBT module" maps to the electric vehicle application dataset in HiQLCD, session eight does not re-run that lookup. The mapping is on record. The session starts from where the project left off.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
+        The model is yours. The audit trail is built in.
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork runs locally. openLCA stays on your machine. Every session's decisions accumulate in a project log that travels with the project folder.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/solutions/bom-matching" class="ticket-ghost">BOM matching first</a>
+      </div>
+      <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">
+        <a href="/standards" style="color: var(--ink-mute);">Standards alignment — ISO 14067, CBAM, EF method</a>
+        <a href="/security" style="color: var(--ink-mute);">Data stays on your machine</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

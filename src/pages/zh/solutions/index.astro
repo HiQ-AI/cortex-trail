@@ -1,0 +1,108 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = '解决方案 — HiQ Cortex';
+const description =
+  'Cortex Cowork 在四项 LCA 工作流中处理机械性工作——BOM 匹配、产品碳足迹、数据集创作与 ILCD 校验——让从业者专注于决定结果的判断。';
+
+const solutions = [
+  {
+    href: '/zh/solutions/bom-matching',
+    kicker: 'BOM 匹配',
+    title: 'BOM 进来。匹配的 xlsx 出去。',
+    body: '以任意格式上传物料清单。Cortex 将每一行匹配到十四个 LCA 数据库，返回四页工作簿——每个数据集格都是超链接，每个代理和缺口都有记录。任意规模的 BOM，分钟级完成，不是小时级。',
+    cta: '查看工作流 →',
+  },
+  {
+    href: '/zh/solutions/product-carbon-footprint',
+    kicker: '产品碳足迹',
+    title: '从 BOM 到 LCIA 结果。',
+    body: 'Cortex 直接驱动 openLCA——数据集匹配、产品系统构建、LCIA 计算——并将每一个建模决定写入追加式项目日志。功能单位、系统边界与分配方法确定一次，贯穿后续每次会话。',
+    cta: '查看工作流 →',
+  },
+  {
+    href: '/zh/solutions/lca-dataset-authoring',
+    kicker: 'LCA 数据集创作',
+    title: '从现场测量到可发布数据集。',
+    body: 'Cortex 在 HiQ 编辑器中引导完整创作工作流：元数据、流量录入、质量平衡验证、五项 Pedigree Matrix 维度的 DQI 评分以及提交审核。发布前每个决定都有记录。',
+    cta: '查看工作流 →',
+  },
+  {
+    href: '/zh/solutions/ilcd-validation',
+    kicker: 'ILCD 校验与转换',
+    title: '错误已定位。没有字段被静默丢弃。',
+    body: '对 ILCD 数据包进行 schema 校验，在 ILCD 与 JSON-LD 之间互转。每个错误按位置和严重程度报告。每条映射选择有文档。转换结果在交付前反向校验。',
+    cta: '查看工作流 →',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} locale="zh">
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">解决方案</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 26ch;">
+        四项 LCA 工作流。<em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">每一项都有完整审计路径。</em>
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork 处理每项工作流中的机械性工作——匹配、建模、创作、校验——并在每一个需要判断的节点将控制权交回给从业者。
+      </p>
+    </div>
+  </section>
+
+  <!-- Solutions grid -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <div class="grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
+        {solutions.map((s) => (
+          <article class="p-8 md:p-10" style="background: var(--paper);">
+            <p class="eyebrow mb-4">{s.kicker}</p>
+            <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 48; font-size: clamp(1.4rem, 2.5vw, 1.9rem); line-height: 1.1; letter-spacing: -0.015em; color: var(--ink);">{s.title}</h2>
+            <p class="mt-5 font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.97rem;">{s.body}</p>
+            <a href={s.href} class="mt-6 inline-block font-serif text-sm" style="color: var(--shell); font-variation-settings: 'opsz' 14;">{s.cta}</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Cross-section: what all workflows share -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="贯穿所有工作流" numeral="I" title="从业者决定。Cortex 记录。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          每一项 Cortex 工作流共享同一操作原则：Cortex 处理机械性的工作——搜索数据库、驱动软件、检查 schema、评分 DQI——并在每一个需要判断的节点将控制权交回给从业者。
+        </p>
+        <p>
+          一次会话中作出的决定延续到下一次。项目日志跨会话积累假设、确认与已解决的陷阱。核查者拿到最终交付物后，可以将任何结果追溯到作出相应决定的那次会话——无需重跑模型或联系作者。
+        </p>
+        <p>
+          四项工作流全部本地运行。除非从业者主动发起，文件不离开机器。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
+        机械性工作交给 Cortex。判断留给你。
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork 支持 macOS、Windows 与 Linux。会话本地运行——文件留在机器上。
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/zh/chat" class="ticket-ghost">试用 Cortex Chat</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

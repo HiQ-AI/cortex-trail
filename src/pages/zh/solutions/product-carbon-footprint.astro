@@ -1,0 +1,192 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Asterism from '@/components/Asterism.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = '产品碳足迹核算 — HiQ Cortex';
+const description =
+  '从 BOM 到 LCIA 结果，在 openLCA 内完成。Cortex Cowork 处理数据集匹配、产品系统构建与 LCIA 计算——每条假设有记录，每个决定经确认。';
+
+const stages = [
+  {
+    n: '01',
+    name: 'BOM → 背景数据',
+    body: '上传 BOM。Cortex 将每一行匹配到十四个 LCA 数据库中最近似的背景数据集——HiQLCD、Ecoinvent、EF、CarbonMinds 等。代理替换会标明名称及偏差方向。没有可靠匹配的行在建模前标记，等待从业者审核。',
+  },
+  {
+    n: '02',
+    name: '产品系统构建',
+    body: 'Cortex 直接驱动 openLCA：创建流、组装产品系统、连接前景与背景过程。功能单位、系统边界与 LCIA 方法由从业者指定一次，Cowork 在整个项目生命周期内的每次会话中一致沿用这些决定。',
+  },
+  {
+    n: '03',
+    name: 'LCIA 计算',
+    body: 'Cortex 在用户本地的 openLCA 实例中运行影响评价。默认方法：IPCC 2021 GWP100。其他影响类别——酸化、富营养化、水资源稀缺——可按需启用。结果以贡献分析形式呈现：按过程与流显示主要贡献者，而非单一汇总数字。',
+  },
+  {
+    n: '04',
+    name: '导出与文档',
+    body: '结果导出为结构化报告：建模范围、每个过程的数据来源、完整假设清单、按影响类别的 LCIA 结果、DQI 汇总。按需运行敏感性分析。导出内容可从记录的参数中完整复现——核查者无需重跑模型即可追溯全链。',
+  },
+];
+
+const checkpoints = [
+  ['数据替换', '目标数据集未找到。Cortex 指明替代数据集、说明差距（地区、生产路线、DQI），并在继续前请求确认。'],
+  ['边界简化', '上游过程截断需要一个准则——质量 <1%，还是环境影响 <1%。Cortex 说明准则并提问，由从业者决定。'],
+  ['分配方法', '共产品需要分配。Cortex 说明经济分配、质量分配与能量分配对结果的影响，并在建模前请从业者选择。'],
+  ['量级核查', 'LCIA 结果与可比研究相差一个数量级。Cortex 暂停，列出可能原因（单位换算、功能单位不一致、边界错误），在导出前请求确认。'],
+  ['openLCA 连接', '桌面端未打开或 IPC 端口冲突。Cortex 识别原因并给出修复步骤，而非静默重试。'],
+];
+---
+
+<BaseLayout title={title} description={description} locale="zh">
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">解决方案 · 产品碳足迹</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 24ch;">
+        从 BOM 到 LCIA 结果。<em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">每条假设，有据可查。</em>
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork 在你本地的 openLCA 实例中运行完整的产品碳足迹工作流——数据集匹配、产品系统构建、LCIA 计算——并将每一个建模决定写入追加式项目日志。
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/zh/product/cowork" class="ticket-ghost">Cowork 如何工作</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- §I 四个阶段 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="工作流" numeral="I" title="四个阶段。一份项目日志。" />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        产品碳足迹研究遵循固定的决策序列。Cortex Cowork 处理每个阶段的机械性工作；在每一个需要判断的节点，从业者保留完整控制权。
+      </p>
+
+      <div class="mt-10 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
+        {stages.map((s) => (
+          <article class="p-6 md:p-8" style="background: var(--paper);">
+            <div class="flex items-baseline gap-3 mb-3">
+              <span class="font-mono" style="color: var(--shell); font-size: 0.85rem; letter-spacing: 0.04em;">{s.n}</span>
+              <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.15rem; color: var(--ink);">{s.name}</h3>
+            </div>
+            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{s.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §II openLCA 集成 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="openLCA 集成" numeral="II" title="Cortex 操作 openLCA。模型归你所有。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cortex Cowork 不替代 openLCA，而是操作它。用户本地的 openLCA 实例始终是模型的载体——Cortex 是操作者，通过 openLCA 的 IPC 接口创建流、建立过程连接、运行计算。
+        </p>
+        <p>
+          在 macOS 上启用 Computer Use 时，Cortex 可以直接与 openLCA 的图形界面交互——点击对话框、读取结果窗口、确认数据集选择——无需命令行或自定义插件。Windows 和 Linux 上的交互通过 openLCA 的 IPC 服务器进行。
+        </p>
+        <p>
+          模型保存在从业者的 openLCA 数据库中，Cortex 不持有副本。会话结束后，产品系统、过程与流仍保存在 openLCA 原位——从业者可访问、可编辑、可版本管理。
+        </p>
+        <p class="font-serif italic" style="color: var(--ink-mute);">
+          Computer Use（GUI 交互）仅限 macOS。基于 IPC 的交互在三个平台上均可用。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §III 强制检查点 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="强制检查点" numeral="III" title="五个场景：Cortex 暂停，等待确认。" />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        碳足迹模型的可信度取决于其假设是否经得起审查。Cortex 在每一个静默默认会留下无法解释的问题的节点暂停。这些不是打断——而是核查者事后一定会问到的时刻。
+      </p>
+
+      <ol class="mt-10 space-y-6 font-serif" style="font-size: 1rem; line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink);">
+        {checkpoints.map(([head, body], i) => (
+          <li class="grid grid-cols-[3rem_1fr] gap-4">
+            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.05rem;">§ {String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <p class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 28; font-size: 1.05rem; line-height: 1.25; color: var(--ink);">{head}</p>
+              <p class="mt-2">{body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <Asterism />
+
+      <blockquote class="mx-auto max-w-3xl text-center">
+        <p class="pullquote">
+          每条假设经确认。每次确认被<em style="color: var(--shell); font-style: italic;">记录。</em>
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- §IV 交付物 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="交付物" numeral="IV" title="核查者无需重跑模型，即可追溯每一个结果。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          产品碳足迹会话的最终报告包含：建模范围（产品、功能单位、参考流、系统边界、地理与时间范围）；数据来源（每个过程所用数据库、版本与地区）；完整假设清单，涵盖所有数据替换、边界简化与分配选择；按影响类别的 LCIA 结果及贡献分析（前五大贡献者）；以及 DQI 汇总，标明可靠性评分低的数据集。
+        </p>
+        <p>
+          如需敏感性分析，Cortex 运行并纳入结果。标准情形：用更高 DQI 的替代数据集替换代理数据、更换分配方法、在指定截断准则处调整系统边界。报告同时记录基准结果和敏感性范围，并标明所变更的假设名称。
+        </p>
+        <p>
+          项目日志（<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code>）跨会话累积每一个决定——第一次会话的决定在第十次会话中仍清晰可见。核查者拿到最终报告后，可将任何结果追溯到作出相应决定的那次会话。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §V 跨会话连续性 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="跨会话连续性" numeral="V" title="项目记得已经决定了什么。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          产品碳足迹研究很少在一次会话内完成。功能单位、系统边界、LCIA 方法与分配规则在早期会话中确定，必须贯穿整个计算过程，不能在后续会话中重新讨论。
+        </p>
+        <p>
+          Cowork 在这四项建模要素确定的会话结束时，将它们写入项目的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Cortex.md</code> 文件。后续每次会话开始时首先读取该文件，并将其内容作为约束条件执行。在第二次会话中确定了"摇篮到出厂、截断系统模型、IPCC 2021 GWP100、质量分配"的从业者，在第七次会话中无需重新声明。
+        </p>
+        <p>
+          数据替换决定以同样方式累积：如果第三次会话确认"IGBT 模块"映射到 HiQLCD 中的电动汽车应用数据集，第八次会话不会重新执行该查询。映射已在记录中。会话从项目中断的地方继续。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
+        模型归你所有。审计路径内置其中。
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork 本地运行。openLCA 留在你的机器上。每次会话的决定积累在随项目文件夹一同存放的项目日志中。
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/zh/solutions/bom-matching" class="ticket-ghost">先看 BOM 匹配</a>
+      </div>
+      <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">
+        <a href="/zh/standards" style="color: var(--ink-mute);">标准对齐 — ISO 14067、CBAM、EF 方法</a>
+        <a href="/zh/security" style="color: var(--ink-mute);">数据不离开你的设备</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

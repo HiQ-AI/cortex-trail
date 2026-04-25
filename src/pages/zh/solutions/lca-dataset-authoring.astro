@@ -1,0 +1,175 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Asterism from '@/components/Asterism.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = 'LCA 数据集创作 — HiQ Cortex';
+const description =
+  '从一手测量数据到 HiQ 编辑器中可发布的背景数据集。Cortex 引导元数据、流量录入、DQI 评分与质量平衡验证——每个决定在提交前都有记录。';
+
+const stages = [
+  {
+    n: '01',
+    name: '数据集创建',
+    body: '在 HiQ 编辑器中新建数据集或打开已有数据集。Cortex 确认基本信息——名称、地区、参考产品、参考流量、系统边界与时间范围——并确定数据来源类型（一手测量 / 文献引用 / 行业估算），这将决定 DQI 的评分方式。',
+  },
+  {
+    n: '02',
+    name: '流量录入',
+    body: '添加所有输入（原料、能源、辅材）与输出（产品、副产品、排放、废物）。Cortex 跟踪单位一致性，并在质量平衡检查运行前标记比例异常的流量。',
+  },
+  {
+    n: '03',
+    name: '验证',
+    body: '在 HiQ 编辑器中运行单条计算验证。Cortex 检查质量平衡（输入 = 输出 + 损失），并将结果数量级与同类已发布数据集进行比较。任何一项检查不通过，工作流即停止——在用户决定如何处理之前，问题会连同可能原因一并呈现。',
+  },
+  {
+    n: '04',
+    name: 'DQI 评分',
+    body: '五项 Pedigree Matrix 维度——可靠性、完整性、时间关联性、地理关联性、技术关联性——均基于数据来源的客观事实评分，而非估算。Cortex 在写评分依据时引用用户提供的原始来源信息。',
+  },
+  {
+    n: '05',
+    name: '提交审核',
+    body: '提交前，Cortex 运行最终 checklist：元数据完整、流量录完、单条计算通过、文档已附、来源已引用、DQI 已评分。任何一项未通过，提交均被阻止。提交包包含一段数据集摘要和最不确定的一两个点——审核者无需自行推断创作决策。',
+  },
+];
+
+const checkpoints = [
+  ['质量平衡不通过', '输入质量不等于输出质量加损失。Cortex 暂停并列出每项流量，供用户定位问题——常见原因是漏了水蒸气、副产品，或单位换算错误。'],
+  ['数量级异常', '单条计算结果比同类数据集大/小一个数量级。Cortex 停止，说明异常所在及怀疑的原因，由用户判断是数据有误还是模型有误，再决定是否继续。'],
+  ['DQI 评分需要依据', 'Pedigree Matrix 的每个维度都必须基于来源记录打分，不能估算。如果评分依据无法从用户提供的信息中找到支撑，Cortex 询问缺失的来源细节。'],
+  ['提交前 checklist', '元数据完整、流量录完、单条计算通过、文档已附、来源已引用、DQI 已评分——六项均须通过。任何缺口在触发提交前均会指名道姓。'],
+];
+---
+
+<BaseLayout title={title} description={description} locale="zh">
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">解决方案 · LCA 数据集创作</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 24ch;">
+        从现场测量到可发布数据集。<em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">每项 DQI 评分有据可查。</em>
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork 在 HiQ 编辑器中引导完整的数据集创作工作流——元数据、流量录入、质量平衡验证、DQI 评分与提交审核——并在发布前将每一个建模决定写入项目记录。
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/zh/product/cowork" class="ticket-ghost">Cowork 如何工作</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- §I 五个阶段 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="工作流" numeral="I" title="五个阶段。一份数据集记录。" />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        发布 LCA 背景数据集涉及固定的决策序列——从数据集代表什么，到流量是否平衡，到数据质量评分是否站得住脚。Cortex 处理每个阶段的机械性工作；创作决策由从业者保留。
+      </p>
+
+      <div class="mt-10 grid gap-px overflow-hidden border border-rule md:grid-cols-2 lg:grid-cols-3" style="background: var(--rule);">
+        {stages.map((s) => (
+          <article class="p-6 md:p-8" style="background: var(--paper);">
+            <div class="flex items-baseline gap-3 mb-3">
+              <span class="font-mono" style="color: var(--shell); font-size: 0.85rem; letter-spacing: 0.04em;">{s.n}</span>
+              <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.15rem; color: var(--ink);">{s.name}</h3>
+            </div>
+            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{s.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §II HiQ 编辑器集成 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="HiQ 编辑器集成" numeral="II" title="Cortex 操作 HiQ 编辑器。数据集归属你的账户。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          HiQ 编辑器是 HiQ 的 LCA 背景数据库创作 SaaS——背景数据集在此创建、验证并提交至 HiQLCD 发布。Cortex Cowork 通过 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">hiq-editor</code> 技能连接并操作 HiQ 编辑器：创建和编辑数据集、添加流量、触发单条计算、提交最终包供审核。
+        </p>
+        <p>
+          数据集全程保存在用户的 HiQ 编辑器账户中，Cortex 不持有副本。在每个阶段——元数据录入、流量编辑、DQI 评分——变更都写入 HiQ 编辑器的数据集记录，而非最后再上传的本地文件。
+        </p>
+        <p>
+          跨会话连续性与产品碳足迹工作流相同：数据集 ID、已定稿的元数据、流量录入状态以及遇到的坑，在每次会话结束时写入项目的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Cortex.md</code> 文件。下次会话开始时首先读取，从上次中断的地方继续。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §III 强制检查点 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="强制检查点" numeral="III" title="四个场景：Cortex 在继续前暂停。" />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        未通过审核者检查的背景数据集——或更糟糕地，通过了检查但带着静默数据质量问题——在发布后纠正代价高昂。Cortex 的配置是在创作过程中暴露这些问题，而非在提交之后。
+      </p>
+
+      <ol class="mt-10 space-y-6 font-serif" style="font-size: 1rem; line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink);">
+        {checkpoints.map(([head, body], i) => (
+          <li class="grid grid-cols-[3rem_1fr] gap-4">
+            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.05rem;">§ {String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <p class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 28; font-size: 1.05rem; line-height: 1.25; color: var(--ink);">{head}</p>
+              <p class="mt-2">{body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <Asterism />
+
+      <blockquote class="mx-auto max-w-3xl text-center">
+        <p class="pullquote">
+          DQI 基于证据评分。质量平衡<em style="color: var(--shell); font-style: italic;">已验证。</em>两项均通过后再提交。
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- §IV 提交包 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="提交包" numeral="IV" title="审核者无需联系作者，即可追溯创作决策。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          提交包包含：完整元数据（名称、地区、参考产品与参考流量、系统边界、时间范围、技术描述）；所有输入输出流量及其来源依据；五项 Pedigree Matrix 维度的 DQI 评分，附引用原始来源信息的评分依据；确认参考流量下数据集产出的单条计算结果；以及完整来源文档（文献 DOI、测量报告、行业标准）。
+        </p>
+        <p>
+          提交时，Cortex 生成一份说明：数据集摘要（1 段）、数据中最不确定的一两个点、以及建议审核者重点关注的内容。审核者不必从数据集记录中单独推断创作过程的推理。
+        </p>
+        <p>
+          项目日志记录完整的创作历史：跨多次会话所作的决定、遇到的坑及其解决方法、考虑过但未采用的替代数据来源。经历多轮审核的数据集有每轮之间发生了什么变化及其原因的记录。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
+        一手数据。有据可查的评分。审核者能追溯的记录。
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork 本地运行。HiQ 编辑器保存数据集。每次会话的决定积累在随项目文件夹一同存放的项目日志中。
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/zh/solutions/bom-matching" class="ticket-ghost">先看 BOM 匹配</a>
+      </div>
+      <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">
+        <a href="/zh/standards" style="color: var(--ink-mute);">标准对齐 — ISO 14067、CBAM、EF 方法</a>
+        <a href="/zh/security" style="color: var(--ink-mute);">数据不离开你的设备</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

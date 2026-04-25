@@ -1,0 +1,108 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = 'Solutions — HiQ Cortex';
+const description =
+  'Cortex Cowork handles the mechanical work in four LCA workflows — BOM matching, product carbon footprint, dataset authoring, and ILCD validation — so practitioners can focus on the decisions that determine the result.';
+
+const solutions = [
+  {
+    href: '/solutions/bom-matching',
+    kicker: 'BOM matching',
+    title: 'BOM in. Matched xlsx out.',
+    body: 'Upload a Bill of Materials in any format. Cortex matches each row against fourteen LCA databases and returns a four-sheet workbook — every dataset cell a hyperlink, every proxy and gap documented. Minutes, not hours, for a BOM of any size.',
+    cta: 'See the workflow →',
+  },
+  {
+    href: '/solutions/product-carbon-footprint',
+    kicker: 'Product carbon footprint',
+    title: 'From BOM to LCIA results.',
+    body: 'Cortex drives openLCA directly — dataset matching, product system construction, LCIA calculation — and writes every modeling decision into an append-only project log. Functional unit, system boundary, and allocation method are decided once and carried forward across every session.',
+    cta: 'See the workflow →',
+  },
+  {
+    href: '/solutions/lca-dataset-authoring',
+    kicker: 'LCA dataset authoring',
+    title: 'From field measurement to published dataset.',
+    body: 'Cortex guides the full authoring workflow inside HiQ Editor: metadata, flow entry, mass-balance validation, DQI scoring across all five Pedigree Matrix dimensions, and review submission. Every decision on record before anything is published.',
+    cta: 'See the workflow →',
+  },
+  {
+    href: '/solutions/ilcd-validation',
+    kicker: 'ILCD validation and conversion',
+    title: 'Errors located. No field silently dropped.',
+    body: 'Validate ILCD packages against schema requirements and convert between ILCD and JSON-LD. Every error reported by location and severity. Every mapping choice documented. Converted output validated against the target schema before delivery.',
+    cta: 'See the workflow →',
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">Solutions</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 26ch;">
+        Four LCA workflows. <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">Each one with a complete audit trail.</em>
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork handles the mechanical work in each workflow — matching, modeling, authoring, validating — and returns control to the practitioner at every point where a judgment call determines the result.
+      </p>
+    </div>
+  </section>
+
+  <!-- Solutions grid -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <div class="grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
+        {solutions.map((s) => (
+          <article class="p-8 md:p-10" style="background: var(--paper);">
+            <p class="eyebrow mb-4">{s.kicker}</p>
+            <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 48; font-size: clamp(1.4rem, 2.5vw, 1.9rem); line-height: 1.1; letter-spacing: -0.015em; color: var(--ink);">{s.title}</h2>
+            <p class="mt-5 font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.97rem;">{s.body}</p>
+            <a href={s.href} class="mt-6 inline-block font-serif text-sm" style="color: var(--shell); font-variation-settings: 'opsz' 14;">{s.cta}</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Cross-section: what all workflows share -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Across all workflows" numeral="I" title="The practitioner decides. Cortex records." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Every Cortex workflow shares the same operating principle: Cortex handles the work that is mechanical — searching databases, driving software, checking schemas, scoring DQI — and returns control to the practitioner at every point where a judgment call would determine the result.
+        </p>
+        <p>
+          Decisions made in one session carry forward to the next. The project log accumulates assumptions, confirmations, and resolved pitfalls across sessions. A verifier arriving at a finished deliverable can trace any result back to the session in which the underlying choice was made — without re-running the model or contacting the author.
+        </p>
+        <p>
+          All four workflows run locally. No files leave the machine unless the practitioner initiates the action.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
+        Mechanical work handled. Judgment calls yours.
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork is available for macOS, Windows, and Linux. Sessions run locally — files stay on the machine.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/chat" class="ticket-ghost">Try Cortex Chat</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

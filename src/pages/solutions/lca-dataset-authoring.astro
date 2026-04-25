@@ -1,0 +1,175 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Asterism from '@/components/Asterism.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = 'LCA Dataset Authoring — HiQ Cortex';
+const description =
+  'From primary measurement data to a publishable background dataset in HiQ Editor. Cortex guides metadata, flow entry, DQI scoring, and mass-balance validation — every decision on record before submission.';
+
+const stages = [
+  {
+    n: '01',
+    name: 'Dataset setup',
+    body: 'Create a new dataset or open an existing one in HiQ Editor. Cortex confirms the basics — name, region, reference product, reference flow, system boundary, and time range — and determines data source type (primary measurement, literature, industry estimate), which governs how DQI is scored.',
+  },
+  {
+    n: '02',
+    name: 'Flow entry',
+    body: 'Add all inputs (materials, energy, auxiliaries) and outputs (products, co-products, emissions, waste). Cortex tracks unit consistency and flags flows that look out of proportion before the mass balance check runs.',
+  },
+  {
+    n: '03',
+    name: 'Validation',
+    body: "Single-calculation validation runs inside HiQ Editor. Cortex checks mass balance (inputs = outputs + losses) and compares the result magnitude against comparable published datasets. Either check failing stops the workflow — the issue is presented with its likely causes before the user decides how to proceed.",
+  },
+  {
+    n: '04',
+    name: 'DQI scoring',
+    body: 'All five Pedigree Matrix dimensions — reliability, completeness, temporal correlation, geographic correlation, technical correlation — are scored against objective facts from the data source, not estimated. Cortex cites the source information the user provided when writing the scoring justification.',
+  },
+  {
+    n: '05',
+    name: 'Review submission',
+    body: 'Before submitting, Cortex runs a final checklist: metadata complete, flows entered, single calculation passed, documentation attached, sources cited, DQI scored. Any failing item blocks submission. The submission package includes a dataset summary paragraph and the one or two most uncertain points — so the reviewer does not have to reconstruct the authoring decisions.',
+  },
+];
+
+const checkpoints = [
+  ['Mass balance failure', 'Input mass does not equal output mass plus losses. Cortex pauses and lists every flow so the user can identify the gap — missing water vapor, missing co-products, or a unit conversion error are the common causes.'],
+  ['Magnitude anomaly', 'Single-calculation result differs from comparable datasets by an order of magnitude. Cortex stops, names what is off and the most likely cause, and asks the user whether the data is wrong or the model is wrong before continuing.'],
+  ['DQI scoring requires evidence', 'Every Pedigree Matrix dimension must be scored from the source record, not estimated. If the justification cannot be grounded in what the user provided, Cortex asks for the missing source detail.'],
+  ['Pre-submission checklist', 'Metadata complete, flows entered, single calculation passed, documentation attached, sources cited, DQI scored — all six must pass. Any gap is named before submission is triggered.'],
+];
+---
+
+<BaseLayout title={title} description={description}>
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">Solutions · LCA dataset authoring</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 26ch;">
+        From field measurement to published dataset. <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">Every DQI score justified.</em>
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork guides the full dataset authoring workflow inside HiQ Editor — metadata, flow entry, mass-balance validation, DQI scoring, and review submission — and writes every modeling decision into the project record before anything is published.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/product/cowork" class="ticket-ghost">How Cowork works</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- §I Five stages -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="The workflow" numeral="I" title="Five stages. One dataset record." />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Publishing a background LCA dataset involves a fixed sequence of decisions — from what the dataset represents, to how its flows balance, to whether the data quality scores are defensible. Cortex handles the mechanics of each stage; the authoring decisions stay with the practitioner.
+      </p>
+
+      <div class="mt-10 grid gap-px overflow-hidden border border-rule md:grid-cols-2 lg:grid-cols-3" style="background: var(--rule);">
+        {stages.map((s) => (
+          <article class="p-6 md:p-8" style="background: var(--paper);">
+            <div class="flex items-baseline gap-3 mb-3">
+              <span class="font-mono" style="color: var(--shell); font-size: 0.85rem; letter-spacing: 0.04em;">{s.n}</span>
+              <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.15rem; color: var(--ink);">{s.name}</h3>
+            </div>
+            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{s.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §II HiQ Editor integration -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="HiQ Editor integration" numeral="II" title="Cortex operates HiQ Editor. The dataset lives in your account." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          HiQ Editor is HiQ's LCA background database authoring SaaS — the platform where background datasets are created, validated, and submitted for publication to HiQLCD. Cortex Cowork connects to HiQ Editor through the <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">hiq-editor</code> skill and operates it: creating and editing datasets, adding flows, triggering single calculations, and submitting the final package for review.
+        </p>
+        <p>
+          The dataset lives in the user's HiQ Editor account throughout. Cortex does not hold a copy. At every stage — metadata entry, flow editing, DQI scoring — the changes are written to the dataset record in HiQ Editor, not to a local file that has to be uploaded at the end.
+        </p>
+        <p>
+          Cross-session continuity works the same way as in the product carbon footprint workflow: the dataset ID, finalized metadata, flow entry state, and any pitfalls encountered are written to the project's <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Cortex.md</code> at the end of each session. The next session reads them first and continues from where the last one stopped.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §III Checkpoints -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Mandatory checkpoints" numeral="III" title="Four situations where Cortex stops before continuing." />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        A background dataset that fails a reviewer's checks — or worse, one that passes but carries a silent data quality problem — is expensive to correct after publication. Cortex is configured to surface these problems during authoring, not after submission.
+      </p>
+
+      <ol class="mt-10 space-y-6 font-serif" style="font-size: 1rem; line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink);">
+        {checkpoints.map(([head, body], i) => (
+          <li class="grid grid-cols-[3rem_1fr] gap-4">
+            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.05rem;">§ {String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <p class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 28; font-size: 1.05rem; line-height: 1.25; color: var(--ink);">{head}</p>
+              <p class="mt-2">{body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <Asterism />
+
+      <blockquote class="mx-auto max-w-3xl text-center">
+        <p class="pullquote">
+          DQI scored from evidence. Mass balance <em style="color: var(--shell); font-style: italic;">verified.</em> Submitted once both pass.
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- §IV What gets submitted -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="The submission package" numeral="IV" title="A reviewer can follow the authoring decisions without contacting the author." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          The submission package contains: complete metadata (name, region, reference product and flow, system boundary, time range, technical description); all input and output flows with their source basis; DQI scores for all five Pedigree Matrix dimensions with scoring justifications that cite the original source information; a single-calculation result confirming the dataset's output at the reference flow; and full source documentation (DOIs, measurement reports, industry standards).
+        </p>
+        <p>
+          On submission, Cortex generates a covering note: a one-paragraph dataset summary, the one or two most uncertain points in the data, and what the reviewer should focus on. The reviewer does not have to reconstruct the authoring reasoning from the dataset record alone.
+        </p>
+        <p>
+          The project log captures the full authoring history: decisions made across multiple sessions, pitfalls encountered and how they were resolved, alternative data sources considered and rejected. A dataset that goes through multiple review rounds has a record of what changed between rounds and why.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
+        Primary data. Defensible scores. A record the reviewer can follow.
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork runs locally. HiQ Editor holds the dataset. Every session's decisions accumulate in a project log that travels with the project folder.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/solutions/bom-matching" class="ticket-ghost">BOM matching first</a>
+      </div>
+      <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">
+        <a href="/standards" style="color: var(--ink-mute);">Standards alignment — ISO 14067, CBAM, EF method</a>
+        <a href="/security" style="color: var(--ink-mute);">Data stays on your machine</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

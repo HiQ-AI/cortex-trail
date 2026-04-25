@@ -1,0 +1,160 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Asterism from '@/components/Asterism.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = 'ILCD Validation and Conversion — HiQ Cortex';
+const description =
+  'Validate ILCD data packages against schema requirements and convert between ILCD and JSON-LD without silent data loss. Every error located, every mapping choice documented.';
+
+const operations = [
+  {
+    n: '01',
+    name: 'Validation',
+    body: 'Cortex runs schema validation against the ILCD package and returns a structured report: Error, Warning, and Info counts with the location (file name + XPath or JSON path), description, and a fix suggestion for each entry. The summary states plainly whether the package is publishable, needs fixes, or has warnings but is usable.',
+  },
+  {
+    n: '02',
+    name: 'Conversion',
+    body: 'Cortex converts between ILCD and JSON-LD in either direction. The delivery includes the mapping rules used, every field that was dropped, merged, or default-filled, and the result of validating the converted output against the target schema. Where feasible, a round-trip check (A → B → A) confirms losslessness.',
+  },
+];
+
+const checkpoints = [
+  ['Hard errors — no auto-fix', 'When validation finds an Error, Cortex stops and presents each one: location, severity, and a suggested fix. The user decides whether to fix or accept the risk. No silent repair.'],
+  ['Warnings — split by consequence', "Warnings are presented in two groups: those that affect interoperability with other systems (fix recommended) and those that are style issues (optional). The distinction matters — a practitioner accepting a risk needs to know what the risk actually is."],
+  ['Structural mismatch during conversion', 'Some ILCD constructs do not map cleanly to JSON-LD — multilingual fields, inherited flow properties, and schema-version-specific extensions are common sources. When a mismatch occurs, Cortex names the field, explains the mapping choice, and describes the information that would be lost. No field is silently dropped.'],
+  ['Schema version specificity', 'ILCD 1.1 and EF 3.0 use different mapping rules. When the target version matters — for submission to a specific registry or validator — Cortex asks before applying the conversion rules.'],
+];
+---
+
+<BaseLayout title={title} description={description}>
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">Solutions · ILCD validation and conversion</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 26ch;">
+        ILCD package in. Errors located. <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">No field silently dropped.</em>
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork validates ILCD data packages against schema requirements and converts between ILCD and JSON-LD — reporting every error by location and severity, and documenting every mapping choice before any field is changed.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/product/cowork" class="ticket-ghost">How Cowork works</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- §I Two operations -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="What Cortex does" numeral="I" title="Validation and conversion. Both with a full audit trail." />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        ILCD packages fail in predictable ways: missing required fields, incorrect unit references, schema version mismatches, and structural issues that only appear during conversion to another format. Cortex surfaces these systematically — not as a pass/fail verdict, but as a structured list a practitioner can act on.
+      </p>
+
+      <div class="mt-10 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
+        {operations.map((s) => (
+          <article class="p-6 md:p-8" style="background: var(--paper);">
+            <div class="flex items-baseline gap-3 mb-3">
+              <span class="font-mono" style="color: var(--shell); font-size: 0.85rem; letter-spacing: 0.04em;">{s.n}</span>
+              <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.15rem; color: var(--ink);">{s.name}</h3>
+            </div>
+            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{s.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §II Validation report structure -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Validation report" numeral="II" title="Errors located. Warnings categorized. A verdict the practitioner can act on." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          The validation report organizes findings by severity. Errors are hard failures — schema requirements that the package violates. Warnings are issues that affect interoperability or signal incomplete data. Info entries are observations that do not require action but may be relevant for submission context.
+        </p>
+        <p>
+          Each finding includes the file name and the XPath or JSON path where the issue occurs, a plain-language description of what is wrong, and a specific fix suggestion. The report closes with a summary verdict: whether the package can be submitted as-is, requires fixes before submission, or has warnings that are acceptable for the intended use.
+        </p>
+        <p>
+          Pitfalls that appear in one package tend to recur in packages from the same source. At the end of a validation session, Cortex identifies any systematic patterns — fields that are consistently missing, values that are consistently mis-formatted — and writes them to the project record so the next package from the same vendor can skip the discovery pass.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §III Conversion without silent loss -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Conversion" numeral="III" title="Every mapping choice documented. Every dropped field named." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          ILCD and JSON-LD are structurally different. A conversion that succeeds without errors may still have dropped or altered fields that were present in the source — multilingual label handling, inherited flow property references, and extension fields are common sites of information loss.
+        </p>
+        <p>
+          Cortex documents the mapping rules used for each field group, lists every field where a choice was made (kept as-is, merged, default-filled, or dropped), and explains the consequence of that choice. Where the consequence is significant — a field required by the target registry that the source format encodes differently — Cortex pauses and asks before proceeding.
+        </p>
+        <p>
+          After conversion, the output is validated against the target schema. Where feasible, a round-trip check runs: the converted output is converted back and diffed against the original. Fields that survive the round trip without change are lossless; fields that do not are flagged for manual review.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §IV Checkpoints -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Mandatory checkpoints" numeral="IV" title="Four situations where Cortex stops and presents the decision." />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Silent repair is the failure mode that causes the most downstream damage — a package that appears valid but has had fields quietly altered or dropped. Cortex does not silently repair. It stops, names the issue, and returns the decision to the practitioner.
+      </p>
+
+      <ol class="mt-10 space-y-6 font-serif" style="font-size: 1rem; line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink);">
+        {checkpoints.map(([head, body], i) => (
+          <li class="grid grid-cols-[3rem_1fr] gap-4">
+            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.05rem;">§ {String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <p class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 28; font-size: 1.05rem; line-height: 1.25; color: var(--ink);">{head}</p>
+              <p class="mt-2">{body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <Asterism />
+
+      <blockquote class="mx-auto max-w-3xl text-center">
+        <p class="pullquote">
+          Every error located. Every mapping choice <em style="color: var(--shell); font-style: italic;">documented.</em>
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
+        Valid package. Clean conversion. Full mapping record.
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork runs locally. ILCD packages stay on your machine. Known pitfalls from each validation session accumulate in the project record.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/solutions/lca-dataset-authoring" class="ticket-ghost">Dataset authoring</a>
+      </div>
+      <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">
+        <a href="/standards" style="color: var(--ink-mute);">Standards alignment — ISO 14067, CBAM, EF method</a>
+        <a href="/security" style="color: var(--ink-mute);">Data stays on your machine</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
