@@ -3,7 +3,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
-const videoUrl = '';
+const videoUrl = 'https://hiq-cortex-assets.s3.amazonaws.com/scenarios/videos/bom-match.mp4';
+const posterUrl = 'https://hiq-cortex-assets.s3.amazonaws.com/scenarios/posters/bom-match.jpg?v=6';
 
 const title = 'BOM 匹配 — HiQ Cortex';
 const description =
@@ -66,7 +67,7 @@ const hitlOptions = [
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-14 md:py-16">
       <div class="mx-auto max-w-4xl aspect-video overflow-hidden border border-rule">
-        <iframe src={videoUrl} class="w-full h-full" allowfullscreen loading="lazy" title="BOM 匹配演示" />
+        <video src={videoUrl} poster={posterUrl} class="w-full h-full" controls preload="none" title="BOM 匹配演示" />
       </div>
     </div>
   </section>

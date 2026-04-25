@@ -30,7 +30,8 @@ const stages = [
   },
 ];
 
-const videoUrl = '';
+const videoUrl = 'https://hiq-cortex-assets.s3.amazonaws.com/scenarios/videos/openlca-modeling.mp4';
+const posterUrl = 'https://hiq-cortex-assets.s3.amazonaws.com/scenarios/posters/openlca-modeling.jpg?v=6';
 
 const checkpoints = [
   ['Data substitution', 'Target dataset not found. Cortex names the substitute, explains the gap (region, production route, DQI), and asks for confirmation before proceeding.'],
@@ -68,7 +69,7 @@ const checkpoints = [
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-14 md:py-16">
       <div class="mx-auto max-w-4xl aspect-video overflow-hidden border border-rule">
-        <iframe src={videoUrl} class="w-full h-full" allowfullscreen loading="lazy" title="Product carbon footprint demo" />
+        <video src={videoUrl} poster={posterUrl} class="w-full h-full" controls preload="none" title="Product carbon footprint demo" />
       </div>
     </div>
   </section>
