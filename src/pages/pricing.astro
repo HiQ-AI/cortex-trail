@@ -12,9 +12,7 @@ const plans = [
     price: '€0',
     period: '',
     items: [
-      ['LLM budget',         '$10 / month'],
-      ['Rate limit',         '30 rpm · 2M tpm'],
-      ['Database search',    'Basic'],
+      ['Database search',    'Try-it-out queries'],
       ['Conversation memory', '—'],
       ['Cortex Cowork',      '—'],
       ['File read/write',    '—'],
@@ -26,8 +24,6 @@ const plans = [
     price: '€99',
     period: '/month · or €297/quarter',
     items: [
-      ['LLM budget',         '$500 / month'],
-      ['Rate limit',         '100 rpm · 10M tpm'],
       ['Database search',    '14 LCA databases'],
       ['Conversation memory', 'Yes'],
       ['Cortex Cowork',      '—'],
@@ -40,8 +36,6 @@ const plans = [
     price: '€299',
     period: '/month · or €897/quarter',
     items: [
-      ['LLM budget',         '$500 / month'],
-      ['Rate limit',         '200 rpm · 20M tpm'],
       ['Database search',    '14 LCA databases'],
       ['Conversation memory', 'Yes'],
       ['Cortex Cowork',      'Yes'],
@@ -50,12 +44,6 @@ const plans = [
     ],
     highlight: true,
   },
-];
-
-const apiTiers = [
-  ['uplink-free', '30 rpm'],
-  ['uplink-pro',  '100 rpm'],
-  ['uplink-plus', '200 rpm'],
 ];
 
 const faqs = [
@@ -91,7 +79,7 @@ const faqs = [
         Three plans. <span style="color: var(--ink-faint);">Start free.</span>
       </h1>
       <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Free, Pro, and Plus. Defined LLM budgets, rate limits, and a clear line on what Cowork requires.
+        Free, Pro, and Plus. A clear line on what Cowork requires, and what database access depends on a license you bring.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
         <a href="#plans" class="ticket">See plans <span aria-hidden="true">↓</span></a>
@@ -140,13 +128,13 @@ const faqs = [
       <SectionMark kicker="What each tier includes" numeral="II" title="Plain numbers." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          <strong style="font-weight: 500;">Free</strong> starts with $10 in monthly LLM cost and basic database retrieval. No credit card required to begin. The rate limit is 30 requests per minute — sufficient for exploratory queries and occasional lookups.
+          <strong style="font-weight: 500;">Free</strong> is the way in. A handful of queries to feel what Cortex Chat does — ask a methodology question, look up one material, see how a candidate is sourced. Not sized for ongoing LCA work. No credit card required.
         </p>
         <p>
-          <strong style="font-weight: 500;">Pro</strong> (€99 / month) raises the LLM budget to $500 and opens access to all 14 LCA databases Cortex searches across, including Ecoinvent, CarbonMinds, and HiQLCD-AL. Conversation memory persists across sessions and syncs across devices. Pro does not include Cortex Cowork — Chat is the surface.
+          <strong style="font-weight: 500;">Pro</strong> (€99 / month) is the working tier for individual LCA practitioners. All 14 LCA databases Cortex searches across, including Ecoinvent, CarbonMinds, and HiQLCD-AL. Conversation memory persists across sessions and syncs across devices. Pro does not include Cortex Cowork — Chat is the surface.
         </p>
         <p>
-          <strong style="font-weight: 500;">Plus</strong> (€299 / month) adds Cortex Cowork: the desktop agent that reads and writes files on your machine, runs multi-step workflows, and loads skills from the marketplace. Cowork sessions are local — the agent runs on the same machine as the desktop app, not on a remote server. Plus carries the same $500 LLM budget as Pro, with a higher rate ceiling (200 rpm · 20M tpm).
+          <strong style="font-weight: 500;">Plus</strong> (€299 / month) is for project work. Adds Cortex Cowork: the desktop agent that reads and writes files on your machine, runs multi-step workflows, and loads skills from the marketplace. Cowork sessions are local — the agent runs on the same machine as the desktop app, not on a remote server.
         </p>
       </div>
     </div>
@@ -170,39 +158,18 @@ const faqs = [
     </div>
   </section>
 
-  <!-- §IV API tiers -->
+  <!-- §IV API access -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="API access" numeral="IV" title="Uplink tiers." />
-      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Developers integrating Cortex into external tools access the platform via <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">x.hiqlcd.com/api/cortex/*</code> with an API key. Three uplink tiers are available:
-      </p>
-
-      <div class="mt-8 max-w-md overflow-hidden border border-rule" style="background: var(--paper);">
-        <table class="w-full" style="border-collapse: collapse;">
-          <thead>
-            <tr style="background: var(--paper-rim);">
-              <th class="eyebrow text-left p-4 border-b border-rule">Tier</th>
-              <th class="eyebrow text-left p-4 border-b border-rule">Rate limit</th>
-            </tr>
-          </thead>
-          <tbody class="font-mono" style="font-size: 0.85rem;">
-            {apiTiers.map(([tier, rate]) => (
-              <tr>
-                <td class="p-4 border-b border-rule last:border-b-0" style="color: var(--ink);">{tier}</td>
-                <td class="p-4 border-b border-rule last:border-b-0" style="color: var(--ink);">{rate}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <SectionMark kicker="API access" numeral="IV" title="For integrators." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Developers integrating Cortex into external tools access the platform via <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">x.hiqlcd.com/api/cortex/*</code> with an API key. Capacity is sized to the integration; ranges from individual exploration to high-throughput backend pipelines.
+        </p>
+        <p>
+          Pricing is tailored to the use case. To apply: <a href="mailto:contact@hiq.earth" style="color: var(--shell);">contact@hiq.earth</a>.
+        </p>
       </div>
-
-      <p class="mt-6 max-w-3xl font-serif" style="font-size: 1rem; line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink-mute);">
-        API key provisioning and tier upgrades are handled by the HiQ team. There is no self-serve console for API usage — rate limits enforce the ceiling, and a <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">429</code> signals when the budget is reached.
-      </p>
-      <p class="mt-4 max-w-3xl font-serif" style="font-size: 1rem; line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink);">
-        To apply: <a href="mailto:contact@hiq.earth" style="color: var(--shell);">contact@hiq.earth</a>
-      </p>
     </div>
   </section>
 
@@ -228,7 +195,7 @@ const faqs = [
         Start with one question.
       </h2>
       <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Free includes $10 in monthly LLM budget — enough to run a material lookup, match a BOM row against fourteen databases, or ask a Scope 3 classification question. No credit card required.
+        Free is the way to feel out the product — a handful of queries on the house. For ongoing LCA work, Pro is the entry point. No credit card required to begin.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
         <a href="/chat" class="ticket">Try free <span aria-hidden="true">→</span></a>
