@@ -4,45 +4,51 @@ import SnailGlyph from '@/components/SnailGlyph.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
-const title = 'HiQ Cortex — 坐在所有 LCA 数据库之上的推理层';
+const title = 'HiQ Cortex — LCA 工作台，每一行都经得起追问';
 const description =
-  'Cortex 跨 12 个数据库匹配排放因子，标记数据缺口，导出附带完整来源溯源——每一行都被引用、按 DQI 评分、随时回答审核员的问题。';
+  '跨 12 个 LCA 数据库匹配排放因子，逐行 DQI 评分，在三道人工确认闸前停住。每一份导出，都能说清来路。';
 
 const audiences = [
   {
-    label: '给 LCA 顾问',
+    label: '面向 LCA 顾问和审核员',
     body:
-      '你 60% 的时间在查数据库。Cortex 把这段压缩：中文或英文提问，从 HiQLCD 和 Ecoinvent 取回带 DQI 评分的候选，每一条替代值假设都标注清楚。',
+      '在数据库标签页之间往返的时间压缩成一次对话。Cortex 跨 12 个数据库并行检索，逐行返回 DQI 评分候选项，在审核员之前替你标出缺口。方法论问答引用的是数据集记录本身，不是训练数据的摘要。',
     href: '/zh/solutions/bom-matching',
     cta: '查看 BOM 匹配',
   },
   {
-    label: '给可持续发展与 CBAM 团队',
+    label: '面向可持续发展与 CBAM 团队',
     body:
-      '审核员要的是推理过程，不是那个数字。Cortex 在三道 HITL 闸处暂停——覆盖率、替代值、跨库差异——每一道都留给你判断，没有你的确认，Cortex 不会继续。',
+      'CBAM 申报要求嵌入式排放证据，而供应商往往还没提交。Cortex 准备《附件 IV》所需的排放因子和代理值论证材料，支持 GHG Protocol 全部 15 个范围三类别，并保留系统模型元数据——让申报内容读起来是准确的，而不是近似的。',
     href: '/zh/methodology',
     cta: '阅读方法论',
   },
   {
-    label: '给基于 LCA 数据构建产品的开发者',
+    label: '面向基于 LCA 数据开发的团队',
     body:
-      '四种协议：REST、MCP、AG-UI、A2A。一把 API key。把 LCA 检索能力嵌进你自己的产品，不用重建搜索层。',
+      'Cortex Chat 和 Cortex Cowork 背后的推理引擎，通过四种协议开放：REST、MCP、AG-UI、A2A。数据集检索、DQI 评分、三道人工确认闸——都可以集成进你自己的流程、界面和输出格式。',
     href: 'https://docs.x.hiq.earth',
-    cta: '查看 API 文档',
+    cta: '阅读 API 文档',
   },
 ];
 
 const products = [
   {
     name: 'Cortex Chat',
-    pitch: 'LCA 数据检索，对话即完成。中文或英文提问——结果按相关性排序、附 DQI 评分、标注来源。',
+    label: 'CORTEX CHAT · WEB',
+    body:
+      '带来物料名称、一行 BOM，或一个标准问题。Cortex 先问一个澄清问题——合金牌号、生产路线、地区——然后跨 12 个数据库检索，返回附带 GWP100 和五维 DQI 评分的候选数据集。不需要配置表格，不需要数据库许可证才能发问。',
+    proof: '物料查询 · 约 2 分钟 · 附溯源的数据集排名',
     primary: { href: '/chat', label: '打开 Cortex Chat' },
     secondary: { href: '/zh/product/chat', label: '产品详情' },
   },
   {
     name: 'Cortex Cowork',
-    pitch: '陪你走完整个 LCA 项目的桌面 Agent——跨会话、跨重启、跨交接。',
-    primary: { href: 'https://github.com/HiQ-AI/cortex-desktop/releases/latest', label: '下载 macOS 版' },
+    label: 'CORTEX COWORK · DESKTOP',
+    body:
+      'LCA 项目跨越数周。CBAM 申报有完整的文件轨迹。Cowork 跨会话保留项目状态——项目工作区、决策日志、引用历史、六层记忆，让周一的代理值替换在周五仍然可查。从本地磁盘读取文件，运行本地工具，在一次对话中驱动 openLCA。',
+    proof: '多会话项目 · 完整溯源 · 可导出的推理链',
+    primary: { href: 'https://github.com/HiQ-AI/cortex-desktop/releases/latest', label: '下载 Cortex Desktop' },
     secondary: { href: '/zh/product/cowork', label: '产品详情' },
   },
 ];
@@ -52,34 +58,34 @@ const qualities = [
     numeral: 'I',
     key: '慢',
     body:
-      '在 LCA 里，快是一个陷阱。CBAM 核查员要的不是一个答案，而是这个答案背后的推理过程。Cortex 不会跳过系统边界的讨论直接抛出数字。慢，是让输出结果能被审计的那道约束。',
+      'LCA 之所以慢，不是因为工具陈旧，而是因为问题本身就难：系统边界、分摊方法、代理值论证、跨库差异。跳过这些问题，得到的数字在第一个追问面前就会崩塌。Cortex 不跳过它们。三道确认闸——覆盖率低于 80%、需要代理值、跨库 GWP 差异超过 2×——不是摩擦，是自动化应当停下来的那些时刻。',
   },
   {
     numeral: 'II',
     key: '壳',
     body:
-      '蜗牛走到哪里，壳跟到哪里。Cortex 也是：每一条返回的数据集都携带来源、版本、系统模型，以及完整的 DQI 评分——时间性、地理性、技术性、完整性、可靠性。交出去的不是一个数字，是一个审核员可以逐项核查的数据包。',
+      'Cortex 返回的每一条答案，都附着：引用的数据集、保留的系统模型、明确标注的代理值假设、五维 DQI 分项评分。这个包裹——壳——跟着输出一起走。三个月后打开导出文件的审计员，看到的推理链和从业者当时在对话里跑的一模一样。',
   },
   {
     numeral: 'III',
     key: '痕',
     body:
-      '蜗牛爬过的地方都留下痕迹。Cortex 保留完整的运行记录：搜索了哪些数据库、候选如何排序、用了哪条替代值、在哪道闸处暂停。审核员、接手项目的下一个人——都能沿着这条痕迹回到原点。',
+      '蜗牛走过的地方，会留下可见的痕迹。审计员、监管机构、法务人员需要的正是这个——一条从最终数字回溯到原始问题的路径，双向可走。Cortex 的痕迹是审计日志：搜索了哪些数据库、候选项如何排序、哪些阈值触发了暂停、从业者在每道闸前做了什么决定。痕迹本身，就是可交付物。',
   },
 ];
 
 const claims = [
   {
-    stat: '约 10 分钟，处理 100 行 BOM',
-    body: '每一行返回带 DQI 评分的候选、来源引用、所有替代值假设的标注。',
+    stat: '跨 12 个数据库并行检索',
+    body: 'HiQLCD、Ecoinvent、EF（环境足迹）、CarbonMinds、天工、World Steel、HiQLCD-AL，以及其他数据库。每条候选项返回 GWP100 值、单位、地理区域和系统模型。受限（需授权）的数据集返回标记，GWP 值在获得访问权限前不展示。返回的是 top-k，不是 top-1。从业者看到的是数据的分布，不是单一答案。',
   },
   {
-    stat: '12 个 LCA 数据库',
-    body: 'HiQLCD、Ecoinvent、EF（环境足迹）、CarbonMinds、天工、World Steel 等——按相关性与数据质量排序，不按字母顺序。',
+    stat: 'DQI 五维评分',
+    body: '时间性、地理性、技术性、完整性、可靠性——即 Pedigree Matrix 在 EF 方法中的操作化。Cortex 归一化到 0–1，分数越高越好。这不是置信区间；这是五个具名维度，从业者可以独立审查每一个。',
   },
   {
     stat: '三道人工确认闸',
-    body: '覆盖率低于 80%、需要替代值、跨库差异超过 2 倍——任意一种情况触发，Cortex 暂停并等待。每道闸都由你决定。没有你的确认，流程不往下走。',
+    body: '覆盖率低于 80%。需要代理值替换。跨库 GWP 差异超过 2×。每道闸触发时，Cortex 暂停，呈现选择，等待。自动化在"沉默的答案会破坏审计"的那一刻停下来。由从业者决定；Cortex 把决定记入推理链。',
   },
 ];
 ---
@@ -89,8 +95,9 @@ const claims = [
   <!-- Hero -->
   <section class="relative overflow-hidden">
     <div class="container-page pt-14 md:pt-20 pb-24 md:pb-32">
+
       <div class="rise rise-1 mb-10 flex items-baseline justify-between border-b border-rule pb-4">
-        <p class="eyebrow">HiQ Cortex · HiQ-AI 出品</p>
+        <p class="eyebrow">HiQ Cortex · LCA 工作台 · HiQ-AI 出品</p>
         <p class="hidden sm:block" style="font-family: 'Newsreader Variable', serif; font-variation-settings: 'opsz' 14; font-style: italic; color: var(--ink-faint); font-size: 0.86rem;">
           卷 01 · 关于慢答案
         </p>
@@ -98,23 +105,24 @@ const claims = [
       </div>
 
       <div class="grid gap-10 md:grid-cols-[1.25fr_1fr] md:gap-14 items-start">
+
         <div class="relative">
           <h1 class="rise rise-2 font-display" style="font-size: clamp(2.4rem, 5.5vw, 4.6rem); line-height: 1.15; letter-spacing: -0.01em; font-variation-settings: 'SOFT' 30, 'opsz' 144; font-weight: 400;">
-            <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">BOM</em> 300 行。<br/>
-            审核员对<span style="color: var(--ink);">每一行</span><br/>
-            <span style="color: var(--ink-faint);">都有问题。</span>
+            <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">LCA 工作台</em>，<br/>
+            每一行都<br/>
+            <span style="color: var(--ink-faint);">经得起追问。</span>
           </h1>
 
-          <p class="rise rise-3 mt-10 max-w-xl font-serif" style="font-size: 1.12rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-            Cortex 跨 <strong style="color: var(--ink); font-weight: 500;">12 个数据库</strong>匹配排放因子，标记数据缺口，导出附带完整来源溯源——每一行都被引用、按 DQI 评分、随时回答审核员的问题。
+          <p class="rise rise-3 mt-10 max-w-xl font-serif italic" style="font-size: 1.12rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
+            跨 <strong style="color: var(--ink); font-weight: 500; font-style: normal;">12 个 LCA 数据库</strong>匹配排放因子，逐行 DQI 评分，在三道人工确认闸前停住。每一份导出，都能说清来路。
           </p>
 
-          <p class="rise rise-4 mt-6 max-w-xl font-serif italic" style="font-variation-settings: 'opsz' 14; color: var(--ink-faint); line-height: 1.7;">
-            它不替代专家。它让专家的判断得以规模化。
+          <p class="rise rise-4 mt-6 max-w-xl font-serif" style="font-size: 0.96rem; line-height: 1.7; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">
+            面向 LCA 从业者、可持续发展团队，以及审计这份工作的审核员。
           </p>
 
           <div class="rise rise-5 mt-12 flex flex-wrap items-center gap-4">
-            <a href="/zh/solutions/bom-matching" class="ticket">查看 BOM 演示 <span aria-hidden="true">→</span></a>
+            <a href="/zh/solutions/bom-matching" class="ticket">查看 BOM 匹配流程 <span aria-hidden="true">→</span></a>
             <a href="/chat" class="ticket-ghost">试用 Cortex Chat</a>
           </div>
         </div>
@@ -126,11 +134,11 @@ const claims = [
           <div class="margin-note mt-6 md:mt-10 grid gap-4 sm:grid-cols-2">
             <div>
               <span class="eyebrow block mb-2">图一</span>
-              蜗牛不跳步。推理链也不跳。
+              <em>Cornu aspersum</em>：一座随身携带的房子。壳里是数据来源，痕迹里是推理过程。
             </div>
             <div>
               <span class="eyebrow block mb-2">图二</span>
-              每一行：一个问题。每一个答案：来源、版本、假设，全都附上。
+              12 个数据库。DQI 五维。三道确认闸。一次对话。
             </div>
           </div>
         </aside>
@@ -141,9 +149,9 @@ const claims = [
   <!-- §II 三扇门 -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="三扇门" numeral="II" title="Cortex Chat 和 Cortex Cowork 共享同一个引擎。" />
+      <SectionMark kicker="三扇门" numeral="II" title="工作内容不同，底层引擎相同。选那扇属于你的门。" />
       <p class="max-w-2xl font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        走哪扇门，取决于你面前的工作是什么。
+        Cortex 覆盖 LCA 从业者的整个工作日——从单条物料查询，到多周 CBAM 申报。三类受众，三个入口。
       </p>
 
       <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
@@ -159,19 +167,18 @@ const claims = [
     </div>
   </section>
 
-  <!-- §III 两个产品 -->
+  <!-- §III 两款产品 -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="是什么" numeral="III" title="一个 Cortex。两个产品。" />
-      <p class="max-w-2xl font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Cortex Chat 处理对话——单次问答、BOM 上传、跨库对比。Cortex Cowork 处理项目——本地文件、跨会话记忆、代理执行。底层是同一个引擎，界面因工作场景而不同。
-      </p>
+      <SectionMark kicker="同一引擎，两个界面" numeral="III" title="Chat 答问题；Cowork 跑流程。" />
 
       <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
         {products.map((p) => (
           <article class="p-10 md:p-12 flex flex-col gap-5" style="background: var(--paper);">
+            <p class="eyebrow" style="color: var(--shell);">{p.label}</p>
             <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.7rem, 2.8vw, 2.3rem); line-height: 1.1; letter-spacing: -0.015em;">{p.name}</h3>
-            <p class="font-serif" style="line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1.02rem;">{p.pitch}</p>
+            <p class="font-serif" style="line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1rem;">{p.body}</p>
+            <p class="font-mono" style="font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-faint);">{p.proof}</p>
             <div class="mt-auto flex flex-wrap items-center gap-4 pt-4">
               <a href={p.primary.href} class="ticket">{p.primary.label} <span aria-hidden="true">→</span></a>
               <a href={p.secondary.href} class="smallcaps" style="text-decoration: none; color: var(--ink-mute);">{p.secondary.label} →</a>
@@ -185,9 +192,10 @@ const claims = [
   <!-- §IV 为什么是蜗牛 -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="为什么是蜗牛" numeral="IV" title="我们刻意选了一个跟火箭相反的符号。" />
+      <SectionMark kicker="为什么是蜗牛" numeral="IV" title="HiQ-AI 刻意选了火箭的反面。" />
+
       <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        业内的 AI 形象通常是闪电和神经元——快、强、无所不知。我们选了蜗牛。理由如下。
+        LCA 不是火箭行业。一份 CBAM 申报或 EPD 背后，每一个数字都要经得住读过 ISO 14044 的审计员的审查——他们专门在找那一行站不住的数据。
       </p>
 
       <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
@@ -198,7 +206,7 @@ const claims = [
               <span class="eyebrow">{q.key}</span>
             </div>
             <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.1; letter-spacing: -0.015em;">{q.key}</h3>
-            <p class="font-serif" style="line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.98rem;">{q.body}</p>
+            <p class="font-serif" style="line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{q.body}</p>
           </article>
         ))}
       </div>
@@ -207,18 +215,18 @@ const claims = [
 
       <blockquote class="mx-auto max-w-3xl text-center">
         <p class="pullquote">
-          Cortex 在后端做的是最快的事。它交付出来的，始终是最慢的事：
-          <em style="color: var(--shell); font-style: italic;">一条能被逐行复核的推理链。</em>
+          Cortex 在后端做的是最快的事。但它对外交付的始终是最慢的那件：
+          <em style="color: var(--shell); font-style: italic;">一条能被逐条复核的推理链。</em>
         </p>
-        <footer class="eyebrow mt-6">慢，是我们能给出的最重要的承诺。</footer>
+        <footer class="eyebrow mt-6">慢，是 HiQ-AI 能给出的最重要的承诺。</footer>
       </blockquote>
     </div>
   </section>
 
-  <!-- §V 三条能力声明 -->
+  <!-- §V 三条声明 -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="你实际得到什么" numeral="V" title="三条能力声明。每一条都可以从 Cortex 今天的实际运作中验证。" />
+      <SectionMark kicker="壳里装着什么" numeral="V" title="三条声明，每一条都能从 Cortex 的工作方式里验证。" />
 
       <div class="mt-12 border-y border-rule">
         {claims.map((c, i) => (
@@ -240,12 +248,15 @@ const claims = [
         从一个问题开始。
       </h2>
       <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.1rem; line-height: 1.75; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Cortex Chat 接受材料名称、BOM 中的一行，或一个标准问题，返回带来源溯源的排序数据集。不需要配置表格，不需要数据库授权才能提问。
+        粘贴一个物料名称。上传一份 BOM。询问那个排放因子对中国供应商是否适用。Cortex 给出答案——并展示推导过程。不需要配置表格。发问不需要数据库许可证。
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
         <a href="/chat" class="ticket">试用 Cortex Chat <span aria-hidden="true">→</span></a>
-        <a href="mailto:info@hiqlcd.com" class="ticket-ghost">联系我们</a>
+        <a href="/zh/methodology" class="ticket-ghost">阅读方法论</a>
       </div>
+      <p class="mt-6 font-mono" style="font-size: 0.78rem; letter-spacing: 0.06em; color: var(--ink-faint);">
+        <a href="mailto:info@hiqlcd.com" style="color: var(--ink-faint); text-decoration: none;">info@hiqlcd.com</a>
+      </p>
     </div>
   </section>
 

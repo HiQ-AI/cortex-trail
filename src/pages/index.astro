@@ -4,30 +4,30 @@ import SnailGlyph from '@/components/SnailGlyph.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
-const title = 'HiQ Cortex — A reasoning layer above every LCA database';
+const title = 'HiQ Cortex — An LCA workbench you can defend, line by line.';
 const description =
-  'Cortex matches emission factors across twelve databases, flags gaps, and exports with full provenance — every row sourced, DQI-scored, and ready for an auditor question.';
+  'Match emission factors across twelve LCA databases. Score every candidate by DQI. Stop at the three gates where automation breaks an audit. Every export, defendable.';
 
-// §II — Audience routing (3 persona doors)
+// §II — Audience routing (3 doors)
 const audiences = [
   {
-    label: 'For LCA consultants',
+    label: 'For LCA consultants and verifiers',
     body:
-      'Your 60% is database lookup. Cortex compresses it: ask in Chinese or English, get DQI-scored candidates across HiQLCD and Ecoinvent, with every proxy assumption attached.',
+      'The hours spent moving between database tabs compress to a conversation. Cortex searches twelve databases in parallel, returns DQI-scored candidates per row, flags gaps before your verifier does. Methodology Q&A cites the dataset record, not a paraphrase.',
     href: '/solutions/bom-matching',
     cta: 'See BOM matching',
   },
   {
     label: 'For sustainability and CBAM teams',
     body:
-      "Your auditor wants the reasoning, not the number. Cortex pauses at three HITL gates — coverage, proxy, cross-db spread — so every proxy decision has a name, not a footnote.",
+      "CBAM filings require embedded-emissions evidence your suppliers haven't filed yet. Cortex prepares the emission-factor and proxy-justification material Annex IV requires. It supports all 15 GHG Protocol Scope 3 categories and preserves system-model metadata so the declaration reads correctly, not approximately.",
     href: '/methodology',
     cta: 'Read the methodology',
   },
   {
     label: 'For developers building on LCA data',
     body:
-      'Four protocols: REST, MCP, AG-UI, A2A. One API key. Embed LCA retrieval in your own product without rebuilding the search layer.',
+      'The same reasoning engine behind Cortex Chat and Cortex Cowork is reachable via four protocols: REST, MCP, AG-UI, A2A. Integrate dataset retrieval, DQI scoring, and the three HITL gates into your own workflow, your own interface, your own output format.',
     href: 'https://docs.x.hiq.earth',
     cta: 'Read the API docs',
   },
@@ -37,53 +37,59 @@ const audiences = [
 const products = [
   {
     name: 'Cortex Chat',
-    pitch: 'LCA data retrieval, in a conversation. Ask in Chinese or English — results come back ranked, DQI-scored, and sourced.',
+    label: 'CORTEX CHAT · WEB',
+    body:
+      'Bring a material name, a BOM row, or a standards question. Cortex asks one clarifying question — alloy grade, production route, region — then searches twelve databases and returns top-k candidates with GWP100 and DQI scored across all five dimensions. No spreadsheet setup.',
+    proof: 'material query · ~2 min · ranked datasets with provenance',
     primary: { href: '/chat', label: 'Open Cortex Chat' },
     secondary: { href: '/product/chat', label: 'Product overview' },
   },
   {
     name: 'Cortex Cowork',
-    pitch: 'The desktop agent that stays with your LCA project — across sessions, across restarts, across handoffs.',
-    primary: { href: 'https://github.com/HiQ-AI/cortex-desktop/releases/latest', label: 'Download for macOS' },
+    label: 'CORTEX COWORK · DESKTOP',
+    body:
+      "LCA projects span weeks. CBAM filings have document trails. Cowork keeps state across sessions — project workspace, decision log, citation history, six-layer memory that makes Monday's proxy substitution reviewable on Friday. Reads files from disk, runs local tools, drives openLCA from a single conversation.",
+    proof: 'multi-session project · full provenance · exportable reasoning chain',
+    primary: { href: 'https://github.com/HiQ-AI/cortex-desktop/releases/latest', label: 'Download Cortex Desktop' },
     secondary: { href: '/product/cowork', label: 'Product overview' },
   },
 ];
 
-// §IV — Snail triptych
+// §IV — Snail triptych (Slow / Shell / Trail)
 const qualities = [
   {
     numeral: 'I',
     key: 'Slow',
     body:
-      'Speed in LCA is a trap. The CBAM verifier does not want an answer — she wants the reasoning behind the answer. Cortex does not skip the system-boundary discussion to hand you a number. Slow is the discipline that keeps the output auditable.',
+      'LCA is not slow because the tools are old. It is slow because the questions are hard: system boundary, allocation method, proxy justification, cross-database spread. Rushing past those questions produces a number that breaks under the first follow-up. Cortex does not skip them. The three gates — coverage below 80%, proxy required, cross-database spread above 2× — are not friction. They are the moments where a fast answer would break an audit.',
   },
   {
     numeral: 'II',
     key: 'Shell',
     body:
-      'A snail carries everything it needs. Cortex works the same way: every dataset returned carries its source, its version, its system model, and its DQI scores — Temporal, Geographic, Technology, Completeness, Reliability. The output is not a number. It is a package you can hand to an auditor.',
+      'Every answer Cortex returns includes the dataset cited, the system model preserved, the proxy assumption named, the DQI dimension scores attached. That package — the shell — travels with the output. The auditor who opens the export three months later sees the same reasoning chain the practitioner ran in the conversation.',
   },
   {
     numeral: 'III',
     key: 'Trail',
     body:
-      'A snail leaves a mark on everything it touches. Cortex keeps the full trail: which databases were searched, which candidates were ranked, which proxy was chosen and why, which gate paused the run. The auditor and the next practitioner can walk it back to the origin.',
+      "A snail leaves a visible mark on everything it crosses. Auditors, regulators, and internal reviewers need exactly that — a path from the final number back to the original question, passable in either direction. Cortex's trail is the audit log: which databases were searched, which candidates were ranked, which thresholds paused the run, what the practitioner decided at each gate. The trail is the deliverable.",
   },
 ];
 
-// §V — Trust signal (capability claims, all verifiable)
+// §V — Trust signal
 const claims = [
   {
-    stat: '~10 min for a 100-row BOM',
-    body: 'Each row returns DQI-scored candidates, source citations, and every proxy assumption named.',
+    stat: 'Twelve databases searched in parallel',
+    body: 'HiQLCD, Ecoinvent, EF (Environmental Footprint), CarbonMinds, Tiangong, World Steel, HiQLCD-AL, and others. Each candidate returns GWP100 value, unit, geographic region, and system model. Restricted datasets return a marker; GWP is withheld until the user has access. Top-k, not top-1. The practitioner sees the spread.',
   },
   {
-    stat: 'Twelve LCA databases',
-    body: 'HiQLCD, Ecoinvent, EF (Environmental Footprint), CarbonMinds, Tiangong, World Steel, and more — ranked by relevance and data quality, not alphabetically.',
+    stat: 'Five DQI dimensions, scored per candidate',
+    body: 'Temporal, Geographic, Technology, Completeness, Reliability — the Pedigree Matrix operationalized per EF method. Cortex normalizes to 0–1 with higher scoring as better. The score is not a confidence interval; it is five named dimensions the practitioner can audit independently.',
   },
   {
-    stat: 'Three human-in-the-loop gates',
-    body: 'Cortex pauses when coverage drops below 80%, when a proxy is required, or when cross-database spread exceeds 2×. You decide at each gate. Nothing proceeds without you.',
+    stat: 'Three gates where a human decides',
+    body: 'Coverage below 80%. Proxy substitution required. Cross-database GWP spread above 2×. At each gate, Cortex pauses, surfaces the choice, and waits. The automation stops at the moment where a silent answer would break an audit. The practitioner decides; Cortex records the decision in the reasoning chain.',
   },
 ];
 ---
@@ -95,7 +101,7 @@ const claims = [
     <div class="container-page pt-14 md:pt-20 pb-24 md:pb-32">
 
       <div class="rise rise-1 mb-10 flex items-baseline justify-between border-b border-rule pb-4">
-        <p class="eyebrow">HiQ Cortex · A product of HiQ-AI</p>
+        <p class="eyebrow">HiQ Cortex · An LCA workbench by HiQ-AI</p>
         <p class="hidden sm:block" style="font-family: 'Newsreader Variable', serif; font-variation-settings: 'opsz' 14; font-style: italic; color: var(--ink-faint); font-size: 0.86rem;">
           Vol. 01 · On the slow answer
         </p>
@@ -106,17 +112,17 @@ const claims = [
 
         <div class="relative">
           <h1 class="rise rise-2 font-display" style="font-size: clamp(2.6rem, 6vw, 5rem); line-height: 1.05; letter-spacing: -0.025em; font-variation-settings: 'SOFT' 30, 'opsz' 144; font-weight: 400;">
-            Your <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80, 'opsz' 144;">BOM</em> has 300 rows.<br/>
-            Your <span style="color: var(--ink);">auditor</span> has questions about<br/>
-            <span style="color: var(--ink-faint);">all of them.</span>
+            An <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80, 'opsz' 144;">LCA workbench</em><br/>
+            you can defend,<br/>
+            <span style="color: var(--ink-faint);">line by line.</span>
           </h1>
 
-          <p class="rise rise-3 mt-10 max-w-xl font-serif" style="font-size: 1.14rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink);">
-            Cortex matches emission factors across <strong style="color: var(--ink); font-weight: 500;">twelve databases</strong>, flags gaps, and exports with full provenance — every row sourced, DQI-scored, and ready for an auditor question.
+          <p class="rise rise-3 mt-10 max-w-xl font-serif italic" style="font-size: 1.14rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink);">
+            Match emission factors across <strong style="color: var(--ink); font-weight: 500; font-style: normal;">twelve LCA databases</strong>. Score every candidate by DQI. Stop at the three gates where automation breaks an audit. Every export, defendable.
           </p>
 
-          <p class="rise rise-4 mt-6 max-w-xl font-serif italic" style="font-variation-settings: 'opsz' 14; color: var(--ink-faint);">
-            It does not replace experts. It scales their judgment.
+          <p class="rise rise-4 mt-6 max-w-xl font-serif" style="font-size: 0.96rem; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">
+            For LCA practitioners, sustainability teams, and the auditors who review their work.
           </p>
 
           <div class="rise rise-5 mt-12 flex flex-wrap items-center gap-4">
@@ -132,11 +138,11 @@ const claims = [
           <div class="margin-note mt-6 md:mt-10 grid gap-4 sm:grid-cols-2">
             <div>
               <span class="eyebrow block mb-2">fig. 1</span>
-              The snail does not skip steps. Neither does the reasoning chain.
+              <em>Cornu aspersum</em>, rendered as a house you take everywhere. Shell carries the sources. Trail carries the reasoning.
             </div>
             <div>
               <span class="eyebrow block mb-2">fig. 2</span>
-              Each row: one question. Each answer: source, version, assumption attached.
+              Twelve databases. Five DQI dimensions. Three gates. One conversation.
             </div>
           </div>
         </aside>
@@ -147,9 +153,9 @@ const claims = [
   <!-- ═══ §II Audience routing ═══ -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Three doors in" numeral="II" title="Cortex Chat and Cortex Cowork serve the same engine." />
-      <p class="max-w-2xl font-serif" style="font-size: 1.1rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Which door depends on the work in front of you.
+      <SectionMark kicker="Three doors in" numeral="II" title="Different work, same engine. Pick the door that matches yours." />
+      <p class="max-w-2xl font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Cortex spans the LCA practitioner's day from a single material lookup to a multi-week CBAM filing. Three audiences, three entry points.
       </p>
 
       <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
@@ -157,7 +163,7 @@ const claims = [
           <article class="p-8 md:p-10 flex flex-col gap-5" style="background: var(--paper);">
             <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.1rem;">§ {String(i + 1).padStart(2, '0')}</span>
             <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 40; font-size: 1.4rem; line-height: 1.15; letter-spacing: -0.01em;">{a.label}</h3>
-            <p class="font-serif" style="line-height: 1.55; font-variation-settings: 'opsz' 17; color: var(--ink); font-size: 0.98rem;">{a.body}</p>
+            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 17; color: var(--ink); font-size: 0.96rem;">{a.body}</p>
             <a href={a.href} class="mt-auto smallcaps" style="text-decoration: none; color: var(--shell);">{a.cta} →</a>
           </article>
         ))}
@@ -168,16 +174,15 @@ const claims = [
   <!-- ═══ §III Two products ═══ -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="What it is" numeral="III" title="One Cortex. Two products." />
-      <p class="max-w-2xl font-serif" style="font-size: 1.1rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Cortex Chat handles conversations — single-session questions, BOM uploads, cross-database comparison. Cortex Cowork handles projects — local files, multi-session memory, agentic execution. Same engine underneath. Different surface for different work.
-      </p>
+      <SectionMark kicker="One engine, two surfaces" numeral="III" title="Chat answers questions. Cowork runs workflows." />
 
       <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
         {products.map((p) => (
           <article class="p-10 md:p-12 flex flex-col gap-5" style="background: var(--paper);">
+            <p class="eyebrow" style="color: var(--shell);">{p.label}</p>
             <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.8rem, 3vw, 2.4rem); line-height: 1.05; letter-spacing: -0.02em;">{p.name}</h3>
-            <p class="font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1.05rem;">{p.pitch}</p>
+            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1rem;">{p.body}</p>
+            <p class="font-mono" style="font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-faint);">{p.proof}</p>
             <div class="mt-auto flex flex-wrap items-center gap-4 pt-4">
               <a href={p.primary.href} class="ticket">{p.primary.label} <span aria-hidden="true">→</span></a>
               <a href={p.secondary.href} class="smallcaps" style="text-decoration: none; color: var(--ink-mute);">{p.secondary.label} →</a>
@@ -193,8 +198,8 @@ const claims = [
     <div class="container-page py-20 md:py-28">
       <SectionMark kicker="Why a snail" numeral="IV" title="We picked the opposite of a rocket, on purpose." />
 
-      <p class="max-w-3xl font-serif" style="font-size: 1.1rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Every AI company chose a lightning bolt. We chose a snail. Here is the argument.
+      <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        The LCA field is not a rocket industry. Every number in a CBAM filing, an EPD, or a Scope 3 report has to survive the scrutiny of an auditor who has read ISO 14044 and is looking for the row that doesn't hold.
       </p>
 
       <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
@@ -205,7 +210,7 @@ const claims = [
               <span class="eyebrow">{q.key}</span>
             </div>
             <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.05; letter-spacing: -0.015em;">{q.key}</h3>
-            <p class="font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.98rem;">{q.body}</p>
+            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{q.body}</p>
           </article>
         ))}
       </div>
@@ -225,14 +230,14 @@ const claims = [
   <!-- ═══ §V Trust signal ═══ -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="What you actually get" numeral="V" title="Three claims. All provable from how Cortex works today." />
+      <SectionMark kicker="What's under the shell" numeral="V" title="Three claims. Each provable from how Cortex works." />
 
       <div class="mt-12 border-y border-rule">
         {claims.map((c, i) => (
           <article class="grid items-baseline gap-6 py-10 border-b border-rule last:border-b-0 md:grid-cols-[5rem_minmax(0,_1fr)_minmax(0,_1.4fr)] md:gap-12">
             <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.6rem;">§ {String(i + 1).padStart(2, '0')}</span>
             <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 40; font-size: clamp(1.3rem, 2.4vw, 1.8rem); line-height: 1.1; letter-spacing: -0.015em;">{c.stat}</div>
-            <p class="font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink-mute); font-size: 0.98rem;">{c.body}</p>
+            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink-mute); font-size: 0.98rem;">{c.body}</p>
           </article>
         ))}
       </div>
@@ -247,12 +252,15 @@ const claims = [
         Start with one question.
       </h2>
       <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.12rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Cortex Chat takes a material name, a BOM row, or a standards question and returns ranked datasets with provenance. No spreadsheet setup. No database license required to ask.
+        Paste a material name. Upload a BOM. Ask whether that emission factor holds for a Chinese supplier. Cortex answers — and shows its work. No spreadsheet setup. No database license required to ask.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
         <a href="/chat" class="ticket">Try Cortex Chat <span aria-hidden="true">→</span></a>
-        <a href="mailto:info@hiqlcd.com" class="ticket-ghost">Contact us</a>
+        <a href="/methodology" class="ticket-ghost">Read the methodology</a>
       </div>
+      <p class="mt-6 font-mono" style="font-size: 0.78rem; letter-spacing: 0.06em; color: var(--ink-faint);">
+        <a href="mailto:info@hiqlcd.com" style="color: var(--ink-faint); text-decoration: none;">info@hiqlcd.com</a>
+      </p>
     </div>
   </section>
 
