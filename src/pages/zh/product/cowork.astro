@@ -19,15 +19,15 @@ const scenarios = [
     label: 'BOM 清单处理',
     before: '打开 Excel + 逐条查数据库 + 手动记录',
     after:  '上传 BOM，自动识别材料、跨库匹配、补全缺失数据集——每条匹配都附来源',
-    detail: 'Cortex 从磁盘直接读取你的 BOM 文件，对每一行并行检索 HiQLCD、Ecoinvent 和 EF，标记覆盖率低于阈值的行，把匹配到的 GWP 值、来源和 DQI 写回新的 Excel 文件。不用复制粘贴，不用来回切标签页。',
-    proof:  'BOM.xlsx → 并行检索 → 每行：GWP · 来源 · DQI',
+    detail: 'Cortex 从磁盘直接读取你的 BOM 文件，对每一行跨 HiQLCD、Ecoinvent、EF 等 12 个数据库并行检索，标记覆盖率低于阈值的行，把匹配到的 GWP100 值、来源和 DQI 写回新的 Excel 文件。不用复制粘贴，不用来回切标签页。',
+    proof:  'BOM.xlsx → 并行检索 → 每行：GWP100 · 来源 · DQI',
   },
   {
     numeral: 'II',
     label: 'Scope 3 计算',
     before: '查 GHG Protocol + 问 AI + 手动归类',
     after:  '只需收集数据，Cortex 自动归类、建议数据收集清单，并进行计算分析',
-    detail: '全部 15 个 GHG Protocol Scope 3 类别均支持，涵盖上游、下游和使用阶段分类，含避免排放抵扣（Category 13 / C5）。输出是含分类合计与因子来源的计算文件，不是黑盒数字。',
+    detail: '全部 15 个 GHG Protocol Scope 3 类别均支持。Cortex 处理上游、下游和使用阶段分类——类别 1（采购商品与服务）支持 BOM 行级别的因子匹配，其他类别提供因子识别与数据收集清单辅助。输出是含分类合计与因子来源的计算文件，不是黑盒数字。',
     proof:  '活动数据 → 15 类别 · 因子匹配 · 计算结果',
   },
   {
@@ -36,15 +36,15 @@ const scenarios = [
     before: '学软件操作 + 手动搭建流程 + 翻文档',
     after:  '直接说需求，Cortex 操控 openLCA 完成建模与计算',
     detail: 'Cortex 不替代 openLCA、SimaPro、GaBi、积木 LCA——与之协作。启动 openLCA 的 IPC Server，把 Cowork 指向你的 BOM 文件，用自然语言描述目标。Cortex 处理数据集匹配、产品系统构建、循环引用消解和结果导出。你的 openLCA 实例是模型，Cortex 是操作者。',
-    proof:  'openLCA IPC → 数据集匹配 → 产品系统搭建 → 结果导出',
+    proof:  'openLCA → 数据集匹配 → 产品系统搭建 → 结果导出',
   },
   {
     numeral: 'IV',
     label: 'EPD 报告生成',
     before: '找模板 + 从软件复制数据 + 填写 Word',
-    after:  '会话触发，自动套用规范模板，输出完整 EPD 报告',
-    detail: '输出遵循 EPD 标准结构。Cortex 从计算结果中提取声明单位、系统边界、参考流和 LCIA 结果，格式化为可供审核的 .docx 文件。不用重新排版，不用二次录入。',
-    proof:  '计算结果 → EPD 模板套用 → .docx 报告输出',
+    after:  '一次会话触发，Cortex 套用规范模板从计算结果中拉取数据，生成遵循 EPD 标准结构的 .docx 文件',
+    detail: 'Cortex 从计算结果中提取声明单位、系统边界、参考流和 LCIA 结果，格式化为遵循 EPD 标准结构的 .docx 文件。产品类别规则（PCR）的选择和第三方核查仍是从业者的工作。不用重新排版，不用二次录入。',
+    proof:  '计算结果 → EPD 结构套用 → .docx 输出 · PCR 由从业者负责',
   },
 ];
 

@@ -94,7 +94,7 @@ const description =
         <article class="font-serif" style="line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink);">
           <div class="eyebrow mb-3" style="color: var(--shell);">慢</div>
           <p>
-            蜗牛最显眼的特质是不赶路。它不会为了更快抛出数字而跳过系统边界的讨论，不会把三个相互竞争的替代值折叠成一个而不标明分歧。Cortex 在后端做的是最快的事：跨 12 个数据库的并行检索、并行工具调用、大规模 LLM 推理。但它对外交付的始终是最慢的事：一条推理链，能被逐条复核，假设挨个可查。
+            "慢"在营销上是逆风。同行卖的是"快"。我们卖的是相反的那一面——而且把它当承诺，不是当短板。慢不在系统响应，慢在工作纪律：那场不会被跳过的边界讨论、那个不会被平均掉的代理值分歧、那个一次就答到位的核查员问题。检索可以快，推理必须慢。两者属于同一个工具。
           </p>
           <p class="mt-4 font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 60, 'opsz' 24; font-size: 1.05rem;">
             慢，是我们能给出的最重要的承诺。
@@ -104,20 +104,20 @@ const description =
         <article class="font-serif" style="line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink);">
           <div class="eyebrow mb-3" style="color: var(--shell);">壳</div>
           <p>
-            蜗牛驮着壳，走到哪里都带着自己的来源。Cortex 的工作方式与此相同：每条引用的数据集、每个替代值的假设、每次版本切换的记录，都留在答案里一起交付。没有出处就没有输出。
+            蜗牛的壳同时是它的责任。它没法把家丢在身后。它去过的每一个地方，都带着同一副结构在背上。我们选壳，是因为 LCA 工作要求同样的姿态：来源、假设、代理值的注释、系统模型——这些不是事后再补的元数据。它们就是答案的一部分。一个不带这些一起到的数字，在任何能站住脚的意义上，都还没真正抵达。
           </p>
           <p class="mt-4 font-serif italic" style="font-variation-settings: 'opsz' 14; color: var(--ink-mute); font-size: 0.96rem;">
-            壳不是装饰——它是"这个答案可以被核查"的证据本身。
+            壳是答案的责任本身——不是它的包装。
           </p>
         </article>
 
         <article class="font-serif" style="line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink);">
           <div class="eyebrow mb-3" style="color: var(--shell);">痕</div>
           <p>
-            蜗牛爬过的地方，都留下可见的痕迹。审计员、监管机构和内部评审需要的恰恰是这个：一条从最终数字回到原始问题的完整路径，两个方向都走得通。Cortex 的痕迹是完整的审计日志：检索了哪些数据库、返回了哪些候选、哪个阈值触发了暂停、从业者在每个节点做了什么判断。
+            我们把"痕"选作第三个意象，是因为那是蜗牛身上唯一让外人能看见的部分。蜗牛的痕迹是公开的。任何人都能沿着它走，正反方向都行，无须许可。这就是我们觉得 Cortex 该交付的东西：不是一道墙后面的数字，而是一条穿过工作的路径——可被你的核查员、下个季度接手项目的同事、2027 年回头要为 2024 年那次申报辩护的未来的你，逐步走完。痕迹比留下它的人活得更久。
           </p>
           <p class="mt-4 font-serif italic" style="font-variation-settings: 'opsz' 14; color: var(--ink-mute); font-size: 0.96rem;">
-            痕迹本身就是交付物。
+            痕迹比对话本身活得更久。这是设计的本意。
           </p>
         </article>
       </div>
@@ -126,9 +126,9 @@ const description =
 
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-16 md:py-20">
-      <SectionMark kicker="开放接口" numeral="IV" title="四种协议，一把 API key。" />
+      <SectionMark kicker="对外开放" numeral="IV" title="同一接入面，对外暴露。" />
       <p class="max-w-3xl font-serif" style="font-size: 1.06rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Cortex 通过四个协议完整开放其检索与推理能力：<strong style="font-weight: 500;">REST</strong> 用于直接 HTTP 集成，<strong style="font-weight: 500;">MCP</strong> 用于工具调用兼容客户端，<strong style="font-weight: 500;">AG-UI</strong> 用于流式智能体接口，<strong style="font-weight: 500;">A2A</strong> 用于智能体间任务传递。Cortex Chat 和 Cortex Cowork 中可用的所有能力，均可通过 API 访问——产品本身建立在它对外暴露的同一个接口层之上。完整参考文档及接入说明见 <a href="https://docs.x.hiq.earth">docs.x.hiq.earth</a>。
+        Cortex Chat 和 Cortex Cowork 都建立在 Cortex 的 API 之上。这两个产品能做的事，集成方都能做——通过 <strong style="font-weight: 500;">REST</strong>、<strong style="font-weight: 500;">MCP</strong>、<strong style="font-weight: 500;">AG-UI</strong> 或 <strong style="font-weight: 500;">A2A</strong>。参考、示例、认证：<a href="/zh/docs">/zh/docs</a>。
       </p>
     </div>
   </section>

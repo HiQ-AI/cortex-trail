@@ -1,0 +1,195 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Asterism from '@/components/Asterism.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = '方法学 — HiQ Cortex';
+const description =
+  'Cortex 如何产出可被审计的 LCA 答案：数据来源、DQI 评分、代理值策略、人工审核节点、以及标准对齐。';
+
+const principles = [
+  {
+    heading: '数字来自工具，不来自模型。',
+    body:
+      'GWP 值、DQI 评分和数据集说明来自经过整理的数据库。LLM 负责问题解析、候选排序和解释——不生成排放因子。',
+  },
+  {
+    heading: '领域知识用于解释，不用于伪造数据。',
+    body:
+      '当 Cortex 说"1040 通常用于汽车板簧"，那是解释。当 Cortex 说因子是 2.31 kgCO₂e/kg，那来自一条可点击、可溯源的数据集记录。',
+  },
+  {
+    heading: '受限数据保持受限。',
+    body:
+      '对用户尚未授权访问的商业数据集，Cortex 返回如实的"⛔ 无访问权限"标记——而不是用一个文献值替换、伪装成数据。',
+  },
+  {
+    heading: '推理链是交付物的一部分。',
+    body:
+      '每一份 Excel 导出都附带匹配类型、代理值说明和来源 URL。下游审查者不需要重跑系统，就能复核或质疑任何一行。',
+  },
+];
+
+const sources = [
+  { name: 'HiQLCD',                      coverage: '中国为主的一手数据；材料、工艺、供应链代理值' },
+  { name: 'Ecoinvent',                   coverage: '全球 LCI，cut-off 与 APOS 系统模型' },
+  { name: 'EF (Environmental Footprint)', coverage: '欧盟授权数据集，PEF 与 CBAM 范围' },
+  { name: 'CarbonMinds',                 coverage: '化学品与高分子，工艺级颗粒度' },
+  { name: '行业二手来源',                coverage: '供应商出具的 EPD 与已核查 PCF，按需接入' },
+];
+
+const dqi = [
+  { label: '时间性',     body: '数据集的参考年是否在目标时间窗内？' },
+  { label: '地理性',     body: '区域与 BOM 行匹配，还是合理代理？' },
+  { label: '技术性',     body: '生产路线匹配——BF-BOF 还是 EAF，原生还是回收料？' },
+  { label: '完整性',     body: '上游 cradle-to-gate 步骤是否建模，还是被剔除？' },
+  { label: '可靠性',     body: '来源类型：实测、计算、专家估算、还是文献。' },
+];
+
+const gates = [
+  {
+    trigger: '覆盖率低于 80%',
+    action: 'Cortex 暂停，列出未匹配的行及候选数据集。用户决定：扩大数据库范围、接受代理值、或暂缓。',
+  },
+  {
+    trigger: '需要代理值替换',
+    action: 'Cortex 明确指出代理：哪一个数据集，差在何处（区域 / 工艺 / DQI），偏差对结果意味着什么。用户确认或替换。',
+  },
+  {
+    trigger: '跨数据库差异 > 2 倍',
+    action: '同一材料在不同数据库返回的因子差异超过 2 倍时，Cortex 把分歧暴露出来，而不是静默取均值。',
+  },
+];
+
+const standards = [
+  { code: 'ISO 14067',   note: '产品碳足迹——边界、分摊、报告' },
+  { code: 'ISO 14044',   note: 'LCA 要求与指南——工具与审核员的共同技术基础' },
+  { code: 'GHG Protocol', note: '产品生命周期核算与报告标准' },
+  { code: 'PEF / EF 3.1', note: '欧盟产品环境足迹方法及 EF 数据集' },
+  { code: 'CBAM',         note: '嵌入式排放申报的排放因子选择' },
+];
+---
+
+<BaseLayout title={title} description={description} locale="zh">
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">方法学</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.15; letter-spacing: -0.01em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 22ch;">
+        Cortex 如何产出经得起追问的答案。
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.15rem; line-height: 1.75; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        面向核查员、审计员与采购团队：在采信 Cortex 产出的数字之前，先了解它实际做了什么。
+      </p>
+    </div>
+  </section>
+
+  <!-- Principles -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="第一节" numeral="I" title="原则" />
+      <div class="grid gap-10 md:grid-cols-2">
+        {principles.map((p, i) => (
+          <article class="relative pl-8 border-l border-rule">
+            <span class="absolute -left-[1px] top-0 font-display italic" style="background: var(--paper); color: var(--shell); padding: 0 0.4rem 0 0; transform: translateX(-50%); font-variation-settings: 'SOFT' 40, 'opsz' 24; font-size: 0.95rem;">§{i + 1}</span>
+            <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 40; font-size: 1.3rem; line-height: 1.3; letter-spacing: -0.005em;">{p.heading}</h3>
+            <p class="mt-3 font-serif" style="line-height: 1.8; font-variation-settings: 'opsz' 18; color: var(--ink);">{p.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Data sources -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="第二节" numeral="II" title="数据来源" />
+      <p class="max-w-2xl font-serif" style="font-size: 1.08rem; line-height: 1.75; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Cortex 检索 12 个经过整理的 LCI 与 LCA 数据库，每一个都按其自有的单位、区域和系统模型词汇建索引。绝不盲目合并。下方列出的 5 个是最常被引用的；其余数据库同步并行检索，命中时按候选排序浮上来。
+      </p>
+      <div class="mt-10">
+        {sources.map((s, i) => (
+          <div class="row-line">
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 24; font-size: 1.05rem; letter-spacing: -0.005em;">{s.name}</div>
+              <div class="mt-1 font-serif italic" style="font-variation-settings: 'opsz' 14; color: var(--ink-faint); font-size: 0.92rem;">{s.coverage}</div>
+            </div>
+            <span class="font-mono" style="font-size: 0.7rem; color: var(--ink-whisper); letter-spacing: 0.06em;">来源</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- DQI -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="第三节" numeral="III" title="数据质量指标（DQI）" />
+      <p class="max-w-2xl font-serif" style="font-size: 1.08rem; line-height: 1.75; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Cortex 用 DQI 作为唯一的置信度词汇，因为这正是核查员已经在用的语言。任何一个维度的低分都会出现在导出文件里——不会被一个概率值悄悄盖住。
+      </p>
+      <div class="mt-10 grid gap-px overflow-hidden border border-rule md:grid-cols-5" style="background: var(--rule);">
+        {dqi.map((d, i) => (
+          <div class="p-6 flex flex-col gap-3" style="background: var(--paper);">
+            <div class="flex items-baseline justify-between">
+              <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1rem;">§ {i + 1}</span>
+              <span class="eyebrow">维度</span>
+            </div>
+            <h4 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 24; font-size: 1.05rem; letter-spacing: -0.005em;">{d.label}</h4>
+            <p class="font-serif" style="font-size: 0.9rem; line-height: 1.65; font-variation-settings: 'opsz' 14; color: var(--ink-mute);">{d.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- HITL gates -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="第四节" numeral="IV" title="人工审核节点" />
+      <p class="max-w-2xl font-serif" style="font-size: 1.08rem; line-height: 1.75; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        三种情形被硬编码为暂停 Agent、把控制权交回用户。这是静默自动化会让审计崩盘的瞬间。
+      </p>
+      <div class="mt-10 space-y-4">
+        {gates.map((g, i) => (
+          <article class="grid gap-6 border border-rule p-6 md:grid-cols-[10rem_1fr] md:p-8" style="background: var(--paper);">
+            <div class="border-b border-rule pb-4 md:border-b-0 md:border-r md:pb-0">
+              <div class="eyebrow mb-2" style="color: var(--shell);">触发 {String(i + 1).padStart(2, '0')}</div>
+              <p class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 24; font-size: 1.05rem; line-height: 1.3; letter-spacing: -0.005em;">{g.trigger}</p>
+            </div>
+            <p class="font-serif" style="line-height: 1.8; font-variation-settings: 'opsz' 18; color: var(--ink);">{g.action}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="第五节" numeral="V" title="标准对齐" />
+      <p class="max-w-2xl font-serif" style="font-size: 1.08rem; line-height: 1.75; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Cortex 的输出设计为与下列标准兼容。针对具体标准的正式认证因项目范围而异，按需提供。完整的标准对齐说明，参见
+        <a href="/zh/standards" style="color: var(--shell);">标准对齐</a>页面。
+      </p>
+      <div class="mt-10">
+        {standards.map((s) => (
+          <div class="row-line" style="grid-template-columns: 10rem 1fr auto;">
+            <span class="font-mono" style="color: var(--shell); font-size: 0.88rem; letter-spacing: 0.02em;">{s.code}</span>
+            <span class="font-serif" style="font-variation-settings: 'opsz' 18; color: var(--ink);">{s.note}</span>
+            <span class="font-mono" style="font-size: 0.7rem; color: var(--ink-whisper); letter-spacing: 0.06em;">标准</span>
+          </div>
+        ))}
+      </div>
+      <p class="mt-10 font-serif italic" style="font-size: 0.92rem; font-variation-settings: 'opsz' 14; color: var(--ink-faint);">
+        最近一次审阅：{new Date().toISOString().slice(0, 10)}。
+      </p>
+    </div>
+  </section>
+
+</BaseLayout>

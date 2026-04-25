@@ -34,14 +34,14 @@ const scenarios = [
     numeral: 'II',
     label: '单材料碳足迹搜索',
     body:
-      '输入材料名称——"热轧钢，中国"或"HDPE 颗粒，挤出级"——Cortex 在所有已接入数据库中返回排名候选。每条结果显示 GWP 值、单位、地理区域、系统模型，以及 HiQLCD 上的来源记录链接。中文或英文查询均可；数据库两种语言都接。',
+      '输入材料名称——"热轧钢，中国"或"HDPE 颗粒，挤出级"——Cortex 在所有已接入数据库中返回排名候选。每条结果显示 GWP100 值、单位、地理区域、系统模型，以及 HiQLCD 上的来源记录链接。中文或英文查询均可；数据库两种语言都接。',
     proof: '自然语言查询 · 跨库检索 · DQI 排名 top-k',
   },
   {
     numeral: 'III',
     label: 'CBAM 范围逐条核查',
     body:
-      '在对话中逐项走过 CBAM Article 5.2 要求：嵌入式排放边界、直接与间接排放拆分、核查员会质疑的代理值假设。Cortex 在每一步引用数据集键值和 GWP 数值——不是模糊表述，是具名记录。核查员拿到的就是这条推理链，逐行可追溯。',
+      '在对话中逐项走过 CBAM 附件 IV 要求：嵌入式排放边界、直接与间接排放拆分、核查员会质疑的代理值假设。Cortex 在每一步引用数据集键值和 GWP100 数值——不是模糊表述，是具名记录。核查员拿到的就是这条推理链，逐行可追溯。',
     proof: '具名数据集 · 嵌入式排放边界 · 推理链 per 行',
   },
   {
@@ -140,7 +140,7 @@ const compare = [
         </p>
       </blockquote>
       <p class="mx-auto mt-10 max-w-2xl font-serif text-center" style="line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink); font-size: 1.05rem;">
-        Cortex 按匹配度排名返回候选：地理区域、技术匹配、系统模型。每条记录带五个维度的 DQI——时效性、地理适用性、技术代表性、完整性、可靠性。覆盖率低于 80%、需要替代值、两个数据库 GWP 差异超过 2 倍时，Cortex 停下来问。
+        Cortex 按匹配度排名返回候选：地理区域、技术匹配、系统模型。每条记录带 DQI 五个维度——时间性、地理性、技术性、完整性、可靠性。覆盖率低于 80%、需要替代值、两个数据库 GWP 差异超过 2 倍时，Cortex 停下来问。
       </p>
       <p class="text-center mt-8">
         <a href="/zh/methodology" class="smallcaps" style="color: var(--shell);">Cortex 如何推理 →</a>
