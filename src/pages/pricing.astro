@@ -1,0 +1,239 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = 'Pricing — HiQ Cortex';
+const description =
+  'Three plans. Start free. Pro €99/month, Plus €299/month with Cortex Cowork. Database licensing requirements stated openly.';
+
+const plans = [
+  {
+    name: 'Free',
+    price: '€0',
+    period: '',
+    items: [
+      ['LLM budget',         '$10 / month'],
+      ['Rate limit',         '30 rpm · 2M tpm'],
+      ['Database search',    'Basic'],
+      ['Conversation memory', '—'],
+      ['Cortex Cowork',      '—'],
+      ['File read/write',    '—'],
+      ['Skills marketplace', '—'],
+    ],
+  },
+  {
+    name: 'Pro',
+    price: '€99',
+    period: '/month · or €297/quarter',
+    items: [
+      ['LLM budget',         '$500 / month'],
+      ['Rate limit',         '100 rpm · 10M tpm'],
+      ['Database search',    '14 LCA databases'],
+      ['Conversation memory', 'Yes'],
+      ['Cortex Cowork',      '—'],
+      ['File read/write',    '—'],
+      ['Skills marketplace', '—'],
+    ],
+  },
+  {
+    name: 'Plus',
+    price: '€299',
+    period: '/month · or €897/quarter',
+    items: [
+      ['LLM budget',         '$500 / month'],
+      ['Rate limit',         '200 rpm · 20M tpm'],
+      ['Database search',    '14 LCA databases'],
+      ['Conversation memory', 'Yes'],
+      ['Cortex Cowork',      'Yes'],
+      ['File read/write',    'Yes'],
+      ['Skills marketplace', 'Yes'],
+    ],
+    highlight: true,
+  },
+];
+
+const apiTiers = [
+  ['uplink-free', '30 rpm'],
+  ['uplink-pro',  '100 rpm'],
+  ['uplink-plus', '200 rpm'],
+];
+
+const faqs = [
+  {
+    q: 'Can the subscription be cancelled?',
+    a: 'Yes. Cancellation is self-serve through the customer billing portal, accessible from Desktop Settings → Billing → Manage subscription. The plan reverts to Free at the end of the current billing period.',
+  },
+  {
+    q: 'Is there a discount for quarterly payment?',
+    a: 'No. Quarterly billing is three months at the monthly rate.',
+  },
+  {
+    q: 'Does Plus include Cortex Chat?',
+    a: 'Yes. Plus includes everything in Pro (Chat, 14 databases, conversation memory) plus Cortex Cowork.',
+  },
+  {
+    q: 'What about team or enterprise plans?',
+    a: 'Team and enterprise configurations exist and are provisioned by the HiQ team directly. Contact contact@hiq.earth to discuss.',
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">Pricing</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400;">
+        Three plans. <span style="color: var(--ink-faint);">Start free.</span>
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Free, Pro, and Plus. Defined LLM budgets, rate limits, and a clear line on what Cowork requires.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="#plans" class="ticket">See plans <span aria-hidden="true">↓</span></a>
+        <a href="/chat" class="ticket-ghost">Try free</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- §I Plan grid -->
+  <section id="plans" class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Plans" numeral="I" title="Self-serve. Cancel any time." />
+      <p class="max-w-2xl font-serif" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Three tiers. Self-serve via Desktop Settings → Billing. Cancel any time through the billing portal.
+      </p>
+
+      <div class="mt-10 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
+        {plans.map((p) => (
+          <article class="p-7 md:p-8" style={`background: var(--paper); ${p.highlight ? 'border-top: 3px solid var(--shell);' : ''}`}>
+            <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 36; font-size: 1.5rem; line-height: 1.05; color: var(--ink);">{p.name}</div>
+            <div class="mt-3">
+              <span class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: 2.4rem; line-height: 1; color: var(--shell);">{p.price}</span>
+              {p.period && <span class="ml-1 font-serif" style="font-size: 0.9rem; color: var(--ink-mute);">{p.period}</span>}
+            </div>
+            <ul class="mt-7 space-y-3 font-serif" style="font-size: 0.92rem; line-height: 1.5; font-variation-settings: 'opsz' 16;">
+              {p.items.map(([label, val]) => (
+                <li class="grid grid-cols-[1fr_auto] gap-3">
+                  <span style="color: var(--ink-mute);">{label}</span>
+                  <span style={`color: ${val === '—' ? 'var(--ink-faint)' : 'var(--ink)'}; font-variant-numeric: tabular-nums;`}>{val}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 0.95rem; line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">
+        Quarterly billing is three months at the monthly rate. No additional discount. Prior-period proration applies when upgrading mid-cycle.
+      </p>
+    </div>
+  </section>
+
+  <!-- §II What each tier includes -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="What each tier includes" numeral="II" title="Plain numbers." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          <strong style="font-weight: 500;">Free</strong> starts with $10 in monthly LLM cost and basic database retrieval. No credit card required to begin. The rate limit is 30 requests per minute — sufficient for exploratory queries and occasional lookups.
+        </p>
+        <p>
+          <strong style="font-weight: 500;">Pro</strong> (€99 / month) raises the LLM budget to $500 and opens access to all 14 LCA databases Cortex searches across, including Ecoinvent, CarbonMinds, and HiQLCD-AL. Conversation memory persists across sessions and syncs across devices. Pro does not include Cortex Cowork — Chat is the surface.
+        </p>
+        <p>
+          <strong style="font-weight: 500;">Plus</strong> (€299 / month) adds Cortex Cowork: the desktop agent that reads and writes files on your machine, runs multi-step workflows, and loads skills from the marketplace. Cowork sessions are local — the agent runs on the same machine as the desktop app, not on a remote server. Plus carries the same $500 LLM budget as Pro, with a higher rate ceiling (200 rpm · 20M tpm).
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §III Database licensing -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="A necessary clarification" numeral="III" title="Database licensing." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cortex searches Ecoinvent, CarbonMinds, and HiQLCD-AL on your behalf. Subscription to Cortex does not include a license to those datasets from the data providers.
+        </p>
+        <p>
+          Ecoinvent and CarbonMinds each require an independent license purchased directly from the provider. HiQLCD-AL is HiQ-AI's own dataset; access is included for all Cortex subscribers.
+        </p>
+        <p>
+          If your account does not carry a valid Ecoinvent or CarbonMinds license, Cortex will retrieve from the databases it can access and note the gap in the output. The output remains auditable — it reflects what was actually searched.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §IV API tiers -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="API access" numeral="IV" title="Uplink tiers." />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Developers integrating Cortex into external tools access the platform via <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">x.hiqlcd.com/api/cortex/*</code> with an API key. Three uplink tiers are available:
+      </p>
+
+      <div class="mt-8 max-w-md overflow-hidden border border-rule" style="background: var(--paper);">
+        <table class="w-full" style="border-collapse: collapse;">
+          <thead>
+            <tr style="background: var(--paper-rim);">
+              <th class="eyebrow text-left p-4 border-b border-rule">Tier</th>
+              <th class="eyebrow text-left p-4 border-b border-rule">Rate limit</th>
+            </tr>
+          </thead>
+          <tbody class="font-mono" style="font-size: 0.85rem;">
+            {apiTiers.map(([tier, rate]) => (
+              <tr>
+                <td class="p-4 border-b border-rule last:border-b-0" style="color: var(--ink);">{tier}</td>
+                <td class="p-4 border-b border-rule last:border-b-0" style="color: var(--ink);">{rate}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p class="mt-6 max-w-3xl font-serif" style="font-size: 1rem; line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink-mute);">
+        API key provisioning and tier upgrades are handled by the HiQ team. There is no self-serve console for API usage — rate limits enforce the ceiling, and a <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">429</code> signals when the budget is reached.
+      </p>
+      <p class="mt-4 max-w-3xl font-serif" style="font-size: 1rem; line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink);">
+        To apply: <a href="mailto:contact@hiq.earth" style="color: var(--shell);">contact@hiq.earth</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- §V FAQ -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Common questions" numeral="V" title="" />
+      <div class="max-w-3xl space-y-7 font-serif" style="font-size: 1.02rem; line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink);">
+        {faqs.map((f) => (
+          <div>
+            <p class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 24; font-size: 1.05rem; color: var(--ink);">{f.q}</p>
+            <p class="mt-2" style="color: var(--ink);">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
+        Start with one question.
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Free includes $10 in monthly LLM budget — enough to run a material lookup, match a BOM row against fourteen databases, or ask a Scope 3 classification question. No credit card required.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="/chat" class="ticket">Try free <span aria-hidden="true">→</span></a>
+        <a href="mailto:contact@hiq.earth" class="ticket-ghost">Contact for API access</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

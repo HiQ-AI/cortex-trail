@@ -1,0 +1,187 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = 'Security — HiQ Cortex';
+const description =
+  'What Cortex stores, what it does not, and where. Nine verifiable claims about data handling. Two gaps disclosed plainly.';
+
+const localArtifacts = [
+  ['Cowork session transcripts', "Every exchange with the local agent is stored as a file on your machine, scoped to your user account. The server has no copy."],
+  ['Project wiki', "Wiki data lives in a directory you choose. Nothing in Cortex reads or uploads wiki content to any server."],
+  ['Observer friction log', "The local log of tool errors and retries is written to your device and stays there whether or not you have upload enabled."],
+  ['Custom skills sedimented from your work', "Skills the observer pipeline extracts from your sessions are written as files in your chosen skills directory. They remain local until you explicitly contribute them to the marketplace."],
+];
+
+const claims = [
+  ["All traffic is encrypted in transit.", "Every user-facing connection uses HTTPS. There are no plaintext HTTP paths for user data."],
+  ["Chat sessions are stored under your account and are not accessible to other users.", "Conversation history and long-term memory are keyed to your user ID. The session store enforces this isolation at query time — one account cannot read another's."],
+  ["Licensed database GWP values are gated to subscribers.", "If your account does not include a license for a given database, the numeric GWP is withheld and the result is marked restricted. The dataset name, region, unit, and link are still returned. No literature value is substituted."],
+  ["Your Cowork sessions never leave your device.", "Local agent sessions are stored in your app's local data directory. The server has no copy and no access path to them."],
+  ["Your project wiki is stored locally.", "Wiki data lives in the directory you choose on your machine. It is not uploaded to Cortex servers."],
+  ["Every GWP result includes its source database and version.", "The database name, version string, and system model are part of every result. Historical exports are not retroactively modified when a data provider releases a new version; each export captures the version at query time."],
+  ["Your data is not used to train AI models.", "There is no pipeline in the codebase that reads conversation history and sends it to a model training job."],
+  ["Observer friction upload can be turned off.", "The upload toggle is per-device, persisted locally. Turning it off stops all background uploads. The local friction log continues regardless."],
+  ["Uploaded BOM files are not persisted.", "File uploads sent during a Chat session are passed to the AI for the duration of that conversation. They are not stored in any database after the request completes."],
+];
+---
+
+<BaseLayout title={title} description={description}>
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">Reference · Security</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 22ch;">
+        What Cortex stores. What it doesn't. Where.
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Nine claims about data handling — each traceable to the code that enforces them. Two gaps disclosed plainly.
+      </p>
+    </div>
+  </section>
+
+  <!-- §I What stays on your machine -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="What stays on your machine" numeral="I" title="Cowork is a local agent." />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        The sessions it runs, the project memory it accumulates, and the files it produces do not leave your device. None of these leave the device unless you initiate the action.
+      </p>
+
+      <div class="mt-10 grid gap-6 md:grid-cols-2">
+        {localArtifacts.map(([title, body]) => (
+          <article class="border border-rule p-6" style="background: var(--paper);">
+            <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.08rem; line-height: 1.2; color: var(--ink);">{title}</h3>
+            <p class="mt-3 font-serif" style="font-size: 0.96rem; line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink);">{body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §II What goes to the server -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="What goes to the server" numeral="II" title="Chat is different." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>Chat sessions persist server-side so the agent can continue across conversations.</p>
+        <p><strong style="font-weight: 500;">What Cortex stores on the server for Chat users:</strong></p>
+        <ul class="space-y-2 list-disc pl-6 marker:text-[var(--ink-faint)]">
+          <li>Conversation history, keyed to your user ID. No other user's account can read your sessions.</li>
+          <li>Long-term memory — a compiled profile of your preferences, databases, and LCA context. Extracted from conversation turns over time. Also keyed to your user ID.</li>
+        </ul>
+        <p><strong style="font-weight: 500;">What Cortex does not store:</strong></p>
+        <ul class="space-y-2 list-disc pl-6 marker:text-[var(--ink-faint)]">
+          <li>BOM files you upload during a Chat session. File uploads are passed to the AI for the duration of the conversation and are not written to any database table after the request completes.</li>
+        </ul>
+        <p class="font-serif italic" style="color: var(--ink-mute); font-size: 0.98rem;">
+          The distinction matters: Cowork data belongs to your machine. Chat history belongs to your account on the server.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §III Nine verifiable claims -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Nine verifiable claims" numeral="III" title="Statements about how the system behaves." />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Each corresponds to an implemented check in the codebase.
+      </p>
+
+      <ol class="mt-10 space-y-7 font-serif" style="font-size: 1rem; line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink);">
+        {claims.map(([head, body], i) => (
+          <li class="grid grid-cols-[3rem_1fr] gap-4">
+            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.05rem;">§ {String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <p class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 28; font-size: 1.08rem; line-height: 1.25; color: var(--ink);">{head}</p>
+              <p class="mt-2">{body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- §IV Restricted data -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Restricted data" numeral="IV" title="There are many LCA tools that return a number when they don't have a verified one. Cortex is not one of them." />
+
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Fourteen databases are indexed in Cortex. Several require a paid license from the data provider. For rows from those databases, the permission check runs server-side before the response is assembled. If your account does not include the relevant license, the GWP field is removed from the result object before it reaches the model layer. The model receives a result with no GWP value to read.
+        </p>
+        <p>
+          What you see: a result row with name, region, unit, and a link — and a <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Licensed</code> marker in the GWP column. The dataset's existence is disclosed. The value is withheld until you have access.
+        </p>
+        <p>
+          There is no silent substitution with literature values or LLM-estimated figures. The agent's operational rules are explicit on this point: fabricating a substitute value pollutes the deliverable with unverifiable numbers. The enforcement is in the code, not in instructions alone.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §V Two open gaps -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Two things we have not yet built" numeral="V" title="" />
+
+      <div class="mt-6 grid gap-6 md:grid-cols-2">
+        <article class="border border-rule p-7" style="background: var(--paper);">
+          <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.18rem; line-height: 1.2; color: var(--ink);">No user-facing data export endpoint</h3>
+          <p class="mt-4 font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.98rem;">
+            A Chat user cannot download a structured export of their conversation history, compiled memory, or activity log. That data is accessible internally to administrators. A GDPR right-of-access request currently requires a manual admin operation.
+          </p>
+          <p class="mt-3 font-serif italic" style="color: var(--ink-mute); font-size: 0.94rem;">
+            This is an open gap. We have not yet built a self-serve export.
+          </p>
+        </article>
+
+        <article class="border border-rule p-7" style="background: var(--paper);">
+          <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.18rem; line-height: 1.2; color: var(--ink);">No user-initiated account deletion</h3>
+          <p class="mt-4 font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.98rem;">
+            Deleting your account and erasing the server-side data associated with it currently requires a manual admin operation. There is no self-serve deletion endpoint.
+          </p>
+          <p class="mt-3 font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">
+            Data that lives only on your machine — Cowork session transcripts, wiki, custom skills, friction log — can be deleted by you at any time by removing the relevant directories from your device.
+          </p>
+          <p class="mt-3 font-serif italic" style="color: var(--ink-mute); font-size: 0.94rem;">
+            If procurement requires confirmed self-serve deletion, the current answer is that it requires contacting us.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- §VI Enterprise -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-16 md:py-20">
+      <SectionMark kicker="Enterprise procurement" numeral="VI" title="Specifics, no sales pipeline." />
+      <p class="max-w-3xl font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Questions about data handling, residency, or enterprise licensing:{' '}
+        <a href="mailto:hi@hiq.earth" style="color: var(--shell);">hi@hiq.earth</a>. A response with specifics, usually within two business days.
+      </p>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
+        The local agent stores nothing on our servers.
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Start there.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download for macOS <span aria-hidden="true">→</span></a>
+        <a href="/chat" class="ticket-ghost">Open Cortex Chat</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

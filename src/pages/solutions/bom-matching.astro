@@ -5,67 +5,35 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'BOM Matching — HiQ Cortex';
 const description =
-  'Upload a Bill of Materials. Cortex returns top-k emission factor candidates per line — DQI scored, every citation linked to the source.';
+  'BOM in. Matched xlsx out. Every dataset cell a hyperlink. ~90–180 seconds for 100 rows across 14 databases.';
 
-const steps = [
+const sheets = [
   {
     n: '01',
-    title: 'Upload or paste',
-    body:
-      'Excel, CSV, or pasted text. No schema required. Cortex reads columns as a colleague would — names, specs, quantities, whatever free-form notes came with the BOM.',
+    name: 'Summary',
+    body: "Coverage at a glance: matched %, proxy %, gap %, total material count, databases compared, progress bar in green / amber / empty segments, and a by-category breakdown (Ferrous Metals / Non-Ferrous Metals / Plastics / Chemicals / Electronics / Energy / Water / Transport / Other).",
   },
   {
     n: '02',
-    title: 'Clarify where it matters',
-    body:
-      'For ambiguous rows — "aluminum", "steel", "plastic" — Cortex asks one or two questions before searching. Alloy grade, production route, region. Silence on low-signal fields.',
+    name: 'Results',
+    body: "The main deliverable. One row per BOM line, one column group per database. Each dataset cell is a hyperlink that opens the source record at hiqlcd.com/dataset/{Source}/{Version}/{Model}/{UUID}/{Name}. GWP100 values carry color-scale conditional formatting; cross-database ∆% is computed per row. Frozen left columns stay visible when scrolling.",
   },
   {
     n: '03',
-    title: 'Search wide, score honest',
-    body:
-      'HiQLCD, Ecoinvent, EF, CarbonMinds, and more — searched in parallel. Each candidate comes back with a Data Quality Indicator (DQI), system model, and a clickable source URL.',
+    name: 'Gaps',
+    body: "Every unmatched and proxy row, with the databases searched, the reason no direct match was found, and a suggested action.",
   },
   {
     n: '04',
-    title: 'Human-in-the-loop at the thresholds',
-    body:
-      "Cortex pauses where automation would break an audit — coverage gaps, proxy substitutions, large cross-database spread, restricted-data markers, ambiguous system-model matches. You decide — the agent doesn't silently pick.",
-  },
-  {
-    n: '05',
-    title: 'Deliver with provenance',
-    body:
-      'Export to Excel with matched dataset, source database, region, DQI, system model, match type (exact / proxy / low-DQI), and notes. Every cell auditable back to the original factor.',
+    name: 'Methodology',
+    body: "Run parameters (source file, date, databases, system model, functional unit) and five fixed notes: GWP characterization method, proxy definition, alternatives explanation, system model selection rationale, and the practitioner-review requirement.",
   },
 ];
 
-const vsWatershed = [
-  {
-    them: 'Upload → minutes → one PCF number.',
-    us: 'Upload → clarifying questions → top-k candidates → your approved match → PCF with every assumption attached.',
-    note: 'Speed is a side effect. Auditability is the product.',
-  },
-  {
-    them: 'AI decomposes the product automatically.',
-    us: 'AI proposes. The expert decides. Coverage, proxy use, and cross-database disagreements are never silent.',
-    note: "If a machine can't explain why it picked factor A over B, neither can you when the auditor asks.",
-  },
-  {
-    them: 'Confidence score from a model.',
-    us: 'DQI — the ISO-recognized Data Quality Indicator. Same vocabulary your reviewers use.',
-    note: "Use the industry's words. Don't invent new ones that need translating.",
-  },
-];
-
-const outputFields = [
-  'Material name (as provided)',
-  'Matched dataset key + URL',
-  'Source database (HiQLCD / Ecoinvent / EF / CarbonMinds)',
-  'Region · Unit · System model',
-  'DQI score',
-  'Match type: exact · proxy · low-DQI',
-  'Notes (what was substituted and why)',
+const hitlOptions = [
+  'Continue with generic proxy values',
+  'Mark remaining rows as not applicable',
+  'Confirm row by row',
 ];
 ---
 
@@ -73,107 +41,178 @@ const outputFields = [
 
   <!-- Hero -->
   <section class="relative">
-    <div class="container-page pt-14 md:pt-20 pb-10">
+    <div class="container-page pt-14 md:pt-20 pb-14">
       <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
-        <p class="eyebrow">Solutions · BOM Matching</p>
+        <p class="eyebrow">Solutions · BOM matching</p>
         <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
       </div>
-      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.03; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 20ch;">
-        Every line in your BOM deserves the same question an expert would ask.
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 22ch;">
+        BOM in. Matched xlsx out. <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">Every dataset cell a link.</em>
       </h1>
-      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.2rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Cortex reads a Bill of Materials the way a practiced LCA consultant reads it — noticing
-        which rows are clear, which are underspecified, and which need to be argued about before
-        any number is assigned.
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork takes a Bill of Materials — Excel, CSV, or pasted text — and returns a four-sheet workbook. ~90–180 seconds for 100 rows. Not 10 hours.
       </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <a href="/chat" class="ticket-ghost">Try a single material in Chat</a>
+      </div>
     </div>
   </section>
 
-  <!-- Steps -->
+  <!-- §I Inputs and outputs -->
   <section class="border-t border-rule">
-    <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="The flow" numeral="I" title="Five steps, always in order." />
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Inputs and outputs" numeral="I" title="No schema required. One workbook back." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          <strong style="font-weight: 500;">Input:</strong> An Excel file, a CSV, or a pasted list. Column names, part numbers, free-form specs — Cortex reads structure as it finds it.
+        </p>
+        <p>
+          <strong style="font-weight: 500;">Output:</strong> One <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">.xlsx</code> workbook with four sheets, delivered in the session window.
+        </p>
+      </div>
 
-      <div class="grid gap-px overflow-hidden border border-rule md:grid-cols-2 lg:grid-cols-3" style="background: var(--rule);">
-        {steps.map((s) => (
-          <article class="p-8 md:p-10 flex flex-col gap-4" style="background: var(--paper);">
-            <div class="flex items-baseline justify-between">
-              <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.4rem;">{s.n}</span>
-              <span class="eyebrow">step</span>
+      <div class="mt-10 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
+        {sheets.map((s) => (
+          <article class="p-6 md:p-7" style="background: var(--paper);">
+            <div class="flex items-baseline gap-3 mb-3">
+              <span class="font-mono" style="color: var(--shell); font-size: 0.85rem; letter-spacing: 0.04em;">Tab {s.n}</span>
+              <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.18rem; color: var(--ink);">{s.name}</h3>
             </div>
-            <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 40; font-size: 1.45rem; line-height: 1.15; letter-spacing: -0.01em;">{s.title}</h3>
-            <p class="font-serif" style="line-height: 1.55; font-variation-settings: 'opsz' 17; color: var(--ink); font-size: 0.98rem;">{s.body}</p>
+            <p class="font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{s.body}</p>
           </article>
         ))}
       </div>
+
+      <p class="mt-10 max-w-3xl font-serif italic" style="font-size: 1rem; line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink-mute);">
+        The export does not contain a DQI column. DQI scores are visible during the session and in the API response; they are not written to the workbook. Provenance in the export is the dataset name, version, and hyperlink — not a numerical quality score.
+      </p>
     </div>
   </section>
 
-  <!-- Comparison -->
+  <!-- §II Cross-database speed -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
-    <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="How we differ" numeral="II" title="Speed without provenance is a number you can't defend." />
-
-      <p class="max-w-3xl font-serif" style="font-size: 1.14rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        Most AI-for-PCF tools race to a single number. We race to a line of reasoning you can
-        hand a regulator. Here's where the two approaches diverge.
-      </p>
-
-      <div class="mt-12 border-y border-rule">
-        {vsWatershed.map((row, i) => (
-          <div class="grid border-b border-rule last:border-b-0 md:grid-cols-[1fr_1.2fr]">
-            <div class="border-b border-rule p-8 md:border-b-0 md:border-r md:p-10">
-              <div class="flex items-center gap-3 mb-3">
-                <span class="eyebrow">Typical AI-for-PCF</span>
-              </div>
-              <p class="font-serif" style="font-size: 1.02rem; line-height: 1.5; font-variation-settings: 'opsz' 18; color: var(--ink-faint);">{row.them}</p>
-            </div>
-            <div class="p-8 md:p-10">
-              <div class="flex items-center gap-3 mb-3">
-                <span class="eyebrow" style="color: var(--shell);">Cortex</span>
-                <span class="font-display italic" style="color: var(--shell); font-size: 0.95rem; font-variation-settings: 'SOFT' 40;">§ {i + 1}</span>
-              </div>
-              <p class="font-serif font-medium" style="font-size: 1.05rem; line-height: 1.5; font-variation-settings: 'opsz' 18; color: var(--ink);">{row.us}</p>
-              <p class="mt-4 font-serif italic" style="font-size: 0.9rem; line-height: 1.5; font-variation-settings: 'opsz' 14; color: var(--ink-faint);">
-                <span class="eyebrow mr-2">note</span>{row.note}
-              </p>
-            </div>
-          </div>
-        ))}
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Cross-database speed" numeral="II" title="~90–180 seconds for 100 rows. Not 10 hours." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          A 100-row BOM matched against 14 databases in Cortex Cowork completes in approximately 90–180 seconds. The search runs on a unified index — not 14 sequential queries — so the number of databases does not multiply the time.
+        </p>
+        <p>
+          The manual equivalent: each row requires opening the database interface, entering search terms, comparing results, and recording the selection. At a conservative 3 databases per material and 3–5 minutes per lookup, a 100-row BOM is 10–25 hours of work before any cross-database comparison begins.
+        </p>
+        <p class="font-serif italic" style="color: var(--ink-mute);">
+          The speed difference is a function of parallel search workers running against a unified index. It is not a rounding claim.
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- Output -->
+  <!-- §III The xlsx in detail -->
   <section class="border-t border-rule">
-    <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="The output" numeral="III" title="One spreadsheet. Ten columns of accountability." />
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="The xlsx in detail" numeral="III" title="A concrete example." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          The Results sheet is the page's core claim, so it warrants a concrete example.
+        </p>
+        <p>
+          Row 3, HiQLCD column: the dataset cell reads <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">钢坯, 转炉, 304不锈钢</code> and is underlined blue. Clicking it opens <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">https://www.hiqlcd.com/dataset/HiQLCD/1.4.0/CUT_OFF/…</code> in a browser — the exact record used. The adjacent GWP cell shows <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.92em;">1.95 kg CO₂e</span> with a blue shading proportional to its rank in the column.
+        </p>
+        <p>
+          The Ecoinvent column for the same row shows <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">market for steel, chromium steel 18/8, hot rolled</code> — and the GWP cell reads <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Licensed</code>, because Ecoinvent access requires a subscription. The ∆% column is empty; no comparison can be made without both values.
+        </p>
+        <p>
+          That <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Licensed</code> cell is the correct behavior. Cortex does not substitute a literature estimate, a model-generated number, or a generic proxy to fill the gap. The dataset's name, region, unit, and link are shown. The GWP value waits for access.
+        </p>
+        <p>
+          The Methodology sheet closes the workbook: "GWP values are GWP100 (kg CO₂e) per IPCC AR6 characterisation factors." The parameters table records which databases were queried, which version of each, and which system model governed the run. The report is reproducible from those parameters.
+        </p>
+      </div>
+    </div>
+  </section>
 
-      <div class="grid gap-12 md:grid-cols-[1.1fr_1fr] md:gap-16">
-        <div class="max-w-xl">
-          <p class="font-serif" style="font-size: 1.14rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink);">
-            Every export contains the fields reviewers look for first: matched dataset, source
-            database, region, DQI, system model, match type, proxy notes. The coverage gap is
-            its own sheet, not a footnote.
-          </p>
-          <div class="mt-10 flex flex-wrap gap-4">
-            <a href="/chat" class="ticket">Upload a BOM now</a>
-            <a href="/standards" class="ticket-ghost">See standards alignment</a>
-          </div>
-        </div>
+  <!-- §IV Proxies and gaps -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Proxies and gaps" numeral="IV" title="Documented outcomes, not silent omissions." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          When no single dataset matches a BOM line, Cortex may use a weighted average. Brass, for example: 65% copper cathode × 35% zinc ingot. The Notes column in the Results sheet shows the decomposition explicitly — each component's dataset name, its weight, its GWP value, and the arithmetic. Each component row still carries its own hyperlinked dataset cell. The proxy is traceable to its sources, not collapsed into a single opaque number.
+        </p>
+        <p>
+          Proxy rows carry <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">~ Proxy</code> in the Status column. The Notes column names the bias direction: if the substitute is likely to understate embedded energy, that is written out. Proxy status is not a footnote condition — it sits in the row alongside matched rows.
+        </p>
+        <p>
+          When no proxy is defensible, the Status column reads <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">✗ Gap</code>. The Gaps sheet collects those rows with the search terms tried and the reason for failure.
+        </p>
+      </div>
+    </div>
+  </section>
 
-        <div>
-          <div class="eyebrow mb-4">Exported fields</div>
-          <ul class="space-y-0">
-            {outputFields.map((f, i) => (
-              <li class="row-line">
-                <span class="num">{String(i + 1).padStart(2, '0')}</span>
-                <span class="font-serif" style="font-variation-settings: 'opsz' 18; color: var(--ink);">{f}</span>
-                <span class="font-mono" style="font-size: 0.72rem; color: var(--ink-whisper); letter-spacing: 0.06em;">col.</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+  <!-- §V Decisions return to practitioner -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Decisions return to the practitioner" numeral="V" title="No silent default." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          When a BOM batch returns coverage below 80% after three search attempts, Cowork pauses and presents the outstanding rows. The practitioner chooses:
+        </p>
+        <ul class="space-y-2 list-disc pl-6 marker:text-[var(--ink-faint)]">
+          {hitlOptions.map((o) => <li>{o}</li>)}
+        </ul>
+        <p>
+          That decision is recorded in the project's progress log with a timestamp. The export reflects what the practitioner chose. No silent default.
+        </p>
+        <p>
+          The same mechanism triggers for other conditions: a material name ambiguous enough to produce 3–10× GWP spread across candidates; a system model conflict between the active source and what the project requires; a row where the only available match is a proxy and the practitioner should confirm it before it enters the workbook.
+        </p>
+        <p>
+          Cortex explains its analysis before pausing — the reasoning appears in the session before the input fields. The practitioner sees the spread, the candidate options, and the implications. The decision form appears after that context, not instead of it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §VI Chinese BOM -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Chinese BOM names" numeral="VI" title="Factory-floor terms, resolved before searching." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Chinese factory BOMs use factory-floor names: "502 胶水," "IGBT 模块," "背钩." These are not LCA dataset names. Cortex carries 2,083 curated mappings from Chinese factory terminology to LCA dataset identifiers — "502 胶水" resolves to polyurethane adhesive (marked proxy, with the bias direction documented), "IGBT 模块" resolves to the insulated gate bipolar transistor dataset for electric vehicle applications.
+        </p>
+        <p>
+          The search index holds Chinese and English fields at equal weight. Chinese input queries the Chinese fields; the agent constructs bilingual search terms to simultaneously hit English-named databases like Ecoinvent and EF. The custom Chinese tokenizer carries 20,000 LCA-specific terms — "镍板" tokenizes as a single term, not as "镍" plus "板," which would return noise from battery recycling datasets.
+        </p>
+        <p>
+          HiQLCD covers 30 provincial grid variants for China. The difference between China's coal-heavy grid and the European mix is decisive for materials like primary aluminum: 14–20 kg CO₂e/kg in China versus 8–10 in the EU.
+        </p>
+        <p class="font-serif italic" style="color: var(--ink-mute);">
+          Getting the geography right is not optional for a CBAM filing or an EPD targeting a Chinese supply chain. The database has the data; the match gets the geography.
+        </p>
+      </div>
+
+      <Asterism />
+
+      <p class="mx-auto mt-2 max-w-3xl text-center font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 60, 'opsz' 36; font-size: 1.4rem; line-height: 1.3;">
+        ~90–180 seconds for 100 rows. <em>Not 10 hours.</em>
+      </p>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
+        BOM in. Matched xlsx out. Every dataset cell traceable.
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork is available for macOS, Windows, and Linux. A BOM session runs locally — files stay on the machine, not uploaded to a server.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download for macOS <span aria-hidden="true">→</span></a>
+        <a href="/chat" class="ticket-ghost">Try Cortex Chat</a>
       </div>
     </div>
   </section>

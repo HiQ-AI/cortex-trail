@@ -1,0 +1,173 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Asterism from '@/components/Asterism.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = 'Skills — HiQ Cortex';
+const description =
+  'A capability library that grows with the work. Cortex ships with core LCA workflows already loaded; recurring patterns become skills the platform carries forward.';
+
+const tiers = [
+  {
+    label: 'Bundled',
+    body: "Every installation ships with core skills already loaded: bom-analysis (a six-step workflow from raw BOM to DQI-scored candidates), querying-lca-datasets (the search-to-match pipeline across fourteen databases), scope3-guidance (all fifteen GHG Protocol Scope 3 categories), en-15804-indicators. These run from the first session. No configuration.",
+  },
+  {
+    label: 'Marketplace',
+    body: "Skills contributed by practitioners, reviewed by HiQ-AI, available to every user. Cortex checks for updates on launch and downloads silently. Skills flagged for offline availability stay usable when the connection drops. Required platform skills cannot be disabled; everything else installs, uninstalls, and toggles from SkillsCenter.",
+  },
+  {
+    label: 'Custom',
+    body: "Skills that live on your machine, shaped to your work. Import one you authored. Or let the agent write one after observing what you do.",
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+
+  <!-- Hero -->
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">Product · Skills</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400; max-width: 22ch;">
+        A capability library that <em style="color: var(--shell); font-style: italic; font-variation-settings: 'SOFT' 80;">grows</em> with the work.
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex ships with core LCA workflows already loaded. Sessions are indexed in the background — recurring patterns become skills the platform carries forward.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="#tiers" class="ticket">See what's in the library <span aria-hidden="true">→</span></a>
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket-ghost">Download Cortex</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- §I What a skill is -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="What a skill is" numeral="I" title="A how-to document for the agent." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Every LCA workflow has a shape: what inputs it needs, which databases to consult first, where coverage typically breaks down, how to handle the proxy decision. A skilled practitioner carries that shape in their head. A skill encodes it so that the next session starts knowing it too.
+        </p>
+        <p>
+          A skill is a structured file the agent loads at session start. It carries a trigger description, a numbered workflow, and optional reference documents. The practical effect: the agent walks into a task already knowing the step sequence — without the user re-explaining it from scratch.
+        </p>
+        <p>
+          Skills are not code plugins. They do not execute on load. They are how-to documents for the agent; the practitioner remains the actor at every step that requires judgment.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §II Three tiers -->
+  <section id="tiers" class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Three tiers" numeral="II" title="Two of which require nothing from you." />
+      <div class="mt-10 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
+        {tiers.map((t) => (
+          <article class="p-7 md:p-8 flex flex-col gap-4" style="background: var(--paper);">
+            <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 36; font-size: 1.4rem; line-height: 1.1; letter-spacing: -0.01em; color: var(--shell);">{t.label}</div>
+            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.96rem;">{t.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §III Observer pipeline -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="The mechanism that requires no configuration" numeral="III" title="You do your work. Cortex reads it. The skill appears." />
+
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Most tools accumulate nothing from use. The feature set on day 365 is the feature set from day one, minus the patches.
+        </p>
+        <p>
+          Cortex Cowork indexes every session after it closes. The index captures initial intent, the sequence of tools called, and which skills were active. When two or more sessions show the same shape — same task type, similar tool sequence — a background process runs.
+        </p>
+        <p>
+          It reads the actual session transcripts. It writes a skill. It saves it to your custom-skills library.
+        </p>
+        <p>
+          The next session that looks like that workflow starts with the skill already loaded.
+        </p>
+        <p>
+          The rate is intentional: a single session could be a one-off. Two sessions establish a pattern worth encoding.
+        </p>
+        <p>
+          Skills sedimented this way carry an "Observed" marker in SkillsCenter. The Recent Learnings panel shows them newest-first, with the timestamp from when your work became the session's starting point.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §IV Marketplace contribution -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="From your machine to the marketplace" numeral="IV" title="Two clicks. The whole community." />
+
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Any custom skill — whether you wrote it, the agent wrote it after a session, or the observer pipeline sedimented it — can be contributed to the shared marketplace.
+        </p>
+        <p>
+          From the SkillsCenter detail panel: click "Contribute." Choose a display name, a category, an optional contributor handle.
+        </p>
+        <p>
+          Before anything leaves the machine, a PII scan runs on the skill body. API keys, internal URLs, email addresses: any token that resembles a credential triggers a rejection with line numbers and masked previews. No automatic redaction. The practitioner decides what to change.
+        </p>
+        <p>
+          If the scan passes, a pull request opens in the community repository. HiQ-AI reviews before merge. On merge, the skill is available to every user on the next app launch.
+        </p>
+        <p>
+          A practitioner who develops a new allocation approach for co-product scenarios on Thursday can have it in front of a colleague's Cowork session by the following week. Not via a forum post or a support ticket. Via the platform itself.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §V Architecture claim -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="The architecture's core claim" numeral="V" title="The library is not fixed at the version you installed." />
+
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.08rem; line-height: 1.7; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Most LCA software ships a fixed set of capabilities. The practitioner who has spent three years developing judgment about regional grid factors, allocation edge cases, and cross-database consistency — that judgment is not in the product. It leaves when they close the tab.
+        </p>
+        <p>
+          Cortex takes a different position: the platform's LCA intelligence is not owned by the vendor. It accumulates from actual practitioner work.
+        </p>
+      </div>
+
+      <Asterism />
+
+      <blockquote class="mx-auto max-w-3xl text-center">
+        <p class="pullquote">
+          The platform's LCA intelligence is not owned by the vendor. It accumulates from <em style="color: var(--shell); font-style: italic;">actual practitioner work</em>.
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="border-t border-rule">
+    <div class="container-prose py-24 text-center">
+      <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 96; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;">
+        Install once. The library starts where you are.
+      </h2>
+      <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Cortex Cowork is available for macOS, Windows, and Linux. SkillsCenter is visible from the first session — bundled skills loaded, marketplace browsable. After a few sessions of real work, the Recent Learnings panel begins to fill.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download for macOS <span aria-hidden="true">→</span></a>
+        <a href="/pricing" class="ticket-ghost">See pricing</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
