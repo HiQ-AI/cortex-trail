@@ -7,39 +7,13 @@ const title = 'HiQ Cortex — LCA 工作台，每一行都经得起追问';
 const description =
   '多数 LCA 工具以最快给出数字为目标。Cortex 以审计员追问来路时答案还站得住脚为目标。14 个数据库，双语检索，每条代理值有标注。';
 
-// §II — 三扇门
-const audiences = [
-  {
-    label: '面向 LCA 顾问和 EPD 审核员',
-    body:
-      '在数据库标签页之间往返的时间压缩成一次对话。Cortex 跨 14 个数据库并行检索，逐行返回附带 GWP100 的候选项，在审核员之前替你标出缺口。方法论问答引用的是数据集记录本身，不是摘要。',
-    href: '/zh/solutions/bom-matching',
-    cta: '查看 BOM 匹配',
-  },
-  {
-    label: '面向可持续发展与 CBAM 团队',
-    body:
-      'CBAM 申报要求嵌入式排放证据，而供应商往往还没提交。HiQLCD 收录数万条中国特定 LCI 数据——覆盖每一个中国省级电网，中国钢铁默认 BF-BOF 路线，铝的 GWP100 值基于中国电网强度构建。一次查询，中国工厂数据与 EU 参考数据集并排呈现。',
-    href: '/zh/blog/china-manufacturing-data',
-    cta: '阅读中国数据简报',
-  },
-  {
-    label: '面向基于 LCA 数据开发的团队',
-    body:
-      'Cortex Chat 和 Cortex Cowork 背后的推理引擎，通过四种协议开放：REST、MCP、AG-UI、A2A。14 个数据库的接入面、双语检索、决策回到人手里的暂停机制——一把 API key 全部接入。把 LCA 检索接进你自己的产品，不用自己维护数据库。',
-    href: '/zh/docs',
-    cta: '阅读 API 文档',
-  },
-];
-
-// §III — 两款产品
+// 两款产品 — 首页摘要版
 const products = [
   {
     name: 'Cortex Chat',
     label: 'CORTEX CHAT · WEB',
     body:
-      '带来物料名称、一行 BOM、中文工厂术语，或一个方法论问题。Cortex 先问一个澄清问题——生产路线、地区、合金牌号——然后跨 14 个数据库检索，返回附带 GWP100 和来源溯源的候选数据集排名。不需要配置表格，响应语言跟随提问语言。',
-    proof: '物料查询 · 约 2 分钟 · 附溯源的数据集排名',
+      '一次对话——中文或英文。Cortex 先问一个澄清问题，跨 14 个数据库检索，返回附带溯源的候选数据集排名。',
     primary: { href: '/chat', label: '打开 Cortex Chat' },
     secondary: { href: '/zh/product/chat', label: '产品详情' },
   },
@@ -47,30 +21,9 @@ const products = [
     name: 'Cortex Cowork',
     label: 'CORTEX COWORK · DESKTOP',
     body:
-      'LCA 项目跨越数周。Cowork 跨会话保留项目状态：项目工作区、六层记忆、只追加不覆盖的审计日志，记录每一次决策和代理值替换。从本地磁盘读取 BOM 文件，把匹配结果写回四表 xlsx，本地驱动 openLCA。支持 macOS、Windows 和 Linux。',
-    proof: '多会话项目 · 完整溯源 · 可导出的推理链',
+      '面向跨周 LCA 项目的桌面 Agent。读取你的 BOM 文件，本地驱动 openLCA，把每一个决策写入可版本管理的审计日志。',
     primary: { href: 'https://github.com/HiQ-AI/cortex-desktop/releases/latest', label: '下载 Cortex Desktop' },
     secondary: { href: '/zh/product/cowork', label: '产品详情' },
-  },
-];
-
-// §V — 四条声明
-const claims = [
-  {
-    stat: '14 个数据库并行检索',
-    body: 'HiQLCD 1.4.0、Ecoinvent 3.12.0、EF 3.1.0、CarbonMinds 2.0.2、Agri-footprint 7.0、TianGong、WorldSteel、HiQLCD-AL 2.0.0，以及另外六个。每条候选项返回数据集名称、单位、地理区域、系统模型，以及——在许可范围内——GWP100。受限数据集返回授权标记；不用文献值代替。返回的是 top-k，不是 top-1。从业者看到的是数据的分布。',
-  },
-  {
-    stat: '双语检索：工厂术语到数据集 ID',
-    body: '数万条 LCA 中文术语覆盖层，加上数千条积累自多年 LCA 从业实践的工厂术语到数据集映射。"背钩"解析到 HiQLCD 中 304 不锈钢冷轧退火卷材数据集。"IGBT 模块"命中 Ecoinvent 中电动汽车应用 IGBT 数据集，而不是通用晶体管条目。Cortex 响应语言跟随查询语言；数据集名称双语返回。',
-  },
-  {
-    stat: '每条结果附带溯源',
-    body: '来源数据库、版本字符串、系统模型、数据集键——每条候选项、每次导出、每次查询时均包含。历史导出在提供方发布新版本时不会被追溯修改。每次导出记录的是导出时刻的版本。',
-  },
-  {
-    stat: '平台从从业者的工作中持续复利',
-    body: 'Cortex Cowork 在后台对会话建立索引。当两个或更多会话共享相同的工作流形态时，后台进程读取对话记录并写入一条技能——一份结构化的操作指南，在下次遇到类似任务时由 agent 加载。无需用户操作。技能可贡献至共享市集；平台的 LCA 智识不固定在安装时的版本。',
   },
 ];
 ---
@@ -104,36 +57,17 @@ const claims = [
     </div>
   </section>
 
-  <!-- §II 三扇门 -->
-  <section class="border-t border-rule">
-    <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="三扇门" numeral="II" title="工作内容不同，底层引擎相同。选那扇属于你的门。" />
-
-      <div class="mt-12 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
-        {audiences.map((a, i) => (
-          <article class="p-8 md:p-10 flex flex-col gap-5" style="background: var(--paper);">
-            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.1rem;">§ {String(i + 1).padStart(2, '0')}</span>
-            <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 40; font-size: 1.35rem; line-height: 1.3; letter-spacing: -0.005em;">{a.label}</h3>
-            <p class="font-serif" style="line-height: 1.85; font-variation-settings: 'opsz' 17; color: var(--ink); font-size: 0.96rem;">{a.body}</p>
-            <a href={a.href} class="mt-auto smallcaps" style="text-decoration: none; color: var(--shell);">{a.cta} →</a>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- §III 两款产品 -->
+  <!-- 两款产品 -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="同一引擎，两个界面" numeral="III" title="Chat 答问题；Cowork 跑流程。" />
+      <SectionMark kicker="同一引擎，两个界面" numeral="I" title="Chat 答问题；Cowork 跑流程。" />
 
       <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
         {products.map((p) => (
           <article class="p-10 md:p-12 flex flex-col gap-5" style="background: var(--paper);">
             <p class="eyebrow" style="color: var(--shell);">{p.label}</p>
             <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.7rem, 2.8vw, 2.3rem); line-height: 1.1; letter-spacing: -0.015em;">{p.name}</h3>
-            <p class="font-serif" style="line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1rem;">{p.body}</p>
-            <p class="font-mono" style="font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-faint);">{p.proof}</p>
+            <p class="font-serif" style="line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1.04rem;">{p.body}</p>
             <div class="mt-auto flex flex-wrap items-center gap-4 pt-4">
               <a href={p.primary.href} class="ticket">{p.primary.label} <span aria-hidden="true">→</span></a>
               <a href={p.secondary.href} class="smallcaps" style="text-decoration: none; color: var(--ink-mute);">{p.secondary.label} →</a>
@@ -144,10 +78,10 @@ const claims = [
     </div>
   </section>
 
-  <!-- §IV 为什么是蜗牛 -->
+  <!-- 为什么是蜗牛 -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="为什么是蜗牛" numeral="IV" title="刻意选了火箭的反面。" />
+      <SectionMark kicker="为什么是蜗牛" numeral="II" title="刻意选了火箭的反面。" />
 
       <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
         一份 CBAM 申报、一份 EPD、一份范围三报告里的每一个数字，都要经得住读过 ISO 14044 的审计员的审查——他们专门在找那一行站不住的数据。Cortex 在后端做的是最快的事——跨 14 个数据库并行检索、并行工具调用、大规模 LLM 推理。但它交付的始终是最慢的那件：一条能被逐条复核的推理链。
@@ -161,23 +95,6 @@ const claims = [
         </p>
         <footer class="eyebrow mt-6"><a href="/zh/about" style="color: var(--shell);">为什么选蜗牛 →</a></footer>
       </blockquote>
-    </div>
-  </section>
-
-  <!-- §V 四条声明 -->
-  <section class="border-t border-rule" style="background: var(--paper-rim);">
-    <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="壳里装着什么" numeral="V" title="四条声明，每一条都能从 Cortex 的工作方式里验证。" />
-
-      <div class="mt-12 border-y border-rule">
-        {claims.map((c, i) => (
-          <article class="grid items-baseline gap-6 py-10 border-b border-rule last:border-b-0 md:grid-cols-[5rem_minmax(0,_1fr)_minmax(0,_1.4fr)] md:gap-12">
-            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.6rem;">§ {String(i + 1).padStart(2, '0')}</span>
-            <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 40; font-size: clamp(1.2rem, 2.4vw, 1.7rem); line-height: 1.2; letter-spacing: -0.01em;">{c.stat}</div>
-            <p class="font-serif" style="line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink-mute); font-size: 0.96rem;">{c.body}</p>
-          </article>
-        ))}
-      </div>
     </div>
   </section>
 

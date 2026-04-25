@@ -7,39 +7,13 @@ const title = 'HiQ Cortex — An LCA workbench you can defend, line by line.';
 const description =
   'Most LCA tools optimize for the one-click number. Cortex optimizes for the answer that holds when an auditor asks how it was reached. Fourteen databases, bilingual search, every proxy labeled.';
 
-// §II — Audience routing (3 doors)
-const audiences = [
-  {
-    label: 'For LCA consultants and EPD verifiers',
-    body:
-      'The hours spent moving between database tabs compress to a conversation. Cortex searches fourteen databases in parallel, returns ranked candidates with GWP100 per row, and flags gaps before your verifier does. Methodology Q&A cites the dataset record, not a paraphrase.',
-    href: '/solutions/bom-matching',
-    cta: 'See BOM matching',
-  },
-  {
-    label: 'For sustainability and CBAM teams',
-    body:
-      'CBAM filings require embedded-emissions evidence suppliers have not filed yet. HiQLCD carries tens of thousands of China-specific LCI records — every Chinese provincial grid, BF-BOF routes as the default for Chinese steel, aluminum GWP values built from Chinese grid intensity. One query returns the Chinese factory data and the EU reference dataset side by side.',
-    href: '/blog/china-manufacturing-data',
-    cta: 'Read the China data brief',
-  },
-  {
-    label: 'For developers building on LCA data',
-    body:
-      'The same reasoning engine behind Cortex Chat and Cortex Cowork is reachable via four protocols: REST, MCP, AG-UI, A2A. Fourteen databases, bilingual search, and the decision-back-to-practitioner mechanism — all behind one API key. Build LCA retrieval into your product without maintaining the databases yourself.',
-    href: '/docs',
-    cta: 'Read the API docs',
-  },
-];
-
-// §III — Two products
+// Two products — body trimmed for landing-page weight
 const products = [
   {
     name: 'Cortex Chat',
     label: 'CORTEX CHAT · WEB',
     body:
-      'Bring a material name, a BOM row, a Chinese factory term, or a methodology question. Cortex asks one clarifying question — production route, region, alloy grade — then searches fourteen databases and returns ranked candidates with GWP100 and source provenance. No spreadsheet setup. Responds in the language used.',
-    proof: 'material query · ~2 min · ranked datasets with provenance',
+      'A conversation, in Chinese or English. Cortex asks one clarifying question, searches fourteen databases, and returns ranked candidates with source attached.',
     primary: { href: '/chat', label: 'Open Cortex Chat' },
     secondary: { href: '/product/chat', label: 'Product overview' },
   },
@@ -47,30 +21,9 @@ const products = [
     name: 'Cortex Cowork',
     label: 'CORTEX COWORK · DESKTOP',
     body:
-      'LCA projects span weeks. Cowork keeps state across sessions: project workspace, six-layer memory, an append-only audit log that records every decision and proxy substitution. Reads BOM files from disk, writes matched results back to a four-sheet xlsx, drives openLCA locally. Available for macOS, Windows, and Linux.',
-    proof: 'multi-session project · full provenance · exportable reasoning chain',
+      'A desktop agent for LCA projects that span weeks. Reads your BOM files, drives openLCA locally, and writes every decision into a versionable audit log.',
     primary: { href: 'https://github.com/HiQ-AI/cortex-desktop/releases/latest', label: 'Download Cortex Desktop' },
     secondary: { href: '/product/cowork', label: 'Product overview' },
-  },
-];
-
-// §V — Trust signal
-const claims = [
-  {
-    stat: 'Fourteen databases searched in parallel',
-    body: 'HiQLCD 1.4.0, Ecoinvent 3.12.0, EF 3.1.0, CarbonMinds 2.0.2, Agri-footprint 7.0, TianGong, WorldSteel, HiQLCD-AL 2.0.0, and six more. Each candidate returns the dataset name, unit, geographic region, system model, and — where licensed — GWP100. Restricted datasets return a Licensed marker; no literature value is substituted. Top-k, not top-1. The practitioner sees the spread.',
-  },
-  {
-    stat: 'Bilingual search: factory terms to dataset IDs',
-    body: 'A Chinese LCA terminology layer spanning tens of thousands of terms, plus a curated library of thousands of factory-term-to-dataset mappings built over years of LCA practice. "背钩" resolves to the 304 stainless cold-rolled annealed coil dataset in HiQLCD. "IGBT 模块" hits the EV-application IGBT dataset in Ecoinvent, not the generic transistor entry. Cortex responds in the language of the query. Dataset names return bilingual.',
-  },
-  {
-    stat: 'Every result carries provenance',
-    body: 'Source database, version string, system model, and dataset key — included in every candidate, in every export, at query time. Historical exports are not retroactively modified when a provider releases a new version. Each export captures the version at the moment it was made.',
-  },
-  {
-    stat: 'The platform compounds from practitioner work',
-    body: 'Cortex Cowork indexes sessions in the background. When two or more sessions share the same workflow shape, a background process reads the transcripts and writes a skill — a structured how-to the agent loads at the next similar task. No user action required. Skills can be contributed to the shared marketplace; the platform\'s LCA intelligence is not fixed at the version installed.',
   },
 ];
 ---
@@ -104,36 +57,17 @@ const claims = [
     </div>
   </section>
 
-  <!-- ═══ §II Audience routing ═══ -->
-  <section class="border-t border-rule">
-    <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Three doors in" numeral="II" title="Different work, same engine. Pick the door that matches yours." />
-
-      <div class="mt-12 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
-        {audiences.map((a, i) => (
-          <article class="p-8 md:p-10 flex flex-col gap-5" style="background: var(--paper);">
-            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.1rem;">§ {String(i + 1).padStart(2, '0')}</span>
-            <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 40; font-size: 1.4rem; line-height: 1.15; letter-spacing: -0.01em;">{a.label}</h3>
-            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 17; color: var(--ink); font-size: 0.96rem;">{a.body}</p>
-            <a href={a.href} class="mt-auto smallcaps" style="text-decoration: none; color: var(--shell);">{a.cta} →</a>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ §III Two products ═══ -->
+  <!-- ═══ Two products ═══ -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="One engine, two surfaces" numeral="III" title="Chat answers questions. Cowork runs workflows." />
+      <SectionMark kicker="One engine, two surfaces" numeral="I" title="Chat answers questions. Cowork runs workflows." />
 
       <div class="mt-14 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
         {products.map((p) => (
           <article class="p-10 md:p-12 flex flex-col gap-5" style="background: var(--paper);">
             <p class="eyebrow" style="color: var(--shell);">{p.label}</p>
             <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.8rem, 3vw, 2.4rem); line-height: 1.05; letter-spacing: -0.02em;">{p.name}</h3>
-            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1rem;">{p.body}</p>
-            <p class="font-mono" style="font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-faint);">{p.proof}</p>
+            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1.02rem;">{p.body}</p>
             <div class="mt-auto flex flex-wrap items-center gap-4 pt-4">
               <a href={p.primary.href} class="ticket">{p.primary.label} <span aria-hidden="true">→</span></a>
               <a href={p.secondary.href} class="smallcaps" style="text-decoration: none; color: var(--ink-mute);">{p.secondary.label} →</a>
@@ -144,10 +78,10 @@ const claims = [
     </div>
   </section>
 
-  <!-- ═══ §IV Why a snail ═══ -->
+  <!-- ═══ Why a snail ═══ -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="Why a snail" numeral="IV" title="The opposite of a rocket, on purpose." />
+      <SectionMark kicker="Why a snail" numeral="II" title="The opposite of a rocket, on purpose." />
 
       <p class="max-w-3xl font-serif" style="font-size: 1.08rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         Every number in a CBAM filing, an EPD, or a Scope 3 report has to survive an auditor who has read ISO 14044 and is looking for the row that doesn't hold. Cortex does the fastest things available on the backend — parallel retrieval across fourteen databases, concurrent tool calls, LLM at scale. It delivers the slowest thing: a chain of reasoning you can audit, line by line.
@@ -161,23 +95,6 @@ const claims = [
         </p>
         <footer class="eyebrow mt-6"><a href="/about" style="color: var(--shell);">Read why we picked a snail →</a></footer>
       </blockquote>
-    </div>
-  </section>
-
-  <!-- ═══ §V Trust signal ═══ -->
-  <section class="border-t border-rule" style="background: var(--paper-rim);">
-    <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="What's under the shell" numeral="V" title="Three claims. Each provable from how Cortex works." />
-
-      <div class="mt-12 border-y border-rule">
-        {claims.map((c, i) => (
-          <article class="grid items-baseline gap-6 py-10 border-b border-rule last:border-b-0 md:grid-cols-[5rem_minmax(0,_1fr)_minmax(0,_1.4fr)] md:gap-12">
-            <span class="font-display italic" style="color: var(--shell); font-variation-settings: 'SOFT' 40; font-size: 1.6rem;">§ {String(i + 1).padStart(2, '0')}</span>
-            <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 40; font-size: clamp(1.3rem, 2.4vw, 1.8rem); line-height: 1.1; letter-spacing: -0.015em;">{c.stat}</div>
-            <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink-mute); font-size: 0.98rem;">{c.body}</p>
-          </article>
-        ))}
-      </div>
     </div>
   </section>
 
