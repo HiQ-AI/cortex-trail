@@ -15,6 +15,7 @@ const compare = [
   ['技能系统',     '核心搜索技能',                                                               '完整技能市场 + 自定义技能'],
   ['决策记录',     '提取的用户记忆',                                                             '追加写入的 progress.md，每条决策带时间戳'],
   ['最适合',       '单次检索：一个材料、一份 BOM、一个方法学问题',                             '跨天项目：审计追踪、多会话记忆、结构化导出'],
+  ['类比',         '"LCI 数据的 Wolfram Alpha"',                                              '"全天候在你机器上工作的 LCA 初级顾问"'],
 ];
 ---
 
@@ -99,6 +100,9 @@ const compare = [
         <p>
           每条结果携带：数据集键值、GWP100（已授权的情况下）、单位、地理区域、系统模型、数据库名称和版本，以及数据集详情页链接。搜索是一次对话轮次。来源记录完整。
         </p>
+        <p class="font-serif italic" style="font-variation-settings: 'opsz' 16; color: var(--ink-mute); font-size: 0.98rem;">
+          通用 AI 可能从训练数据中估算。Cortex 从经授权的来源中检索。前者在猜，后者在查。
+        </p>
       </div>
     </div>
   </section>
@@ -179,6 +183,9 @@ const compare = [
 
       <p class="mt-10 max-w-3xl font-serif" style="font-size: 1.02rem; line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink);">
         在 Chat 里处理 CBAM 查询，返回带来源的候选，供申报人自行计算。在 Cowork 里跑 CBAM 流程，匹配完整 BOM，在追加写入的日志中记录每条代理替换及其偏差方向，导出核查员会读的 Excel 文件。
+      </p>
+      <p class="font-serif italic" style="font-variation-settings: 'opsz' 16; color: var(--ink-mute); font-size: 0.98rem;">
+        不要用 Chat 来判断 Cowork 的能力——Chat 本身就是轻量模式。
       </p>
 
       <p class="mt-6">
