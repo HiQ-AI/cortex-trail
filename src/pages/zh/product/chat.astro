@@ -46,9 +46,6 @@ const compare = [
       <SectionMark kicker="双语检索" numeral="I" title="中文工厂术语：搜索之前就解决。" />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          海外 LCA 工具把中文工厂术语留给用户处理。Cortex 在搜索之前就把它解决掉。
-        </p>
-        <p>
           中国制造业 BOM 里的术语，在 Ecoinvent 里往往没有直接对应项："背钩"（手表表壳零件）、"IGBT 模块"、"502 胶水"。这不是搜索失败——是翻译问题，此前的工具把它留给了从业者。Cortex 内置数千条经人工整理的材料到数据集映射，积累自多年 LCA 从业者的实际决策。"IGBT 模块"对应 Ecoinvent 3.12.0 中的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">market for insulated gate bipolar transistor, electric vehicle application</code>。"502 胶水"映射到聚氨酯胶黏剂——这是有依据的代理决策，不是猜测。"绝缘栅双极晶体管"和"IGBT 模块"是同一个元器件，但命名精度不同，匹配的数据集也不同。映射如实反映这一点。
         </p>
         <p>
@@ -140,6 +137,9 @@ const compare = [
         </p>
         <p>
           原始对话——实际消息——保留在当前对话窗口内。超出后，最旧的轮次会被丢弃。提取的偏好不会丢弃。它们是用户档案，不是对话记录。
+        </p>
+        <p class="font-serif italic" style="font-variation-settings: 'opsz' 16; color: var(--ink-mute); font-size: 0.98rem;">
+          说一次"EU EPD 用 Ecoinvent"。下一次会话，Cortex 直接用。
         </p>
         <p>
           数据来源偏好的变更需要一次确认。会话中途说"这条查询用 Ecoinvent"，会看到一步确认提示，确认后会话的活跃数据库立即切换，并存储供后续会话使用。由用户决定；Cortex 记录下来。

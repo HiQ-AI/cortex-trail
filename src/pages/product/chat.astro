@@ -46,9 +46,6 @@ const compare = [
       <SectionMark kicker="Bilingual retrieval" numeral="I" title="Chinese factory names, resolved before searching." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Most LCA tools treat Chinese factory names as the user's problem. Cortex resolves them before searching.
-        </p>
-        <p>
           Chinese manufacturing BOMs arrive with terms that have no direct equivalent in Ecoinvent: "背钩" (a watch case component), "IGBT模块", "502胶水". These are not search failures — they are a translation problem that previous tools left to the practitioner. Cortex carries thousands of curated material-to-dataset mappings, built over years of LCA practitioner decisions. "IGBT模块" resolves to <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">market for insulated gate bipolar transistor, electric vehicle application</code> in Ecoinvent 3.12.0. "502胶水" maps to polyurethane adhesive — a documented proxy decision, not a guess. "绝缘栅双极晶体管" resolves differently than "IGBT模块" — same component, different naming precision, different dataset. The mapping reflects that.
         </p>
         <p>
@@ -140,6 +137,9 @@ const compare = [
         </p>
         <p>
           The raw conversation — the actual messages — spans the active conversation window. Beyond that, the oldest turns drop. The extracted preferences do not drop. They are a user profile, not a transcript.
+        </p>
+        <p class="font-serif italic" style="font-variation-settings: 'opsz' 16; color: var(--ink-mute); font-size: 0.98rem;">
+          Say "use Ecoinvent for EU EPDs" once. Cortex applies it next session.
         </p>
         <p>
           Data source preference changes take one confirmation. A user mid-session who says "actually, use Ecoinvent for this query" will see a one-step confirmation prompt before the session's active database switches. Confirmed, the preference is applied immediately and stored for future sessions. The user decides; Cortex records it.
