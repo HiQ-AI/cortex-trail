@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
@@ -61,7 +62,7 @@ const checkpoints = [
         Cortex Cowork 在 HiQ 编辑器中引导完整的数据集创作工作流——元数据、流量录入、质量平衡验证、DQI 评分与提交审核——并在发布前将每一个建模决定写入项目记录。
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="zh" />
         <a href="/zh/product/cowork" class="ticket-ghost">Cowork 如何工作</a>
       </div>
     </div>
@@ -176,7 +177,7 @@ const checkpoints = [
         Cortex Cowork 本地运行。HiQ 编辑器保存数据集。每次会话的决定积累在随项目文件夹一同存放的项目日志中。
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="zh" />
         <a href="/zh/solutions/bom-matching" class="ticket-ghost">先看 BOM 匹配</a>
       </div>
       <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">

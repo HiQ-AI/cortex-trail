@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
@@ -133,7 +134,7 @@ const sources = [
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
         <a href="#catalog" class="ticket">查看技能目录 <span aria-hidden="true">→</span></a>
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket-ghost">下载 Cortex</a>
+        <DownloadButtons locale="zh" primary="ghost" />
       </div>
     </div>
   </section>
@@ -256,7 +257,7 @@ const sources = [
         Cortex Cowork 支持 macOS、Windows 和 Linux。内置技能首次会话即激活。市场技能与自定义技能一步安装。
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="zh" />
         <a href="/zh/pricing" class="ticket-ghost">查看定价</a>
       </div>
     </div>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
@@ -101,7 +102,7 @@ const compare = [
         Cowork 是专为持续数周的 LCA 项目设计的桌面端 Agent。它从磁盘直接读取 BOM 文件，在本地执行工具，将每一个决策写入随项目文件夹一同走的只追加日志。
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="zh" />
         <a href="#scenarios" class="ticket-ghost">它能处理什么</a>
       </div>
     </div>
@@ -416,7 +417,7 @@ const compare = [
         Cowork 在重启之间保留项目上下文：已做的决策、已记录的替代值选择、已匹配的行。六层记忆在磁盘上，不在云端会话里。项目下次打开时，Agent 从上次会话结束的地方开始。
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="zh" />
         <a href="mailto:info@hiqlcd.com" class="ticket-ghost">有疑问 · info@hiqlcd.com</a>
       </div>
       <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">

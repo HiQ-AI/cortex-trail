@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
@@ -61,7 +62,7 @@ const checkpoints = [
         Cortex Cowork guides the full dataset authoring workflow inside HiQ Editor — metadata, flow entry, mass-balance validation, DQI scoring, and review submission — and writes every modeling decision into the project record before anything is published.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="en" />
         <a href="/product/cowork" class="ticket-ghost">How Cowork works</a>
       </div>
     </div>
@@ -176,7 +177,7 @@ const checkpoints = [
         Cortex Cowork runs locally. HiQ Editor holds the dataset. Every session's decisions accumulate in a project log that travels with the project folder.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="en" />
         <a href="/solutions/bom-matching" class="ticket-ghost">BOM matching first</a>
       </div>
       <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">

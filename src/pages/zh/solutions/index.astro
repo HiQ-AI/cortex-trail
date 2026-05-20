@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
 const title = '解决方案 — HiQ Cortex';
@@ -128,7 +129,7 @@ const operatorSolutions = [
         Cortex Cowork 支持 macOS、Windows 与 Linux。会话本地运行——文件留在机器上。
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="zh" />
         <a href="/zh/chat" class="ticket-ghost">试用 Cortex Chat</a>
       </div>
     </div>

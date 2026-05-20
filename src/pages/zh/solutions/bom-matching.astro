@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
@@ -56,7 +57,7 @@ const hitlOptions = [
         Cortex Cowork 接收物料清单（BOM）——Excel、CSV 或直接粘贴文本——返回一份四页工作簿。分钟级，不是小时级，任意规模的 BOM。
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="zh" />
         <a href="/zh/chat" class="ticket-ghost">在 Chat 中查询单项材料</a>
       </div>
     </div>
@@ -222,7 +223,7 @@ const hitlOptions = [
         Cortex Cowork 支持 macOS、Windows 和 Linux。BOM 会话在本地运行——文件留在本机，不上传至服务器。
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="zh" />
         <a href="/zh/chat" class="ticket-ghost">试用 Cortex Chat</a>
       </div>
     </div>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
@@ -58,7 +59,7 @@ const checkpoints = [
         Cortex Cowork 在你本地的 openLCA 实例中运行完整的产品碳足迹工作流——数据集匹配、产品系统构建、LCIA 计算——并将每一个建模决定写入追加式项目日志。
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="zh" />
         <a href="/zh/product/cowork" class="ticket-ghost">Cowork 如何工作</a>
       </div>
     </div>
@@ -194,7 +195,7 @@ const checkpoints = [
         Cortex Cowork 本地运行。openLCA 留在你的机器上。每次会话的决定积累在随项目文件夹一同存放的项目日志中。
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="zh" />
         <a href="/zh/solutions/bom-matching" class="ticket-ghost">先看 BOM 匹配</a>
       </div>
       <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'Security — HiQ Cortex';
@@ -182,7 +183,7 @@ const claims = [
         Start there.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download for macOS <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="en" />
         <a href="/chat" class="ticket-ghost">Open Cortex Chat</a>
       </div>
     </div>

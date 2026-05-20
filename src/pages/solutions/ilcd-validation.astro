@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
@@ -46,7 +47,7 @@ const checkpoints = [
         Cortex Cowork validates ILCD data packages against schema requirements and converts between ILCD and JSON-LD — reporting every error by location and severity, and documenting every mapping choice before any field is changed.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="en" />
         <a href="/product/cowork" class="ticket-ghost">How Cowork works</a>
       </div>
     </div>
@@ -161,7 +162,7 @@ const checkpoints = [
         Cortex Cowork runs locally. ILCD packages stay on your machine. Known pitfalls from each validation session accumulate in the project record.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="en" />
         <a href="/solutions/lca-dataset-authoring" class="ticket-ghost">Dataset authoring</a>
       </div>
       <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">

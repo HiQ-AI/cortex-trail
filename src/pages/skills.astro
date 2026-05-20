@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
@@ -133,7 +134,7 @@ const sources = [
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
         <a href="#catalog" class="ticket">See the skill catalog <span aria-hidden="true">→</span></a>
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket-ghost">Download Cortex</a>
+        <DownloadButtons locale="en" primary="ghost" />
       </div>
     </div>
   </section>
@@ -256,7 +257,7 @@ const sources = [
         Cortex Cowork is available for macOS, Windows, and Linux. Pre-installed skills are active from the first session. Marketplace and custom skills install in one step.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="en" />
         <a href="/pricing" class="ticket-ghost">See pricing</a>
       </div>
     </div>

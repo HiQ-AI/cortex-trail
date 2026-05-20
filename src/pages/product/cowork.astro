@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
@@ -101,7 +102,7 @@ const compare = [
         Cowork is a desktop agent for LCA projects that span weeks. It reads BOM files directly from disk, runs tools on your machine, and writes every decision into an append-only log that travels with the project folder.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="en" />
         <a href="#scenarios" class="ticket-ghost">See what it handles</a>
       </div>
     </div>
@@ -416,7 +417,7 @@ const compare = [
         Cowork keeps the project context between restarts: the decisions made, the proxy choices documented, the rows already matched. The six-layer memory is on disk, not in a cloud session. The next time the project opens, the agent starts from where the last session ended.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="en" />
         <a href="mailto:info@hiqlcd.com" class="ticket-ghost">Questions · info@hiqlcd.com</a>
       </div>
       <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">

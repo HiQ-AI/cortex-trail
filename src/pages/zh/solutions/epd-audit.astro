@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
@@ -98,7 +99,7 @@ const videoUrl = '';
         Cortex 在注册决策作出之前，对 EPD 提交材料进行合规问题检查——涵盖格式、PCR 对齐、数值合理性、CPR 2024/3110 准备情况、工具溯源及验证方质量。每条发现均引用规范条款，并摘录 EPD 中触发该发现的原文段落。
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="zh" />
         <a href="/chat" class="ticket-ghost">在 Chat 中试用</a>
       </div>
     </div>
@@ -222,7 +223,7 @@ const videoUrl = '';
         Cortex Cowork 支持 macOS、Windows 和 Linux 本地运行。EPD 材料包在本机处理——文件不上传至服务器。
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="zh" />
         <a href="/chat" class="ticket-ghost">在 Chat 中试用</a>
       </div>
       <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
 const title = '安全说明 — HiQ Cortex';
@@ -181,7 +182,7 @@ const claims = [
         从这里开始。
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 macOS 版 <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="zh" />
         <a href="/zh/chat" class="ticket-ghost">打开 Cortex Chat</a>
       </div>
     </div>

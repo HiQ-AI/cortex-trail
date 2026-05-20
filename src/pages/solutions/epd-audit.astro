@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
@@ -98,7 +99,7 @@ const videoUrl = '';
         Cortex checks EPD submission dossiers for compliance issues before the registration decision — across format, PCR alignment, numerical plausibility, CPR 2024/3110 readiness, tool provenance, and verifier quality. Every finding cites the normative clause and quotes the passage from the EPD that triggered it.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="en" />
         <a href="/chat" class="ticket-ghost">Try in Chat</a>
       </div>
     </div>
@@ -222,7 +223,7 @@ const videoUrl = '';
         Cortex Cowork is available for macOS, Windows, and Linux. EPD dossiers are processed locally — documents stay on the machine, not uploaded to a server.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="en" />
         <a href="/chat" class="ticket-ghost">Try in Chat</a>
       </div>
       <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">

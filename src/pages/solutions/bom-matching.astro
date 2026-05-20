@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
@@ -56,7 +57,7 @@ const hitlOptions = [
         Cortex Cowork takes a Bill of Materials — Excel, CSV, or pasted text — and returns a four-sheet workbook. Minutes, not hours, for a BOM of any size.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="en" />
         <a href="/chat" class="ticket-ghost">Try a single material in Chat</a>
       </div>
     </div>
@@ -222,7 +223,7 @@ const hitlOptions = [
         Cortex Cowork is available for macOS, Windows, and Linux. A BOM session runs locally — files stay on the machine, not uploaded to a server.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="en" />
         <a href="/chat" class="ticket-ghost">Try Cortex Chat</a>
       </div>
     </div>

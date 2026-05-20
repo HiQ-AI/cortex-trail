@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
@@ -58,7 +59,7 @@ const checkpoints = [
         Cortex Cowork runs the full product carbon footprint workflow inside your local openLCA instance — dataset matching, product system construction, LCIA calculation — and writes every modeling decision into an append-only project log.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="en" />
         <a href="/product/cowork" class="ticket-ghost">How Cowork works</a>
       </div>
     </div>
@@ -194,7 +195,7 @@ const checkpoints = [
         Cortex Cowork runs locally. openLCA stays on your machine. Every session's decisions accumulate in a project log that travels with the project folder.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">Download Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="en" />
         <a href="/solutions/bom-matching" class="ticket-ghost">BOM matching first</a>
       </div>
       <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">

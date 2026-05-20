@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
@@ -46,7 +47,7 @@ const checkpoints = [
         Cortex Cowork 对 ILCD 数据包进行 schema 校验，并在 ILCD 与 JSON-LD 之间互转——按位置和严重程度报告每个错误，并在修改任何字段前记录每条映射选择。
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="zh" />
         <a href="/zh/product/cowork" class="ticket-ghost">Cowork 如何工作</a>
       </div>
     </div>
@@ -161,7 +162,7 @@ const checkpoints = [
         Cortex Cowork 本地运行。ILCD 数据包留在你的机器上。每次校验会话发现的已知陷阱累积在项目记录中。
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/HiQ-AI/cortex-desktop/releases/latest" class="ticket">下载 Cortex Desktop <span aria-hidden="true">→</span></a>
+        <DownloadButtons locale="zh" />
         <a href="/zh/solutions/lca-dataset-authoring" class="ticket-ghost">数据集创作</a>
       </div>
       <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-serif" style="color: var(--ink-mute); font-variation-settings: 'opsz' 14;">

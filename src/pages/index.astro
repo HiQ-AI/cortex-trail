@@ -2,6 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
+import DownloadButtons from '@/components/DownloadButtons.astro';
 
 const title = 'HiQ Cortex — An LCA workbench you can defend, line by line.';
 const description =
@@ -22,8 +23,8 @@ const products = [
     label: 'CORTEX COWORK · DESKTOP',
     body:
       'Runs on your machine. Reads your project files, drives openLCA locally, writes each substitution decision into a versioned log inside the project. The log persists with the project, walkable on review.',
-    primary: { href: 'https://github.com/HiQ-AI/cortex-desktop/releases/latest', label: 'Download Cortex Desktop' },
     secondary: { href: '/product/cowork', label: 'Product overview' },
+    download: true,
   },
 ];
 ---
@@ -78,7 +79,9 @@ const products = [
             <h3 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 60; font-size: clamp(1.8rem, 3vw, 2.4rem); line-height: 1.05; letter-spacing: -0.02em;">{p.name}</h3>
             <p class="font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 1.02rem;">{p.body}</p>
             <div class="mt-auto flex flex-wrap items-center gap-4 pt-4">
-              <a href={p.primary.href} class="ticket">{p.primary.label} <span aria-hidden="true">→</span></a>
+              {p.download
+                ? <DownloadButtons locale="en" />
+                : <a href={p.primary.href} class="ticket">{p.primary.label} <span aria-hidden="true">→</span></a>}
               <a href={p.secondary.href} class="smallcaps" style="text-decoration: none; color: var(--ink-mute);">{p.secondary.label} →</a>
             </div>
           </article>
