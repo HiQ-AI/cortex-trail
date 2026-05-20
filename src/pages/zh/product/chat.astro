@@ -47,7 +47,7 @@ const compare = [
       <SectionMark kicker="双语检索" numeral="I" title="中文工厂术语：搜索之前就解决。" />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          中国制造业 BOM 里的术语，在 Ecoinvent 里往往没有直接对应项："背钩"（手表表壳零件）、"IGBT 模块"、"502 胶水"。这不是搜索失败——是翻译问题，此前的工具把它留给了从业者。Cortex 内置数千条经人工整理的材料到数据集映射，积累自多年 LCA 从业者的实际决策。"IGBT 模块"对应 Ecoinvent 3.12 中的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">market for insulated gate bipolar transistor, electric vehicle application</code>。"502 胶水"映射到聚氨酯胶黏剂——这是有依据的代理决策，不是猜测。"绝缘栅双极晶体管"和"IGBT 模块"是同一个元器件，但命名精度不同，匹配的数据集也不同。映射如实反映这一点。
+          中国制造业 BOM 里的术语，在 Ecoinvent 里往往没有直接对应项："背钩"（手表表壳零件）、"IGBT 模块"、"502 胶水"。这是翻译问题——此前的工具把它留给了从业者。Cortex 内置数千条经人工整理的材料到数据集映射，积累自多年 LCA 从业者的实际决策。"IGBT 模块"对应 Ecoinvent 3.12 中的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">market for insulated gate bipolar transistor, electric vehicle application</code>。"502 胶水"映射到聚氨酯胶黏剂——这是有依据的代理决策。"绝缘栅双极晶体管"和"IGBT 模块"是同一个元器件，但命名精度不同，匹配的数据集也不同。映射如实反映这一点。
         </p>
         <p>
           搜索索引内置一部专为 LCA 中文术语调校的词典，涵盖数万条 LCA 专业术语。没有它，"镍板"会被切分成覆盖所有含"镍"记录的词元——镍电池回收、镍精炼、镍合金铸造，一起出来。有了它，"镍板"精确对应镍板，噪声消失。
