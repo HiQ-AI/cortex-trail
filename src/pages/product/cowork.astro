@@ -9,9 +9,8 @@ const description =
   'Your files. Your machine. Your audit trail. The desktop agent for LCA projects that span weeks — reads BOMs, drives openLCA, writes every decision into a versionable audit log.';
 
 const platforms = [
-  { name: 'macOS',   detail: '.dmg — Apple Silicon (arm64) and Intel (x86-64)', note: 'Gatekeeper: System Settings → Privacy & Security → Open Anyway on first launch.' },
-  { name: 'Windows', detail: '.exe installer',                                  note: 'Requires Git for Windows. App auto-detects system Git on first launch.' },
-  { name: 'Linux',   detail: '.AppImage or .deb (dpkg -i)',                     note: 'glibc (x86-64) and musl (x86-64) supported.' },
+  { name: 'macOS',   detail: '.dmg — Apple Silicon (arm64)', note: 'Gatekeeper: System Settings → Privacy & Security → Open Anyway on first launch.' },
+  { name: 'Windows', detail: '.exe installer',               note: 'Requires Git for Windows. App auto-detects system Git on first launch.' },
 ];
 
 const scenarios = [
@@ -113,9 +112,9 @@ const compare = [
     <div class="container-page py-14 md:py-16">
       <div class="eyebrow mb-3">Available on your machine</div>
       <p class="max-w-2xl font-serif italic" style="font-size: 0.95rem; line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">
-        Cortex Cowork ships as a native binary for three platforms. <strong style="font-style: normal; color: var(--ink);">Computer Use is macOS only.</strong>
+        Cortex Cowork ships as a native binary for macOS and Windows. <strong style="font-style: normal; color: var(--ink);">Computer Use is macOS only.</strong>
       </p>
-      <div class="mt-8 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
+      <div class="mt-8 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
         {platforms.map((p) => (
           <div class="p-6" style="background: var(--paper);">
             <div class="flex items-baseline justify-between mb-2">
@@ -369,7 +368,7 @@ const compare = [
           When Computer Use is enabled, Cowork gains 21 MCP tools for direct GUI interaction: screenshot, zoom, click (left, right, double, triple, middle), type, key press, scroll, drag, application launch, clipboard read/write, and others. The agent can drive any installed desktop application — openLCA dialogs, SimaPro result windows, a legacy ERP, any app in the user's PATH — without requiring a command-line interface. Before each action, the user approves which applications the agent may control. The main window docks to a side panel; a visible overlay displays "Claude is using your computer." Pressing Escape interrupts at any point.
         </p>
         <p class="font-serif italic" style="color: var(--ink-mute);">
-          Computer Use is not available on Windows or Linux.
+          Computer Use is not available on Windows.
         </p>
       </div>
     </div>

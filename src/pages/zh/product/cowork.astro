@@ -9,9 +9,8 @@ const description =
   '你的文件。你的机器。你的审计记录。Cowork 是专为持续数周的 LCA 项目设计的桌面端 Agent——读取 BOM、驱动 openLCA、把每一个决策写入可版本管理的审计日志。';
 
 const platforms = [
-  { name: 'macOS',   detail: '.dmg — Apple Silicon（arm64）和 Intel（x86-64）', note: 'Gatekeeper：首次启动若弹出来自身份不明的开发者提示，前往「系统设置 → 隐私与安全性 → 仍要打开」。' },
-  { name: 'Windows', detail: '.exe 安装包',                                       note: '需要 Git for Windows。应用首次启动时自动检测系统 Git。' },
-  { name: 'Linux',   detail: '.AppImage 或 .deb（dpkg -i）',                     note: '支持 glibc（x86-64）和 musl（x86-64）。' },
+  { name: 'macOS',   detail: '.dmg — Apple Silicon（arm64）', note: 'Gatekeeper：首次启动若弹出来自身份不明的开发者提示，前往「系统设置 → 隐私与安全性 → 仍要打开」。' },
+  { name: 'Windows', detail: '.exe 安装包',                    note: '需要 Git for Windows。应用首次启动时自动检测系统 Git。' },
 ];
 
 const scenarios = [
@@ -113,9 +112,9 @@ const compare = [
     <div class="container-page py-14 md:py-16">
       <div class="eyebrow mb-3">在你的机器上运行</div>
       <p class="max-w-2xl font-serif italic" style="font-size: 0.95rem; line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">
-        Cortex Cowork 以三平台原生二进制发布。<strong style="font-style: normal; color: var(--ink);">Computer Use 仅支持 macOS。</strong>
+        Cortex Cowork 以 macOS 和 Windows 原生二进制发布。<strong style="font-style: normal; color: var(--ink);">Computer Use 仅支持 macOS。</strong>
       </p>
-      <div class="mt-8 grid gap-px overflow-hidden border border-rule md:grid-cols-3" style="background: var(--rule);">
+      <div class="mt-8 grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
         {platforms.map((p) => (
           <div class="p-6" style="background: var(--paper);">
             <div class="flex items-baseline justify-between mb-2">
@@ -369,7 +368,7 @@ const compare = [
           启用 Computer Use 后，Cowork 获得 21 个 MCP 工具用于直接 GUI 交互：截图、缩放、点击（左键、右键、双击、三击、中键）、输入文字、按键、滚动、拖拽、启动应用、剪贴板读写等。Agent 可以驱动任何已安装的桌面应用——openLCA 对话框、SimaPro 结果窗口、旧版 ERP、用户 PATH 中的任何程序——无需命令行接口。每次操作前，用户审批 Agent 可控制哪些应用。主窗口缩至侧边面板；可见遮罩显示"Claude is using your computer."随时按 Escape 中断。
         </p>
         <p class="font-serif italic" style="color: var(--ink-mute);">
-          Computer Use 不支持 Windows 和 Linux。
+          Computer Use 不支持 Windows。
         </p>
       </div>
     </div>
