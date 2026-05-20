@@ -48,6 +48,21 @@ const scenarios = [
   },
 ];
 
+const scheduleShapes = [
+  {
+    label: 'Standalone',
+    body: 'A schedule that belongs to no project. Useful for the kind of recurring task that crosses projects: every Monday at 09:00, sweep the EF 3.1 release feed and email the diff. Lives at the user level. Survives any project deletion.',
+  },
+  {
+    label: 'Project-bound',
+    body: 'A schedule attached to a specific project. Inherits the project\'s six-layer memory, its Cortex.md instructions, its wiki. Delete the project and the schedule goes with it. Use for: weekly EPD data-collection chase, monthly progress.md export to a .docx report for the client.',
+  },
+  {
+    label: 'Task-bound',
+    body: 'A schedule attached to one task inside a project. The binding is bidirectional: from the task, you see its schedule and run history; from the schedule, you jump to the originating task. When the task is marked done, the schedule ends. Useful for recurring sub-jobs that live inside a project\'s lifecycle — re-validate the supplier\'s BOM every Friday until the EPD ships.',
+  },
+];
+
 const memoryLayers = [
   ['L1 User Profile',         'Role, preferred databases (HiQLCD, Ecoinvent), preferred impact method, report language, estimation policy', 'User via Settings'],
   ['L2 Global Instructions',  'Rules that apply across all projects ("always cut-off system model," "output Chinese")',                       'User via Settings'],
@@ -64,6 +79,7 @@ const compare = [
   ['LCA catalog search',      'Server-side',                           'Local filesystem, offline-capable'],
   ['Skills system',           'Core search skills',                    'Full marketplace + custom + observer-sedimented'],
   ['Audit trail',             'Conversation history',                  'L5 progress.md, append-only, versionable'],
+  ['Mobile hand-off',         'Not available',                         'Cortex Dispatch (dispatch.hiq.earth)'],
   ['Computer Use',            'Not available',                         '21 tools, macOS only'],
   ['Best for',                'Quick queries, methodology Q&A',        'BOM matching, project work, EPD data prep'],
 ];
@@ -113,10 +129,31 @@ const compare = [
     </div>
   </section>
 
-  <!-- §II Scenarios -->
-  <section id="scenarios" class="border-t border-rule" style="background: var(--paper-rim);">
+  <!-- §II Dispatch -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Cortex Dispatch" numeral="II" title="Hand the work off from your phone. Pick it up at the desk." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cortex Dispatch is the phone-side companion to desktop Cowork. Open <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">dispatch.hiq.earth</code> on a phone — it installs as a Progressive Web App — and the screen is one text box and one microphone button. Type the task, or hold to record. Dispatch routes it to the desktop Cowork instance signed into the same account; Cowork picks it up and runs.
+        </p>
+        <p>
+          Voice goes through Cloudflare R2: the phone uploads the audio directly, the server transcribes, and the transcript reaches the Cowork session as the next user message. The Cowork window does not need to be in the foreground. The desktop machine does need to be running and signed in.
+        </p>
+        <p>
+          A common shape: the procurement manager hears a supplier name in a meeting and dictates <em>"pull the 304 stainless rows from the last BOM and re-match against HiQLCD 1.4."</em> Forty minutes later, back at the desk, the matched workbook is open in the Results sheet and the decisions are written to <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code>. Dispatch did not replace Cowork. It moved the trigger out of the office.
+        </p>
+        <p>
+          Dispatch is not a separate agent. It is a remote control. Every guardrail Cowork enforces locally — the out-of-workspace gate on file writes, the practitioner-decides pauses on coverage and proxy choice — fires the same way whether the run started from the keyboard or the phone. SSO authenticates Dispatch the same way it authenticates the desktop.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §III Scenarios -->
+  <section id="scenarios" class="border-t border-rule">
     <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="What it handles" numeral="II" title="Four workflows Chat cannot run." />
+      <SectionMark kicker="What it handles" numeral="III" title="Four workflows Chat cannot run." />
 
       <div class="mt-14 border-y border-rule">
         {scenarios.map((s) => (
@@ -143,37 +180,69 @@ const compare = [
     </div>
   </section>
 
-  <!-- §III BOM xlsx 4 sheets -->
-  <section class="border-t border-rule">
+  <!-- §IV BOM deliverable -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="The BOM export" numeral="III" title="Four sheets, one workbook." />
+      <SectionMark kicker="The BOM export" numeral="IV" title="One workbook. Four sheets." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          The deliverable from a BOM matching session is a single <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">.xlsx</code> workbook with four sheets.
+          A BOM matching session ends with a single <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">.xlsx</code> workbook. Four sheets, in this order:
         </p>
         <p>
-          <strong style="font-weight: 500;">Summary</strong> — Coverage at a glance: percentage matched, count of materials, databases compared. A color-segmented progress bar shows matched (green), proxy (amber), and gap (empty) proportions. A breakdown table by material category.
+          <strong style="font-weight: 500;">Summary</strong> — coverage at a glance: matched %, proxy %, gap %, totals by material category. <strong style="font-weight: 500;">Results</strong> — the main table; one row per BOM line, one column group per database, dataset cells hyperlinked to the source record on <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">hiqlcd.com</code>. <strong style="font-weight: 500;">Gaps</strong> — the unmatched and proxy rows, with the databases searched and the next action suggested. <strong style="font-weight: 500;">Methodology</strong> — run parameters and the fixed notes that let a reviewer reproduce the work (system model, GWP100 per IPCC AR6, proxy definition, the practitioner-review requirement).
         </p>
         <p>
-          <strong style="font-weight: 500;">Results</strong> — The main table. Each row is one BOM material; each column group is one database. The dataset cell is a hyperlink: clicking it opens the dataset's detail page at <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">hiqlcd.com/dataset/...</code> directly. Adjacent columns carry unit, region, and GWP100 (blue color-scale, proportional to value rank). A <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">Δ%</code> column computes the percentage difference between two databases for the same row. The <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">Status</code> column shows ✓ Matched / ~ Proxy / ✗ Gap. The <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">Notes</code> column carries proxy reasoning, weighted-average decomposition for composite materials, and alternative candidates.
-        </p>
-        <p>
-          Restricted rows show <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">Licensed</code> in the GWP column. The dataset name, region, unit, and hyperlink remain visible. No literature fallback is substituted.
-        </p>
-        <p>
-          <strong style="font-weight: 500;">Gaps</strong> — All unmatched and proxy rows, with the databases that have a match, the databases that don't, the reason, and a suggested action.
-        </p>
-        <p>
-          <strong style="font-weight: 500;">Methodology</strong> — Parameters: source file name, date generated, databases, system model, functional unit. Five fixed methodology notes including: GWP values are GWP100 per IPCC AR6, proxy definition, alternatives explanation, default system model, and the practitioner-review requirement.
+          For the field-level walkthrough — every column, every status icon, every <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Δ%</code> rule — read <a href="/solutions/bom-matching" style="color: var(--shell);">/solutions/bom-matching</a>. This page tells you Cowork can produce the workbook. That page tells you exactly what is in it.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- §IV Data privacy -->
+  <!-- §V Schedules -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Schedules" numeral="V" title="Workflows on a clock." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cowork runs workflows. Schedules run the same workflows on a clock. Daily, weekly, or a full cron expression — Cowork triggers the run, records the result, and posts the next step into the project's timeline.
+        </p>
+        <p>
+          Three shapes, in increasing project-attachment:
+        </p>
+      </div>
+
+      <div class="mt-8 grid gap-px overflow-hidden border border-rule md:grid-cols-3 max-w-5xl" style="background: var(--rule);">
+        {scheduleShapes.map((s) => (
+          <article class="p-6 md:p-7" style="background: var(--paper);">
+            <h3 class="font-display mb-3" style="font-variation-settings: 'SOFT' 40, 'opsz' 28; font-size: 1.1rem; color: var(--shell);">{s.label}</h3>
+            <p class="font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.95rem;">{s.body}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="mt-10 max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Run history sits on the project timeline as glyphs: success, failure, currently-running. Click one to read the agent's log for that run; click the linked task or schedule to jump back to the source.
+        </p>
+        <p>
+          A pattern Cowork falls into often: a project's <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">tasks.md</code> lists a recurring action. Cowork reads it on project open and creates a task-bound schedule automatically — the practitioner sees the cron suggestion and confirms.
+        </p>
+      </div>
+
+      <Asterism />
+
+      <blockquote class="mx-auto max-w-3xl text-center">
+        <p class="pullquote">
+          Scenarios run a workflow. Schedules <em style="color: var(--shell); font-style: italic;">keep it running.</em>
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- §VI Data privacy -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Data stays on your machine" numeral="IV" title="Local catalogs. Local sessions. Local audit trail." />
+      <SectionMark kicker="Data stays on your machine" numeral="VI" title="Local catalogs. Local sessions. Local audit trail." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
           Cowork sessions are not uploaded. BOM files are processed in the session's local context and not persisted server-side.
@@ -191,10 +260,10 @@ const compare = [
     </div>
   </section>
 
-  <!-- §V Six layers -->
+  <!-- §VII Six layers -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Six-layer memory" numeral="V" title="Every Cowork session starts with six layers of context already loaded." />
+      <SectionMark kicker="Six-layer memory" numeral="VII" title="Every Cowork session starts with six layers of context already loaded." />
 
       <div class="mt-10 overflow-hidden border border-rule" style="background: var(--paper);">
         <table class="w-full" style="border-collapse: collapse;">
@@ -236,10 +305,31 @@ const compare = [
     </div>
   </section>
 
-  <!-- §VI Skills -->
+  <!-- §VIII Project wiki -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Skills" numeral="VI" title="The platform that learns from the work." />
+      <SectionMark kicker="Project wiki" numeral="VIII" title="An entity graph for what this project knows." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Every Cowork project carries a wiki: a local database of structured <strong style="font-weight: 500;">entries</strong> — typed as <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">person</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">organization</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">dataset</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">artifact</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">concept</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">event</code>, and others — connected by typed <strong style="font-weight: 500;">relationships</strong> (<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">uses</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">cites</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">part_of</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">created_by</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">describes</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">contradicts</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">supersedes</code>, and more). It is not a markdown notes folder. It is a graph the practitioner can query.
+        </p>
+        <p>
+          Two views ship in the desktop UI. <strong style="font-weight: 500;">List</strong> shows every entry with search and filter — open one, edit fields in the modal, save. <strong style="font-weight: 500;">Graph</strong> renders the same data as a force-directed graph: nodes float by type-color, edges show which materials share suppliers, which datasets keep getting picked for which rows, which decisions cite which sources. Drag a node to inspect its neighborhood.
+        </p>
+        <p>
+          A working example. Open <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Hangzhou Metal Co.</code> — an <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">organization</code> node. <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">created_by</code> edges point to <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">304 stainless steel coil</code> and <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">316L</code>, the artifacts they supplied. Each artifact <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">cites</code> an ecoinvent dataset it was matched against, and <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">describes</code> a <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">concept</code> entry that records the APOS-over-cut-off decision the practitioner made for that row. When the same supplier shows up for a new project next month, the graph already knows who and what.
+        </p>
+        <p>
+          The wiki sits next to the other two project-memory shapes and does what they cannot. <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code> (L5) is an append-only timeline — it answers <em>when did we decide what</em>. The project-memory files (L6, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Cortex.md</code> and friends) carry <em>what this project has learned</em> — verified datasets, recurring proxies, supplier specifics. The wiki is structured — it answers <em>how do the things this project knows relate to each other</em>. Audit goes to L5. Convention lookup goes to L6. Knowledge traversal goes to the wiki.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §IX Skills -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Skills" numeral="IX" title="The platform that learns from the work." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
           Cowork ships with bundled skills already loaded. The platform adds more from two sources: a shared marketplace and the practitioner's own sessions.
@@ -266,10 +356,10 @@ const compare = [
     </div>
   </section>
 
-  <!-- §VII Computer Use -->
-  <section class="border-t border-rule">
+  <!-- §X Computer Use -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Computer Use" numeral="VII" title="macOS only — direct GUI control of installed apps." />
+      <SectionMark kicker="Computer Use" numeral="X" title="macOS only — direct GUI control of installed apps." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
           This is what makes Cowork an agent, not a script. It can drive any application installed on your machine — including software with no API and no plugin ecosystem.
@@ -284,10 +374,10 @@ const compare = [
     </div>
   </section>
 
-  <!-- §VIII Compare -->
-  <section class="border-t border-rule" style="background: var(--paper-rim);">
+  <!-- §XI Compare -->
+  <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Cowork vs Chat" numeral="VIII" title="Cortex Cowork runs workflows. On your machine. In your project folder." />
+      <SectionMark kicker="Cowork vs Chat" numeral="XI" title="Cortex Cowork runs workflows. On your machine. In your project folder." />
 
       <div class="mt-10 overflow-hidden rounded-sm border border-rule" style="background: var(--paper);">
         <table class="w-full" style="border-collapse: collapse;">

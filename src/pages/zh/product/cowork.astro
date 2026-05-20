@@ -48,6 +48,21 @@ const scenarios = [
   },
 ];
 
+const scheduleShapes = [
+  {
+    label: '独立型',
+    body: '不归属任何项目的定时任务。适合跨项目的循环工作：每周一早上 9 点扫一遍 EF 3.1 的发布源，把 diff 邮件发出。挂在用户层级。任何项目被删都不会带走它。',
+  },
+  {
+    label: '项目绑定型',
+    body: '绑到具体某个项目的定时任务。继承项目的六层记忆、Cortex.md 指令、wiki。项目删除时一并消失。用于：每周追 EPD 数据收集、每月把 progress.md 导成 .docx 报告发客户。',
+  },
+  {
+    label: '任务绑定型',
+    body: '绑到项目内某一个任务上的定时任务。绑定是双向的：从任务能看到它的定时任务和运行历史；从定时任务能跳回触发它的那个任务。任务标记完成，定时任务即终止。适合项目生命周期内的循环子工作——EPD 发布之前，每周五重新核对供应商的 BOM。',
+  },
+];
+
 const memoryLayers = [
   ['L1 用户档案',        '角色、偏好数据库（HiQLCD、Ecoinvent）、偏好影响方法、报告语言、估算策略', '用户通过设置配置'],
   ['L2 全局指令',        '适用于所有项目的规则（"始终使用 cut-off 系统模型"、"输出中文"）',         '用户通过设置配置'],
@@ -64,6 +79,7 @@ const compare = [
   ['LCA 目录检索',    '服务端',                        '本地文件系统，支持离线'],
   ['技能系统',        '核心检索技能',                  '完整市场技能 + 自定义 + 观察沉淀'],
   ['审计记录',        '对话历史',                      'L5 progress.md，只追加，可版本管理'],
+  ['手机派活',        '不支持',                        'Cortex Dispatch（dispatch.hiq.earth）'],
   ['Computer Use',    '不支持',                        '21 个工具，仅限 macOS'],
   ['适合场景',        '快速问答、方法论咨询',          'BOM 匹配、项目工作、EPD 数据准备'],
 ];
@@ -113,10 +129,31 @@ const compare = [
     </div>
   </section>
 
-  <!-- §II 场景 -->
-  <section id="scenarios" class="border-t border-rule" style="background: var(--paper-rim);">
+  <!-- §II Dispatch -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Cortex Dispatch" numeral="II" title="手机交单。回到桌面接着干。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cortex Dispatch 是桌面端 Cowork 的手机伴侣。在手机上打开 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">dispatch.hiq.earth</code>——它以 PWA 形式安装——屏幕只有一个文本框和一个麦克风按钮。打字提交，或按住录音。Dispatch 把任务派给同一账号下登录的桌面 Cowork 实例；Cowork 接到即开跑。
+        </p>
+        <p>
+          语音走 Cloudflare R2：手机直接上传音频，服务端转写，转写文本作为下一条用户消息进入 Cowork 会话。Cowork 窗口不必置于前台，但桌面机器需保持运行且已登录。
+        </p>
+        <p>
+          一个常见场景：采购经理在会议上听到一个供应商名字，口述一句 <em>"把上次 BOM 里 304 不锈钢的行抽出来，按 HiQLCD 1.4 重新匹配一遍。"</em> 四十分钟后回到桌面，匹配后的工作簿已经停在结果表，决策同步写进了 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code>。Dispatch 没有替代 Cowork。它只是把触发动作搬出了办公室。
+        </p>
+        <p>
+          Dispatch 不是另一个 Agent，而是一个遥控器。Cowork 在本地执行的每一道守则——文件写入的项目外路径检查、覆盖率与替代值选择上的"由从业者判断"暂停——无论会话从键盘还是手机发起，都以同样方式触发。SSO 对 Dispatch 的鉴权与桌面端完全一致。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §III 场景 -->
+  <section id="scenarios" class="border-t border-rule">
     <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="它能处理什么" numeral="II" title="Chat 跑不了的四种流程。" />
+      <SectionMark kicker="它能处理什么" numeral="III" title="Chat 跑不了的四种流程。" />
 
       <div class="mt-14 border-y border-rule">
         {scenarios.map((s) => (
@@ -143,37 +180,69 @@ const compare = [
     </div>
   </section>
 
-  <!-- §III BOM xlsx 四张表 -->
-  <section class="border-t border-rule">
+  <!-- §IV BOM 交付物 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="BOM 导出" numeral="III" title="四张表，一个工作簿。" />
+      <SectionMark kicker="BOM 导出" numeral="IV" title="四张表，一个工作簿。" />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          BOM 匹配会话的交付物是一个包含四张表的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">.xlsx</code> 工作簿。
+          BOM 匹配会话的交付物是一个 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">.xlsx</code> 工作簿。四张表，顺序如下：
         </p>
         <p>
-          <strong style="font-weight: 500;">摘要表</strong> — 整体覆盖情况一览：匹配率、物料数量、对比数据库。色段进度条按比例展示已匹配（绿）、替代值（琥珀）、缺口（空白）。附物料类别分类汇总。
+          <strong style="font-weight: 500;">摘要表</strong> — 覆盖情况一览：匹配率、替代值占比、缺口占比、按物料类别的分类合计。<strong style="font-weight: 500;">结果表</strong> — 主数据表，每行对应 BOM 一行，每列组对应一个数据库，数据集单元格超链接到 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">hiqlcd.com</code> 的源记录。<strong style="font-weight: 500;">缺口表</strong> — 列出未匹配与替代值行，注明搜索过的数据库与建议的下一步操作。<strong style="font-weight: 500;">方法论表</strong> — 运行参数和固定说明，让审核人能够复现这次工作（系统模型、IPCC AR6 下的 GWP100、替代值定义、需从业者审查的要求）。
         </p>
         <p>
-          <strong style="font-weight: 500;">结果表</strong> — 主数据表。每行对应 BOM 中一种物料，每列组对应一个数据库。数据集单元格为超链接：点击直接打开 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">hiqlcd.com/dataset/...</code> 的详情页。相邻列显示单位、地区与 GWP100（蓝色色阶，按值排名等比着色）。<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">Δ%</code> 列计算同一行两个数据库之间的百分比差异。<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">状态</code>列显示 ✓ 已匹配 / ~ 替代值 / ✗ 缺口。<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">备注</code>列记录替代值理由、复合物料的加权平均分解说明，以及备选候选。
-        </p>
-        <p>
-          受许可限制的行在 GWP 列显示 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">Licensed</code>。数据集名称、地区、单位和超链接仍然可见。不会以文献值替代填充。
-        </p>
-        <p>
-          <strong style="font-weight: 500;">缺口表</strong> — 列出所有未匹配和替代值行，注明有匹配的数据库、无匹配的数据库、原因及建议操作。
-        </p>
-        <p>
-          <strong style="font-weight: 500;">方法论表</strong> — 参数：源文件名、生成日期、数据库列表、系统模型、功能单位。五条固定方法论说明，包括：GWP 值采用 IPCC AR6 下的 GWP100、替代值定义、备选说明、默认系统模型，以及需从业者审查的要求。
+          字段级讲解——每一列、每一个状态图标、每一条 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Δ%</code> 规则——见 <a href="/zh/solutions/bom-matching" style="color: var(--shell);">/zh/solutions/bom-matching</a>。本页告诉你 Cowork 能产出这份工作簿；那一页告诉你工作簿里究竟有什么。
         </p>
       </div>
     </div>
   </section>
 
-  <!-- §IV 数据隐私 -->
+  <!-- §V Schedules -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="定时任务" numeral="V" title="工作流上时钟。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cowork 跑工作流。定时任务把同样的工作流挂到时钟上。每日、每周，或一条完整的 cron 表达式——Cowork 触发运行、记录结果、把下一步推到项目时间线上。
+        </p>
+        <p>
+          三种形态，按项目绑定程度递增：
+        </p>
+      </div>
+
+      <div class="mt-8 grid gap-px overflow-hidden border border-rule md:grid-cols-3 max-w-5xl" style="background: var(--rule);">
+        {scheduleShapes.map((s) => (
+          <article class="p-6 md:p-7" style="background: var(--paper);">
+            <h3 class="font-display mb-3" style="font-variation-settings: 'SOFT' 40, 'opsz' 28; font-size: 1.1rem; color: var(--shell);">{s.label}</h3>
+            <p class="font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.95rem;">{s.body}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="mt-10 max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          运行历史以图标停在项目时间线上：成功、失败、运行中。点开任一条，读那次运行的 Agent 日志；点关联的任务或定时任务，跳回源头。
+        </p>
+        <p>
+          Cowork 常落入的一种模式：项目的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">tasks.md</code> 列出一条循环动作。Cowork 在项目打开时读到它，自动创建一条任务绑定型定时任务——从业者看到 cron 建议，确认即可。
+        </p>
+      </div>
+
+      <Asterism />
+
+      <blockquote class="mx-auto max-w-3xl text-center">
+        <p class="pullquote">
+          场景跑一遍工作流。定时任务<em style="color: var(--shell); font-style: italic;">让它一直跑下去。</em>
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- §VI 数据隐私 -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="数据留在你的机器上" numeral="IV" title="本地目录。本地会话。本地审计记录。" />
+      <SectionMark kicker="数据留在你的机器上" numeral="VI" title="本地目录。本地会话。本地审计记录。" />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
           Cowork 会话不上传。BOM 文件在会话的本地上下文中处理，不在服务端持久化。
@@ -191,10 +260,10 @@ const compare = [
     </div>
   </section>
 
-  <!-- §V 六层记忆 -->
+  <!-- §VII 六层记忆 -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="六层记忆" numeral="V" title="每次 Cowork 会话开始时，六层上下文已就位。" />
+      <SectionMark kicker="六层记忆" numeral="VII" title="每次 Cowork 会话开始时，六层上下文已就位。" />
 
       <div class="mt-10 overflow-hidden border border-rule" style="background: var(--paper);">
         <table class="w-full" style="border-collapse: collapse;">
@@ -236,10 +305,31 @@ const compare = [
     </div>
   </section>
 
-  <!-- §VI 技能 -->
+  <!-- §VIII Project wiki -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="技能" numeral="VI" title="从实际工作中积累的平台智识。" />
+      <SectionMark kicker="项目 wiki" numeral="VIII" title="为这个项目所知的一切，建一张实体图。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          每个 Cowork 项目都带一份 wiki：一个本地数据库，存放结构化的<strong style="font-weight: 500;">条目</strong>——类型包括 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">person</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">organization</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">dataset</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">artifact</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">concept</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">event</code> 等——由类型化的<strong style="font-weight: 500;">关系</strong>相连（<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">uses</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">cites</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">part_of</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">created_by</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">describes</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">contradicts</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">supersedes</code> 等）。它不是一个 markdown 笔记文件夹。它是一张从业者可以查询的图。
+        </p>
+        <p>
+          桌面 UI 提供两种视图。<strong style="font-weight: 500;">列表</strong>展示所有条目，支持搜索与筛选——打开一条，在 modal 里编辑字段，保存。<strong style="font-weight: 500;">图谱</strong>把同一份数据渲染成力导布局图：节点按类型上色浮动，边显示哪些物料共用了供应商、哪些数据集反复被选中匹配哪些行、哪些决策引用了哪些来源。拖动一个节点，检视它的邻域。
+        </p>
+        <p>
+          一个真实例子。打开 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Hangzhou Metal Co.</code>——一个 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">organization</code> 节点。<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">created_by</code> 边指向 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">304 stainless steel coil</code> 和 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">316L</code>，是它供给的 artifacts。每个 artifact <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">cites</code> 一个被匹配的 ecoinvent 数据集，并 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">describes</code> 一条 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">concept</code> 条目——里面记录着从业者为那一行做出的 APOS-over-cut-off 决策。下个月新项目里同一个供应商再次出现时，图已经知道是谁、是什么。
+        </p>
+        <p>
+          wiki 与项目记忆的另外两种形态并列，做它们做不到的事。<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code>（L5）是只追加的时间线，回答 <em>什么时间我们做了什么决定</em>。L6 的项目记忆文件（<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Cortex.md</code> 及同侪）承载 <em>这个项目学到了什么</em>——已核查的数据集、反复使用的替代值、供应商专属说明。wiki 是结构化的，回答 <em>这个项目知道的事物之间如何关联</em>。审计走 L5。约定查询走 L6。知识穿行走 wiki。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §IX 技能 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="技能" numeral="IX" title="从实际工作中积累的平台智识。" />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
           Cowork 内置技能随应用出厂即加载。平台从两个来源持续扩充：共享市场和从业者自身的会话。
@@ -266,10 +356,10 @@ const compare = [
     </div>
   </section>
 
-  <!-- §VII Computer Use -->
-  <section class="border-t border-rule">
+  <!-- §X Computer Use -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Computer Use" numeral="VII" title="仅限 macOS — 直接控制已安装应用的 GUI。" />
+      <SectionMark kicker="Computer Use" numeral="X" title="仅限 macOS — 直接控制已安装应用的 GUI。" />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
           这是 Cowork 成为 Agent 而非脚本的原因。它可以驱动机器上任何已安装的应用——包括没有 API、没有插件生态的软件。
@@ -284,10 +374,10 @@ const compare = [
     </div>
   </section>
 
-  <!-- §VIII 对比 -->
-  <section class="border-t border-rule" style="background: var(--paper-rim);">
+  <!-- §XI 对比 -->
+  <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Cowork 与 Chat" numeral="VIII" title="Cortex Cowork 跑流程。在你的机器上。在你的项目文件夹里。" />
+      <SectionMark kicker="Cowork 与 Chat" numeral="XI" title="Cortex Cowork 跑流程。在你的机器上。在你的项目文件夹里。" />
 
       <div class="mt-10 overflow-hidden rounded-sm border border-rule" style="background: var(--paper);">
         <table class="w-full" style="border-collapse: collapse;">
