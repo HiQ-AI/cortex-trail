@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# One-shot infra bootstrap for the preview.hiq.earth staging environment.
+# One-shot infra bootstrap for the cortex.hiq.earth production environment.
 #
 # What this script creates:
 #   1. S3 bucket (private; CloudFront-only access via OAC)
@@ -34,8 +34,8 @@ if [[ -f .env.local ]]; then
   set +a
 fi
 
-DOMAIN="${DOMAIN:-preview.hiq.earth}"
-BUCKET="${BUCKET:-cortex-trail-preview}"
+DOMAIN="${DOMAIN:-cortex.hiq.earth}"
+BUCKET="${BUCKET:-cortex-trail-preview}"  # legacy bucket name; kept to avoid migration
 AWS_REGION="${AWS_REGION:-us-east-1}"
 
 export AWS_DEFAULT_REGION="$AWS_REGION"
@@ -152,6 +152,18 @@ if [[ "$DIST_ID" == "None" || -z "$DIST_ID" ]]; then
 function handler(event) {
     var request = event.request;
     var uri = request.uri;
+    // Short-term: /chat lives on carbonx.hiq.earth (mirror: carbonx.hiqlcd.com)
+    // until we proxy it under cortex.hiq.earth.
+    if (uri === '/chat' || uri.indexOf('/chat/') === 0) {
+        return {
+            statusCode: 302,
+            statusDescription: 'Found',
+            headers: {
+                'location': { value: 'https://carbonx.hiq.earth/cortex' },
+                'cache-control': { value: 'no-store' }
+            }
+        };
+    }
     if (uri.endsWith('/')) {
         request.uri = uri + 'index.html';
     } else if (!uri.includes('.')) {

@@ -2,8 +2,7 @@
 
 The public face of HiQ Cortex — marketing, methodology, docs, and blog.
 
-- **Production**: https://cortex.hiq.earth (pending rollout)
-- **Staging**: https://preview.hiq.earth
+- **Production**: https://cortex.hiq.earth
 
 The name echoes the "Trail" quality in our brand: a chain of reasoning you can follow back to the origin. That's what this site is, too — the public breadcrumbs that lead into Cortex.
 
