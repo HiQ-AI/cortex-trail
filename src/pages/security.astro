@@ -8,7 +8,7 @@ const description =
 
 const localArtifacts = [
   ['Cowork session transcripts', "Every exchange with the local agent is stored as a file on your machine, scoped to your user account. The server has no copy."],
-  ['Project wiki', "Wiki data lives in a directory you choose. Nothing in Cortex reads or uploads wiki content to any server."],
+  ['Project wiki', "Each project's wiki — entries, links between them, the entity graph — is stored in a local database on your machine. Nothing is read from it or uploaded to Cortex servers."],
   ['Observer friction log', "The local log of tool errors and retries is written to your device and stays there whether or not you have upload enabled."],
   ['Custom skills sedimented from your work', "Skills the observer pipeline extracts from your sessions are written as files in your chosen skills directory. They remain local until you explicitly contribute them to the marketplace."],
 ];
@@ -18,7 +18,7 @@ const claims = [
   ["Chat sessions are stored under your account and are not accessible to other users.", "Conversation history and long-term memory are keyed to your user ID. The session store enforces this isolation at query time — one account cannot read another's."],
   ["Commercial-database values are gated to license holders.", "Without a license, Cortex still returns the dataset name, region, unit, version, and link — enough to confirm the dataset exists. The licensed values are withheld until access is brought. No literature value is substituted."],
   ["Your Cowork sessions never leave your device.", "Local agent sessions are stored in your app's local data directory. The server has no copy and no access path to them."],
-  ["Your project wiki is stored locally.", "Wiki data lives in the directory you choose on your machine. It is not uploaded to Cortex servers."],
+  ["Your project wiki is stored locally.", "Each project's wiki — entries, links, and the entity graph — lives in a local database on your machine. It is not uploaded to Cortex servers."],
   ["Every GWP result includes its source database and version.", "The database name, version string, and system model are part of every result. Historical exports are not retroactively modified when a data provider releases a new version; each export captures the version at query time."],
   ["Your data is not used to train AI models.", "There is no pipeline in the codebase that reads conversation history and sends it to a model training job."],
   ["Observer friction upload can be turned off.", "The upload toggle is per-device, persisted locally. Turning it off stops all background uploads. The local friction log continues regardless."],
