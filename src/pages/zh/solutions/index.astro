@@ -36,6 +36,13 @@ const practitionerSolutions = [
     body: '对 ILCD 数据包进行 schema 校验，在 ILCD 与 JSON-LD 之间互转。每个错误按位置和严重程度报告。每条映射选择有文档。转换结果在交付前反向校验。',
     cta: '查看工作流 →',
   },
+  {
+    href: '/zh/product/cowork#computer-use',
+    kicker: 'Computer Use（仅 macOS）',
+    title: '驱动任何桌面工具的图形界面。',
+    body: '桌面工具没有 API、没有插件、没有命令行时，Cortex 依然能操作它。macOS 下通过 GUI 控制——点对话框、读结果窗口、往字段里填值——旧版 ERP、内部计算器、openLCA 对话框，甚至 Excel 宏，都成为 Cowork 能从头跑到尾的工作流。',
+    cta: '查看 Computer Use →',
+  },
 ];
 
 const operatorSolutions = [
@@ -72,8 +79,8 @@ const operatorSolutions = [
     <div class="container-page py-20 md:py-24">
       <p class="eyebrow mb-8" style="color: var(--ink-mute);">面向 LCA 从业者</p>
       <div class="grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
-        {practitionerSolutions.map((s) => (
-          <article class="p-8 md:p-10" style="background: var(--paper);">
+        {practitionerSolutions.map((s, i) => (
+          <article class={`p-8 md:p-10${i === practitionerSolutions.length - 1 && practitionerSolutions.length % 2 === 1 ? ' md:col-span-2' : ''}`} style="background: var(--paper);">
             <p class="eyebrow mb-4">{s.kicker}</p>
             <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 48; font-size: clamp(1.4rem, 2.5vw, 1.9rem); line-height: 1.1; letter-spacing: -0.015em; color: var(--ink);">{s.title}</h2>
             <p class="mt-5 font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.97rem;">{s.body}</p>
@@ -126,7 +133,7 @@ const operatorSolutions = [
         机械性工作交给 Cortex。判断留给你。
       </h2>
       <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Cortex Cowork 支持 macOS、Windows 与 Linux。会话本地运行——文件留在机器上。
+        Cortex Cowork 支持 macOS 和 Windows。会话本地运行——文件留在机器上。
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
         <DownloadButtons locale="zh" />

@@ -79,7 +79,7 @@ const compare = [
   ['LCA catalog search',      'Server-side',                           'Local filesystem, offline-capable'],
   ['Skills system',           'Core search skills',                    'Full marketplace + custom + observer-sedimented'],
   ['Audit trail',             'Conversation history',                  'L5 progress.md, append-only, versionable'],
-  ['Mobile hand-off',         'Not available',                         'Cortex Dispatch (dispatch.hiq.earth)'],
+  ['Mobile hand-off',         'Not available',                         'Cortex Dispatch'],
   ['Computer Use',            'Not available',                         '21 tools, macOS only'],
   ['Best for',                'Quick queries, methodology Q&A',        'BOM matching, project work, EPD data prep'],
 ];
@@ -135,7 +135,7 @@ const compare = [
       <SectionMark kicker="Cortex Dispatch" numeral="II" title="Hand the work off from your phone. Pick it up at the desk." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Cortex Dispatch is the phone-side companion to desktop Cowork. Open <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">dispatch.hiq.earth</code> on a phone — it installs as a Progressive Web App — and the screen is one text box and one microphone button. Type the task, or hold to record. Dispatch routes it to the desktop Cowork instance signed into the same account; Cowork picks it up and runs.
+          Cortex Dispatch is the phone-side companion to desktop Cowork. Open it on a phone — it installs as a Progressive Web App — and the screen is one text box and one microphone button. Type the task, or hold to record. Dispatch routes it to the desktop Cowork instance signed into the same account; Cowork picks it up and runs.
         </p>
         <p>
           Voice goes through Cloudflare R2: the phone uploads the audio directly, the server transcribes, and the transcript reaches the Cowork session as the next user message. The Cowork window does not need to be in the foreground. The desktop machine does need to be running and signed in.
@@ -311,7 +311,7 @@ const compare = [
       <SectionMark kicker="Project wiki" numeral="VIII" title="An entity graph for what this project knows." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Every Cowork project carries a wiki: a local database of structured <strong style="font-weight: 500;">entries</strong> — typed as <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">person</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">organization</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">dataset</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">artifact</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">concept</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">event</code>, and others — connected by typed <strong style="font-weight: 500;">relationships</strong> (<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">uses</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">cites</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">part_of</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">created_by</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">describes</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">contradicts</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">supersedes</code>, and more). It is not a markdown notes folder. It is a graph the practitioner can query.
+          Every Cowork project carries a wiki: a local database of structured <strong style="font-weight: 500;">entries</strong> — typed as <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">person</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">organization</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">dataset</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">artifact</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">concept</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">event</code>, and others — connected by typed <strong style="font-weight: 500;">relationships</strong> (<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">uses</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">cites</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">part_of</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">created_by</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">describes</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">contradicts</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">supersedes</code>, and more). It is a graph the practitioner can query.
         </p>
         <p>
           Two views ship in the desktop UI. <strong style="font-weight: 500;">List</strong> shows every entry with search and filter — open one, edit fields in the modal, save. <strong style="font-weight: 500;">Graph</strong> renders the same data as a force-directed graph: nodes float by type-color, edges show which materials share suppliers, which datasets keep getting picked for which rows, which decisions cite which sources. Drag a node to inspect its neighborhood.
@@ -357,7 +357,7 @@ const compare = [
   </section>
 
   <!-- §X Computer Use -->
-  <section class="border-t border-rule" style="background: var(--paper-rim);">
+  <section id="computer-use" class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
       <SectionMark kicker="Computer Use" numeral="X" title="macOS only — direct GUI control of installed apps." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">

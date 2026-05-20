@@ -36,6 +36,13 @@ const practitionerSolutions = [
     body: 'Validate ILCD packages against schema requirements and convert between ILCD and JSON-LD. Every error reported by location and severity. Every mapping choice documented. Converted output validated against the target schema before delivery.',
     cta: 'See the workflow →',
   },
+  {
+    href: '/product/cowork#computer-use',
+    kicker: 'Computer Use (macOS)',
+    title: 'Drive any LCA tool through its GUI.',
+    body: 'When the desktop tool has no API, no plugin, no command line, Cortex still operates it. Through GUI control on macOS — clicking dialogs, reading result windows, typing into fields — legacy ERPs, internal calculators, openLCA dialogs, even spreadsheet macros become workflows Cowork can run end-to-end.',
+    cta: 'See Computer Use →',
+  },
 ];
 
 const operatorSolutions = [
@@ -72,8 +79,8 @@ const operatorSolutions = [
     <div class="container-page py-20 md:py-24">
       <p class="eyebrow mb-8" style="color: var(--ink-mute);">For LCA practitioners</p>
       <div class="grid gap-px overflow-hidden border border-rule md:grid-cols-2" style="background: var(--rule);">
-        {practitionerSolutions.map((s) => (
-          <article class="p-8 md:p-10" style="background: var(--paper);">
+        {practitionerSolutions.map((s, i) => (
+          <article class={`p-8 md:p-10${i === practitionerSolutions.length - 1 && practitionerSolutions.length % 2 === 1 ? ' md:col-span-2' : ''}`} style="background: var(--paper);">
             <p class="eyebrow mb-4">{s.kicker}</p>
             <h2 class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 48; font-size: clamp(1.4rem, 2.5vw, 1.9rem); line-height: 1.1; letter-spacing: -0.015em; color: var(--ink);">{s.title}</h2>
             <p class="mt-5 font-serif" style="line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.97rem;">{s.body}</p>
@@ -126,7 +133,7 @@ const operatorSolutions = [
         Mechanical work handled. Judgment calls yours.
       </h2>
       <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Cortex Cowork is available for macOS, Windows, and Linux. Sessions run locally — files stay on the machine.
+        Cortex Cowork is available for macOS and Windows. Sessions run locally — files stay on the machine.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
         <DownloadButtons locale="en" />

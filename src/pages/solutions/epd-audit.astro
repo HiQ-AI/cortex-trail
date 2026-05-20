@@ -75,9 +75,9 @@ const depthLevels = [
 
 const checkpoints = [
   ['No auto-registration for Critical findings', 'A finding graded Critical blocks the audit verdict from Pass. Cortex does not silently downgrade severity based on context — the check definition sets the baseline, and the Programme Operator decides whether to accept the risk.'],
-  ['Plausibility checked against reference data, not just declared', 'Declared GWP values are benchmarked against HiQLCD reference data and product-category ranges, not just checked for presence. An EPD that declares a value 10× lower than comparable products is flagged — even if the format is correct.'],
+  ['Plausibility checked against reference data', 'Declared GWP values are benchmarked against HiQLCD reference data and product-category ranges, beyond presence checks. An EPD that declares a value 10× lower than comparable products is flagged — even if the format is correct.'],
   ['Process-certified EPDs receive tighter scrutiny', 'When an EPD is process-certified rather than individually verified, Cortex applies more conservative thresholds. Without an independent verifier reviewing the specific submission, the audit becomes the primary quality gate.'],
-  ['CPR forward-look included', 'Beyond current compliance, the report flags upcoming CPR requirements — so Programme Operators and applicants can prepare ahead of deadlines, not just check against what is required today.'],
+  ['CPR forward-look included', 'Beyond current compliance, the report flags upcoming CPR requirements — so Programme Operators and applicants can prepare ahead of deadlines.'],
 ];
 
 const videoUrl = '';
@@ -220,7 +220,7 @@ const videoUrl = '';
         Every finding cited. Every decision on record.
       </h2>
       <p class="mx-auto mt-8 max-w-xl font-serif italic" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Cortex Cowork is available for macOS, Windows, and Linux. EPD dossiers are processed locally — documents stay on the machine, not uploaded to a server.
+        Cortex Cowork is available for macOS and Windows. EPD dossiers are processed locally — documents stay on the machine, never uploaded to a server.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-4">
         <DownloadButtons locale="en" />
