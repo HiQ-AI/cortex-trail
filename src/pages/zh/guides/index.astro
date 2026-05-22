@@ -17,12 +17,15 @@ const docs = (await getCollection('docs', ({ data }) => data.locale === 'zh')).s
 );
 const slugOf = (id: string) => id.replace(/-zh$/, '');
 
-const scenarios = [
+const practitioner = [
   { href: '/zh/solutions/bom-matching', label: 'BOM 匹配', blurb: 'BOM 进，匹配好的 xlsx 出——每个数据集格都是链接，每个缺口都标出来。' },
   { href: '/zh/solutions/product-carbon-footprint', label: '产品碳足迹', blurb: '在 openLCA 里从 BOM 跑到 LCIA 结果，每一个建模决策都记录在案。' },
   { href: '/zh/solutions/lca-dataset-authoring', label: '数据集创作', blurb: '构建一份 ILCD 规整、溯源可循的数据集。' },
   { href: '/zh/solutions/ilcd-validation', label: 'ILCD 校验', blurb: '数据集送审之前，先对着格式查一遍。' },
-  { href: '/zh/solutions/epd-audit', label: 'EPD 审计', blurb: '准备好 EPD 所需的数据层与方法论记录。' },
+  { href: '/zh/product/cowork#computer-use', label: 'Computer Use（macOS）', blurb: '没有 API、没有插件？Cortex 直接驱动桌面工具的图形界面。' },
+];
+const operator = [
+  { href: '/zh/solutions/epd-audit', label: 'EPD 审计', blurb: 'EPD 注册之前，逐条对着条款核一遍。' },
 ];
 ---
 
@@ -63,8 +66,20 @@ const scenarios = [
       <p class="mb-10 max-w-2xl font-serif" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink);">
         每个场景都是一个从头到尾的真实 LCA 任务——输入、Cortex 会暂停确认的决策，以及它产出的交付物。
       </p>
+      <p class="eyebrow mb-4" style="color: var(--shell);">面向从业者</p>
       <div class="grid gap-px overflow-hidden border border-rule sm:grid-cols-2 lg:grid-cols-3" style="background: var(--rule);">
-        {scenarios.map((s) => (
+        {practitioner.map((s) => (
+          <a href={s.href} class="block p-7" style="background: var(--paper); text-decoration: none;">
+            <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.2rem; line-height: 1.15; color: var(--ink);">{s.label}</div>
+            <p class="mt-3 font-serif" style="font-size: 0.95rem; line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">{s.blurb}</p>
+            <span class="mt-4 inline-block smallcaps" style="color: var(--shell);">打开 →</span>
+          </a>
+        ))}
+      </div>
+
+      <p class="eyebrow mb-4 mt-12" style="color: var(--shell);">面向计划运营方</p>
+      <div class="grid gap-px overflow-hidden border border-rule sm:grid-cols-2 lg:grid-cols-3" style="background: var(--rule);">
+        {operator.map((s) => (
           <a href={s.href} class="block p-7" style="background: var(--paper); text-decoration: none;">
             <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.2rem; line-height: 1.15; color: var(--ink);">{s.label}</div>
             <p class="mt-3 font-serif" style="font-size: 0.95rem; line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">{s.blurb}</p>

@@ -8,20 +8,20 @@ interface NavItem { href?: string; label: string; children?: { href: string; lab
 
 const nav: NavItem[] = locale === 'zh'
   ? [
-      { href: '/zh',          label: '概览' },
       { label: '产品', children: [
         { href: '/zh/product/chat',   label: 'Chat' },
         { href: '/zh/product/cowork', label: 'Cowork' },
+        { href: '/zh/skills',         label: '技能' },
       ]},
       { href: '/zh/guides',   label: '指南' },
       { href: '/zh/pricing',  label: '定价' },
       { href: '/zh/blog',     label: '博客' },
     ]
   : [
-      { href: '/',         label: 'Overview' },
       { label: 'Product', children: [
         { href: '/product/chat',   label: 'Chat' },
         { href: '/product/cowork', label: 'Cowork' },
+        { href: '/skills',         label: 'Skills' },
       ]},
       { href: '/guides',   label: 'Guides' },
       { href: '/pricing',  label: 'Pricing' },
