@@ -13,6 +13,7 @@
 4. **品牌 voice 不变**：editorial、terse、noun-heavy；禁 banned words；蜗牛隐喻只在 landing/about/Slow-Dispatch。
 5. **不破链**：已有 URL 尽量保留；移除的入口用 redirect，不留 404。
 6. **zh 与 en 严格 parity**：每个改动两边同步。
+7. **冗余直接删，不要 fallback**：重复的页面/段落直接删除，**不留 redirect**（用户拍板：无所谓破链）。段落冗余删掉后改成一行 teaser+link。不做"两边都留着"的妥协。
 
 ---
 
@@ -108,7 +109,7 @@
 ## 4. 进度
 
 - [x] P0 文档落库
-- [ ] P1 IA 骨架
+- [x] P1 IA 骨架（nav: Product▾+Skills, 去 Overview; footer: Skills 移入 Product; **删除** /solutions 与 /zh/solutions index 页（无 redirect）; guides hub persona 分组。**未加 Trust▾** — zh 标签别扭+下拉太薄，Standards/Security 留 footer）
 - [ ] P2 Cowork 去重
 - [ ] P3 首页重构
 - [ ] P4 逐页排版
