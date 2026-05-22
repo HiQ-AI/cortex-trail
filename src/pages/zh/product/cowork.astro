@@ -245,16 +245,13 @@ const compare = [
       <SectionMark kicker="数据留在你的机器上" numeral="VI" title="本地目录。本地会话。本地审计记录。" />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Cowork 会话不上传。BOM 文件在会话的本地上下文中处理，不在服务端持久化。
-        </p>
-        <p>
           启动时，4 个 LCA 目录下载到本地存储——HiQLCD 1.4、Ecoinvent 3.12、CarbonMinds 2.0、Agri-footprint 7.0——并通过验证同步保持更新。目录检索在本地对已下载文件运行，目录查询不发起网络请求。下载完成后，目录支持离线使用。
         </p>
         <p>
-          <strong style="font-weight: 500;">项目外路径检查</strong>在每次文件写入和 Shell 命令时触发。文件边界检查在执行前拦截任何路径落在项目文件夹外的操作。用户会看到确认卡片：具体路径、一句话原因，以及三个选项——仅此一次允许 / 始终允许此目录 / 拒绝。该检查无论会话模式如何均会触发，Agent 无法绕过。
+          <strong style="font-weight: 500;">项目外路径检查</strong>在每次文件写入和 Shell 命令时触发：任何路径落在项目文件夹外的操作都会在执行前被拦截，用户看到具体路径、一句话原因，以及三个选项——仅此一次允许 / 始终允许此目录 / 拒绝。该检查无论会话模式如何均触发，Agent 无法绕过。
         </p>
         <p>
-          项目的 L5 审计日志（<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code>，详见下方）和 L6 项目记忆文件存储在用户本地文件系统，与项目数据同目录。它们可以提交到版本控制系统。
+          完整的数据处理说明——存什么、不存什么、存在哪——在<a href="/zh/security" style="color: var(--shell);">安全页</a>。
         </p>
       </div>
     </div>
@@ -332,25 +329,13 @@ const compare = [
       <SectionMark kicker="技能" numeral="IX" title="平台从实际工作里学。" />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Cowork 内置技能随应用出厂即加载。平台从两个来源持续扩充：共享市场和从业者自身的会话。
-        </p>
-        <p>
-          <strong style="font-weight: 500;">内置技能</strong>随应用发布：<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">bom-analysis</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">querying-lca-datasets</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">scope3-guidance</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">en-15804-indicators</code>。从第一次会话起即可使用。
-        </p>
-        <p>
-          <strong style="font-weight: 500;">市场技能</strong>由从业者贡献、经 HiQ-AI 审核后向所有用户开放。Cowork 在启动时检查更新并静默下载。技能缓存后支持离线使用。
-        </p>
-        <p>
-          <strong style="font-weight: 500;">自定义技能</strong>从从业者自身的工作中积累。观察流水线在每次会话结束后对其建立索引。当两次或更多会话呈现相同的工作流形态时，后台进程读取实际会话记录并生成可复用技能。无需用户操作。技能出现在近期学习面板，并在下一次类似任务时自动加载。
-        </p>
-        <p>
-          任何自定义技能均可贡献到共享市场。离开本机前会进行个人信息扫描。扫描通过后，向 HiQ-AI 开启拉取请求供审核。合并后，下次启动时该技能对所有用户可用。
+          Cowork 出厂内置技能，从经审核的市场拉取更多，还会从你自己重复的工作里长出新技能。平台对 LCA 的理解来自实践——不归厂家所有。
         </p>
         <p class="font-display italic" style="color: var(--shell); font-size: 1.15rem; line-height: 1.4;">
-          平台对 LCA 的理解不归厂家所有。它从从业者的真实工作里长出来。
+          一个你做过两遍的流程，会变成全团队都能复用的技能。
         </p>
         <p>
-          <a href="/zh/skills" class="smallcaps" style="color: var(--shell);">查看技能详情 →</a>
+          <a href="/zh/skills" class="smallcaps" style="color: var(--shell);">技能如何运作——完整说明 →</a>
         </p>
       </div>
     </div>
