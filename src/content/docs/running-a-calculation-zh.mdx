@@ -6,6 +6,9 @@ order: 1
 locale: zh
 ---
 
+import Screencast from '@/components/Screencast.astro';
+import { calcPcfZh } from '@/data/demos';
+
 Cortex 不替代你的计算引擎，而是操作它。Cowork 处理上游工作——读取 BOM、匹配背景数据、标记缺口——再在你已有的引擎里跑出产品系统和影响评价。这是 Cowork 的流程，需要 Plus 档。
 
 ## Cortex 能连接的引擎
@@ -24,6 +27,14 @@ SimaPro、GaBi 等暂未接入。如果你的工作建立在其中之一，希�
 2. **匹配背景数据** —— Cowork 跨数据库检索，为每个 BOM 行返回带 DQI 评分的候选，并在自动化会破坏审计处暂停：覆盖率不够、需要替代值、跨库差异显著、受限数据无访问。
 3. **构建产品系统** —— Cowork 在你的引擎里组装流程与过程连接，解决循环引用。
 4. **运行影响评价** —— 默认 IPCC 2021 GWP100，其他类别可按需添加。结果以贡献分析返回——按过程、按流的主要贡献者，而不是单一数字。
+
+## 看它跑一遍
+
+<Screencast
+  project="304-bracket-pcf"
+  title="BOM → openLCA → LCIA"
+  steps={calcPcfZh}
+/>
 
 ## 记录了什么
 
