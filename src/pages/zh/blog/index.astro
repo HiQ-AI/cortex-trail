@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import SectionMark from '@/components/SectionMark.astro';
 import { getCollection } from 'astro:content';
 
 const title = '博客 — HiQ Cortex';
@@ -27,16 +26,7 @@ const entries = (await getCollection('blog', ({ data }) => !data.draft && data.l
 
   <section class="border-t border-rule">
     <div class="container-page py-16 md:py-20">
-      {entries.length === 0 ? (
-        <div class="max-w-2xl">
-          <SectionMark kicker="第一卷" numeral="I" title="首篇文章在路上。" />
-          <p class="font-serif italic" style="font-size: 1.08rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-            首篇文章正在校对中。它会讲为什么 Cortex 返回 top-k 而不是 top-1，以及一条推理链坍塌成单一数字时，行业失去了什么。请稍候，或先读
-            <a href="/zh/standards" style="color: var(--shell-dim);">标准对齐</a>。
-          </p>
-        </div>
-      ) : (
-        <ul class="border-y border-rule">
+      <ul class="border-y border-rule">
           {entries.map((e) => (
             <li class="border-b border-rule last:border-b-0">
               <a href={`/blog/${e.id}`} class="group grid grid-cols-[7rem_1fr_auto] items-baseline gap-6 py-8 md:py-10" style="text-decoration: none;">
@@ -56,7 +46,6 @@ const entries = (await getCollection('blog', ({ data }) => !data.draft && data.l
             </li>
           ))}
         </ul>
-      )}
     </div>
   </section>
 </BaseLayout>

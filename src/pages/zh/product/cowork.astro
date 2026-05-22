@@ -129,31 +129,10 @@ const compare = [
     </div>
   </section>
 
-  <!-- §II Dispatch -->
-  <section class="border-t border-rule" style="background: var(--paper-rim);">
-    <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Cortex Dispatch" numeral="II" title="手机交单。回到桌面接着干。" />
-      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        <p>
-          Cortex Dispatch 是桌面端 Cowork 的手机伴侣。在手机上打开后——它以 PWA 形式安装——屏幕只有一个文本框和一个麦克风按钮。打字提交，或按住录音。Dispatch 把任务派给同一账号下登录的桌面 Cowork 实例；Cowork 接到即开跑。
-        </p>
-        <p>
-          语音走 Cloudflare R2：手机直接上传音频，服务端转写，转写文本作为下一条用户消息进入 Cowork 会话。Cowork 窗口不必置于前台，但桌面机器需保持运行且已登录。
-        </p>
-        <p>
-          一个常见场景：采购经理在会议上听到一个供应商名字，口述一句 <em>"把上次 BOM 里 304 不锈钢的行抽出来，按 HiQLCD 1.4 重新匹配一遍。"</em> 四十分钟后回到桌面，匹配后的工作簿已经停在结果表，决策同步写进了 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code>。Dispatch 没有替代 Cowork。它只是把触发动作搬出了办公室。
-        </p>
-        <p>
-          Dispatch 是一个遥控器。Cowork 在本地执行的每一道守则——文件写入的项目外路径检查、覆盖率与替代值选择上的"由从业者判断"暂停——无论会话从键盘还是手机发起，都以同样方式触发。SSO 对 Dispatch 的鉴权与桌面端完全一致。
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- §III 场景 -->
+  <!-- §II 场景 -->
   <section id="scenarios" class="border-t border-rule">
     <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="它能处理什么" numeral="III" title="Chat 跑不了的四种流程。" />
+      <SectionMark kicker="它能处理什么" numeral="II" title="Chat 跑不了的四种流程。" />
 
       <div class="mt-14 border-y border-rule">
         {scenarios.map((s) => (
@@ -180,10 +159,10 @@ const compare = [
     </div>
   </section>
 
-  <!-- §IV BOM 交付物 -->
+  <!-- §III BOM 交付物 -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="BOM 导出" numeral="IV" title="四张表，一个工作簿。" />
+      <SectionMark kicker="BOM 导出" numeral="III" title="四张表，一个工作簿。" />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
           BOM 匹配会话的交付物是一个 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">.xlsx</code> 工作簿。四张表，顺序如下：
@@ -198,69 +177,10 @@ const compare = [
     </div>
   </section>
 
-  <!-- §V Schedules -->
+  <!-- §IV 六层记忆 -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="定时任务" numeral="V" title="工作流上时钟。" />
-      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        <p>
-          Cowork 跑工作流。定时任务把同样的工作流挂到时钟上。每日、每周，或一条完整的 cron 表达式——Cowork 触发运行、记录结果、把下一步推到项目时间线上。
-        </p>
-        <p>
-          三种形态，按项目绑定程度递增：
-        </p>
-      </div>
-
-      <div class="mt-8 grid gap-px overflow-hidden border border-rule md:grid-cols-3 max-w-5xl" style="background: var(--rule);">
-        {scheduleShapes.map((s) => (
-          <article class="p-6 md:p-7" style="background: var(--paper);">
-            <h3 class="font-display mb-3" style="font-variation-settings: 'SOFT' 40, 'opsz' 28; font-size: 1.1rem; color: var(--shell);">{s.label}</h3>
-            <p class="font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.95rem;">{s.body}</p>
-          </article>
-        ))}
-      </div>
-
-      <div class="mt-10 max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        <p>
-          运行历史以图标停在项目时间线上：成功、失败、运行中。点开任一条，读那次运行的 Agent 日志；点关联的任务或定时任务，跳回源头。
-        </p>
-        <p>
-          Cowork 常落入的一种模式：项目的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">tasks.md</code> 列出一条循环动作。Cowork 在项目打开时读到它，自动创建一条任务绑定型定时任务——从业者看到 cron 建议，确认即可。
-        </p>
-      </div>
-
-      <Asterism />
-
-      <blockquote class="mx-auto max-w-3xl text-center">
-        <p class="pullquote">
-          场景跑一遍工作流。定时任务<em style="color: var(--shell); font-style: italic;">让它一直跑下去。</em>
-        </p>
-      </blockquote>
-    </div>
-  </section>
-
-  <!-- §VI 数据隐私 -->
-  <section class="border-t border-rule" style="background: var(--paper-rim);">
-    <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="数据留在你的机器上" numeral="VI" title="本地目录。本地会话。本地审计记录。" />
-      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        <p>
-          启动时，4 个 LCA 目录下载到本地存储——HiQLCD 1.4、Ecoinvent 3.12、CarbonMinds 2.0、Agri-footprint 7.0——并通过验证同步保持更新。目录检索在本地对已下载文件运行，目录查询不发起网络请求。下载完成后，目录支持离线使用。
-        </p>
-        <p>
-          <strong style="font-weight: 500;">项目外路径检查</strong>在每次文件写入和 Shell 命令时触发：任何路径落在项目文件夹外的操作都会在执行前被拦截，用户看到具体路径、一句话原因，以及三个选项——仅此一次允许 / 始终允许此目录 / 拒绝。该检查无论会话模式如何均触发，Agent 无法绕过。
-        </p>
-        <p>
-          完整的数据处理说明——存什么、不存什么、存在哪——在<a href="/zh/security" style="color: var(--shell);">安全页</a>。
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- §VII 六层记忆 -->
-  <section class="border-t border-rule">
-    <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="六层记忆" numeral="VII" title="每次 Cowork 会话开始时，六层上下文已就位。" />
+      <SectionMark kicker="六层记忆" numeral="IV" title="每次 Cowork 会话开始时，六层上下文已就位。" />
 
       <div class="mt-10 overflow-hidden border border-rule" style="background: var(--paper);">
         <table class="w-full" style="border-collapse: collapse;">
@@ -302,10 +222,10 @@ const compare = [
     </div>
   </section>
 
-  <!-- §VIII Project wiki -->
+  <!-- §V Project wiki -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="项目 wiki" numeral="VIII" title="为这个项目所知的一切，建一张实体图。" />
+      <SectionMark kicker="项目 wiki" numeral="V" title="为这个项目所知的一切，建一张实体图。" />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
           每个 Cowork 项目都带一份 wiki：一个本地数据库，存放结构化的<strong style="font-weight: 500;">条目</strong>——类型包括 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">person</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">organization</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">dataset</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">artifact</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">concept</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">event</code> 等——由类型化的<strong style="font-weight: 500;">关系</strong>相连（<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">uses</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">cites</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">part_of</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">created_by</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">describes</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">contradicts</code>、<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">supersedes</code> 等）。这是一张从业者可以查询的图。
@@ -318,6 +238,86 @@ const compare = [
         </p>
         <p>
           wiki 与项目记忆的另外两种形态并列，做它们做不到的事。<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code>（L5）是只追加的时间线，回答 <em>什么时间我们做了什么决定</em>。L6 的项目记忆文件（<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Cortex.md</code> 及同侪）承载 <em>这个项目学到了什么</em>——已核查的数据集、反复使用的替代值、供应商专属说明。wiki 是结构化的，回答 <em>这个项目知道的事物之间如何关联</em>。审计走 L5。约定查询走 L6。知识穿行走 wiki。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §VI Schedules -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="定时任务" numeral="VI" title="工作流上时钟。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cowork 跑工作流。定时任务把同样的工作流挂到时钟上。每日、每周，或一条完整的 cron 表达式——Cowork 触发运行、记录结果、把下一步推到项目时间线上。
+        </p>
+        <p>
+          三种形态，按项目绑定程度递增：
+        </p>
+      </div>
+
+      <div class="mt-8 grid gap-px overflow-hidden border border-rule md:grid-cols-3 max-w-5xl" style="background: var(--rule);">
+        {scheduleShapes.map((s) => (
+          <article class="p-6 md:p-7" style="background: var(--paper);">
+            <h3 class="font-display mb-3" style="font-variation-settings: 'SOFT' 40, 'opsz' 28; font-size: 1.1rem; color: var(--shell);">{s.label}</h3>
+            <p class="font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.95rem;">{s.body}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="mt-10 max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          运行历史以图标停在项目时间线上：成功、失败、运行中。点开任一条，读那次运行的 Agent 日志；点关联的任务或定时任务，跳回源头。
+        </p>
+        <p>
+          Cowork 常落入的一种模式：项目的 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">tasks.md</code> 列出一条循环动作。Cowork 在项目打开时读到它，自动创建一条任务绑定型定时任务——从业者看到 cron 建议，确认即可。
+        </p>
+      </div>
+
+      <Asterism />
+
+      <blockquote class="mx-auto max-w-3xl text-center">
+        <p class="pullquote">
+          场景跑一遍工作流。定时任务<em style="color: var(--shell); font-style: italic;">让它一直跑下去。</em>
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- §VII Dispatch -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Cortex Dispatch" numeral="VII" title="手机交单。回到桌面接着干。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cortex Dispatch 是桌面端 Cowork 的手机伴侣。在手机上打开后——它以 PWA 形式安装——屏幕只有一个文本框和一个麦克风按钮。打字提交，或按住录音。Dispatch 把任务派给同一账号下登录的桌面 Cowork 实例；Cowork 接到即开跑。
+        </p>
+        <p>
+          语音走 Cloudflare R2：手机直接上传音频，服务端转写，转写文本作为下一条用户消息进入 Cowork 会话。Cowork 窗口不必置于前台，但桌面机器需保持运行且已登录。
+        </p>
+        <p>
+          一个常见场景：采购经理在会议上听到一个供应商名字，口述一句 <em>"把上次 BOM 里 304 不锈钢的行抽出来，按 HiQLCD 1.4 重新匹配一遍。"</em> 四十分钟后回到桌面，匹配后的工作簿已经停在结果表，决策同步写进了 <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code>。Dispatch 没有替代 Cowork。它只是把触发动作搬出了办公室。
+        </p>
+        <p>
+          Dispatch 是一个遥控器。Cowork 在本地执行的每一道守则——文件写入的项目外路径检查、覆盖率与替代值选择上的"由从业者判断"暂停——无论会话从键盘还是手机发起，都以同样方式触发。SSO 对 Dispatch 的鉴权与桌面端完全一致。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §VIII Computer Use -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Computer Use" numeral="VIII" title="仅限 macOS — 直接控制已安装应用的 GUI。" />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          这是 Cowork 成为 Agent 而非脚本的原因。它可以驱动机器上任何已安装的应用——包括没有 API、没有插件生态的软件。
+        </p>
+        <p>
+          启用 Computer Use 后，Cowork 获得 21 个 MCP 工具用于直接 GUI 交互：截图、缩放、点击（左键、右键、双击、三击、中键）、输入文字、按键、滚动、拖拽、启动应用、剪贴板读写等。Agent 可以驱动任何已安装的桌面应用——openLCA 对话框、旧版 ERP、内部成本表、机器上的任何程序——无需命令行接口。每次操作前，用户审批 Agent 可控制哪些应用。主窗口缩至侧边面板；可见遮罩显示"Claude is using your computer."随时按 Escape 中断。
+        </p>
+        <p class="font-serif italic" style="color: var(--ink-mute);">
+          Computer Use 不支持 Windows。
         </p>
       </div>
     </div>
@@ -341,19 +341,19 @@ const compare = [
     </div>
   </section>
 
-  <!-- §X Computer Use -->
+  <!-- §X 数据隐私 -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Computer Use" numeral="X" title="仅限 macOS — 直接控制已安装应用的 GUI。" />
+      <SectionMark kicker="数据留在你的机器上" numeral="X" title="本地目录。本地会话。本地审计记录。" />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          这是 Cowork 成为 Agent 而非脚本的原因。它可以驱动机器上任何已安装的应用——包括没有 API、没有插件生态的软件。
+          启动时，4 个 LCA 目录下载到本地存储——HiQLCD 1.4、Ecoinvent 3.12、CarbonMinds 2.0、Agri-footprint 7.0——并通过验证同步保持更新。目录检索在本地对已下载文件运行，目录查询不发起网络请求。下载完成后，目录支持离线使用。
         </p>
         <p>
-          启用 Computer Use 后，Cowork 获得 21 个 MCP 工具用于直接 GUI 交互：截图、缩放、点击（左键、右键、双击、三击、中键）、输入文字、按键、滚动、拖拽、启动应用、剪贴板读写等。Agent 可以驱动任何已安装的桌面应用——openLCA 对话框、旧版 ERP、内部成本表、机器上的任何程序——无需命令行接口。每次操作前，用户审批 Agent 可控制哪些应用。主窗口缩至侧边面板；可见遮罩显示"Claude is using your computer."随时按 Escape 中断。
+          <strong style="font-weight: 500;">项目外路径检查</strong>在每次文件写入和 Shell 命令时触发：任何路径落在项目文件夹外的操作都会在执行前被拦截，用户看到具体路径、一句话原因，以及三个选项——仅此一次允许 / 始终允许此目录 / 拒绝。该检查无论会话模式如何均触发，Agent 无法绕过。
         </p>
-        <p class="font-serif italic" style="color: var(--ink-mute);">
-          Computer Use 不支持 Windows。
+        <p>
+          完整的数据处理说明——存什么、不存什么、存在哪——在<a href="/zh/security" style="color: var(--shell);">安全页</a>。
         </p>
       </div>
     </div>

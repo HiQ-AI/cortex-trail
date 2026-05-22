@@ -112,6 +112,6 @@
 - [x] P1 IA 骨架（nav: Product▾+Skills, 去 Overview; footer: Skills 移入 Product; **删除** /solutions 与 /zh/solutions index 页（无 redirect）; guides hub persona 分组。**未加 Trust▾** — zh 标签别扭+下拉太薄，Standards/Security 留 footer）
 - [x] P2 Cowork 去重（§IX Skills 全文删→teaser+link /skills；§VI Privacy 砍掉与 /security 重复段，只留 cowork 独有的离线目录+out-of-workspace gate+link。en+zh。**Dispatch 下移 + 删 §III 重复 + 整体 renumber 移到 P4** 做结构/排版时一并处理，避免本轮大块移动出错）
 - [x] P3 首页重构（首页加 §II Scenarios 条(5 卡 + All guides) + 信任条(标准/安全)。en+zh。**chat §VI compare 表保留** — 它在两个产品页都是「选哪个」的决策辅助，不算冗余）
-- [ ] P4 逐页排版
+- [x] P4 逐页排版（Cowork 11 段重排+renumber：Platforms→Scenarios→BOM→六层→wiki→Schedules→Dispatch→ComputerUse→Skills→Privacy→Compare，脚本化 reorder 含断言+行数校验；删 blog index `length===0` 死分支 + 无用 SectionMark import。en+zh）
 - [ ] P5 内容补缺
 - [ ] P6 一致性 QA

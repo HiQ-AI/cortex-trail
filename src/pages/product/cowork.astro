@@ -129,31 +129,10 @@ const compare = [
     </div>
   </section>
 
-  <!-- §II Dispatch -->
-  <section class="border-t border-rule" style="background: var(--paper-rim);">
-    <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Cortex Dispatch" numeral="II" title="Hand the work off from your phone. Pick it up at the desk." />
-      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        <p>
-          Cortex Dispatch is the phone-side companion to desktop Cowork. Open it on a phone — it installs as a Progressive Web App — and the screen is one text box and one microphone button. Type the task, or hold to record. Dispatch routes it to the desktop Cowork instance signed into the same account; Cowork picks it up and runs.
-        </p>
-        <p>
-          Voice goes through Cloudflare R2: the phone uploads the audio directly, the server transcribes, and the transcript reaches the Cowork session as the next user message. The Cowork window does not need to be in the foreground. The desktop machine does need to be running and signed in.
-        </p>
-        <p>
-          A common shape: the procurement manager hears a supplier name in a meeting and dictates <em>"pull the 304 stainless rows from the last BOM and re-match against HiQLCD 1.4."</em> Forty minutes later, back at the desk, the matched workbook is open in the Results sheet and the decisions are written to <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code>. Dispatch did not replace Cowork. It moved the trigger out of the office.
-        </p>
-        <p>
-          Dispatch is not a separate agent. It is a remote control. Every guardrail Cowork enforces locally — the out-of-workspace gate on file writes, the practitioner-decides pauses on coverage and proxy choice — fires the same way whether the run started from the keyboard or the phone. SSO authenticates Dispatch the same way it authenticates the desktop.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- §III Scenarios -->
+  <!-- §II Scenarios -->
   <section id="scenarios" class="border-t border-rule">
     <div class="container-page py-20 md:py-28">
-      <SectionMark kicker="What it handles" numeral="III" title="Four workflows Chat cannot run." />
+      <SectionMark kicker="What it handles" numeral="II" title="Four workflows Chat cannot run." />
 
       <div class="mt-14 border-y border-rule">
         {scenarios.map((s) => (
@@ -180,10 +159,10 @@ const compare = [
     </div>
   </section>
 
-  <!-- §IV BOM deliverable -->
+  <!-- §III BOM deliverable -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="The BOM export" numeral="IV" title="One workbook. Four sheets." />
+      <SectionMark kicker="The BOM export" numeral="III" title="One workbook. Four sheets." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
           A BOM matching session ends with a single <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">.xlsx</code> workbook. Four sheets, in this order:
@@ -198,69 +177,10 @@ const compare = [
     </div>
   </section>
 
-  <!-- §V Schedules -->
+  <!-- §IV Six layers -->
   <section class="border-t border-rule">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Schedules" numeral="V" title="Workflows on a clock." />
-      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        <p>
-          Cowork runs workflows. Schedules run the same workflows on a clock. Daily, weekly, or a full cron expression — Cowork triggers the run, records the result, and posts the next step into the project's timeline.
-        </p>
-        <p>
-          Three shapes, in increasing project-attachment:
-        </p>
-      </div>
-
-      <div class="mt-8 grid gap-px overflow-hidden border border-rule md:grid-cols-3 max-w-5xl" style="background: var(--rule);">
-        {scheduleShapes.map((s) => (
-          <article class="p-6 md:p-7" style="background: var(--paper);">
-            <h3 class="font-display mb-3" style="font-variation-settings: 'SOFT' 40, 'opsz' 28; font-size: 1.1rem; color: var(--shell);">{s.label}</h3>
-            <p class="font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.95rem;">{s.body}</p>
-          </article>
-        ))}
-      </div>
-
-      <div class="mt-10 max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        <p>
-          Run history sits on the project timeline as glyphs: success, failure, currently-running. Click one to read the agent's log for that run; click the linked task or schedule to jump back to the source.
-        </p>
-        <p>
-          A pattern Cowork falls into often: a project's <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">tasks.md</code> lists a recurring action. Cowork reads it on project open and creates a task-bound schedule automatically — the practitioner sees the cron suggestion and confirms.
-        </p>
-      </div>
-
-      <Asterism />
-
-      <blockquote class="mx-auto max-w-3xl text-center">
-        <p class="pullquote">
-          Scenarios run a workflow. Schedules <em style="color: var(--shell); font-style: italic;">keep it running.</em>
-        </p>
-      </blockquote>
-    </div>
-  </section>
-
-  <!-- §VI Data privacy -->
-  <section class="border-t border-rule" style="background: var(--paper-rim);">
-    <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Data stays on your machine" numeral="VI" title="Local catalogs. Local sessions. Local audit trail." />
-      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
-        <p>
-          Four LCA catalogs are downloaded to local storage at startup — HiQLCD 1.4, Ecoinvent 3.12, CarbonMinds 2.0, Agri-footprint 7.0 — and kept current via verified sync. Catalog search runs locally against the downloaded files. No network call is made for a catalog query. Once downloaded, catalogs work offline.
-        </p>
-        <p>
-          The <strong style="font-weight: 500;">out-of-workspace gate</strong> runs on every file write and shell command. Any operation whose path falls outside the project folder is intercepted before it executes: the user sees the specific path, a one-sentence reason, and three options — Allow once / Always allow this directory / Deny. The gate fires regardless of session mode. The agent cannot bypass it.
-        </p>
-        <p>
-          The full data-handling story — what's stored, what isn't, and where — is on <a href="/security" style="color: var(--shell);">the security page</a>.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- §VII Six layers -->
-  <section class="border-t border-rule">
-    <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Six-layer memory" numeral="VII" title="Every Cowork session starts with six layers of context already loaded." />
+      <SectionMark kicker="Six-layer memory" numeral="IV" title="Every Cowork session starts with six layers of context already loaded." />
 
       <div class="mt-10 overflow-hidden border border-rule" style="background: var(--paper);">
         <table class="w-full" style="border-collapse: collapse;">
@@ -302,10 +222,10 @@ const compare = [
     </div>
   </section>
 
-  <!-- §VIII Project wiki -->
+  <!-- §V Project wiki -->
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Project wiki" numeral="VIII" title="An entity graph for what this project knows." />
+      <SectionMark kicker="Project wiki" numeral="V" title="An entity graph for what this project knows." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
           Every Cowork project carries a wiki: a local database of structured <strong style="font-weight: 500;">entries</strong> — typed as <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">person</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">organization</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">dataset</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">artifact</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">concept</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">event</code>, and others — connected by typed <strong style="font-weight: 500;">relationships</strong> (<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">uses</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">cites</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">part_of</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">created_by</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">describes</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">contradicts</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">supersedes</code>, and more). It is a graph the practitioner can query.
@@ -318,6 +238,86 @@ const compare = [
         </p>
         <p>
           The wiki sits next to the other two project-memory shapes and does what they cannot. <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code> (L5) is an append-only timeline — it answers <em>when did we decide what</em>. The project-memory files (L6, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">Cortex.md</code> and friends) carry <em>what this project has learned</em> — verified datasets, recurring proxies, supplier specifics. The wiki is structured — it answers <em>how do the things this project knows relate to each other</em>. Audit goes to L5. Convention lookup goes to L6. Knowledge traversal goes to the wiki.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §VI Schedules -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Schedules" numeral="VI" title="Workflows on a clock." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cowork runs workflows. Schedules run the same workflows on a clock. Daily, weekly, or a full cron expression — Cowork triggers the run, records the result, and posts the next step into the project's timeline.
+        </p>
+        <p>
+          Three shapes, in increasing project-attachment:
+        </p>
+      </div>
+
+      <div class="mt-8 grid gap-px overflow-hidden border border-rule md:grid-cols-3 max-w-5xl" style="background: var(--rule);">
+        {scheduleShapes.map((s) => (
+          <article class="p-6 md:p-7" style="background: var(--paper);">
+            <h3 class="font-display mb-3" style="font-variation-settings: 'SOFT' 40, 'opsz' 28; font-size: 1.1rem; color: var(--shell);">{s.label}</h3>
+            <p class="font-serif" style="line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink); font-size: 0.95rem;">{s.body}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="mt-10 max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Run history sits on the project timeline as glyphs: success, failure, currently-running. Click one to read the agent's log for that run; click the linked task or schedule to jump back to the source.
+        </p>
+        <p>
+          A pattern Cowork falls into often: a project's <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">tasks.md</code> lists a recurring action. Cowork reads it on project open and creates a task-bound schedule automatically — the practitioner sees the cron suggestion and confirms.
+        </p>
+      </div>
+
+      <Asterism />
+
+      <blockquote class="mx-auto max-w-3xl text-center">
+        <p class="pullquote">
+          Scenarios run a workflow. Schedules <em style="color: var(--shell); font-style: italic;">keep it running.</em>
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- §VII Dispatch -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Cortex Dispatch" numeral="VII" title="Hand the work off from your phone. Pick it up at the desk." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          Cortex Dispatch is the phone-side companion to desktop Cowork. Open it on a phone — it installs as a Progressive Web App — and the screen is one text box and one microphone button. Type the task, or hold to record. Dispatch routes it to the desktop Cowork instance signed into the same account; Cowork picks it up and runs.
+        </p>
+        <p>
+          Voice goes through Cloudflare R2: the phone uploads the audio directly, the server transcribes, and the transcript reaches the Cowork session as the next user message. The Cowork window does not need to be in the foreground. The desktop machine does need to be running and signed in.
+        </p>
+        <p>
+          A common shape: the procurement manager hears a supplier name in a meeting and dictates <em>"pull the 304 stainless rows from the last BOM and re-match against HiQLCD 1.4."</em> Forty minutes later, back at the desk, the matched workbook is open in the Results sheet and the decisions are written to <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code>. Dispatch did not replace Cowork. It moved the trigger out of the office.
+        </p>
+        <p>
+          Dispatch is not a separate agent. It is a remote control. Every guardrail Cowork enforces locally — the out-of-workspace gate on file writes, the practitioner-decides pauses on coverage and proxy choice — fires the same way whether the run started from the keyboard or the phone. SSO authenticates Dispatch the same way it authenticates the desktop.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §VIII Computer Use -->
+  <section id="computer-use" class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Computer Use" numeral="VIII" title="macOS only — direct GUI control of installed apps." />
+      <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        <p>
+          This is what makes Cowork an agent, not a script. It can drive any application installed on your machine — including software with no API and no plugin ecosystem.
+        </p>
+        <p>
+          When Computer Use is enabled, Cowork gains 21 MCP tools for direct GUI interaction: screenshot, zoom, click (left, right, double, triple, middle), type, key press, scroll, drag, application launch, clipboard read/write, and others. The agent can drive any installed desktop application — openLCA dialogs, a legacy ERP, an internal cost spreadsheet, any app on the machine — without requiring a command-line interface. Before each action, the user approves which applications the agent may control. The main window docks to a side panel; a visible overlay displays "Claude is using your computer." Pressing Escape interrupts at any point.
+        </p>
+        <p class="font-serif italic" style="color: var(--ink-mute);">
+          Computer Use is not available on Windows.
         </p>
       </div>
     </div>
@@ -341,19 +341,19 @@ const compare = [
     </div>
   </section>
 
-  <!-- §X Computer Use -->
-  <section id="computer-use" class="border-t border-rule" style="background: var(--paper-rim);">
+  <!-- §X Data privacy -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
-      <SectionMark kicker="Computer Use" numeral="X" title="macOS only — direct GUI control of installed apps." />
+      <SectionMark kicker="Data stays on your machine" numeral="X" title="Local catalogs. Local sessions. Local audit trail." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          This is what makes Cowork an agent, not a script. It can drive any application installed on your machine — including software with no API and no plugin ecosystem.
+          Four LCA catalogs are downloaded to local storage at startup — HiQLCD 1.4, Ecoinvent 3.12, CarbonMinds 2.0, Agri-footprint 7.0 — and kept current via verified sync. Catalog search runs locally against the downloaded files. No network call is made for a catalog query. Once downloaded, catalogs work offline.
         </p>
         <p>
-          When Computer Use is enabled, Cowork gains 21 MCP tools for direct GUI interaction: screenshot, zoom, click (left, right, double, triple, middle), type, key press, scroll, drag, application launch, clipboard read/write, and others. The agent can drive any installed desktop application — openLCA dialogs, a legacy ERP, an internal cost spreadsheet, any app on the machine — without requiring a command-line interface. Before each action, the user approves which applications the agent may control. The main window docks to a side panel; a visible overlay displays "Claude is using your computer." Pressing Escape interrupts at any point.
+          The <strong style="font-weight: 500;">out-of-workspace gate</strong> runs on every file write and shell command. Any operation whose path falls outside the project folder is intercepted before it executes: the user sees the specific path, a one-sentence reason, and three options — Allow once / Always allow this directory / Deny. The gate fires regardless of session mode. The agent cannot bypass it.
         </p>
-        <p class="font-serif italic" style="color: var(--ink-mute);">
-          Computer Use is not available on Windows.
+        <p>
+          The full data-handling story — what's stored, what isn't, and where — is on <a href="/security" style="color: var(--shell);">the security page</a>.
         </p>
       </div>
     </div>

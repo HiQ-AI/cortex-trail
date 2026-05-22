@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import SectionMark from '@/components/SectionMark.astro';
 import { getCollection } from 'astro:content';
 
 const title = 'Blog — HiQ Cortex';
@@ -27,18 +26,7 @@ const entries = (await getCollection('blog', ({ data }) => !data.draft && data.l
 
   <section class="border-t border-rule">
     <div class="container-page py-16 md:py-20">
-      {entries.length === 0 ? (
-        <div class="max-w-2xl">
-          <SectionMark kicker="Volume 01" numeral="I" title="First entry en route." />
-          <p class="font-serif italic" style="font-size: 1.1rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-            The first post is being copy-edited. When it lands, it will discuss why Cortex
-            returns top-k candidates instead of top-1 — and what the industry loses when a
-            reasoning chain collapses into a single number. Check back shortly, or read the
-            <a href="/standards" style="color: var(--shell-dim);">standards alignment</a> in the meantime.
-          </p>
-        </div>
-      ) : (
-        <ul class="border-y border-rule">
+      <ul class="border-y border-rule">
           {entries.map((e) => (
             <li class="border-b border-rule last:border-b-0">
               <a href={`/blog/${e.id}`} class="group grid grid-cols-[7rem_1fr_auto] items-baseline gap-6 py-8 md:py-10" style="text-decoration: none;">
@@ -58,7 +46,6 @@ const entries = (await getCollection('blog', ({ data }) => !data.draft && data.l
             </li>
           ))}
         </ul>
-      )}
     </div>
   </section>
 </BaseLayout>
