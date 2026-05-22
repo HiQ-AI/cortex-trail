@@ -113,5 +113,5 @@
 - [x] P2 Cowork 去重（§IX Skills 全文删→teaser+link /skills；§VI Privacy 砍掉与 /security 重复段，只留 cowork 独有的离线目录+out-of-workspace gate+link。en+zh。**Dispatch 下移 + 删 §III 重复 + 整体 renumber 移到 P4** 做结构/排版时一并处理，避免本轮大块移动出错）
 - [x] P3 首页重构（首页加 §II Scenarios 条(5 卡 + All guides) + 信任条(标准/安全)。en+zh。**chat §VI compare 表保留** — 它在两个产品页都是「选哪个」的决策辅助，不算冗余）
 - [x] P4 逐页排版（Cowork 11 段重排+renumber：Platforms→Scenarios→BOM→六层→wiki→Schedules→Dispatch→ComputerUse→Skills→Privacy→Compare，脚本化 reorder 含断言+行数校验；删 blog index `length===0` 死分支 + 无用 SectionMark import。en+zh）
-- [ ] P5 内容补缺
-- [ ] P6 一致性 QA
+- [~] P5 内容补缺（**评估后**：personas 页 SKIP — guides hub 已有 persona 分组；changelog SKIP — GitHub releases 为准；**"vs 通用 AI" 对比页 DEFER** — 真实缺口但属净新增 marketing 内容，留作专门 follow-up 走 writer→editor pipeline，不在结构重构里赶）
+- [x] P6 一致性 QA（en19/zh17 parity：仅 404 与 blog/[...slug] 缺 zh 镜像，**均为既有**非本次回归；nav 干净无 Overview；/solutions index 已删=404（已授权）；build 绿 45 页。**遗留小项**：zh 博客文章走共享 `/blog/<zh-id>` 而非 `/zh/blog/`，既有架构，未来可清理）
