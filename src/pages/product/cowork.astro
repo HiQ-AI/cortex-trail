@@ -245,16 +245,13 @@ const compare = [
       <SectionMark kicker="Data stays on your machine" numeral="VI" title="Local catalogs. Local sessions. Local audit trail." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Cowork sessions are not uploaded. BOM files are processed in the session's local context and not persisted server-side.
-        </p>
-        <p>
           Four LCA catalogs are downloaded to local storage at startup — HiQLCD 1.4, Ecoinvent 3.12, CarbonMinds 2.0, Agri-footprint 7.0 — and kept current via verified sync. Catalog search runs locally against the downloaded files. No network call is made for a catalog query. Once downloaded, catalogs work offline.
         </p>
         <p>
-          The <strong style="font-weight: 500;">out-of-workspace gate</strong> runs on every file write and shell command. A file-boundary check intercepts any operation whose path falls outside the project folder before it executes. The user sees a confirmation card: the specific path, a one-sentence reason, and three options — Allow once / Always allow this directory / Deny. The gate fires regardless of session mode. The agent cannot bypass it.
+          The <strong style="font-weight: 500;">out-of-workspace gate</strong> runs on every file write and shell command. Any operation whose path falls outside the project folder is intercepted before it executes: the user sees the specific path, a one-sentence reason, and three options — Allow once / Always allow this directory / Deny. The gate fires regardless of session mode. The agent cannot bypass it.
         </p>
         <p>
-          The project's L5 audit log (<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.9em;">progress.md</code>, described below) and L6 project memory files live on the user's local filesystem, co-located with the project data. They can be committed to version control.
+          The full data-handling story — what's stored, what isn't, and where — is on <a href="/security" style="color: var(--shell);">the security page</a>.
         </p>
       </div>
     </div>
@@ -332,25 +329,13 @@ const compare = [
       <SectionMark kicker="Skills" numeral="IX" title="The platform that learns from the work." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Cowork ships with bundled skills already loaded. The platform adds more from two sources: a shared marketplace and the practitioner's own sessions.
-        </p>
-        <p>
-          <strong style="font-weight: 500;">Bundled skills</strong> ship with the application: <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">bom-analysis</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">querying-lca-datasets</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">scope3-guidance</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.88em;">en-15804-indicators</code>. These run from the first session.
-        </p>
-        <p>
-          <strong style="font-weight: 500;">Marketplace skills</strong> are contributed by practitioners, reviewed by HiQ-AI, and available to every user. Cowork checks for updates on launch and downloads silently. Skills work offline once cached.
-        </p>
-        <p>
-          <strong style="font-weight: 500;">Custom skills</strong> accumulate from the practitioner's own work. The observer pipeline indexes every session after it closes. When two or more sessions show the same workflow shape, a background process reads the actual session transcripts and writes a reusable skill. No user action is required. The skill appears in the Recent Learnings panel and loads automatically on the next similar task.
-        </p>
-        <p>
-          Any custom skill can be contributed to the shared marketplace. A PII scan runs before anything leaves the machine. If the scan passes, a pull request opens for HiQ-AI review. On merge, the skill is available to every user on next launch.
+          Cowork ships with bundled skills, pulls more from a reviewed marketplace, and writes new ones from your own repeated work. The platform's LCA intelligence accumulates from practice — not from the vendor.
         </p>
         <p class="font-display italic" style="color: var(--shell); font-size: 1.15rem; line-height: 1.4;">
-          The platform's LCA intelligence is not owned by the vendor. It accumulates from actual practitioner work.
+          A workflow you've run twice becomes a skill the whole team can reuse.
         </p>
         <p>
-          <a href="/skills" class="smallcaps" style="color: var(--shell);">More on Skills →</a>
+          <a href="/skills" class="smallcaps" style="color: var(--shell);">How skills work — the full story →</a>
         </p>
       </div>
     </div>
