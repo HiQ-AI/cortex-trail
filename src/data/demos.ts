@@ -2415,3 +2415,871 @@ export const epdAuditZh = [
     ]
   }
 ];
+
+export const ilcdValidationEn = [
+  {
+    "kind": "user",
+    "text": "Validate steel_processes.zip against ILCD before I import it into openLCA — and convert a clean copy to JSON-LD for a colleague who runs openLCA."
+  },
+  {
+    "kind": "think",
+    "text": "Parse first to see what's inside, then validate structure, UUID format, required fields, cross-references and exchange directions across all seven dataset types. Import failures almost always trace to a missing exchange direction or a reference pointing at nothing. After it's clean I'll convert ILCD → JSON-LD and re-validate the output, since conversion can introduce its own issues."
+  },
+  {
+    "kind": "say",
+    "text": "Parse — detect format and enumerate contents."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Detect format → ILCD directory structure"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Unzip steel_processes.zip"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Enumerate processes — 12"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Enumerate flows — 45"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Enumerate flow properties — 8"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Enumerate unit groups — 3"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Enumerate sources — 5"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Enumerate contacts — 4"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Enumerate impact categories — 2"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "ILCD package: 12 processes, 45 flows, 8 flow properties, 3 unit groups, 5 sources, 4 contacts, 2 impact categories."
+  },
+  {
+    "kind": "think",
+    "text": "Validation — structure, identifiers, required fields, then cross-references, then per-process exchanges."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Check XML well-formedness — 34 files"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Attach ILCD schema (jsonschema)"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "UUID format — processes"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "UUID format — flows"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "UUID format — flow properties"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "UUID format — unit groups"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "UUID format — sources"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "UUID format — contacts"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "UUID format — impact categories"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Required fields — processes"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Required fields — flows"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Required fields — flow properties"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Required fields — unit groups"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Required fields — sources"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Required fields — contacts"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Required fields — impact categories"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Cross-ref — flow → flow property"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Cross-ref — flow property → unit group"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Cross-ref — process exchange → flow"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Cross-ref — process → source / contact"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "Cross-refs: 2 process exchanges point to flow UUIDs not in the package. Recording as errors."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Validate process P01 — exchanges + directions"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Validate process P02 — exchanges + directions"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Validate process P03 — exchanges + directions"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Validate process P04 — exchanges + directions"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Validate process P05 — exchanges + directions"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Validate process P06 — exchanges + directions"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Validate process P07 — exchanges + directions"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Validate process P08 — exchanges + directions"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Validate process P09 — exchanges + directions"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Validate process P10 — exchanges + directions"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Validate process P11 — exchanges + directions"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Validate process P12 — exchanges + directions"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "Process P07 has two exchanges with no Input/Output direction set — openLCA will reject those on import."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Unit consistency — mass, energy, volume"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Reference-flow resolves on every process"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Flow type — elementary vs product"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "Validation complete: 3 errors, 5 warnings."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "ERROR · P07 L142 — reference flow missing unit"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "ERROR · P03 L210 — exchange flow UUID not found"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "ERROR · P11 L233 — exchange direction unset"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "WARNING ×5 — uncertainty / data-source fields blank"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Write validation_report.md"
+    ]
+  },
+  {
+    "kind": "ask",
+    "q": "3 errors block import. What next?",
+    "options": [
+      "Show the line-by-line fix list",
+      "Convert the valid datasets anyway"
+    ],
+    "pick": [
+      0
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "Fix list written. The 5 warnings are optional fields — not blocking, but worth filling for completeness."
+  },
+  {
+    "kind": "think",
+    "text": "Now the conversion — ILCD → openLCA JSON-LD, all seven dataset types, then re-validate the output."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Convert processes → JSON-LD"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Convert flows → JSON-LD"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Convert flow properties → JSON-LD"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Convert unit groups → JSON-LD"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Convert sources → JSON-LD"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Convert contacts → JSON-LD"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Convert impact categories → JSON-LD"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Write olca-schema.json + zip"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Re-parse converted package"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Re-validate JSON-LD output"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "Converted package re-validates clean — the 2 missing-flow errors carried over (same source data), the rest mapped 1:1."
+  },
+  {
+    "kind": "artifact",
+    "title": "validation_report.md",
+    "desc": "ILCD · 34 datasets",
+    "lines": [
+      "3 errors located by file + line",
+      "5 optional-field warnings",
+      "Every error has a fix instruction",
+      "Fix the 3, re-run, then import"
+    ]
+  },
+  {
+    "kind": "artifact",
+    "title": "steel_processes.jsonld.zip",
+    "desc": "openLCA JSON-LD",
+    "lines": [
+      "All 7 dataset types converted",
+      "Re-validated against olca-schema",
+      "Ready for openLCA import",
+      "No field silently dropped"
+    ]
+  }
+];
+
+export const ilcdValidationZh = [
+  {
+    "kind": "user",
+    "text": "导入 openLCA 前，把 steel_processes.zip 对着 ILCD 校验一遍——再转一份干净的 JSON-LD 给用 openLCA 的同事。"
+  },
+  {
+    "kind": "think",
+    "text": "先解析看清里面有什么，再对七种数据集类型逐项校验：结构、UUID 格式、必填字段、交叉引用、交换方向。导入失败几乎都出在交换方向缺失、或引用指向了不存在的对象。校验干净后我把 ILCD → JSON-LD 转出来再重校一遍——转换本身也可能引入问题。"
+  },
+  {
+    "kind": "say",
+    "text": "解析 — 识别格式并枚举内容。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "识别格式 → ILCD 目录结构"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "解压 steel_processes.zip"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "枚举过程 — 12"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "枚举流 — 45"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "枚举流属性 — 8"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "枚举单位组 — 3"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "枚举来源 — 5"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "枚举联系人 — 4"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "枚举影响类别 — 2"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "ILCD 包：12 过程、45 流、8 流属性、3 单位组、5 来源、4 联系人、2 影响类别。"
+  },
+  {
+    "kind": "think",
+    "text": "校验 — 结构、标识符、必填字段，再交叉引用，再逐过程交换。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "检查 XML 良构性 — 34 个文件"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "挂载 ILCD schema（jsonschema）"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "UUID 格式 — 过程"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "UUID 格式 — 流"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "UUID 格式 — 流属性"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "UUID 格式 — 单位组"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "UUID 格式 — 来源"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "UUID 格式 — 联系人"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "UUID 格式 — 影响类别"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "必填字段 — 过程"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "必填字段 — 流"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "必填字段 — 流属性"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "必填字段 — 单位组"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "必填字段 — 来源"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "必填字段 — 联系人"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "必填字段 — 影响类别"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "交叉引用 — 流 → 流属性"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "交叉引用 — 流属性 → 单位组"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "交叉引用 — 过程交换 → 流"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "交叉引用 — 过程 → 来源 / 联系人"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "交叉引用：2 条过程交换指向包内不存在的流 UUID。记为错误。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "校验过程 P01 — 交换 + 方向"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "校验过程 P02 — 交换 + 方向"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "校验过程 P03 — 交换 + 方向"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "校验过程 P04 — 交换 + 方向"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "校验过程 P05 — 交换 + 方向"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "校验过程 P06 — 交换 + 方向"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "校验过程 P07 — 交换 + 方向"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "校验过程 P08 — 交换 + 方向"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "校验过程 P09 — 交换 + 方向"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "校验过程 P10 — 交换 + 方向"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "校验过程 P11 — 交换 + 方向"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "校验过程 P12 — 交换 + 方向"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "过程 P07 有两条交换未设 Input/Output 方向——openLCA 导入时会拒收。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "单位一致性 — 质量、能量、体积"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "每个过程的参考流均可解析"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "流类型 — 基本流 vs 产品流"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "校验完成：3 个错误、5 个警告。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "ERROR · P07 L142 — 参考流缺单位"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "ERROR · P03 L210 — 交换流 UUID 找不到"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "ERROR · P11 L233 — 交换方向未设"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "WARNING ×5 — 不确定度 / 数据来源字段为空"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "写入 validation_report.md"
+    ]
+  },
+  {
+    "kind": "ask",
+    "q": "3 个错误会阻断导入。下一步？",
+    "options": [
+      "给出逐行修复清单",
+      "先转换有效的数据集"
+    ],
+    "pick": [
+      0
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "修复清单已生成。5 个警告是可选字段——不阻断，但补全更完整。"
+  },
+  {
+    "kind": "think",
+    "text": "接着是转换——ILCD → openLCA JSON-LD，七种类型全转，再重校输出。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "转换过程 → JSON-LD"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "转换流 → JSON-LD"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "转换流属性 → JSON-LD"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "转换单位组 → JSON-LD"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "转换来源 → JSON-LD"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "转换联系人 → JSON-LD"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "转换影响类别 → JSON-LD"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "写入 olca-schema.json + 打包"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "重新解析转换后的包"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "重校 JSON-LD 输出"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "转换后的包重校通过——2 个缺流错误沿用过来了（源数据相同），其余 1:1 映射。"
+  },
+  {
+    "kind": "artifact",
+    "title": "validation_report.md",
+    "desc": "ILCD · 34 个数据集",
+    "lines": [
+      "3 个错误按文件 + 行号定位",
+      "5 个可选字段警告",
+      "每个错误都附修复说明",
+      "改完 3 个，重跑，再导入"
+    ]
+  },
+  {
+    "kind": "artifact",
+    "title": "steel_processes.jsonld.zip",
+    "desc": "openLCA JSON-LD",
+    "lines": [
+      "7 种数据集类型全部转换",
+      "已对 olca-schema 重校",
+      "可直接导入 openLCA",
+      "无字段被静默丢弃"
+    ]
+  }
+];
