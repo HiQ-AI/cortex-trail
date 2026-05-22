@@ -4,7 +4,7 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = '定价 — HiQ Cortex';
 const description =
-  '三档方案。免费起步。Pro €99/月，Plus €299/月含 Cortex Cowork 桌面端。数据库授权要求与 Cowork 开通条件一并说清楚。';
+  '三档方案。免费起步。Pro €99/月，Plus €299/月含 Cortex Cowork 桌面端。哪些数据库需单独授权、与 Cowork 开通条件一并说清楚。';
 
 const plans = [
   {
@@ -82,7 +82,7 @@ const faqs = [
         三档方案。<span style="color: var(--ink-faint);">免费起步。</span>
       </h1>
       <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Free、Pro、Plus 三档。Cowork 开通条件、需要自带的数据库授权——逐项说明，不留模糊空间。
+        Free、Pro、Plus 三档。Cowork 开通条件、哪些数据库需单独授权——逐项说明，不留模糊空间。
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
         <a href="#plans" class="ticket">查看方案 <span aria-hidden="true">↓</span></a>
@@ -134,7 +134,7 @@ const faqs = [
           <strong style="font-weight: 500;">Free</strong> 是入口。几次查询感受 Cortex Chat 怎么用——问一个方法论问题、查一个材料、看一条候选数据是怎么溯源的。不为持续 LCA 工作设计。无需信用卡即可开始。
         </p>
         <p>
-          <strong style="font-weight: 500;">Pro</strong>（€99/月）是 LCA 从业者的日常工作档。开放 Cortex 所检索的全部 14 个 LCA 数据库，含 Ecoinvent、CarbonMinds 和 HiQLCD-AL。对话记忆跨会话持久保存，并跨设备同步。Pro 不含 Cortex Cowork，交互界面为 Chat。
+          <strong style="font-weight: 500;">Pro</strong>（€99/月）是 LCA 从业者的日常工作档。检索覆盖全部 14 个数据库——免费参考库返回完整数据，商业库（Ecoinvent、CarbonMinds、HiQLCD、HiQLCD-AL、Agri-footprint）在授权前返回检索发现（见下文「数据库授权」）。对话记忆跨会话持久保存，并跨设备同步。Pro 不含 Cortex Cowork，交互界面为 Chat。
         </p>
         <p>
           <strong style="font-weight: 500;">Plus</strong>（€299/月）面向项目工作。在 Pro 基础上增加 Cortex Cowork 桌面端：本机运行的 agent，可读写文件、执行多步骤工作流、从技能市场加载技能。Cowork 会话在本地运行，agent 与桌面应用运行在同一台机器上，不经远程服务器。Plus 同时开通 <strong style="font-weight: 500;">Cortex Dispatch</strong>——手机派活，桌面 Cowork 跑给你看。
@@ -149,16 +149,22 @@ const faqs = [
       <SectionMark kicker="必要说明" numeral="III" title="数据库授权。" />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.85; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Cortex 代用户检索商业 LCA 数据库——Ecoinvent、CarbonMinds 等。订阅 Cortex 不等于获得这些数据集的授权；每个商业数据库都需向提供方单独购买。
+          订阅买的是软件，以及对全部 14 个数据库的检索能力——不包含数据库内容本身。两笔独立的支出。
         </p>
         <p>
-          <strong style="font-weight: 500;">HiQLCD</strong> 与 <strong style="font-weight: 500;">HiQLCD-AL</strong> 是 HiQ-AI 自有数据集，全体 Cortex 订阅用户均可访问。欧盟授权的 <strong style="font-weight: 500;">EF</strong> 参考数据为公开可用。
+          <strong style="font-weight: 500;">开箱即用的免费数据库：</strong>公开参考库——EF、天工、WorldSteel、USDA、EXIOBASE、OZLCI、NEEDS、BAFU、AusLCI。任意付费档都可直接检索，无需额外授权。
         </p>
         <p>
-          <strong style="font-weight: 500;">没有授权——仍可检索发现。</strong>Cortex 返回数据集名称、来源、版本、地区、系统模型，以及指向源记录的链接。可以确认数据集是否存在、覆盖什么，并决定要不要去买授权。
+          <strong style="font-weight: 500;">商业数据库单独授权——HiQ 自有库也不例外。</strong>HiQLCD 与 HiQLCD-AL 向 HiQ-AI 购买；Ecoinvent、CarbonMinds、Agri-footprint 为第三方库。它们都不含在订阅内，是订阅之上的一笔付费授权。
         </p>
         <p>
-          <strong style="font-weight: 500;">有授权——数值出现。</strong>授权范围内的完整数据：排放因子、清单细节、更广的影响评价结果。Cortex 从不以文献估算或模型生成的数字填补缺失值。
+          第三方库有两条路径。<strong style="font-weight: 500;">在 Cortex 内购买授权</strong>——登录后在账户上自动开通。或<strong style="font-weight: 500;">激活你已持有的授权</strong>——提交购买凭证，支付一次性 <strong style="font-weight: 500;">€500</strong> 激活费，同一数据集即在 Cortex 侧打开。€500 激活的是你在别处买到的授权，不是数据库本身的价格。
+        </p>
+        <p>
+          <strong style="font-weight: 500;">没有授权——仍可检索发现。</strong>Cortex 返回数据集名称、来源、版本、地区、系统模型，以及指向源记录的链接。数值在获得访问权前保持隐藏。Cortex 从不以文献估算或模型生成的数字填补缺口。
+        </p>
+        <p>
+          数据库价格按库报价。<a href="mailto:lizj@hiqlcd.com" style="color: var(--shell);">lizj@hiqlcd.com</a>。
         </p>
       </div>
     </div>

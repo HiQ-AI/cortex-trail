@@ -6,7 +6,7 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'Cortex Cowork — HiQ Cortex';
 const description =
-  '你的文件。你的机器。你的审计记录。Cowork 是专为持续数周的 LCA 项目设计的桌面端 Agent——读取 BOM、驱动 openLCA、把每一个决策写入可版本管理的审计日志。';
+  '你的文件。你的机器。你的审计记录。Cowork 是专为持续数周的 LCA 项目设计的桌面端 Agent——读取 BOM、在 openLCA、brightway 或积木LCA 中运行计算、把每一个决策写入可版本管理的审计日志。';
 
 const platforms = [
   { name: 'macOS',   detail: '.dmg — Apple Silicon（arm64）', note: 'Gatekeeper：首次启动若弹出来自身份不明的开发者提示，前往「系统设置 → 隐私与安全性 → 仍要打开」。' },
@@ -32,11 +32,11 @@ const scenarios = [
   },
   {
     numeral: 'III',
-    label: 'openLCA 操作',
-    before: '在 openLCA 中手动建立流程。逐一匹配背景数据集。逐步翻查界面。',
-    after:  '用自然语言描述目标。Cowork 匹配背景数据集、构建产品系统、解决循环引用、运行计算——在用户本地的 openLCA 实例中完成。',
-    detail: 'Cowork 不替代 openLCA，而是驱动它。用户的 openLCA 实例是模型，Cowork 是操作者。启用 Computer Use（仅限 macOS）后，Cowork 可直接与 openLCA 的 GUI 交互——点击对话框、读取结果窗口、粘贴数值——无需 openLCA 的命令行接口。',
-    proof:  'openLCA → 数据集匹配 → 产品系统构建 → 结果导出',
+    label: '运行计算',
+    before: '手动建立流程。逐一匹配背景数据集。每一步都在界面里翻查。',
+    after:  '用自然语言描述目标。Cowork 匹配背景数据集、构建产品系统、解决循环引用、运行计算——在你已经在用的引擎里完成：openLCA、brightway 或积木LCA。',
+    detail: 'Cowork 不替代计算引擎，而是操作它。接上 openLCA、brightway 或积木LCA：引擎持有模型，Cowork 负责驱动——匹配数据集、组装产品系统、运行影响评价、读回结果。SimaPro、GaBi 等暂未接入；如果你的工作建立在其中之一，我们很想聊聊——info@hiqlcd.com。',
+    proof:  '一句话目标 → 数据集匹配 → 产品系统构建 → 结果读回',
   },
   {
     numeral: 'IV',
@@ -365,7 +365,7 @@ const compare = [
           这是 Cowork 成为 Agent 而非脚本的原因。它可以驱动机器上任何已安装的应用——包括没有 API、没有插件生态的软件。
         </p>
         <p>
-          启用 Computer Use 后，Cowork 获得 21 个 MCP 工具用于直接 GUI 交互：截图、缩放、点击（左键、右键、双击、三击、中键）、输入文字、按键、滚动、拖拽、启动应用、剪贴板读写等。Agent 可以驱动任何已安装的桌面应用——openLCA 对话框、SimaPro 结果窗口、旧版 ERP、用户 PATH 中的任何程序——无需命令行接口。每次操作前，用户审批 Agent 可控制哪些应用。主窗口缩至侧边面板；可见遮罩显示"Claude is using your computer."随时按 Escape 中断。
+          启用 Computer Use 后，Cowork 获得 21 个 MCP 工具用于直接 GUI 交互：截图、缩放、点击（左键、右键、双击、三击、中键）、输入文字、按键、滚动、拖拽、启动应用、剪贴板读写等。Agent 可以驱动任何已安装的桌面应用——openLCA 对话框、旧版 ERP、内部成本表、机器上的任何程序——无需命令行接口。每次操作前，用户审批 Agent 可控制哪些应用。主窗口缩至侧边面板；可见遮罩显示"Claude is using your computer."随时按 Escape 中断。
         </p>
         <p class="font-serif italic" style="color: var(--ink-mute);">
           Computer Use 不支持 Windows。

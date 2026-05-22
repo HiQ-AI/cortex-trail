@@ -4,7 +4,7 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'Pricing — HiQ Cortex';
 const description =
-  'Three plans. Start free. Pro €99/month, Plus €299/month with Cortex Cowork. A clear line on what Cowork requires and which database licenses you need to bring.';
+  'Three plans. Start free. Pro €99/month, Plus €299/month with Cortex Cowork. A clear line on what Cowork requires and which databases are licensed separately.';
 
 const plans = [
   {
@@ -82,7 +82,7 @@ const faqs = [
         Three plans. <span style="color: var(--ink-faint);">Start free.</span>
       </h1>
       <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Free, Pro, and Plus. A clear line on what Cowork requires, and which database licenses you'll need to bring.
+        Free, Pro, and Plus. A clear line on what Cowork requires, and which databases are licensed separately.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
         <a href="#plans" class="ticket">See plans <span aria-hidden="true">↓</span></a>
@@ -134,7 +134,7 @@ const faqs = [
           <strong style="font-weight: 500;">Free</strong> is the way in. A handful of queries to feel what Cortex Chat does — ask a methodology question, look up one material, see how a candidate is sourced. Not sized for ongoing LCA work. No credit card required.
         </p>
         <p>
-          <strong style="font-weight: 500;">Pro</strong> (€99 / month) is the working tier for individual LCA practitioners. All 14 LCA databases Cortex searches across, including Ecoinvent, CarbonMinds, and HiQLCD-AL. Conversation memory persists across sessions and syncs across devices. Pro does not include Cortex Cowork — Chat is the surface.
+          <strong style="font-weight: 500;">Pro</strong> (€99 / month) is the working tier for individual LCA practitioners. Search runs across all fourteen databases — the free reference sources return full data; commercial ones (Ecoinvent, CarbonMinds, HiQLCD, HiQLCD-AL, Agri-footprint) return discovery results until licensed (see Database licensing below). Conversation memory persists across sessions and syncs across devices. Pro does not include Cortex Cowork — Chat is the surface.
         </p>
         <p>
           <strong style="font-weight: 500;">Plus</strong> (€299 / month) is for project work. Adds Cortex Cowork: the desktop agent that reads and writes files on your machine, runs multi-step workflows, and loads skills from the marketplace. Cowork sessions stay on the same machine as the desktop app; the agent never runs on a remote server. Plus also unlocks <strong style="font-weight: 500;">Cortex Dispatch</strong> — hand a task off from your phone, watch it run on your desktop Cowork.
@@ -149,16 +149,22 @@ const faqs = [
       <SectionMark kicker="A necessary clarification" numeral="III" title="Database licensing." />
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.65; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
-          Cortex searches commercial LCA databases — Ecoinvent, CarbonMinds, and others — on your behalf. A Cortex subscription does not include a license to those datasets. Each one requires an independent license purchased directly from the provider.
+          The subscription buys the software and search across all fourteen databases. It does not buy the database content. Two separate purchases.
         </p>
         <p>
-          <strong style="font-weight: 500;">HiQLCD</strong> and <strong style="font-weight: 500;">HiQLCD-AL</strong> are HiQ-AI's own; access is included for every Cortex subscriber. The EU-authorised <strong style="font-weight: 500;">EF</strong> reference data is publicly available.
+          <strong style="font-weight: 500;">Free out of the box:</strong> the public reference databases — EF, Tiangong, World Steel, USDA, EXIOBASE, OZLCI, NEEDS, BAFU, AusLCI. Query them on any paid plan, no extra license.
         </p>
         <p>
-          <strong style="font-weight: 500;">Without a license — you can still discover.</strong> Cortex returns the dataset name, source, version, region, system model, and a link to the original record. You can confirm a dataset exists, see what it covers, and decide whether the license is worth bringing.
+          <strong style="font-weight: 500;">Commercial databases are licensed separately — including HiQ's own.</strong> HiQLCD and HiQLCD-AL are purchased from HiQ-AI. Ecoinvent, CarbonMinds, and Agri-footprint are third-party. None is bundled into the subscription; each is a paid authorization on top.
         </p>
         <p>
-          <strong style="font-weight: 500;">With a license — the numbers appear.</strong> The full data the license entitles you to: emission factors, inventory detail, broader impact assessment results. Cortex never substitutes a literature estimate or a model-generated number to fill a gap.
+          For a third-party database, two routes. <strong style="font-weight: 500;">Buy the authorization through Cortex</strong> — it unlocks on your account at sign-in. Or <strong style="font-weight: 500;">activate a license you already hold</strong> — send proof of purchase, pay a flat <strong style="font-weight: 500;">€500</strong> activation fee, and the same dataset opens on the Cortex side. The €500 activates a license you bought elsewhere; it is not the database's price.
+        </p>
+        <p>
+          <strong style="font-weight: 500;">Without authorization — you can still discover.</strong> Cortex returns the dataset name, source, version, region, system model, and a link to the original record. The numbers stay withheld until access exists. Cortex never substitutes a literature estimate or a model-generated value to fill the gap.
+        </p>
+        <p>
+          Database pricing is quoted per database. <a href="mailto:lizj@hiqlcd.com" style="color: var(--shell);">lizj@hiqlcd.com</a>.
         </p>
       </div>
     </div>

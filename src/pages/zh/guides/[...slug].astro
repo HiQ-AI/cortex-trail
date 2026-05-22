@@ -1,0 +1,56 @@
+---
+import { getCollection, render } from 'astro:content';
+import GuidesShell from '@/components/GuidesShell.astro';
+
+// Section display order (ZH labels). Unlisted sections fall to the end.
+const SECTION_ORDER = ['从这里开始', '工作流'];
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs', ({ data }) => data.locale === 'zh');
+  return docs.map((doc) => ({
+    params: { slug: doc.id.replace(/-zh$/, '') },
+    props: { doc, all: docs },
+  }));
+}
+
+const slugOf = (id: string) => id.replace(/-zh$/, '');
+
+const { doc, all } = Astro.props;
+const { Content } = await render(doc);
+
+const sectionRank = (name: string) => {
+  const i = SECTION_ORDER.indexOf(name);
+  return i === -1 ? SECTION_ORDER.length : i;
+};
+
+const grouped = new Map<string, typeof all>();
+for (const d of all) {
+  const key = d.data.section;
+  if (!grouped.has(key)) grouped.set(key, []);
+  grouped.get(key)!.push(d);
+}
+
+const sections = [...grouped.entries()]
+  .sort(([a], [b]) => sectionRank(a) - sectionRank(b) || a.localeCompare(b))
+  .map(([title, items]) => ({
+    title,
+    items: items
+      .sort((x, y) => x.data.order - y.data.order)
+      .map((d) => ({
+        href: `/zh/guides/${slugOf(d.id)}`,
+        label: d.data.title,
+        active: d.id === doc.id,
+      })),
+  }));
+---
+
+<GuidesShell
+  locale="zh"
+  title={doc.data.title}
+  description={doc.data.description}
+  sections={sections}
+  guidesHref="/zh/guides"
+  guidesLabel="使用指南"
+>
+  <Content />
+</GuidesShell>

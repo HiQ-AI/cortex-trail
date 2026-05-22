@@ -1,0 +1,32 @@
+---
+title: Getting started
+description: What Cortex is, the two ways to use it, and your first query.
+section: Start here
+order: 1
+locale: en
+---
+
+Cortex is an LCA data workbench. It searches background data across fourteen databases, matches a bill of materials to emission factors, and — in Cowork — runs the calculation in the engine you already use. It does not invent numbers. Every value carries a source, a version, a region, a system model, and a DQI score.
+
+## Two ways to use it
+
+**Cortex Chat** — the web surface, for single questions. Look up a material, compare a factor across databases, ask why two datasets disagree on a system model. Conversations sync across devices. Free to try; Pro for daily work.
+
+**Cortex Cowork** — the desktop surface, for projects that run for weeks. It reads files from your machine, writes results back, keeps an audit log, and drives a calculation engine. Cowork is on the Plus plan.
+
+> Chat answers questions. Cowork runs workflows.
+
+## Install
+
+Cowork ships as a native app for macOS, Windows, and Linux. Download the latest build from the [releases page](https://github.com/HiQ-AI/cortex-desktop/releases/latest). Install does not require a login; database search and cloud sync do.
+
+## Your first query
+
+Open Chat and name a material — in English or Chinese. Cortex asks at most one clarifying question, then returns a ranked candidate list: top-k, not top-1. Each row shows the GWP value where you have access, the source and version, the region, the system model, and the DQI breakdown.
+
+For a commercial database you have not licensed, the row still appears — name, source, version, region — with the number withheld until access exists. Cortex never fills the gap with a literature estimate.
+
+## Where to go next
+
+- **Connecting a database** — which databases are free, which are licensed, and how to turn one on. See [Connecting a database](/guides/database-licensing).
+- **Running a full calculation** — from BOM to impact assessment in Cowork. See [Running a calculation](/guides/running-a-calculation).

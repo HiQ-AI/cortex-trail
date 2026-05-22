@@ -1,0 +1,169 @@
+---
+// Two-column shell for the Guides section: section-grouped sidebar + long-form
+// article body. Backed by the `docs` content collection; reused by the EN and
+// ZH guide routes so the prose typography lives in exactly one place.
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+interface NavItem { href: string; label: string; active: boolean }
+interface NavSection { title: string; items: NavItem[] }
+interface Props {
+  locale?: 'en' | 'zh';
+  title: string;
+  description?: string;
+  sections: NavSection[];
+  guidesHref: string;
+  guidesLabel: string;
+}
+
+const { locale = 'en', title, description, sections, guidesHref, guidesLabel } = Astro.props;
+---
+
+<BaseLayout title={`${title} — HiQ Cortex`} description={description ?? title} locale={locale}>
+  <div class="container-page pt-14 md:pt-20 pb-24">
+    <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+      <p class="eyebrow"><a href={guidesHref} style="text-decoration: none; color: var(--ink-mute);">{guidesLabel}</a></p>
+      <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+    </div>
+
+    <div class="grid gap-12 md:grid-cols-[15rem_minmax(0,_1fr)] md:gap-16">
+      <aside class="md:sticky md:top-10 md:self-start">
+        <nav class="space-y-7">
+          {sections.map((s) => (
+            <div>
+              <div class="eyebrow mb-3">{s.title}</div>
+              <ul class="space-y-2.5">
+                {s.items.map((it) => (
+                  <li>
+                    <a
+                      href={it.href}
+                      class="font-serif text-sm"
+                      style={`text-decoration: none; font-variation-settings: 'opsz' 14; color: ${it.active ? 'var(--shell)' : 'var(--ink-mute)'};${it.active ? ' font-weight: 500;' : ''}`}
+                    >{it.label}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
+      </aside>
+
+      <article>
+        <h1 class="font-display" style="font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.06; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400;">
+          {title}
+        </h1>
+        {description && (
+          <p class="mt-5 font-serif italic" style="font-size: 1.12rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+            {description}
+          </p>
+        )}
+        <div class="guide-body mt-10" style="font-family: 'Newsreader Variable', serif; font-size: 1.05rem; line-height: 1.72; color: var(--ink); font-variation-settings: 'opsz' 20;">
+          <slot />
+        </div>
+      </article>
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  /* Long-form typography for guide bodies. Scoped to .guide-body. */
+  .guide-body h2 {
+    font-family: 'Fraunces Variable', serif;
+    font-variation-settings: 'SOFT' 40, 'opsz' 60;
+    font-size: clamp(1.4rem, 2.6vw, 1.8rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin-top: 2.75rem;
+    margin-bottom: 1.1rem;
+  }
+  .guide-body h3 {
+    font-family: 'Fraunces Variable', serif;
+    font-variation-settings: 'SOFT' 40, 'opsz' 30;
+    font-size: 1.2rem;
+    line-height: 1.2;
+    margin-top: 2rem;
+    margin-bottom: 0.7rem;
+  }
+  .guide-body p { margin-bottom: 1.3rem; }
+  .guide-body strong { font-weight: 500; color: var(--ink); }
+  .guide-body a {
+    color: var(--shell-dim);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+  }
+  .guide-body a:hover { color: var(--shell); text-decoration-style: solid; }
+  .guide-body ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 1.3rem 0;
+  }
+  .guide-body ul > li {
+    padding: 0.2rem 0 0.2rem 1.3rem;
+    position: relative;
+  }
+  .guide-body ul > li::before {
+    content: '·';
+    position: absolute;
+    left: 0.3rem;
+    color: var(--shell);
+  }
+  .guide-body ol {
+    list-style: none;
+    counter-reset: item;
+    padding-left: 0;
+    margin: 1.4rem 0;
+  }
+  .guide-body ol > li {
+    counter-increment: item;
+    padding: 0.7rem 0 0.7rem 2.6rem;
+    position: relative;
+    border-bottom: 1px solid var(--rule);
+  }
+  .guide-body ol > li::before {
+    content: counter(item);
+    font-family: 'Fraunces Variable', serif;
+    font-variation-settings: 'SOFT' 20;
+    font-style: italic;
+    color: var(--shell);
+    position: absolute;
+    left: 0.5rem;
+    top: 0.8rem;
+    font-size: 1.1rem;
+  }
+  .guide-body blockquote {
+    margin: 1.8rem 0;
+    padding: 0.4rem 0 0.4rem 1.4rem;
+    border-left: 3px solid var(--shell);
+    font-style: italic;
+    font-family: 'Fraunces Variable', serif;
+    font-variation-settings: 'SOFT' 60, 'opsz' 30;
+    font-size: 1.15rem;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+  .guide-body code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.86em;
+    background: var(--paper-rim);
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+  }
+  .guide-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.6rem 0;
+    font-size: 0.95rem;
+  }
+  .guide-body th, .guide-body td {
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .guide-body th { font-family: 'Fraunces Variable', serif; font-weight: 500; }
+  .guide-body hr {
+    border: 0;
+    border-top: 1px solid var(--rule);
+    margin: 2.5rem auto;
+    width: 30%;
+  }
+</style>
