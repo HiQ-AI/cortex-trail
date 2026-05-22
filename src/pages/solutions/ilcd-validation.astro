@@ -74,11 +74,11 @@ const checkpoints = [
           project="ilcd-import"
           title="Validate before import"
           steps={[
-            { kind: 'user', text: 'Validate this dataset against ILCD before I import it into openLCA.' },
-            { kind: 'think', text: 'Plan: parse the ILCD XML, check mandatory fields, units, reference flow, and exchange directions — surface every blocker the importer would throw.' },
-            { kind: 'task', items: ['Parse the ILCD XML', 'Check mandatory fields', 'Validate units & reference flow', 'Check exchange directions'] },
-            { kind: 'say', text: 'Found 3 blockers and 2 warnings. Each is line-referenced.' },
-            { kind: 'artifact', title: 'validation_report.md', lines: ['3 errors — missing reference-flow unit, …', '2 warnings — uncertainty not declared', 'Each finding points to the offending line', 'Re-run after edits to confirm'] },
+            { kind: 'user', text: 'Validate steel_rebar_CN.zip against ILCD before I import it into openLCA.' },
+            { kind: 'think', text: 'ILCD validation runs the XML against the schema: mandatory fields (UUID, reference flow, reference year), unit consistency, exchange directions, and that the quantitative reference resolves to a flow in the package. Import failures almost always trace to a missing reference-flow unit or a reference pointing at nothing.' },
+            { kind: 'task', items: ['Unzip & parse ILCD XML — 1 process dataset', 'Check mandatory fields', 'Validate units against the reference flow', 'Check exchange directions & flow refs'] },
+            { kind: 'say', text: '3 errors, 2 warnings. The reference flow has no unit, and two technosphere exchanges point to flow UUIDs that are not in the package.' },
+            { kind: 'artifact', title: 'steel_rebar_CN.validation.md', lines: ['ERROR · L142 — reference flow missing unit', 'ERROR · L210, L233 — exchange flow UUID not found', 'WARNING — uncertainty not declared on 4 flows', 'Fix the 3 errors, re-run, then import'] },
           ]}
         />
       </div>

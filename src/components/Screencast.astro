@@ -121,6 +121,7 @@ const { steps, project = 'lca-project', title = 'New session' } = Astro.props;
   .cxd-art { display:grid; grid-template-columns:22px 1fr auto; gap:12px; padding:12px 14px; background:var(--bg2); border:1px solid var(--bd); border-radius:8px; }
   .cxd-art .ic { color:var(--soft); } .cxd-art .ic svg { width:22px; height:22px; }
   .cxd-art .ti { color:var(--br); font-weight:600; font-size:13px; }
+  .cxd-art .dsc { color:var(--dim); font-weight:400; font-family:'DM Mono',monospace; font-size:11px; }
   .cxd-art .ls { color:var(--dim); font-size:12px; margin-top:4px; line-height:1.6; }
   .cxd-art .st { align-self:center; font-size:11px; color:#56bc7c; font-family:'DM Mono',monospace; }
 
@@ -197,7 +198,7 @@ const { steps, project = 'lca-project', title = 'New session' } = Astro.props;
       }
       else if (s.kind==='artifact'){
         const r=row('cxd-art');
-        r.innerHTML=`<span class="ic">${FILE}</span><div><div class="ti">${s.title||'artifact'}</div><div class="ls"></div></div><span class="st">ready</span>`;
+        r.innerHTML=`<span class="ic">${FILE}</span><div><div class="ti">${s.title||'artifact'}${s.desc?` <span class="dsc">· ${s.desc}</span>`:''}</div><div class="ls"></div></div><span class="st">ready</span>`;
         const ls=r.querySelector('.ls') as HTMLElement;
         for (const ln of (s.lines||[])){ const d=document.createElement('div'); d.textContent='· '+ln; d.className='cxd-fade'; ls.appendChild(d); stick(); await sleep(200); }
         await sleep(250);
