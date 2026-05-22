@@ -6,7 +6,7 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'Cortex Cowork — HiQ Cortex';
 const description =
-  'Your files. Your machine. Your audit trail. The desktop agent for LCA projects that span weeks — reads BOMs, drives openLCA, writes every decision into a versionable audit log.';
+  'Your files. Your machine. Your audit trail. The desktop agent for LCA projects that span weeks — reads BOMs, runs the calculation in openLCA, brightway, or 积木LCA, writes every decision into a versionable audit log.';
 
 const platforms = [
   { name: 'macOS',   detail: '.dmg — Apple Silicon (arm64)', note: 'Gatekeeper: System Settings → Privacy & Security → Open Anyway on first launch.' },
@@ -32,11 +32,11 @@ const scenarios = [
   },
   {
     numeral: 'III',
-    label: 'openLCA operation',
-    before: 'Build flows by hand in openLCA. Match background datasets manually. Navigate the interface for each step.',
-    after:  'Describe the goal in plain language. Cowork matches background datasets, builds the product system, resolves circular references, and runs the calculation — inside the user\'s local openLCA instance.',
-    detail: "Cowork does not replace openLCA. It drives it. The user's openLCA instance is the model; Cowork is the operator. When Computer Use is enabled (macOS), Cowork can interact directly with the openLCA GUI — clicking through dialogs, reading result windows, pasting values — without requiring openLCA's command-line interface.",
-    proof:  'openLCA → dataset match → product system built → results exported',
+    label: 'Run the calculation',
+    before: 'Build flows by hand. Match background datasets one at a time. Navigate the interface for every step.',
+    after:  'Describe the goal in plain language. Cowork matches background datasets, builds the product system, resolves circular references, and runs the calculation — in the engine you already use: openLCA, brightway, or 积木LCA.',
+    detail: "Cowork does not replace the calculation engine. It operates one. Connect openLCA, brightway, or 积木LCA; your engine holds the model, Cowork does the driving — matching datasets, assembling the product system, running the impact assessment, reading the results back. SimaPro, GaBi, and others are not connected today. If your work lives in one of them, we want to talk — write to info@hiqlcd.com.",
+    proof:  'goal in words → datasets matched → product system built → results back',
   },
   {
     numeral: 'IV',
@@ -365,7 +365,7 @@ const compare = [
           This is what makes Cowork an agent, not a script. It can drive any application installed on your machine — including software with no API and no plugin ecosystem.
         </p>
         <p>
-          When Computer Use is enabled, Cowork gains 21 MCP tools for direct GUI interaction: screenshot, zoom, click (left, right, double, triple, middle), type, key press, scroll, drag, application launch, clipboard read/write, and others. The agent can drive any installed desktop application — openLCA dialogs, SimaPro result windows, a legacy ERP, any app in the user's PATH — without requiring a command-line interface. Before each action, the user approves which applications the agent may control. The main window docks to a side panel; a visible overlay displays "Claude is using your computer." Pressing Escape interrupts at any point.
+          When Computer Use is enabled, Cowork gains 21 MCP tools for direct GUI interaction: screenshot, zoom, click (left, right, double, triple, middle), type, key press, scroll, drag, application launch, clipboard read/write, and others. The agent can drive any installed desktop application — openLCA dialogs, a legacy ERP, an internal cost spreadsheet, any app on the machine — without requiring a command-line interface. Before each action, the user approves which applications the agent may control. The main window docks to a side panel; a visible overlay displays "Claude is using your computer." Pressing Escape interrupts at any point.
         </p>
         <p class="font-serif italic" style="color: var(--ink-mute);">
           Computer Use is not available on Windows.

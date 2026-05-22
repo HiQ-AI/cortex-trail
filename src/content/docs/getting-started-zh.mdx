@@ -1,0 +1,32 @@
+---
+title: 快速上手
+description: Cortex 是什么、两种用法，以及你的第一次查询。
+section: 从这里开始
+order: 1
+locale: zh
+---
+
+Cortex 是一个 LCA 数据工作台。它在 14 个数据库间检索背景数据，把 BOM 匹配到排放因子，并在 Cowork 里用你已有的引擎完整跑出计算。它不编造数字：每个数值都带来源、版本、地区、系统模型和 DQI 评分。
+
+## 两种用法
+
+**Cortex Chat** —— 网页端，处理单个问题。查一种物料、跨库比较一个因子、问清两个数据集为什么在系统模型上不一致。对话跨设备同步。免费试用，日常工作用 Pro。
+
+**Cortex Cowork** —— 桌面端，面向持续数周的项目。它读取你机器上的文件，把结果写回，保留审计日志，并驱动计算引擎。Cowork 属于 Plus 档。
+
+> Chat 答问题；Cowork 跑流程。
+
+## 安装
+
+Cowork 提供 macOS、Windows、Linux 原生应用。从[发布页](https://github.com/HiQ-AI/cortex-desktop/releases/latest)下载最新版本。安装无需登录；数据库检索和云同步需要登录。
+
+## 第一次查询
+
+打开 Chat，输入物料名——中文或英文皆可。Cortex 至多问一个澄清问题，随后返回排名候选：返回 top-k，不是 top-1。每行显示你有权访问时的 GWP 值、来源与版本、地区、系统模型，以及 DQI 各维度评分。
+
+对于你尚未授权的商业数据库，该行仍会出现——名称、来源、版本、地区——数值在获得访问权前保持隐藏。Cortex 从不以文献估算填补缺口。
+
+## 接下来
+
+- **连接数据库** —— 哪些库免费、哪些需授权、怎么开通。见[连接数据库](/zh/guides/database-licensing)。
+- **运行计算** —— 在 Cowork 里从 BOM 到影响评价。见[运行计算](/zh/guides/running-a-calculation)。

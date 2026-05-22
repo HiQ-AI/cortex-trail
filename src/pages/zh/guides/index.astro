@@ -1,0 +1,16 @@
+---
+import { getCollection } from 'astro:content';
+
+const SECTION_ORDER = ['从这里开始', '工作流'];
+const rank = (n: string) => {
+  const i = SECTION_ORDER.indexOf(n);
+  return i === -1 ? SECTION_ORDER.length : i;
+};
+
+const docs = await getCollection('docs', ({ data }) => data.locale === 'zh');
+const first = docs.sort(
+  (a, b) => rank(a.data.section) - rank(b.data.section) || a.data.order - b.data.order,
+)[0];
+
+return Astro.redirect(first ? `/zh/guides/${first.id.replace(/-zh$/, '')}` : '/zh');
+---

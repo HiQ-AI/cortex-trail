@@ -1,0 +1,34 @@
+---
+title: Running a calculation
+description: From BOM to impact assessment in Cowork, in the engine you already use.
+section: Workflows
+order: 1
+locale: en
+---
+
+Cortex does not replace your calculation engine. It operates one. Cowork handles the upstream work — reading the BOM, matching background data, flagging gaps — and then runs the product system and impact assessment in the engine you already use. This is a Cowork workflow, so it needs the Plus plan.
+
+## Engines Cortex connects to
+
+- **openLCA**
+- **brightway**
+- **积木LCA (jimuLCA)**
+
+Connect one, and your engine holds the model while Cowork does the driving: matching datasets, assembling the product system, running the impact assessment, reading the results back. The model stays in your engine — Cortex does not hold a copy.
+
+SimaPro, GaBi, and others are not connected today. If your work lives in one of them and you want it supported, we want to talk: [info@hiqlcd.com](mailto:info@hiqlcd.com).
+
+## The shape of a run
+
+1. **State the goal in plain language** — the product, the functional unit, the system boundary, the impact method. Cowork confirms these once and carries them forward across every session.
+2. **Match the background data** — Cowork searches across the databases, returns DQI-scored candidates per BOM row, and pauses where automation would break an audit: coverage gaps, proxy substitutions, large cross-database spread, restricted data without access.
+3. **Build the product system** — Cowork assembles flows and process connections in your engine and resolves circular references.
+4. **Run the impact assessment** — the default is IPCC 2021 GWP100; other categories on request. Results come back as a contribution analysis — the top contributors by process and by flow, not a single number.
+
+## What's recorded
+
+Every decision — the dataset chosen and why, each data gap, every proxy and its bias direction — is written to an append-only project log. An auditor asking "where did this number come from?" reads the log, not your memory.
+
+## Before you start
+
+Have your calculation engine installed and open on the same machine as Cowork. Then describe the goal, and let the run begin. For the data side first, see [Connecting a database](/guides/database-licensing).
