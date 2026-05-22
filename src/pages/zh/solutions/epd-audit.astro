@@ -4,6 +4,7 @@ import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 import Screencast from '@/components/Screencast.astro';
+import { epdAuditZh } from '@/data/demos';
 
 const title = 'EPD 审核（面向项目运营方）— HiQ Cortex';
 const description =
@@ -124,15 +125,7 @@ const videoUrl = '';
         <Screencast
           project="epd-review"
           title="送审前审计"
-          steps={[
-            { kind: 'user', text: '送审前先审一遍 concrete_C30_EPD.pdf——预拌混凝土的 EN 15804+A2 声明，声明单位 1 m³。' },
-            { kind: 'think', text: 'A2 声明要查：声明单位与 A1–A3 模块是否齐全、GWP-total / -fossil / -biogenic / -luluc 是否拆分、各背景数据集是否当前且地区适用。我会用引用的数据集重算指标，标出审核员会驳回的地方。错误多半藏在水泥数据集里。' },
-            { kind: 'task', items: ['解析 concrete_C30_EPD.pdf — A1–A3 模块', '重新匹配 6 个声明数据集到来源', '重算 EN 15804+A2 指标', '核对数据集年份与地理'] },
-            { kind: 'say', text: '两处发现：A1 模块缺 GWP-biogenic；水泥数据集是 ecoinvent 3.7（2020），已被取代。' },
-            { kind: 'ask', q: '水泥用的是 ecoinvent 3.7，按 3.12 重算？', options: ['重算并给出差异', '只标记，保留声明值'], pick: [0] },
-            { kind: 'say', text: '重算后 GWP-total 为 248 kg CO₂e/m³，声明值 241——高 2.9%，在容差内但值得注明。' },
-            { kind: 'artifact', title: 'concrete_C30_audit.md', lines: ['2 处发现 — 1 阻断（A1 缺 GWP-biogenic）、1 提示', 'GWP-total 重算：248 vs 241 kg CO₂e/m³（+2.9%）', '水泥数据集：ecoinvent 3.7 → 3.12', '每处发现都引用对应 EN 15804+A2 条款'] },
-          ]}
+          steps={epdAuditZh}
         />
       </div>
     </div>
