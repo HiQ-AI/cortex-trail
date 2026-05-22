@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
+import Screencast from '@/components/Screencast.astro';
 
 const title = 'EPD Audit for Programme Operators — HiQ Cortex';
 const description =
@@ -114,6 +115,26 @@ const videoUrl = '';
     </div>
   </section>
   )}
+
+  <!-- Demo -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-16 md:py-20">
+      <p class="eyebrow mb-6">Watch it run</p>
+      <div class="mx-auto max-w-3xl">
+        <Screencast
+          label="Cortex Cowork"
+          steps={[
+            { kind: 'user', text: "Audit this EPD's data layer before it goes to the verifier." },
+            { kind: 'think', text: 'Plan: check each declared dataset against its source, recompute the EN 15804 indicators, flag anything a verifier would question.' },
+            { kind: 'task', items: ['Read EPD + declared datasets', 'Recompute EN 15804+A2 indicators', 'Check dataset versions & regions', 'Flag proxies and gaps'] },
+            { kind: 'say', text: 'Module A4 cites a dataset that has since been superseded.' },
+            { kind: 'ask', q: 'A4 cites Ecoinvent 3.9. Update to 3.12?', options: ['Update + re-run', 'Keep, note in report'], pick: [0] },
+            { kind: 'artifact', title: 'EPD_audit_notes.md', lines: ['GWP-total recomputed — within 3% of declared', '1 dataset updated to current version', '1 proxy flagged for the verifier', 'Methodology trail attached'] },
+          ]}
+        />
+      </div>
+    </div>
+  </section>
 
   <!-- §I What gets checked -->
   <section class="border-t border-rule">

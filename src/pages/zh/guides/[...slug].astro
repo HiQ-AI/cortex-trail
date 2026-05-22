@@ -42,6 +42,17 @@ const sections = [...grouped.entries()]
         active: d.id === doc.id,
       })),
   }));
+
+sections.push({
+  title: '场景',
+  items: [
+    { href: '/zh/solutions/bom-matching', label: 'BOM 匹配', active: false },
+    { href: '/zh/solutions/product-carbon-footprint', label: '产品碳足迹', active: false },
+    { href: '/zh/solutions/lca-dataset-authoring', label: '数据集创作', active: false },
+    { href: '/zh/solutions/ilcd-validation', label: 'ILCD 校验', active: false },
+    { href: '/zh/solutions/epd-audit', label: 'EPD 审计', active: false },
+  ],
+});
 ---
 
 <GuidesShell

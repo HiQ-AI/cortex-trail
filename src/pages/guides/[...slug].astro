@@ -40,6 +40,18 @@ const sections = [...grouped.entries()]
         active: d.id === doc.id,
       })),
   }));
+
+// Scenarios live as bespoke pages at /solutions/* but belong to the Guides hub.
+sections.push({
+  title: 'Scenarios',
+  items: [
+    { href: '/solutions/bom-matching', label: 'BOM matching', active: false },
+    { href: '/solutions/product-carbon-footprint', label: 'Product carbon footprint', active: false },
+    { href: '/solutions/lca-dataset-authoring', label: 'Dataset authoring', active: false },
+    { href: '/solutions/ilcd-validation', label: 'ILCD validation', active: false },
+    { href: '/solutions/epd-audit', label: 'EPD audit', active: false },
+  ],
+});
 ---
 
 <GuidesShell
