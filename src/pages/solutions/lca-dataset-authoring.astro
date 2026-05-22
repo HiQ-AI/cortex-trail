@@ -4,6 +4,7 @@ import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 import Screencast from '@/components/Screencast.astro';
+import { anodizingAuthoringEn } from '@/data/demos';
 
 const title = 'LCA Dataset Authoring — HiQ Cortex';
 const description =
@@ -86,16 +87,9 @@ const checkpoints = [
       <p class="eyebrow mb-6">Watch it run</p>
       <div class="mx-auto max-w-3xl">
         <Screencast
-          project="anodizing-dataset"
-          title="Author an ILCD dataset"
-          steps={[
-            { kind: 'user', text: 'Build an ILCD dataset for our aluminium anodizing line from anodizing_2024.xlsx (primary measurements).' },
-            { kind: 'think', text: 'Authoring flow: read the primary data, set the reference flow, match each input — electricity, sulfuric acid, NaOH, process water — to background data with a cited source, score DQI on all five Pedigree dimensions, then validate against ILCD before export. For a coating process, 1 m² of treated surface reads cleaner than per-part.' },
-            { kind: 'ask', q: 'Reference flow for the anodizing process?', options: ['1 m² treated surface', '1 kg part', '1 part'], pick: [0] },
-            { kind: 'task', items: ['Read anodizing_2024.xlsx — 11 measured exchanges', "Match electricity → HiQLCD 1.4 'electricity, CN grid mix'", 'Match sulfuric acid → ecoinvent 3.12 (market, RER)', 'Score DQI — Pedigree, 5 dimensions', 'Validate against ILCD'] },
-            { kind: 'say', text: 'DQI is strong except technological representativeness on the acid — it is an EU market proxy standing in for a China site.' },
-            { kind: 'artifact', title: 'anodizing_line_v1.zip', desc: 'ILCD', lines: ['11 exchanges, every input sourced', 'Reference flow — 1 m² treated surface', 'DQI 2.1 avg (acid flagged: geo proxy)', 'ILCD-valid — 0 errors, ready for HiQ Editor'] },
-          ]}
+          project="background-dataset"
+          title="Source reports → HiQ Editor"
+          steps={anodizingAuthoringEn}
         />
       </div>
     </div>

@@ -67,7 +67,7 @@ const { steps, project = 'lca-project', title = 'New session' } = Astro.props;
   .cxd {
     --bg:#0d0d0f; --bg2:#131316; --bg3:#1a1a1d; --bd:#232326; --bd2:#2a2a2e;
     --tx:#d6d6d8; --dim:#7a7a82; --br:#fff; --soft:#b0b0b6; --acc:#e27e0b;
-    position:relative; height:480px; margin:2rem 0;
+    position:relative; height:520px; margin:2rem 0;
     display:grid; grid-template-rows:40px 1fr;
     background:var(--bg); color:var(--tx);
     border:1px solid var(--bd); border-radius:10px; overflow:hidden;
@@ -153,7 +153,7 @@ const { steps, project = 'lca-project', title = 'New session' } = Astro.props;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const sleep = (ms:number) => new Promise(r => setTimeout(r, reduce ? 0 : ms));
 
-  async function type(el:HTMLElement, text:string, per=15) {
+  async function type(el:HTMLElement, text:string, per=12) {
     if (reduce) { el.textContent = text; return; }
     el.classList.add('caret');
     for (let i=0;i<text.length;i++){ el.textContent = text.slice(0,i+1); await sleep(text[i]==='\n'?70:per); }
@@ -191,7 +191,7 @@ const { steps, project = 'lca-project', title = 'New session' } = Astro.props;
       else if (s.kind==='task'){
         for (const it of (s.items||[])){
           const t=row('cxd-task'); t.innerHTML=`<span class="ck"><span class="spin"></span></span><span class="nm">${it}</span>`;
-          await sleep(reduce?0:520);
+          await sleep(reduce?0:330);
           t.classList.add('done'); (t.querySelector('.ck') as HTMLElement).innerHTML=CHECK; stick();
         }
         await sleep(250);

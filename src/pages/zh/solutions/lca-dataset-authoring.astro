@@ -4,6 +4,7 @@ import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 import Screencast from '@/components/Screencast.astro';
+import { anodizingAuthoringZh } from '@/data/demos';
 
 const videoUrl = '';
 
@@ -86,16 +87,9 @@ const checkpoints = [
       <p class="eyebrow mb-6">看它跑一遍</p>
       <div class="mx-auto max-w-3xl">
         <Screencast
-          project="anodizing-dataset"
-          title="创作 ILCD 数据集"
-          steps={[
-            { kind: 'user', text: '用 anodizing_2024.xlsx（实测原始数据）为我们的铝阳极氧化产线建一份 ILCD 数据集。' },
-            { kind: 'think', text: '创作流程：读原始数据，设定参考流，把每个输入——电力、硫酸、NaOH、工艺水——匹配到带来源的背景数据，按 Pedigree 五个维度打 DQI，导出前对照 ILCD 校验。对镀膜类过程，「1 m² 处理表面」比按件更干净。' },
-            { kind: 'ask', q: '阳极氧化过程的参考流？', options: ['1 m² 处理表面', '1 kg 零件', '1 个零件'], pick: [0] },
-            { kind: 'task', items: ['读取 anodizing_2024.xlsx — 11 条实测交换', "电力匹配 → HiQLCD 1.4「electricity, CN grid mix」", '硫酸匹配 → ecoinvent 3.12（market, RER）', 'DQI 打分 — Pedigree 五维', '对照 ILCD 校验'] },
-            { kind: 'say', text: 'DQI 整体不错，只有硫酸的技术代表性偏弱——拿欧盟 market 代理顶了中国产地。' },
-            { kind: 'artifact', title: 'anodizing_line_v1.zip', desc: 'ILCD', lines: ['11 条交换，每个输入都有来源', '参考流 — 1 m² 处理表面', 'DQI 均值 2.1（硫酸已标：地理代理）', 'ILCD 校验通过 — 0 错误，可进 HiQ Editor'] },
-          ]}
+          project="background-dataset"
+          title="源报告 → HiQ Editor"
+          steps={anodizingAuthoringZh}
         />
       </div>
     </div>
