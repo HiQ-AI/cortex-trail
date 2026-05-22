@@ -4,22 +4,28 @@ import ThemeToggle from './ThemeToggle.astro';
 interface Props { locale?: 'en' | 'zh' }
 const { locale = 'en' } = Astro.props;
 
-const nav = locale === 'zh'
+interface NavItem { href?: string; label: string; children?: { href: string; label: string }[] }
+
+const nav: NavItem[] = locale === 'zh'
   ? [
-      { href: '/zh',                label: '概览' },
-      { href: '/zh/product/chat',   label: 'Chat' },
-      { href: '/zh/product/cowork',  label: 'Cowork' },
-      { href: '/zh/solutions',       label: '解决方案' },
-      { href: '/zh/pricing',        label: '定价' },
-      { href: '/zh/blog',           label: '博客' },
+      { href: '/zh',          label: '概览' },
+      { label: '产品', children: [
+        { href: '/zh/product/chat',   label: 'Chat' },
+        { href: '/zh/product/cowork', label: 'Cowork' },
+      ]},
+      { href: '/zh/guides',   label: '指南' },
+      { href: '/zh/pricing',  label: '定价' },
+      { href: '/zh/blog',     label: '博客' },
     ]
   : [
-      { href: '/',               label: 'Overview' },
-      { href: '/product/chat',   label: 'Chat' },
-      { href: '/product/cowork', label: 'Cowork' },
-      { href: '/solutions',      label: 'Solutions' },
-      { href: '/pricing',        label: 'Pricing' },
-      { href: '/blog',           label: 'Blog' },
+      { href: '/',         label: 'Overview' },
+      { label: 'Product', children: [
+        { href: '/product/chat',   label: 'Chat' },
+        { href: '/product/cowork', label: 'Cowork' },
+      ]},
+      { href: '/guides',   label: 'Guides' },
+      { href: '/pricing',  label: 'Pricing' },
+      { href: '/blog',     label: 'Blog' },
     ];
 
 const home = locale === 'zh' ? '/zh' : '/';
@@ -58,9 +64,25 @@ const otherLocale = locale === 'zh'
 
     <nav class="hidden items-center gap-7 md:flex">
       {nav.map((item) => (
-        <a href={item.href} class="smallcaps" style="text-decoration: none; color: var(--ink-mute);">
-          {item.label}
-        </a>
+        item.children ? (
+          <div class="group relative">
+            <button class="smallcaps inline-flex items-center gap-1" style="text-decoration: none; color: var(--ink-mute); background: none; border: 0; cursor: default;">
+              {item.label}
+              <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" style="opacity: 0.6;"><path d="M2 3.5 5 6.5 8 3.5"/></svg>
+            </button>
+            <div class="invisible absolute left-1/2 top-full z-30 -translate-x-1/2 pt-3 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100">
+              <div class="min-w-[9rem] border border-rule py-1.5" style="background: var(--paper); box-shadow: 0 8px 28px rgba(0,0,0,0.10);">
+                {item.children.map((c) => (
+                  <a href={c.href} class="block px-4 py-2 font-serif text-sm" style="text-decoration: none; font-variation-settings: 'opsz' 14; color: var(--ink);">{c.label}</a>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <a href={item.href} class="smallcaps" style="text-decoration: none; color: var(--ink-mute);">
+            {item.label}
+          </a>
+        )
       ))}
     </nav>
 
