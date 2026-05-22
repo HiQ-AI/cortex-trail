@@ -1,300 +1,216 @@
 ---
-// A self-playing "screencast" of a Cortex Cowork session — no video file.
-// Ported from the demo/ HTML prototypes, retuned to the site's editorial
-// palette. Driven entirely by the `steps` prop; one bundled script animates
-// every instance on the page, auto-plays on scroll, and honours
-// prefers-reduced-motion (shows the final state instantly).
+// A self-playing screencast of a Cortex Cowork session, rendered as the real
+// dark desktop-app window (ported from demo/cortex-cowork-demo.html): macOS
+// traffic lights, Chat/Cowork segments, left nav, breadcrumb, the crawling
+// snail, and the chat area where the agent types, asks, ticks tasks, and
+// reveals an artifact. Driven entirely by the `steps` prop.
+//
+// All classes are namespaced `cxd-` and styles are `is:global` — the
+// animation injects DOM at runtime, which Astro's scoped styles would not
+// reach.
 //
 // Step kinds:
-//   { kind: 'user',     text }                       — the practitioner's message
-//   { kind: 'think',    text }                        — agent reasoning (collapsible)
-//   { kind: 'say',      text }                        — agent reply, typed out
-//   { kind: 'ask',      q, options[], pick[] }         — HITL question, options auto-selected
-//   { kind: 'task',     items[] }                      — a checklist that ticks through
-//   { kind: 'artifact', title, lines[] }               — the deliverable card
+//   { kind:'user',     text }
+//   { kind:'think',    text }
+//   { kind:'say',      text }
+//   { kind:'ask',      q, options[], pick[] }
+//   { kind:'task',     items[] }
+//   { kind:'artifact', title, desc?, lines[] }
 
 export interface Step {
   kind: 'user' | 'think' | 'say' | 'ask' | 'task' | 'artifact';
-  text?: string;
-  q?: string;
-  options?: string[];
-  pick?: number[];
-  items?: string[];
-  title?: string;
-  lines?: string[];
+  text?: string; q?: string; options?: string[]; pick?: number[];
+  items?: string[]; title?: string; desc?: string; lines?: string[];
 }
-
-interface Props {
-  steps: Step[];
-  label?: string;
-}
-
-const { steps, label = 'Cortex Cowork' } = Astro.props;
+interface Props { steps: Step[]; project?: string; title?: string; }
+const { steps, project = 'lca-project', title = 'New session' } = Astro.props;
 ---
 
-<figure class="sc not-prose my-8" data-screencast data-steps={JSON.stringify(steps)}>
-  <div class="sc-bar">
-    <span class="sc-dot"></span><span class="sc-dot"></span><span class="sc-dot"></span>
-    <span class="sc-label">{label}</span>
-    <button class="sc-replay" type="button" aria-label="Replay">↻ replay</button>
+<div class="cxd" data-screencast data-steps={JSON.stringify(steps)}>
+  <div class="cxd-topbar">
+    <div class="cxd-tl">
+      <span class="cxd-traffic"><i class="r"></i><i class="y"></i><i class="g"></i></span>
+    </div>
+    <div class="cxd-seg-wrap">
+      <button class="cxd-seg">Chat</button>
+      <button class="cxd-seg on">Cowork</button>
+    </div>
+    <div class="cxd-tr"><span class="cxd-ver">Cortex</span></div>
   </div>
-  <div class="sc-stage" aria-live="polite"></div>
-</figure>
+  <div class="cxd-main">
+    <div class="cxd-side">
+      <div class="cxd-side-top">
+        <span class="cxd-nav on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a7 7 0 0 0-4 12.7V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.3A7 7 0 0 0 12 2z"/><path d="M10 22h4"/></svg></span>
+        <span class="cxd-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
+        <span class="cxd-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></span>
+        <span class="cxd-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
+      </div>
+      <div class="cxd-side-bot"><span class="cxd-avatar">○</span></div>
+    </div>
+    <div class="cxd-center">
+      <div class="cxd-crumb">
+        <span class="cxd-pill">{project}</span>
+        <span class="cxd-sep">/</span>
+        <span class="cxd-crumb-t">{title}</span>
+      </div>
+      <div class="cxd-chat"><div class="cxd-stack"></div></div>
+      <div class="cxd-input-wrap">
+        <div class="cxd-snailbar"><span class="cxd-snail"><svg viewBox="0 0 78 71" aria-hidden="true"><path d="M3 39a21.6 21.6 0 1 0 43.2 0 14.4 14.4 0 1 0-28.8 0 7.2 7.2 0 1 0 14.4 0" stroke="#e27e0b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M31.8 67.8a28.8 28.8 0 1 0 0-57.6 28.8 28.8 0 0 0 0 57.6Z" stroke="#e27e0b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M3 67.8h43.2c15.8 0 28.8-13 28.8-28.8V17.4a7.2 7.2 0 0 0-14.4 0V39M60.6 3l4 7.9M75 3l-4 7.9" stroke="#e27e0b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span></div>
+        <div class="cxd-input"><span>Ask Cortex…</span><span class="cxd-send">↑</span></div>
+      </div>
+    </div>
+  </div>
+  <button class="cxd-replay" type="button">↻ replay</button>
+</div>
 
-<style>
-  .sc {
-    border: 1px solid var(--rule);
-    background: var(--paper);
-    overflow: hidden;
-    border-radius: 6px;
+<style is:global>
+  .cxd {
+    --bg:#0d0d0f; --bg2:#131316; --bg3:#1a1a1d; --bd:#232326; --bd2:#2a2a2e;
+    --tx:#d6d6d8; --dim:#7a7a82; --br:#fff; --soft:#b0b0b6; --acc:#e27e0b;
+    position:relative; height:480px; margin:2rem 0;
+    display:grid; grid-template-rows:40px 1fr;
+    background:var(--bg); color:var(--tx);
+    border:1px solid var(--bd); border-radius:10px; overflow:hidden;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; font-size:13px;
+    box-shadow:0 18px 50px rgba(0,0,0,0.18);
   }
-  .sc-bar {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    padding: 0.6rem 0.85rem;
-    border-bottom: 1px solid var(--rule);
-    background: var(--paper-rim);
+  .cxd * { box-sizing:border-box; }
+  .cxd-topbar { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; padding:0 14px; border-bottom:1px solid var(--bd); }
+  .cxd-traffic { display:flex; gap:8px; }
+  .cxd-traffic i { width:11px; height:11px; border-radius:50%; display:block; }
+  .cxd-traffic .r { background:#ff5f56; } .cxd-traffic .y { background:#ffbd2e; } .cxd-traffic .g { background:#27c93f; }
+  .cxd-seg-wrap { display:flex; gap:2px; background:var(--bg3); border-radius:8px; padding:3px; }
+  .cxd-seg { padding:4px 16px; border-radius:6px; font-size:12px; color:var(--dim); font-weight:500; background:transparent; border:none; }
+  .cxd-seg.on { background:#2e2e34; color:var(--br); }
+  .cxd-tr { display:flex; justify-content:flex-end; }
+  .cxd-ver { font-size:11px; letter-spacing:0.08em; color:var(--dim); text-transform:uppercase; }
+  .cxd-main { display:grid; grid-template-columns:48px 1fr; overflow:hidden; min-height:0; }
+  .cxd-side { border-right:1px solid var(--bd); display:flex; flex-direction:column; align-items:center; padding:12px 0; }
+  .cxd-side-top { flex:1; display:flex; flex-direction:column; gap:4px; }
+  .cxd-nav { width:32px; height:32px; border-radius:6px; display:flex; align-items:center; justify-content:center; color:var(--dim); }
+  .cxd-nav svg { width:16px; height:16px; }
+  .cxd-nav.on { background:var(--bg3); color:var(--tx); }
+  .cxd-avatar { width:26px; height:26px; border-radius:50%; background:linear-gradient(135deg,#6a8fde,#4a5db8); color:#fff; font-size:11px; display:flex; align-items:center; justify-content:center; }
+  .cxd-center { display:grid; grid-template-rows:auto 1fr auto; min-width:0; min-height:0; position:relative; overflow:hidden; }
+  .cxd-crumb { display:flex; align-items:center; gap:8px; padding:12px 20px 10px; font-size:12px; }
+  .cxd-pill { padding:3px 9px; background:var(--bg3); border-radius:5px; color:var(--soft); }
+  .cxd-sep { color:var(--dim); } .cxd-crumb-t { color:var(--tx); }
+  .cxd-chat { overflow-y:auto; min-height:0; padding:6px 20px 40px;
+    background-color:var(--bg);
+    background-image:repeating-linear-gradient(0deg,transparent 0,transparent 39px,rgba(255,255,255,0.025) 39px,rgba(255,255,255,0.025) 40px),repeating-linear-gradient(90deg,transparent 0,transparent 39px,rgba(255,255,255,0.025) 39px,rgba(255,255,255,0.025) 40px); }
+  .cxd-chat::-webkit-scrollbar { width:6px; } .cxd-chat::-webkit-scrollbar-thumb { background:var(--bd2); border-radius:3px; }
+  .cxd-stack { display:flex; flex-direction:column; gap:12px; }
+  .cxd-fade { animation:cxd-in .4s ease both; }
+  @keyframes cxd-in { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+
+  .cxd-u { display:flex; justify-content:flex-end; }
+  .cxd-u b { font-weight:400; background:var(--bg3); padding:8px 14px; border-radius:8px; color:var(--br); max-width:80%; }
+  .cxd-think { width:100%; }
+  .cxd-think-h { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:var(--dim); }
+  .cxd-think-b { margin-top:8px; padding-left:14px; border-left:1px solid var(--bd); font-size:12.5px; color:var(--soft); line-height:1.7; white-space:pre-wrap; }
+  .cxd-say { font-size:13.5px; color:var(--tx); line-height:1.75; white-space:pre-wrap; }
+  .cxd-say.caret::after, .cxd-think-b.caret::after { content:''; display:inline-block; width:7px; height:14px; background:var(--tx); vertical-align:-2px; margin-left:2px; animation:cxd-caret 1s steps(1) infinite; }
+  @keyframes cxd-caret { 50% { opacity:0; } }
+  .cxd-task { display:flex; align-items:center; gap:10px; padding:9px 14px; background:var(--bg2); border:1px solid var(--bd); border-radius:7px; font-size:12.5px; }
+  .cxd-task .ck { width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .cxd-task .spin { width:14px; height:14px; border-radius:50%; border:1.5px solid var(--bd2); border-top-color:var(--tx); animation:cxd-spin .9s linear infinite; }
+  .cxd-task.done .ck { background:rgba(86,188,124,0.15); color:#56bc7c; }
+  @keyframes cxd-spin { to { transform:rotate(360deg); } }
+  .cxd-task .nm { color:var(--soft); }
+  .cxd-task.done .nm { color:var(--tx); }
+  .cxd-art { display:grid; grid-template-columns:22px 1fr auto; gap:12px; padding:12px 14px; background:var(--bg2); border:1px solid var(--bd); border-radius:8px; }
+  .cxd-art .ic { color:var(--soft); } .cxd-art .ic svg { width:22px; height:22px; }
+  .cxd-art .ti { color:var(--br); font-weight:600; font-size:13px; }
+  .cxd-art .ls { color:var(--dim); font-size:12px; margin-top:4px; line-height:1.6; }
+  .cxd-art .st { align-self:center; font-size:11px; color:#56bc7c; font-family:'DM Mono',monospace; }
+
+  .cxd-input-wrap { position:relative; padding:12px 20px 16px; border-top:1px solid var(--bd); }
+  .cxd-input { display:flex; align-items:center; justify-content:space-between; background:var(--bg3); border:1px solid var(--bd2); border-radius:9px; padding:9px 12px; color:var(--dim); font-size:13px; }
+  .cxd-send { color:var(--dim); }
+  .cxd-snailbar { position:absolute; left:20px; right:20px; bottom:100%; height:26px; pointer-events:none; }
+  .cxd-snail { position:absolute; bottom:3px; width:20px; height:18px; animation:cxd-crawl 26s linear infinite; }
+  .cxd-snail svg { display:block; width:20px; height:18px; }
+  @keyframes cxd-crawl {
+    0% { left:calc(100% - 20px); transform:scaleX(-1); } 48% { left:0; transform:scaleX(-1); }
+    50% { left:0; transform:scaleX(1); } 98% { left:calc(100% - 20px); transform:scaleX(1); }
+    100% { left:calc(100% - 20px); transform:scaleX(-1); }
   }
-  .sc-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--ink-faint); opacity: 0.5; }
-  .sc-label {
-    margin-left: 0.5rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink-mute);
-  }
-  .sc-replay {
-    margin-left: auto;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.66rem;
-    letter-spacing: 0.04em;
-    color: var(--ink-faint);
-    background: none;
-    border: 0;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .sc-replay.on { opacity: 1; }
-  .sc-replay:hover { color: var(--shell); }
-  .sc-stage {
-    padding: 1.1rem 1.1rem 1.3rem;
-    min-height: 6rem;
-    font-family: 'Newsreader Variable', serif;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    color: var(--ink);
-  }
-  .sc-row { margin-top: 0.85rem; display: flex; }
-  .sc-row:first-child { margin-top: 0; }
-  .sc-user { justify-content: flex-end; }
-  .sc-bubble {
-    max-width: 80%;
-    padding: 0.5rem 0.8rem;
-    border-radius: 10px;
-    background: var(--shell);
-    color: #fff;
-  }
-  .sc-ai { flex-direction: column; align-items: flex-start; max-width: 88%; }
-  .sc-think {
-    font-style: italic;
-    color: var(--ink-faint);
-    font-size: 0.88rem;
-    border-left: 2px solid var(--rule);
-    padding-left: 0.7rem;
-    white-space: pre-wrap;
-  }
-  .sc-say { white-space: pre-wrap; }
-  .sc-caret::after { content: '▍'; color: var(--shell); animation: sc-blink 1s steps(2) infinite; }
-  @keyframes sc-blink { 50% { opacity: 0; } }
-  .sc-ask {
-    width: 100%;
-    border: 1px solid var(--rule);
-    border-radius: 8px;
-    padding: 0.7rem 0.85rem;
-    background: var(--paper-rim);
-  }
-  .sc-ask-q { font-weight: 500; margin-bottom: 0.55rem; }
-  .sc-opt {
-    display: block;
-    padding: 0.4rem 0.65rem;
-    margin-top: 0.35rem;
-    border: 1px solid var(--rule);
-    border-radius: 6px;
-    background: var(--paper);
-    font-size: 0.9rem;
-    transition: border-color 0.25s, background 0.25s;
-  }
-  .sc-opt.pick { border-color: var(--shell); background: color-mix(in srgb, var(--shell) 10%, var(--paper)); }
-  .sc-task { width: 100%; }
-  .sc-task-item {
-    display: flex; align-items: baseline; gap: 0.5rem;
-    padding: 0.25rem 0;
-    color: var(--ink-mute);
-    opacity: 0.4;
-    transition: opacity 0.3s, color 0.3s;
-    font-size: 0.9rem;
-  }
-  .sc-task-item.done { opacity: 1; color: var(--ink); }
-  .sc-task-item .tick { color: var(--shell); font-family: 'JetBrains Mono', monospace; }
-  .sc-art {
-    width: 100%;
-    border: 1px solid var(--shell);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  .sc-art-head {
-    padding: 0.5rem 0.8rem;
-    background: color-mix(in srgb, var(--shell) 12%, var(--paper));
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.04em;
-    color: var(--ink);
-  }
-  .sc-art-body { padding: 0.6rem 0.85rem; }
-  .sc-art-line { padding: 0.18rem 0; font-size: 0.88rem; color: var(--ink-mute); }
-  .sc-fade { animation: sc-in 0.4s ease both; }
-  @keyframes sc-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  /* HITL popup, floating above the input */
+  .cxd-pop { position:absolute; left:20px; right:20px; bottom:calc(100% + 10px); background:rgba(35,35,40,0.94); border:1px solid var(--bd2); border-radius:13px; padding:16px 18px; backdrop-filter:blur(8px); box-shadow:0 10px 30px rgba(0,0,0,0.4); z-index:30; }
+  .cxd-pop-q { font-size:14px; color:var(--br); margin-bottom:8px; }
+  .cxd-pop-o { display:flex; align-items:center; gap:12px; padding:9px 10px; border-radius:8px; font-size:13px; color:var(--tx); }
+  .cxd-pop-o .cb { width:17px; height:17px; border:1.5px solid #555560; border-radius:5px; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all .2s; color:#15151a; font-size:11px; }
+  .cxd-pop-o.on .cb { background:#fff; border-color:#fff; }
+  .cxd-pop-o.on { background:rgba(255,255,255,0.04); }
+  .cxd-replay { position:absolute; top:9px; right:14px; z-index:40; background:transparent; border:none; color:var(--dim); font-size:11px; font-family:'DM Mono',monospace; cursor:pointer; opacity:0; transition:opacity .3s; }
+  .cxd-replay.on { opacity:1; } .cxd-replay:hover { color:var(--acc); }
+  @media (max-width:560px){ .cxd { height:520px; } }
 </style>
 
 <script>
-  type Step = {
-    kind: string; text?: string; q?: string; options?: string[];
-    pick?: number[]; items?: string[]; title?: string; lines?: string[];
-  };
-
+  type Step = { kind:string; text?:string; q?:string; options?:string[]; pick?:number[]; items?:string[]; title?:string; desc?:string; lines?:string[] };
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const sleep = (ms: number) => new Promise((r) => setTimeout(r, reduce ? 0 : ms));
+  const sleep = (ms:number) => new Promise(r => setTimeout(r, reduce ? 0 : ms));
 
-  function row(stage: HTMLElement, cls: string): HTMLElement {
-    const r = document.createElement('div');
-    r.className = `sc-row ${cls} sc-fade`;
-    stage.appendChild(r);
-    stage.scrollTop = stage.scrollHeight;
-    return r;
-  }
-
-  async function type(el: HTMLElement, text: string) {
+  async function type(el:HTMLElement, text:string, per=15) {
     if (reduce) { el.textContent = text; return; }
-    el.classList.add('sc-caret');
-    for (let i = 0; i < text.length; i++) {
-      el.textContent = text.slice(0, i + 1);
-      await sleep(text[i] === '\n' ? 90 : 16);
-    }
-    el.classList.remove('sc-caret');
+    el.classList.add('caret');
+    for (let i=0;i<text.length;i++){ el.textContent = text.slice(0,i+1); await sleep(text[i]==='\n'?70:per); }
+    el.classList.remove('caret');
   }
+  const CHECK = '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>';
+  const FILE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>';
 
-  async function play(root: HTMLElement) {
-    const stage = root.querySelector('.sc-stage') as HTMLElement;
-    const replay = root.querySelector('.sc-replay') as HTMLElement;
-    const steps: Step[] = JSON.parse(root.dataset.steps || '[]');
-    stage.innerHTML = '';
-    replay.classList.remove('on');
+  async function play(root:HTMLElement){
+    const stack = root.querySelector('.cxd-stack') as HTMLElement;
+    const chat = root.querySelector('.cxd-chat') as HTMLElement;
+    const center = root.querySelector('.cxd-center') as HTMLElement;
+    const replay = root.querySelector('.cxd-replay') as HTMLElement;
+    const steps:Step[] = JSON.parse(root.dataset.steps || '[]');
+    stack.innerHTML = ''; replay.classList.remove('on');
+    const stick = () => { chat.scrollTop = chat.scrollHeight; };
+    const row = (cls:string) => { const d=document.createElement('div'); d.className=`${cls} cxd-fade`; stack.appendChild(d); stick(); return d; };
 
-    for (const s of steps) {
-      if (s.kind === 'user') {
-        const r = row(stage, 'sc-user');
-        const b = document.createElement('div');
-        b.className = 'sc-bubble';
-        b.textContent = s.text || '';
-        r.appendChild(b);
-        await sleep(500);
-      } else if (s.kind === 'think') {
-        const r = row(stage, 'sc-ai');
-        const t = document.createElement('div');
-        t.className = 'sc-think';
-        r.appendChild(t);
-        await type(t, s.text || '');
-        await sleep(350);
-      } else if (s.kind === 'say') {
-        const r = row(stage, 'sc-ai');
-        const t = document.createElement('div');
-        t.className = 'sc-say';
-        r.appendChild(t);
-        await type(t, s.text || '');
-        await sleep(300);
-      } else if (s.kind === 'ask') {
-        const r = row(stage, 'sc-ai');
-        const box = document.createElement('div');
-        box.className = 'sc-ask';
-        const q = document.createElement('div');
-        q.className = 'sc-ask-q';
-        q.textContent = s.q || '';
-        box.appendChild(q);
-        (s.options || []).forEach((o) => {
-          const opt = document.createElement('div');
-          opt.className = 'sc-opt';
-          opt.textContent = o;
-          box.appendChild(opt);
-        });
-        r.appendChild(box);
+    for (const s of steps){
+      if (s.kind==='user'){ const r=row('cxd-u'); const b=document.createElement('b'); b.textContent=s.text||''; r.appendChild(b); await sleep(450); }
+      else if (s.kind==='think'){ const r=row('cxd-think'); r.innerHTML='<div class="cxd-think-h">▾ Thinking</div><div class="cxd-think-b"></div>'; await type(r.querySelector('.cxd-think-b') as HTMLElement, s.text||'', 9); await sleep(300); }
+      else if (s.kind==='say'){ const r=row('cxd-say'); await type(r, s.text||''); await sleep(250); }
+      else if (s.kind==='ask'){
+        const pop=document.createElement('div'); pop.className='cxd-pop cxd-fade';
+        pop.innerHTML=`<div class="cxd-pop-q">${s.q||''}</div>`;
+        (s.options||[]).forEach(o=>{ const e=document.createElement('div'); e.className='cxd-pop-o'; e.innerHTML=`<span class="cb">${CHECK}</span><span>${o}</span>`; pop.appendChild(e); });
+        center.appendChild(pop);
         await sleep(600);
-        const opts = box.querySelectorAll('.sc-opt');
-        for (const i of s.pick || []) {
-          opts[i]?.classList.add('pick');
-          await sleep(280);
-        }
-        await sleep(350);
-      } else if (s.kind === 'task') {
-        const r = row(stage, 'sc-ai');
-        const box = document.createElement('div');
-        box.className = 'sc-task';
-        (s.items || []).forEach((it) => {
-          const item = document.createElement('div');
-          item.className = 'sc-task-item';
-          item.innerHTML = `<span class="tick">○</span><span>${it}</span>`;
-          box.appendChild(item);
-        });
-        r.appendChild(box);
-        for (const item of Array.from(box.children)) {
-          await sleep(420);
-          item.classList.add('done');
-          (item.querySelector('.tick') as HTMLElement).textContent = '✓';
-          stage.scrollTop = stage.scrollHeight;
-        }
-        await sleep(300);
-      } else if (s.kind === 'artifact') {
-        const r = row(stage, 'sc-ai');
-        const box = document.createElement('div');
-        box.className = 'sc-art';
-        const head = document.createElement('div');
-        head.className = 'sc-art-head';
-        head.textContent = s.title || 'artifact';
-        const body = document.createElement('div');
-        body.className = 'sc-art-body';
-        box.appendChild(head);
-        box.appendChild(body);
-        r.appendChild(box);
-        for (const line of s.lines || []) {
-          await sleep(220);
-          const l = document.createElement('div');
-          l.className = 'sc-art-line sc-fade';
-          l.textContent = line;
-          body.appendChild(l);
-          stage.scrollTop = stage.scrollHeight;
-        }
-        await sleep(300);
+        const opts=pop.querySelectorAll('.cxd-pop-o');
+        for (const i of (s.pick||[])){ opts[i]?.classList.add('on'); await sleep(300); }
+        await sleep(500); pop.style.transition='opacity .35s'; pop.style.opacity='0'; await sleep(360); pop.remove();
+        const picks=(s.pick||[]).map(i=>(s.options||[])[i]).join(', ');
+        const r=row('cxd-u'); const b=document.createElement('b'); b.textContent=picks; r.appendChild(b); await sleep(350);
       }
-      stage.scrollTop = stage.scrollHeight;
+      else if (s.kind==='task'){
+        for (const it of (s.items||[])){
+          const t=row('cxd-task'); t.innerHTML=`<span class="ck"><span class="spin"></span></span><span class="nm">${it}</span>`;
+          await sleep(reduce?0:520);
+          t.classList.add('done'); (t.querySelector('.ck') as HTMLElement).innerHTML=CHECK; stick();
+        }
+        await sleep(250);
+      }
+      else if (s.kind==='artifact'){
+        const r=row('cxd-art');
+        r.innerHTML=`<span class="ic">${FILE}</span><div><div class="ti">${s.title||'artifact'}</div><div class="ls"></div></div><span class="st">ready</span>`;
+        const ls=r.querySelector('.ls') as HTMLElement;
+        for (const ln of (s.lines||[])){ const d=document.createElement('div'); d.textContent='· '+ln; d.className='cxd-fade'; ls.appendChild(d); stick(); await sleep(200); }
+        await sleep(250);
+      }
+      stick();
     }
     replay.classList.add('on');
   }
 
-  document.querySelectorAll<HTMLElement>('[data-screencast]').forEach((root) => {
-    const replay = root.querySelector('.sc-replay') as HTMLElement;
-    let started = false;
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting && !started) {
-          started = true;
-          play(root);
-          io.disconnect();
-        }
-      });
-    }, { threshold: 0.35 });
+  document.querySelectorAll<HTMLElement>('.cxd[data-screencast]').forEach(root=>{
+    let started=false;
+    const io=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting && !started){ started=true; play(root); io.disconnect(); } }); }, { threshold:0.3 });
     io.observe(root);
-    replay.addEventListener('click', () => play(root));
+    (root.querySelector('.cxd-replay') as HTMLElement).addEventListener('click', ()=>play(root));
   });
 </script>
