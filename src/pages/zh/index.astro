@@ -27,6 +27,14 @@ const products = [
     download: true,
   },
 ];
+
+const scenarios = [
+  { href: '/zh/solutions/bom-matching', label: 'BOM 匹配' },
+  { href: '/zh/solutions/product-carbon-footprint', label: '产品碳足迹' },
+  { href: '/zh/solutions/lca-dataset-authoring', label: '数据集创作' },
+  { href: '/zh/solutions/ilcd-validation', label: 'ILCD 校验' },
+  { href: '/zh/solutions/epd-audit', label: 'EPD 审计' },
+];
 ---
 
 <BaseLayout title={title} description={description} locale="zh">
@@ -90,6 +98,38 @@ const products = [
       <p class="mt-10 max-w-3xl font-serif" style="font-size: 0.98rem; line-height: 1.85; font-variation-settings: 'opsz' 18; color: var(--ink-mute);">
         另：<strong style="font-weight: 500; color: var(--shell);">Cortex Dispatch</strong>——手机派活，回桌面看 Cowork 跑完。
       </p>
+    </div>
+  </section>
+
+  <!-- 场景 -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="它用来做什么" numeral="II" title="真实的 LCA 活，从头跑到尾。" />
+      <div class="mt-12 grid gap-px overflow-hidden border border-rule sm:grid-cols-2 lg:grid-cols-3" style="background: var(--rule);">
+        {scenarios.map((s) => (
+          <a href={s.href} class="flex items-center justify-between p-6 transition-colors hover:bg-[var(--paper-rim)]" style="background: var(--paper); text-decoration: none;">
+            <span class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 28; font-size: 1.05rem; color: var(--ink);">{s.label}</span>
+            <span class="smallcaps" aria-hidden="true" style="color: var(--shell);">→</span>
+          </a>
+        ))}
+        <a href="/zh/guides" class="flex items-center justify-between p-6 transition-colors hover:brightness-95" style="background: var(--paper-rim); text-decoration: none;">
+          <span class="smallcaps" style="color: var(--ink-mute);">全部指南与场景</span>
+          <span class="smallcaps" aria-hidden="true" style="color: var(--shell);">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 信任条 -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page flex flex-wrap items-center justify-between gap-4 py-10">
+      <p class="max-w-2xl font-serif" style="font-size: 0.98rem; line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink-mute);">
+        输出对齐 ISO 14067、EN 15804、GHG Protocol 与 CBAM。数据留在你的机器上。
+      </p>
+      <div class="flex gap-6">
+        <a href="/zh/standards" class="smallcaps" style="color: var(--shell); text-decoration: none;">标准对齐 →</a>
+        <a href="/zh/security" class="smallcaps" style="color: var(--shell); text-decoration: none;">安全 →</a>
+      </div>
     </div>
   </section>
 

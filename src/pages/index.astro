@@ -27,6 +27,14 @@ const products = [
     download: true,
   },
 ];
+
+const scenarios = [
+  { href: '/solutions/bom-matching', label: 'BOM matching' },
+  { href: '/solutions/product-carbon-footprint', label: 'Product carbon footprint' },
+  { href: '/solutions/lca-dataset-authoring', label: 'Dataset authoring' },
+  { href: '/solutions/ilcd-validation', label: 'ILCD validation' },
+  { href: '/solutions/epd-audit', label: 'EPD audit' },
+];
 ---
 
 <BaseLayout title={title} description={description}>
@@ -91,6 +99,38 @@ const products = [
       <p class="mt-10 max-w-3xl font-serif" style="font-size: 0.98rem; line-height: 1.65; font-variation-settings: 'opsz' 18; color: var(--ink-mute);">
         Also: <strong style="font-weight: 500; color: var(--shell);">Cortex Dispatch</strong> — hand a task from your phone, watch Cowork run it on your desktop.
       </p>
+    </div>
+  </section>
+
+  <!-- ═══ Scenarios ═══ -->
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="What it's for" numeral="II" title="Real LCA jobs, start to finish." />
+      <div class="mt-12 grid gap-px overflow-hidden border border-rule sm:grid-cols-2 lg:grid-cols-3" style="background: var(--rule);">
+        {scenarios.map((s) => (
+          <a href={s.href} class="flex items-center justify-between p-6 transition-colors hover:bg-[var(--paper-rim)]" style="background: var(--paper); text-decoration: none;">
+            <span class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 28; font-size: 1.05rem; color: var(--ink);">{s.label}</span>
+            <span class="smallcaps" aria-hidden="true" style="color: var(--shell);">→</span>
+          </a>
+        ))}
+        <a href="/guides" class="flex items-center justify-between p-6 transition-colors hover:brightness-95" style="background: var(--paper-rim); text-decoration: none;">
+          <span class="smallcaps" style="color: var(--ink-mute);">All guides &amp; scenarios</span>
+          <span class="smallcaps" aria-hidden="true" style="color: var(--shell);">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Trust band ═══ -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page flex flex-wrap items-center justify-between gap-4 py-10">
+      <p class="max-w-2xl font-serif" style="font-size: 0.98rem; line-height: 1.6; font-variation-settings: 'opsz' 18; color: var(--ink-mute);">
+        Outputs align with ISO 14067, EN 15804, the GHG Protocol, and CBAM. Your data stays on your machine.
+      </p>
+      <div class="flex gap-6">
+        <a href="/standards" class="smallcaps" style="color: var(--shell); text-decoration: none;">Standards →</a>
+        <a href="/security" class="smallcaps" style="color: var(--shell); text-decoration: none;">Security →</a>
+      </div>
     </div>
   </section>
 
