@@ -6,6 +6,8 @@ order: 1
 locale: en
 ---
 
+import Screencast from '@/components/Screencast.astro';
+
 Cortex does not replace your calculation engine. It operates one. Cowork handles the upstream work — reading the BOM, matching background data, flagging gaps — and then runs the product system and impact assessment in the engine you already use. This is a Cowork workflow, so it needs the Plus plan.
 
 ## Engines Cortex connects to
@@ -24,6 +26,21 @@ SimaPro, GaBi, and others are not connected today. If your work lives in one of 
 2. **Match the background data** — Cowork searches across the databases, returns DQI-scored candidates per BOM row, and pauses where automation would break an audit: coverage gaps, proxy substitutions, large cross-database spread, restricted data without access.
 3. **Build the product system** — Cowork assembles flows and process connections in your engine and resolves circular references.
 4. **Run the impact assessment** — the default is IPCC 2021 GWP100; other categories on request. Results come back as a contribution analysis — the top contributors by process and by flow, not a single number.
+
+## Watch it run
+
+<Screencast
+  label="Cortex Cowork"
+  steps={[
+    { kind: 'user', text: 'Run a cradle-to-gate PCF for our 304 stainless bracket — 1 kg, IPCC GWP100.' },
+    { kind: 'think', text: 'BOM has three inputs. Plan: match background data, build the product system in openLCA, run GWP100, pause on anything that would break an audit.' },
+    { kind: 'ask', q: 'System boundary?', options: ['Cradle-to-gate', 'Cradle-to-grave'], pick: [0] },
+    { kind: 'task', items: ['Match 304 stainless → Ecoinvent 3.12', 'Match electricity → grid factor (CN)', 'Build product system in openLCA', 'Run IPCC 2021 GWP100'] },
+    { kind: 'say', text: 'One row needs a decision — the passivation step has no direct dataset.' },
+    { kind: 'ask', q: 'Use a nitric-acid proxy for passivation?', options: ['Use proxy (bias flagged ↑)', 'Leave as a gap'], pick: [0] },
+    { kind: 'artifact', title: 'PCF_304_bracket.xlsx', lines: ['GWP100 — 6.2 kg CO₂e / kg', 'Top contributor — stainless steel, 72%', '1 proxy flagged · DQI scored per row', 'Every decision written to progress.md'] },
+  ]}
+/>
 
 ## What's recorded
 

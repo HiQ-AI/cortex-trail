@@ -1,0 +1,300 @@
+---
+// A self-playing "screencast" of a Cortex Cowork session — no video file.
+// Ported from the demo/ HTML prototypes, retuned to the site's editorial
+// palette. Driven entirely by the `steps` prop; one bundled script animates
+// every instance on the page, auto-plays on scroll, and honours
+// prefers-reduced-motion (shows the final state instantly).
+//
+// Step kinds:
+//   { kind: 'user',     text }                       — the practitioner's message
+//   { kind: 'think',    text }                        — agent reasoning (collapsible)
+//   { kind: 'say',      text }                        — agent reply, typed out
+//   { kind: 'ask',      q, options[], pick[] }         — HITL question, options auto-selected
+//   { kind: 'task',     items[] }                      — a checklist that ticks through
+//   { kind: 'artifact', title, lines[] }               — the deliverable card
+
+export interface Step {
+  kind: 'user' | 'think' | 'say' | 'ask' | 'task' | 'artifact';
+  text?: string;
+  q?: string;
+  options?: string[];
+  pick?: number[];
+  items?: string[];
+  title?: string;
+  lines?: string[];
+}
+
+interface Props {
+  steps: Step[];
+  label?: string;
+}
+
+const { steps, label = 'Cortex Cowork' } = Astro.props;
+---
+
+<figure class="sc not-prose my-8" data-screencast data-steps={JSON.stringify(steps)}>
+  <div class="sc-bar">
+    <span class="sc-dot"></span><span class="sc-dot"></span><span class="sc-dot"></span>
+    <span class="sc-label">{label}</span>
+    <button class="sc-replay" type="button" aria-label="Replay">↻ replay</button>
+  </div>
+  <div class="sc-stage" aria-live="polite"></div>
+</figure>
+
+<style>
+  .sc {
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    overflow: hidden;
+    border-radius: 6px;
+  }
+  .sc-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.6rem 0.85rem;
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper-rim);
+  }
+  .sc-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--ink-faint); opacity: 0.5; }
+  .sc-label {
+    margin-left: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .sc-replay {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    background: none;
+    border: 0;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .sc-replay.on { opacity: 1; }
+  .sc-replay:hover { color: var(--shell); }
+  .sc-stage {
+    padding: 1.1rem 1.1rem 1.3rem;
+    min-height: 6rem;
+    font-family: 'Newsreader Variable', serif;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .sc-row { margin-top: 0.85rem; display: flex; }
+  .sc-row:first-child { margin-top: 0; }
+  .sc-user { justify-content: flex-end; }
+  .sc-bubble {
+    max-width: 80%;
+    padding: 0.5rem 0.8rem;
+    border-radius: 10px;
+    background: var(--shell);
+    color: #fff;
+  }
+  .sc-ai { flex-direction: column; align-items: flex-start; max-width: 88%; }
+  .sc-think {
+    font-style: italic;
+    color: var(--ink-faint);
+    font-size: 0.88rem;
+    border-left: 2px solid var(--rule);
+    padding-left: 0.7rem;
+    white-space: pre-wrap;
+  }
+  .sc-say { white-space: pre-wrap; }
+  .sc-caret::after { content: '▍'; color: var(--shell); animation: sc-blink 1s steps(2) infinite; }
+  @keyframes sc-blink { 50% { opacity: 0; } }
+  .sc-ask {
+    width: 100%;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 0.7rem 0.85rem;
+    background: var(--paper-rim);
+  }
+  .sc-ask-q { font-weight: 500; margin-bottom: 0.55rem; }
+  .sc-opt {
+    display: block;
+    padding: 0.4rem 0.65rem;
+    margin-top: 0.35rem;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: var(--paper);
+    font-size: 0.9rem;
+    transition: border-color 0.25s, background 0.25s;
+  }
+  .sc-opt.pick { border-color: var(--shell); background: color-mix(in srgb, var(--shell) 10%, var(--paper)); }
+  .sc-task { width: 100%; }
+  .sc-task-item {
+    display: flex; align-items: baseline; gap: 0.5rem;
+    padding: 0.25rem 0;
+    color: var(--ink-mute);
+    opacity: 0.4;
+    transition: opacity 0.3s, color 0.3s;
+    font-size: 0.9rem;
+  }
+  .sc-task-item.done { opacity: 1; color: var(--ink); }
+  .sc-task-item .tick { color: var(--shell); font-family: 'JetBrains Mono', monospace; }
+  .sc-art {
+    width: 100%;
+    border: 1px solid var(--shell);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .sc-art-head {
+    padding: 0.5rem 0.8rem;
+    background: color-mix(in srgb, var(--shell) 12%, var(--paper));
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+  .sc-art-body { padding: 0.6rem 0.85rem; }
+  .sc-art-line { padding: 0.18rem 0; font-size: 0.88rem; color: var(--ink-mute); }
+  .sc-fade { animation: sc-in 0.4s ease both; }
+  @keyframes sc-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+</style>
+
+<script>
+  type Step = {
+    kind: string; text?: string; q?: string; options?: string[];
+    pick?: number[]; items?: string[]; title?: string; lines?: string[];
+  };
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, reduce ? 0 : ms));
+
+  function row(stage: HTMLElement, cls: string): HTMLElement {
+    const r = document.createElement('div');
+    r.className = `sc-row ${cls} sc-fade`;
+    stage.appendChild(r);
+    stage.scrollTop = stage.scrollHeight;
+    return r;
+  }
+
+  async function type(el: HTMLElement, text: string) {
+    if (reduce) { el.textContent = text; return; }
+    el.classList.add('sc-caret');
+    for (let i = 0; i < text.length; i++) {
+      el.textContent = text.slice(0, i + 1);
+      await sleep(text[i] === '\n' ? 90 : 16);
+    }
+    el.classList.remove('sc-caret');
+  }
+
+  async function play(root: HTMLElement) {
+    const stage = root.querySelector('.sc-stage') as HTMLElement;
+    const replay = root.querySelector('.sc-replay') as HTMLElement;
+    const steps: Step[] = JSON.parse(root.dataset.steps || '[]');
+    stage.innerHTML = '';
+    replay.classList.remove('on');
+
+    for (const s of steps) {
+      if (s.kind === 'user') {
+        const r = row(stage, 'sc-user');
+        const b = document.createElement('div');
+        b.className = 'sc-bubble';
+        b.textContent = s.text || '';
+        r.appendChild(b);
+        await sleep(500);
+      } else if (s.kind === 'think') {
+        const r = row(stage, 'sc-ai');
+        const t = document.createElement('div');
+        t.className = 'sc-think';
+        r.appendChild(t);
+        await type(t, s.text || '');
+        await sleep(350);
+      } else if (s.kind === 'say') {
+        const r = row(stage, 'sc-ai');
+        const t = document.createElement('div');
+        t.className = 'sc-say';
+        r.appendChild(t);
+        await type(t, s.text || '');
+        await sleep(300);
+      } else if (s.kind === 'ask') {
+        const r = row(stage, 'sc-ai');
+        const box = document.createElement('div');
+        box.className = 'sc-ask';
+        const q = document.createElement('div');
+        q.className = 'sc-ask-q';
+        q.textContent = s.q || '';
+        box.appendChild(q);
+        (s.options || []).forEach((o) => {
+          const opt = document.createElement('div');
+          opt.className = 'sc-opt';
+          opt.textContent = o;
+          box.appendChild(opt);
+        });
+        r.appendChild(box);
+        await sleep(600);
+        const opts = box.querySelectorAll('.sc-opt');
+        for (const i of s.pick || []) {
+          opts[i]?.classList.add('pick');
+          await sleep(280);
+        }
+        await sleep(350);
+      } else if (s.kind === 'task') {
+        const r = row(stage, 'sc-ai');
+        const box = document.createElement('div');
+        box.className = 'sc-task';
+        (s.items || []).forEach((it) => {
+          const item = document.createElement('div');
+          item.className = 'sc-task-item';
+          item.innerHTML = `<span class="tick">○</span><span>${it}</span>`;
+          box.appendChild(item);
+        });
+        r.appendChild(box);
+        for (const item of Array.from(box.children)) {
+          await sleep(420);
+          item.classList.add('done');
+          (item.querySelector('.tick') as HTMLElement).textContent = '✓';
+          stage.scrollTop = stage.scrollHeight;
+        }
+        await sleep(300);
+      } else if (s.kind === 'artifact') {
+        const r = row(stage, 'sc-ai');
+        const box = document.createElement('div');
+        box.className = 'sc-art';
+        const head = document.createElement('div');
+        head.className = 'sc-art-head';
+        head.textContent = s.title || 'artifact';
+        const body = document.createElement('div');
+        body.className = 'sc-art-body';
+        box.appendChild(head);
+        box.appendChild(body);
+        r.appendChild(box);
+        for (const line of s.lines || []) {
+          await sleep(220);
+          const l = document.createElement('div');
+          l.className = 'sc-art-line sc-fade';
+          l.textContent = line;
+          body.appendChild(l);
+          stage.scrollTop = stage.scrollHeight;
+        }
+        await sleep(300);
+      }
+      stage.scrollTop = stage.scrollHeight;
+    }
+    replay.classList.add('on');
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-screencast]').forEach((root) => {
+    const replay = root.querySelector('.sc-replay') as HTMLElement;
+    let started = false;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting && !started) {
+          started = true;
+          play(root);
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.35 });
+    io.observe(root);
+    replay.addEventListener('click', () => play(root));
+  });
+</script>

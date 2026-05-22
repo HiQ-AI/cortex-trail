@@ -1,5 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = 'Guides — HiQ Cortex';
+const description =
+  'How to use Cortex, end to end — from your first query to a finished calculation, plus worked scenarios you can watch run.';
 
 const SECTION_ORDER = ['Start here', 'Workflows'];
 const rank = (n: string) => {
@@ -7,10 +13,65 @@ const rank = (n: string) => {
   return i === -1 ? SECTION_ORDER.length : i;
 };
 
-const docs = await getCollection('docs', ({ data }) => data.locale === 'en');
-const first = docs.sort(
+const docs = (await getCollection('docs', ({ data }) => data.locale === 'en')).sort(
   (a, b) => rank(a.data.section) - rank(b.data.section) || a.data.order - b.data.order,
-)[0];
+);
 
-return Astro.redirect(first ? `/guides/${first.id}` : '/');
+const scenarios = [
+  { href: '/solutions/bom-matching', label: 'BOM matching', blurb: 'BOM in, matched xlsx out — every dataset cell a hyperlink, every gap flagged.' },
+  { href: '/solutions/product-carbon-footprint', label: 'Product carbon footprint', blurb: 'From BOM to LCIA results inside openLCA, every modeling decision recorded.' },
+  { href: '/solutions/lca-dataset-authoring', label: 'Dataset authoring', blurb: 'Build an ILCD-clean dataset with provenance the reviewer can follow.' },
+  { href: '/solutions/ilcd-validation', label: 'ILCD validation', blurb: 'Check a dataset against the format before it reaches a reviewer.' },
+  { href: '/solutions/epd-audit', label: 'EPD audit', blurb: 'Prepare the data layer and methodology trail an EPD needs.' },
+];
 ---
+
+<BaseLayout title={title} description={description}>
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">Guides</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400;">
+        Learn Cortex by doing.
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        Start with the basics, then follow a scenario end to end — the kind of job you actually run, shown step by step.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Start here" numeral="I" title="The basics, in order." />
+      <div class="grid gap-px overflow-hidden border border-rule sm:grid-cols-2 lg:grid-cols-3" style="background: var(--rule);">
+        {docs.map((d) => (
+          <a href={`/guides/${d.id}`} class="block p-7" style="background: var(--paper); text-decoration: none;">
+            <div class="eyebrow mb-3" style="color: var(--shell);">{d.data.section}</div>
+            <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.2rem; line-height: 1.15; color: var(--ink);">{d.data.title}</div>
+            <p class="mt-3 font-serif" style="font-size: 0.95rem; line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">{d.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="Scenarios" numeral="II" title="Watch a full job run." />
+      <p class="mb-10 max-w-2xl font-serif" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        Each scenario is a real LCA job from start to finish — the inputs, the decisions Cortex pauses on, and the deliverable it produces.
+      </p>
+      <div class="grid gap-px overflow-hidden border border-rule sm:grid-cols-2 lg:grid-cols-3" style="background: var(--rule);">
+        {scenarios.map((s) => (
+          <a href={s.href} class="block p-7" style="background: var(--paper); text-decoration: none;">
+            <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.2rem; line-height: 1.15; color: var(--ink);">{s.label}</div>
+            <p class="mt-3 font-serif" style="font-size: 0.95rem; line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">{s.blurb}</p>
+            <span class="mt-4 inline-block smallcaps" style="color: var(--shell);">Open →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

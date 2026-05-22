@@ -1,5 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionMark from '@/components/SectionMark.astro';
+
+const title = '指南 — HiQ Cortex';
+const description = '从第一次查询到一份完整计算，端到端地学会用 Cortex，外加可以「看着它跑」的实战场景。';
 
 const SECTION_ORDER = ['从这里开始', '工作流'];
 const rank = (n: string) => {
@@ -7,10 +12,66 @@ const rank = (n: string) => {
   return i === -1 ? SECTION_ORDER.length : i;
 };
 
-const docs = await getCollection('docs', ({ data }) => data.locale === 'zh');
-const first = docs.sort(
+const docs = (await getCollection('docs', ({ data }) => data.locale === 'zh')).sort(
   (a, b) => rank(a.data.section) - rank(b.data.section) || a.data.order - b.data.order,
-)[0];
+);
+const slugOf = (id: string) => id.replace(/-zh$/, '');
 
-return Astro.redirect(first ? `/zh/guides/${first.id.replace(/-zh$/, '')}` : '/zh');
+const scenarios = [
+  { href: '/zh/solutions/bom-matching', label: 'BOM 匹配', blurb: 'BOM 进，匹配好的 xlsx 出——每个数据集格都是链接，每个缺口都标出来。' },
+  { href: '/zh/solutions/product-carbon-footprint', label: '产品碳足迹', blurb: '在 openLCA 里从 BOM 跑到 LCIA 结果，每一个建模决策都记录在案。' },
+  { href: '/zh/solutions/lca-dataset-authoring', label: '数据集创作', blurb: '构建一份 ILCD 规整、溯源可循的数据集。' },
+  { href: '/zh/solutions/ilcd-validation', label: 'ILCD 校验', blurb: '数据集送审之前，先对着格式查一遍。' },
+  { href: '/zh/solutions/epd-audit', label: 'EPD 审计', blurb: '准备好 EPD 所需的数据层与方法论记录。' },
+];
 ---
+
+<BaseLayout title={title} description={description} locale="zh">
+  <section class="relative">
+    <div class="container-page pt-14 md:pt-20 pb-14">
+      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+        <p class="eyebrow">指南</p>
+        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+      </div>
+      <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400;">
+        在动手中学会 Cortex。
+      </h1>
+      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+        先打好基础，再跟着一个场景走完全程——你真正会跑的那种活，一步一步演示。
+      </p>
+    </div>
+  </section>
+
+  <section class="border-t border-rule">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="从这里开始" numeral="I" title="基础，按顺序。" />
+      <div class="grid gap-px overflow-hidden border border-rule sm:grid-cols-2 lg:grid-cols-3" style="background: var(--rule);">
+        {docs.map((d) => (
+          <a href={`/zh/guides/${slugOf(d.id)}`} class="block p-7" style="background: var(--paper); text-decoration: none;">
+            <div class="eyebrow mb-3" style="color: var(--shell);">{d.data.section}</div>
+            <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.2rem; line-height: 1.15; color: var(--ink);">{d.data.title}</div>
+            <p class="mt-3 font-serif" style="font-size: 0.95rem; line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">{d.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-20 md:py-24">
+      <SectionMark kicker="场景" numeral="II" title="看一整个活跑下来。" />
+      <p class="mb-10 max-w-2xl font-serif" style="font-size: 1.05rem; line-height: 1.6; font-variation-settings: 'opsz' 20; color: var(--ink);">
+        每个场景都是一个从头到尾的真实 LCA 任务——输入、Cortex 会暂停确认的决策，以及它产出的交付物。
+      </p>
+      <div class="grid gap-px overflow-hidden border border-rule sm:grid-cols-2 lg:grid-cols-3" style="background: var(--rule);">
+        {scenarios.map((s) => (
+          <a href={s.href} class="block p-7" style="background: var(--paper); text-decoration: none;">
+            <div class="font-display" style="font-variation-settings: 'SOFT' 40, 'opsz' 30; font-size: 1.2rem; line-height: 1.15; color: var(--ink);">{s.label}</div>
+            <p class="mt-3 font-serif" style="font-size: 0.95rem; line-height: 1.55; font-variation-settings: 'opsz' 16; color: var(--ink-mute);">{s.blurb}</p>
+            <span class="mt-4 inline-block smallcaps" style="color: var(--shell);">打开 →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
