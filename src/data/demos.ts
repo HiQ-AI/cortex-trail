@@ -1215,3 +1215,1203 @@ export const anodizingAuthoringZh = [
     ]
   }
 ];
+
+export const epdAuditEn = [
+  {
+    "kind": "user",
+    "text": "Audit concrete_C30_EPD.pdf before we register it. EN 15804+A2 declaration, ready-mix concrete, declared unit 1 m³. We're the programme operator."
+  },
+  {
+    "kind": "think",
+    "text": "I'll run the full audit pipeline — intake & triage, parse, twelve concurrent check-group workers, merge, benchmark against reference data and peer EPDs, then a risk-graded report. I'm the independent second pair of eyes that complements the verifier, and every flag lands on disk with its cited clause so a regulator can reconstruct it."
+  },
+  {
+    "kind": "say",
+    "text": "Phase 0 — intake & triage."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Copy dossier → work/intake/"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Open work/log.jsonl — append-only audit trail"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Identify programme operator → EPD International"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "EPD International never receives the background LCA report — this audit is the only second technical review before publication. Tightening the data-quality thresholds accordingly."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Resolve PCR → PCR 2019:14"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Resolve c-PCR → concrete & cement"
+    ]
+  },
+  {
+    "kind": "ask",
+    "q": "Verification pathway?",
+    "options": [
+      "Independent verifier (per-EPD report)",
+      "Process-certified (GPI 5.0.1)"
+    ],
+    "pick": [
+      0
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Set pathway modifiers — verifier report expected"
+    ]
+  },
+  {
+    "kind": "think",
+    "text": "Phase 1 — parse the EPD and supporting docs, then spot-check what the parser dropped against the source PDF."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Parse concrete_C30_EPD.pdf — 18 pages"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Extract header — declared unit, PCR refs, validity"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Read module — A1 raw materials"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Read module — A2 transport"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Read module — A3 manufacturing"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Read module — A4 transport to site"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Read module — A5 installation"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Read module — C1 deconstruction"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Read module — C2 transport"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Read module — C3 waste processing"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Read module — C4 disposal"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Read module — D reuse/recovery"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Extract indicator — GWP-total"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Extract indicator — GWP-fossil"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Extract indicator — GWP-biogenic"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Extract indicator — GWP-luluc"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Extract indicator — ODP"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Extract indicator — AP"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Extract indicator — EP-freshwater"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Extract indicator — EP-marine"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Extract indicator — EP-terrestrial"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Extract indicator — POCP"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Extract indicator — ADP-minerals/metals"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Extract indicator — ADP-fossil"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Extract indicator — WDP"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Parse data-quality annex (DQI per module)"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Parse scenario annex — A4 transport, C end-of-life"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "Parser dropped the C-module table — it's a scanned image on p.12–13. Re-reading from source."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "OCR p.12–13 → recover C2–C4 values"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Write extracted/epd_data.json + parser_gaps.md"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "Parse confidence High. 13 indicators × 11 modules captured, 1 gap recovered."
+  },
+  {
+    "kind": "think",
+    "text": "Phase 2 — dispatch the twelve check groups as concurrent workers. Each writes a findings file and a trace scratchpad so a later auditor can review the reasoning."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Dispatch Group A — format & completeness"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Dispatch Group B — PCR 2019:14 conformance"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Dispatch Group C — EN 15804+A2 modules & indicators"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Dispatch Group D — LCA methodology & boundary"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Dispatch Group E — data quality (DQI) & representativeness"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Dispatch Group F — impact plausibility"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Dispatch Group G — verifier provenance & report"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Dispatch Group H — biogenic carbon accounting"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Dispatch Group I — allocation & cut-off"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Dispatch Group J — cross-EPD peer cohort"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Dispatch Group K — units & reference-flow consistency"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Dispatch Group L — scenario (SF) assumptions"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group A → clean"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group B → clean"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group C → 1 critical"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group D → clean"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group E → 1 warning"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group F → defer to Phase 3"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group G → clean"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group H → clean"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group I → 1 advisory"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group J → defer to Phase 3"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group K → clean"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group L → 1 advisory"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "Group C: GWP-biogenic is absent from module A1 — mandatory under A2. Critical."
+  },
+  {
+    "kind": "say",
+    "text": "Group E: the cement dataset is ecoinvent 3.7 (2020), superseded by 3.12. Warning."
+  },
+  {
+    "kind": "say",
+    "text": "Group I: 70/30 economic allocation on the slag co-product where PCR wants mass below the 1% threshold. Advisory."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Collect 12 group outputs + trace files"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Validate findings against schema"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Phase 2.5 — verifier severity tally → tally.json"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Merge → audit_state.json"
+    ]
+  },
+  {
+    "kind": "think",
+    "text": "Phase 3 — benchmark the declared values against HiQLCD reference data and a peer cohort; flag outliers, but don't call a high-but-explained value an error."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Query HiQLCD reference — C30 ready-mix concrete (CN)"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Pull peer EPD #1 from registry"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Pull peer EPD #2 from registry"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Pull peer EPD #3 from registry"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Pull peer EPD #4 from registry"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Pull peer EPD #5 from registry"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Pull peer EPD #6 from registry"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Build peer cohort → cohort.json"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Compute distributions (IQR, percentiles) → distributions.json"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Outlier check — GWP-total"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Outlier check — AP"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Outlier check — EP-marine"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Outlier check — POCP"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Outlier check — ADP-fossil"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "Declared GWP-total 241 kg CO₂e/m³ sits at the 88th percentile — high, but inside the upper whisker. The declared cement content explains it."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Compare A1–A3 split vs peer median"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "A1 (cement) share is 8 points above the peer median — consistent with the declared mix, not flagged."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Recompute indicators — cement → ecoinvent 3.12"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "Recomputed GWP-total is 248 vs 241 declared (+2.9%) — inside tolerance, noted for the verifier."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Write benchmarks/comparison.json"
+    ]
+  },
+  {
+    "kind": "ask",
+    "q": "1 critical (missing GWP-biogenic, A1), 1 warning, 2 advisories. Generate the report?",
+    "options": [
+      "Generate Excel + PDF",
+      "Critical findings only"
+    ],
+    "pick": [
+      0
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Build audit_report.xlsx — findings by risk grade"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Attach cited clauses + evidence excerpts"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Tag findings by verifier → performance signal"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Render audit_report.pdf (external)"
+    ]
+  },
+  {
+    "kind": "artifact",
+    "title": "audit_report.xlsx",
+    "desc": "EPD audit · concrete C30",
+    "lines": [
+      "1 critical · 1 warning · 2 advisories",
+      "Missing GWP-biogenic (A1) blocks registration",
+      "GWP-total recompute +2.9% vs declared",
+      "Every finding cites its EN 15804+A2 / PCR clause"
+    ]
+  }
+];
+
+export const epdAuditZh = [
+  {
+    "kind": "user",
+    "text": "注册前先审一遍 concrete_C30_EPD.pdf。EN 15804+A2 声明，预拌混凝土，声明单位 1 m³。我们是计划运营方。"
+  },
+  {
+    "kind": "think",
+    "text": "我跑完整审核管线——接收与分流、解析、十二个并发检查组 worker、合并、对参考数据和同类 EPD 做基准比对，再出风险分级报告。我是补充核查员的独立第二双眼睛，每条标记都落盘并附引用条款，监管方可回溯。"
+  },
+  {
+    "kind": "say",
+    "text": "阶段 0 — 接收与分流。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "拷贝材料 → work/intake/"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "打开 work/log.jsonl — 只追加审计轨迹"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "识别计划运营方 → EPD International"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "EPD International 拿不到背景 LCA 报告——本次审核是发布前唯一的第二次技术复核。据此收紧数据质量阈值。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "确定 PCR → PCR 2019:14"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "确定 c-PCR → 混凝土与水泥"
+    ]
+  },
+  {
+    "kind": "ask",
+    "q": "核查路径？",
+    "options": [
+      "独立核查员（逐 EPD 报告）",
+      "过程认证（GPI 5.0.1）"
+    ],
+    "pick": [
+      0
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "设置路径修饰 — 期望有核查员报告"
+    ]
+  },
+  {
+    "kind": "think",
+    "text": "阶段 1 — 解析 EPD 和支撑文件，再对照源 PDF 抽查解析器漏掉了什么。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "解析 concrete_C30_EPD.pdf — 18 页"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "提取抬头 — 声明单位、PCR 引用、有效期"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取模块 — A1 raw materials"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取模块 — A2 transport"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取模块 — A3 manufacturing"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取模块 — A4 transport to site"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取模块 — A5 installation"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取模块 — C1 deconstruction"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取模块 — C2 transport"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取模块 — C3 waste processing"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取模块 — C4 disposal"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取模块 — D reuse/recovery"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "提取指标 — GWP-total"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "提取指标 — GWP-fossil"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "提取指标 — GWP-biogenic"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "提取指标 — GWP-luluc"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "提取指标 — ODP"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "提取指标 — AP"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "提取指标 — EP-freshwater"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "提取指标 — EP-marine"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "提取指标 — EP-terrestrial"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "提取指标 — POCP"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "提取指标 — ADP-minerals/metals"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "提取指标 — ADP-fossil"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "提取指标 — WDP"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "解析数据质量附录（各模块 DQI）"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "解析情景附录 — A4 运输、C 末端"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "解析器漏了 C 模块表——p.12–13 是扫描图。从源文件重读。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "OCR p.12–13 → 恢复 C2–C4 数值"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "写入 extracted/epd_data.json + parser_gaps.md"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "解析置信度 高。13 指标 × 11 模块已捕获，1 处缺口已恢复。"
+  },
+  {
+    "kind": "think",
+    "text": "阶段 2 — 把十二个检查组作为并发 worker 派出。每个写一份发现文件和一份推理便签，便于后续审核者复核。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "派发 Group A — 格式与完整性"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "派发 Group B — PCR 2019:14 符合性"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "派发 Group C — EN 15804+A2 模块与指标"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "派发 Group D — LCA 方法学与边界"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "派发 Group E — 数据质量（DQI）与代表性"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "派发 Group F — 影响值合理性"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "派发 Group G — 核查员溯源与报告"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "派发 Group H — 生物质碳核算"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "派发 Group I — 分配与截断"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "派发 Group J — 跨 EPD 同类对比"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "派发 Group K — 单位与参考流一致性"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "派发 Group L — 情景（SF）假设"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group A → 通过"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group B → 通过"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group C → 1 严重"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group D → 通过"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group E → 1 警告"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group F → 转阶段 3"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group G → 通过"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group H → 通过"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group I → 1 提示"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group J → 转阶段 3"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group K → 通过"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Group L → 1 提示"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "Group C：A1 模块缺 GWP-biogenic——A2 下为强制项。严重。"
+  },
+  {
+    "kind": "say",
+    "text": "Group E：水泥数据集是 ecoinvent 3.7（2020），已被 3.12 取代。警告。"
+  },
+  {
+    "kind": "say",
+    "text": "Group I：矿渣副产用 70/30 经济分配，而 PCR 要求物理量低于 1% 阈值时按质量。提示。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "收集 12 组输出 + 轨迹文件"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "按 schema 校验发现"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "阶段 2.5 — 核查员严重度汇总 → tally.json"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "合并 → audit_state.json"
+    ]
+  },
+  {
+    "kind": "think",
+    "text": "阶段 3 — 把声明值对 HiQLCD 参考数据和同类样本做基准比对；标出离群值，但不把「偏高但有解释」当错误。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "查询 HiQLCD 参考 — C30 预拌混凝土（CN）"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "从注册库拉取同类 EPD #1"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "从注册库拉取同类 EPD #2"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "从注册库拉取同类 EPD #3"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "从注册库拉取同类 EPD #4"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "从注册库拉取同类 EPD #5"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "从注册库拉取同类 EPD #6"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "构建同类样本 → cohort.json"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "计算分布（IQR、分位数）→ distributions.json"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "离群检查 — GWP-total"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "离群检查 — AP"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "离群检查 — EP-marine"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "离群检查 — POCP"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "离群检查 — ADP-fossil"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "声明 GWP-total 241 kg CO₂e/m³ 处在第 88 百分位——偏高，但在上须线内。声明的水泥用量能解释。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "对比 A1–A3 拆分 vs 同类中位"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "A1（水泥）占比高于同类中位 8 个百分点——与声明配比一致，不标记。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "重算指标 — 水泥 → ecoinvent 3.12"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "重算 GWP-total 为 248 vs 声明 241（+2.9%）——在容差内，记给核查员。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "写入 benchmarks/comparison.json"
+    ]
+  },
+  {
+    "kind": "ask",
+    "q": "1 严重（A1 缺 GWP-biogenic）、1 警告、2 提示。生成报告？",
+    "options": [
+      "生成 Excel + PDF",
+      "只出严重项"
+    ],
+    "pick": [
+      0
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "生成 audit_report.xlsx — 按风险分级列发现"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "附引用条款 + 证据摘录"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "按核查员标记发现 → 表现信号"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "渲染 audit_report.pdf（对外）"
+    ]
+  },
+  {
+    "kind": "artifact",
+    "title": "audit_report.xlsx",
+    "desc": "EPD 审核 · 混凝土 C30",
+    "lines": [
+      "1 严重 · 1 警告 · 2 提示",
+      "缺 GWP-biogenic（A1）阻断注册",
+      "GWP-total 重算较声明 +2.9%",
+      "每条发现都引用 EN 15804+A2 / PCR 条款"
+    ]
+  }
+];

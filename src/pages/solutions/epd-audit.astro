@@ -4,6 +4,7 @@ import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 import Screencast from '@/components/Screencast.astro';
+import { epdAuditEn } from '@/data/demos';
 
 const title = 'EPD Audit for Programme Operators — HiQ Cortex';
 const description =
@@ -124,15 +125,7 @@ const videoUrl = '';
         <Screencast
           project="epd-review"
           title="Audit before registration"
-          steps={[
-            { kind: 'user', text: 'Audit concrete_C30_EPD.pdf before it goes to the verifier — EN 15804+A2 declaration for ready-mix concrete, declared unit 1 m³.' },
-            { kind: 'think', text: 'For an A2 declaration I check: declared unit and modules A1–A3 present, the GWP-total / -fossil / -biogenic / -luluc split, and whether each background dataset is current and regionally valid. I recompute the indicators from the cited datasets and flag what a verifier would bounce. Cement is where most errors hide.' },
-            { kind: 'task', items: ['Parse concrete_C30_EPD.pdf — modules A1–A3', 'Re-match 6 declared datasets to sources', 'Recompute EN 15804+A2 indicators', 'Check dataset vintage & geography'] },
-            { kind: 'say', text: 'Two findings. GWP-biogenic is missing from module A1, and the cement dataset is ecoinvent 3.7 (2020) — superseded.' },
-            { kind: 'ask', q: 'Cement → ecoinvent 3.7. Recompute against 3.12?', options: ['Recompute + show the delta', 'Flag only, keep declared values'], pick: [0] },
-            { kind: 'say', text: 'Recomputed GWP-total is 248 kg CO₂e/m³ vs 241 declared — +2.9%, inside tolerance but worth a note.' },
-            { kind: 'artifact', title: 'concrete_C30_audit.md', lines: ['2 findings — 1 blocker (missing GWP-biogenic, A1), 1 advisory', 'GWP-total recomputed: 248 vs 241 kg CO₂e/m³ (+2.9%)', 'Cement dataset: ecoinvent 3.7 → 3.12', 'Each finding cites its EN 15804+A2 clause'] },
-          ]}
+          steps={epdAuditEn}
         />
       </div>
     </div>
