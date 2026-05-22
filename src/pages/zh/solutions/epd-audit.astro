@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
+import Screencast from '@/components/Screencast.astro';
 
 const title = 'EPD 审核（面向项目运营方）— HiQ Cortex';
 const description =
@@ -114,6 +115,26 @@ const videoUrl = '';
     </div>
   </section>
   )}
+
+  <!-- Demo -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-16 md:py-20">
+      <p class="eyebrow mb-6">看它跑一遍</p>
+      <div class="mx-auto max-w-3xl">
+        <Screencast
+          label="Cortex Cowork"
+          steps={[
+            { kind: 'user', text: '把这份 EPD 的数据层在送审核前先审一遍。' },
+            { kind: 'think', text: '计划：逐个核对声明的数据集与来源，重算 EN 15804 指标，标出审核员会质疑的地方。' },
+            { kind: 'task', items: ['读取 EPD 与声明的数据集', '重算 EN 15804+A2 指标', '核对数据集版本与地区', '标记替代值与缺口'] },
+            { kind: 'say', text: 'A4 模块引用的数据集已被新版取代。' },
+            { kind: 'ask', q: 'A4 引用 Ecoinvent 3.9，更新到 3.12？', options: ['更新并重算', '保留，在报告中注明'], pick: [0] },
+            { kind: 'artifact', title: 'EPD_audit_notes.md', lines: ['GWP 总量重算 — 与声明值相差 3% 以内', '1 个数据集更新到当前版本', '1 个替代值已标记给审核员', '附方法论记录'] },
+          ]}
+        />
+      </div>
+    </div>
+  </section>
 
   <!-- §I 检查内容 -->
   <section class="border-t border-rule">

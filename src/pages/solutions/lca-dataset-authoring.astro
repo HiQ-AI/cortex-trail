@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
+import Screencast from '@/components/Screencast.astro';
 
 const title = 'LCA Dataset Authoring — HiQ Cortex';
 const description =
@@ -78,6 +79,25 @@ const checkpoints = [
     </div>
   </section>
   )}
+
+  <!-- Demo -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-16 md:py-20">
+      <p class="eyebrow mb-6">Watch it run</p>
+      <div class="mx-auto max-w-3xl">
+        <Screencast
+          label="Cortex Cowork"
+          steps={[
+            { kind: 'user', text: 'Help me build an ILCD-clean dataset for our anodizing line.' },
+            { kind: 'think', text: 'Plan: capture the foreground exchanges, match each input to background data with a source, set the reference flow, and keep it ILCD-valid as we go.' },
+            { kind: 'ask', q: 'Reference flow?', options: ['1 m² anodized surface', '1 kg part', '1 part'], pick: [0] },
+            { kind: 'task', items: ['Capture foreground exchanges', 'Match background data + cite sources', 'Set reference flow & units', 'Validate against ILCD'] },
+            { kind: 'artifact', title: 'anodizing_v1.zip · ILCD', lines: ['12 exchanges, every input sourced', 'Reference flow — 1 m²', 'ILCD-valid — 0 errors', 'Provenance the reviewer can follow'] },
+          ]}
+        />
+      </div>
+    </div>
+  </section>
 
   <!-- §I Five stages -->
   <section class="border-t border-rule">

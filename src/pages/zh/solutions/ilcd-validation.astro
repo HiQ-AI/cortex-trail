@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
+import Screencast from '@/components/Screencast.astro';
 
 const videoUrl = '';
 
@@ -63,6 +64,25 @@ const checkpoints = [
     </div>
   </section>
   )}
+
+  <!-- Demo -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-16 md:py-20">
+      <p class="eyebrow mb-6">看它跑一遍</p>
+      <div class="mx-auto max-w-3xl">
+        <Screencast
+          label="Cortex Cowork"
+          steps={[
+            { kind: 'user', text: '导入 openLCA 前，先把这份数据集对着 ILCD 校验一遍。' },
+            { kind: 'think', text: '计划：解析 ILCD XML，检查必填字段、单位、参考流、交换方向——把导入器会报的每个阻断项都列出来。' },
+            { kind: 'task', items: ['解析 ILCD XML', '检查必填字段', '校验单位与参考流', '检查交换方向'] },
+            { kind: 'say', text: '发现 3 个阻断项、2 个警告，每条都定位到行。' },
+            { kind: 'artifact', title: 'validation_report.md', lines: ['3 个错误 — 参考流单位缺失，…', '2 个警告 — 未声明不确定度', '每条都指向出错行', '改完重跑确认'] },
+          ]}
+        />
+      </div>
+    </div>
+  </section>
 
   <!-- §I 两项操作 -->
   <section class="border-t border-rule">

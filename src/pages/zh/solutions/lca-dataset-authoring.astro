@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
+import Screencast from '@/components/Screencast.astro';
 
 const videoUrl = '';
 
@@ -78,6 +79,25 @@ const checkpoints = [
     </div>
   </section>
   )}
+
+  <!-- Demo -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-16 md:py-20">
+      <p class="eyebrow mb-6">看它跑一遍</p>
+      <div class="mx-auto max-w-3xl">
+        <Screencast
+          label="Cortex Cowork"
+          steps={[
+            { kind: 'user', text: '帮我为我们的阳极氧化产线建一份 ILCD 规整的数据集。' },
+            { kind: 'think', text: '计划：采集前景交换，把每个输入匹配到带来源的背景数据，设定参考流，全程保持 ILCD 合规。' },
+            { kind: 'ask', q: '参考流？', options: ['1 m² 阳极氧化表面', '1 kg 零件', '1 个零件'], pick: [0] },
+            { kind: 'task', items: ['采集前景交换', '匹配背景数据并标注来源', '设定参考流与单位', '对照 ILCD 校验'] },
+            { kind: 'artifact', title: 'anodizing_v1.zip · ILCD', lines: ['12 条交换，每个输入都有来源', '参考流 — 1 m²', 'ILCD 校验通过 — 0 错误', '溯源可被评审追溯'] },
+          ]}
+        />
+      </div>
+    </div>
+  </section>
 
   <!-- §I 五个阶段 -->
   <section class="border-t border-rule">

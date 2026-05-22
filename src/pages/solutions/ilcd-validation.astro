@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
+import Screencast from '@/components/Screencast.astro';
 
 const title = 'ILCD Validation and Conversion — HiQ Cortex';
 const description =
@@ -63,6 +64,25 @@ const checkpoints = [
     </div>
   </section>
   )}
+
+  <!-- Demo -->
+  <section class="border-t border-rule" style="background: var(--paper-rim);">
+    <div class="container-page py-16 md:py-20">
+      <p class="eyebrow mb-6">Watch it run</p>
+      <div class="mx-auto max-w-3xl">
+        <Screencast
+          label="Cortex Cowork"
+          steps={[
+            { kind: 'user', text: 'Validate this dataset against ILCD before I import it into openLCA.' },
+            { kind: 'think', text: 'Plan: parse the ILCD XML, check mandatory fields, units, reference flow, and exchange directions — surface every blocker the importer would throw.' },
+            { kind: 'task', items: ['Parse the ILCD XML', 'Check mandatory fields', 'Validate units & reference flow', 'Check exchange directions'] },
+            { kind: 'say', text: 'Found 3 blockers and 2 warnings. Each is line-referenced.' },
+            { kind: 'artifact', title: 'validation_report.md', lines: ['3 errors — missing reference-flow unit, …', '2 warnings — uncertainty not declared', 'Each finding points to the offending line', 'Re-run after edits to confirm'] },
+          ]}
+        />
+      </div>
+    </div>
+  </section>
 
   <!-- §I Two operations -->
   <section class="border-t border-rule">
