@@ -7,6 +7,7 @@ locale: en
 ---
 
 import Screencast from '@/components/Screencast.astro';
+import { calcPcfEn } from '@/data/demos';
 
 Cortex does not replace your calculation engine. It operates one. Cowork handles the upstream work — reading the BOM, matching background data, flagging gaps — and then runs the product system and impact assessment in the engine you already use. This is a Cowork workflow, so it needs the Plus plan.
 
@@ -31,16 +32,8 @@ SimaPro, GaBi, and others are not connected today. If your work lives in one of 
 
 <Screencast
   project="304-bracket-pcf"
-  title="Cradle-to-gate PCF · 304 bracket"
-  steps={[
-    { kind: 'user', text: 'Cradle-to-gate PCF for the 304 bracket in bracket_bom.xlsx — 1 kg, IPCC AR6 GWP100. Model it in openLCA.' },
-    { kind: 'think', text: 'The BOM has three lines: 304 coil (0.82 kg), a passivation step, and inbound lorry transport. Plan — match each to background data (HiQLCD first for the China site, ecoinvent otherwise), build the product system in openLCA over IPC, run AR6 GWP100. The passivation step is the risk: there is rarely a clean dataset for it.' },
-    { kind: 'task', items: ['Read bracket_bom.xlsx — 3 lines', "Match 304 coil → ecoinvent 3.12 'steel production, chromium steel 18/8' (RER)", "Match transport → 'market for transport, freight, lorry 16-32t, EURO6'", 'Build product system in openLCA (IPC)'] },
-    { kind: 'say', text: 'Passivation has no direct dataset. Closest is nitric-acid surface treatment — it biases GWP slightly high.' },
-    { kind: 'ask', q: 'Passivation step — how should I handle it?', options: ['Proxy: nitric-acid treatment (bias ↑, flagged)', 'Cut off (<1% mass)', "I'll supply a dataset"], pick: [0] },
-    { kind: 'task', items: ['Run IPCC 2021 AR6 GWP100', 'Contribution analysis by process'] },
-    { kind: 'artifact', title: 'bracket_pcf_v1.xlsx', desc: '4 sheets', lines: ['GWP100 — 6.4 kg CO₂e / kg bracket', 'Hotspot — chromium steel, 71%', 'Passivation proxy flagged (bias ↑)', '7 decisions written to progress.md'] },
-  ]}
+  title="BOM → openLCA → LCIA"
+  steps={calcPcfEn}
 />
 
 ## What's recorded

@@ -3283,3 +3283,877 @@ export const ilcdValidationZh = [
     ]
   }
 ];
+
+export const calcPcfEn = [
+  {
+    "kind": "user",
+    "text": "Cradle-to-gate PCF for the 304 bracket in bracket_bom.xlsx — 1 kg, full midpoint. Match the data, then model and calculate it in openLCA."
+  },
+  {
+    "kind": "think",
+    "text": "Plan: read the BOM, match each line to background data across Cortex's databases, export the matches as JSON-LD, import them into openLCA, build the product system, pick an LCIA method, calculate, then read the contribution breakdown. First I'll confirm openLCA's IPC server is up — nothing else works without it."
+  },
+  {
+    "kind": "say",
+    "text": "Connecting to openLCA."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "ping openLCA IPC — localhost:8080"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "Connected. openLCA 2.1, database 'ecoinvent 3.12 cut-off' open."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "List databases — 1 open"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "List LCIA methods — 6 available"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Read bracket_bom.xlsx — 7 lines"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "lca-search — 304 stainless coil, 0.82 kg"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "lca-search — rolling electricity, 1.1 kWh"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "lca-search — drawing lubricant, 0.02 kg"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "lca-search — sulfuric acid (passivation), 0.05 kg"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "lca-search — deionised water, 3 kg"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "lca-search — lorry transport, 120 km"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "lca-search — corrugated packaging, 0.04 kg"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "6 of 7 matched with confidence. Passivation has no clean dataset — closest is a nitric-acid surface treatment, which biases GWP slightly high."
+  },
+  {
+    "kind": "ask",
+    "q": "Passivation — how should I handle it?",
+    "options": [
+      "Proxy: nitric-acid treatment (bias ↑, flagged)",
+      "Cut off (<1% mass)",
+      "I'll supply a dataset"
+    ],
+    "pick": [
+      0
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "match — 304 coil → ecoinvent 3.12 'steel, chromium 18/8' (RER)"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "match — electricity → HiQLCD 1.4 'CN grid mix'"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "match — lubricant → ecoinvent 3.12 'lubricating oil'"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "match — passivation → nitric-acid treatment (proxy)"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "match — DI water → ecoinvent 3.12 'water, deionised'"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "match — transport → 'lorry 16-32t, EURO6'"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "match — packaging → ecoinvent 3.12 'corrugated board'"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Score DQI per row — Pedigree 5 dims"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "Coverage 100% (1 proxy flagged). Exporting the matched set for openLCA."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Export matched data → JSON-LD (lca-format-validator)"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Validate JSON-LD against olca-schema"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "import-jsonld matched_bracket.zip → openLCA"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "Imported 7 foreground links; upstream chains already in ecoinvent 3.12."
+  },
+  {
+    "kind": "ask",
+    "q": "Reference process for the product system?",
+    "options": [
+      "304 stainless bracket, 1 kg",
+      "304 stainless coil"
+    ],
+    "pick": [
+      0
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "create-system '304 stainless bracket' (prefer unit processes)"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "auto-link upstream — chromium steel production"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "auto-link upstream — CN grid electricity"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "auto-link upstream — sulfuric acid market"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "auto-link upstream — lorry transport"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "auto-link upstream — corrugated board"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "auto-link upstream — water, deionised"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Resolve circular reference — electricity ↔ steel"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "Product system built — 7 foreground + 41 upstream processes linked."
+  },
+  {
+    "kind": "ask",
+    "q": "Which LCIA method?",
+    "options": [
+      "ReCiPe 2016 Midpoint (H) — 18 categories",
+      "IPCC 2021 GWP100a — carbon only",
+      "EF 3.1 — EU PEF"
+    ],
+    "pick": [
+      0
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "calculate — ReCiPe 2016 Midpoint (H), 1 kg"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "Calculation done. result_id cached for follow-up queries."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "result <id> impacts — 18 categories"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "read impact — climate change"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "read impact — fine particulate matter"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "read impact — terrestrial acidification"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "read impact — freshwater eutrophication"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "read impact — marine eutrophication"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "read impact — fossil resource scarcity"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "read impact — mineral resource scarcity"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "read impact — water consumption"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "read impact — ozone depletion"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "read impact — photochemical oxidant"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "read impact — human toxicity (cancer)"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "read impact — land use"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "result <id> contributions 'climate change'"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "contributor — chromium steel — 71%"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "contributor — grid electricity — 14%"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "contributor — passivation proxy — 6%"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "contributor — transport — 4%"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "contributor — packaging — 2%"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "result <id> flows — top elementary"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "flow — CO₂, fossil"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "flow — CH₄, fossil"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "flow — N₂O"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "flow — NOx"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Mass-balance sanity vs reference dataset"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "GWP100 is 6.4 kg CO₂e / kg bracket. Hotspot is chromium steel (71%). Order of magnitude matches the reference stainless dataset. The acid proxy carries a flagged upward bias."
+  },
+  {
+    "kind": "task",
+    "items": [
+      "result <id> dispose — free the calc"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "Export contribution analysis → bracket_pcf.xlsx"
+    ]
+  },
+  {
+    "kind": "artifact",
+    "title": "bracket_pcf.xlsx",
+    "desc": "ReCiPe 2016 Midpoint (H)",
+    "lines": [
+      "GWP100 — 6.4 kg CO₂e / kg bracket",
+      "18 midpoint categories computed",
+      "Hotspot — chromium steel, 71%",
+      "1 proxy flagged · model kept in openLCA"
+    ]
+  }
+];
+
+export const calcPcfZh = [
+  {
+    "kind": "user",
+    "text": "为 bracket_bom.xlsx 里的 304 支架做摇篮到大门 PCF——1 kg，全中点。先匹配数据，再在 openLCA 里建模计算。"
+  },
+  {
+    "kind": "think",
+    "text": "计划：读 BOM，把每行匹配到 Cortex 各数据库的背景数据，导出 JSON-LD，导入 openLCA，建产品系统，选 LCIA 方法，计算，再看贡献拆分。先确认 openLCA 的 IPC 服务在跑——否则一切免谈。"
+  },
+  {
+    "kind": "say",
+    "text": "连接 openLCA。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "ping openLCA IPC — localhost:8080"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "已连接。openLCA 2.1，数据库「ecoinvent 3.12 cut-off」已打开。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "列出数据库 — 1 个已打开"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "列出 LCIA 方法 — 6 个可用"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取 bracket_bom.xlsx — 7 行"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "lca-search — 304 不锈钢卷材, 0.82 kg"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "lca-search — 轧制电力, 1.1 kWh"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "lca-search — 拉伸润滑剂, 0.02 kg"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "lca-search — 硫酸（钝化）, 0.05 kg"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "lca-search — 去离子水, 3 kg"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "lca-search — 货车运输, 120 km"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "lca-search — 瓦楞包装, 0.04 kg"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "7 行中 6 行高置信匹配。钝化没有干净数据集——最接近的是硝酸表面处理，会把 GWP 略微抬高。"
+  },
+  {
+    "kind": "ask",
+    "q": "钝化——怎么处理？",
+    "options": [
+      "代理：硝酸处理（偏高，已标）",
+      "截断（<1% 质量）",
+      "我来提供数据集"
+    ],
+    "pick": [
+      0
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "匹配 — 304 卷材 → ecoinvent 3.12「steel, chromium 18/8」(RER)"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "匹配 — 电力 → HiQLCD 1.4「CN grid mix」"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "匹配 — 润滑剂 → ecoinvent 3.12「lubricating oil」"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "匹配 — 钝化 → 硝酸处理（代理）"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "匹配 — 去离子水 → ecoinvent 3.12「water, deionised」"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "匹配 — 运输 →「lorry 16-32t, EURO6」"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "匹配 — 包装 → ecoinvent 3.12「corrugated board」"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "逐行 DQI 打分 — Pedigree 五维"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "覆盖率 100%（1 个代理已标）。导出匹配集给 openLCA。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "导出匹配数据 → JSON-LD（lca-format-validator）"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "对 olca-schema 校验 JSON-LD"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "import-jsonld matched_bracket.zip → openLCA"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "导入 7 条前景链接；上游链已在 ecoinvent 3.12 里。"
+  },
+  {
+    "kind": "ask",
+    "q": "产品系统的参考过程？",
+    "options": [
+      "304 不锈钢支架, 1 kg",
+      "304 不锈钢卷材"
+    ],
+    "pick": [
+      0
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "create-system「304 不锈钢支架」（优先单元过程）"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "自动链接上游 — 铬钢生产"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "自动链接上游 — 中国电网电力"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "自动链接上游 — 硫酸 market"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "自动链接上游 — 货车运输"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "自动链接上游 — 瓦楞纸板"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "自动链接上游 — 去离子水"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "解决循环引用 — 电力 ↔ 钢"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "产品系统已建 — 7 前景 + 41 上游过程已链接。"
+  },
+  {
+    "kind": "ask",
+    "q": "用哪个 LCIA 方法？",
+    "options": [
+      "ReCiPe 2016 Midpoint (H) — 18 类",
+      "IPCC 2021 GWP100a — 仅碳",
+      "EF 3.1 — 欧盟 PEF"
+    ],
+    "pick": [
+      0
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "calculate — ReCiPe 2016 Midpoint (H), 1 kg"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "计算完成。result_id 已缓存供后续查询。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "result <id> impacts — 18 类"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取影响 — climate change"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取影响 — fine particulate matter"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取影响 — terrestrial acidification"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取影响 — freshwater eutrophication"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取影响 — marine eutrophication"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取影响 — fossil resource scarcity"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取影响 — mineral resource scarcity"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取影响 — water consumption"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取影响 — ozone depletion"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取影响 — photochemical oxidant"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取影响 — human toxicity (cancer)"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "读取影响 — land use"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "result <id> contributions「climate change」"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "贡献者 — 铬钢 — 71%"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "贡献者 — 电网电力 — 14%"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "贡献者 — 钝化代理 — 6%"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "贡献者 — 运输 — 4%"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "贡献者 — 包装 — 2%"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "result <id> flows — 主要基本流"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "基本流 — CO₂，化石"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "基本流 — CH₄，化石"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "基本流 — N₂O"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "基本流 — NOx"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "对参考数据集做物料平衡核对"
+    ]
+  },
+  {
+    "kind": "say",
+    "text": "GWP100 为 6.4 kg CO₂e / kg 支架。热点是铬钢（71%）。数量级与参考不锈钢数据集吻合。硫酸代理带一个已标记的偏高偏差。"
+  },
+  {
+    "kind": "task",
+    "items": [
+      "result <id> dispose — 释放计算"
+    ]
+  },
+  {
+    "kind": "task",
+    "items": [
+      "导出贡献分析 → bracket_pcf.xlsx"
+    ]
+  },
+  {
+    "kind": "artifact",
+    "title": "bracket_pcf.xlsx",
+    "desc": "ReCiPe 2016 Midpoint (H)",
+    "lines": [
+      "GWP100 — 6.4 kg CO₂e / kg 支架",
+      "18 个中点类别已算",
+      "热点 — 铬钢, 71%",
+      "1 个代理已标 · 模型保留在 openLCA"
+    ]
+  }
+];
