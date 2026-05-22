@@ -125,12 +125,13 @@ const videoUrl = '';
           project="epd-review"
           title="Audit before registration"
           steps={[
-            { kind: 'user', text: "Audit this EPD's data layer before it goes to the verifier." },
-            { kind: 'think', text: 'Plan: check each declared dataset against its source, recompute the EN 15804 indicators, flag anything a verifier would question.' },
-            { kind: 'task', items: ['Read EPD + declared datasets', 'Recompute EN 15804+A2 indicators', 'Check dataset versions & regions', 'Flag proxies and gaps'] },
-            { kind: 'say', text: 'Module A4 cites a dataset that has since been superseded.' },
-            { kind: 'ask', q: 'A4 cites Ecoinvent 3.9. Update to 3.12?', options: ['Update + re-run', 'Keep, note in report'], pick: [0] },
-            { kind: 'artifact', title: 'EPD_audit_notes.md', lines: ['GWP-total recomputed — within 3% of declared', '1 dataset updated to current version', '1 proxy flagged for the verifier', 'Methodology trail attached'] },
+            { kind: 'user', text: 'Audit concrete_C30_EPD.pdf before it goes to the verifier — EN 15804+A2 declaration for ready-mix concrete, declared unit 1 m³.' },
+            { kind: 'think', text: 'For an A2 declaration I check: declared unit and modules A1–A3 present, the GWP-total / -fossil / -biogenic / -luluc split, and whether each background dataset is current and regionally valid. I recompute the indicators from the cited datasets and flag what a verifier would bounce. Cement is where most errors hide.' },
+            { kind: 'task', items: ['Parse concrete_C30_EPD.pdf — modules A1–A3', 'Re-match 6 declared datasets to sources', 'Recompute EN 15804+A2 indicators', 'Check dataset vintage & geography'] },
+            { kind: 'say', text: 'Two findings. GWP-biogenic is missing from module A1, and the cement dataset is ecoinvent 3.7 (2020) — superseded.' },
+            { kind: 'ask', q: 'Cement → ecoinvent 3.7. Recompute against 3.12?', options: ['Recompute + show the delta', 'Flag only, keep declared values'], pick: [0] },
+            { kind: 'say', text: 'Recomputed GWP-total is 248 kg CO₂e/m³ vs 241 declared — +2.9%, inside tolerance but worth a note.' },
+            { kind: 'artifact', title: 'concrete_C30_audit.md', lines: ['2 findings — 1 blocker (missing GWP-biogenic, A1), 1 advisory', 'GWP-total recomputed: 248 vs 241 kg CO₂e/m³ (+2.9%)', 'Cement dataset: ecoinvent 3.7 → 3.12', 'Each finding cites its EN 15804+A2 clause'] },
           ]}
         />
       </div>

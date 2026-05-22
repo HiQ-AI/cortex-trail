@@ -33,13 +33,13 @@ SimaPro, GaBi, and others are not connected today. If your work lives in one of 
   project="304-bracket-pcf"
   title="Cradle-to-gate PCF · 304 bracket"
   steps={[
-    { kind: 'user', text: 'Run a cradle-to-gate PCF for our 304 stainless bracket — 1 kg, IPCC GWP100.' },
-    { kind: 'think', text: 'BOM has three inputs. Plan: match background data, build the product system in openLCA, run GWP100, pause on anything that would break an audit.' },
-    { kind: 'ask', q: 'System boundary?', options: ['Cradle-to-gate', 'Cradle-to-grave'], pick: [0] },
-    { kind: 'task', items: ['Match 304 stainless → Ecoinvent 3.12', 'Match electricity → grid factor (CN)', 'Build product system in openLCA', 'Run IPCC 2021 GWP100'] },
-    { kind: 'say', text: 'One row needs a decision — the passivation step has no direct dataset.' },
-    { kind: 'ask', q: 'Use a nitric-acid proxy for passivation?', options: ['Use proxy (bias flagged ↑)', 'Leave as a gap'], pick: [0] },
-    { kind: 'artifact', title: 'PCF_304_bracket.xlsx', lines: ['GWP100 — 6.2 kg CO₂e / kg', 'Top contributor — stainless steel, 72%', '1 proxy flagged · DQI scored per row', 'Every decision written to progress.md'] },
+    { kind: 'user', text: 'Cradle-to-gate PCF for the 304 bracket in bracket_bom.xlsx — 1 kg, IPCC AR6 GWP100. Model it in openLCA.' },
+    { kind: 'think', text: 'The BOM has three lines: 304 coil (0.82 kg), a passivation step, and inbound lorry transport. Plan — match each to background data (HiQLCD first for the China site, ecoinvent otherwise), build the product system in openLCA over IPC, run AR6 GWP100. The passivation step is the risk: there is rarely a clean dataset for it.' },
+    { kind: 'task', items: ['Read bracket_bom.xlsx — 3 lines', "Match 304 coil → ecoinvent 3.12 'steel production, chromium steel 18/8' (RER)", "Match transport → 'market for transport, freight, lorry 16-32t, EURO6'", 'Build product system in openLCA (IPC)'] },
+    { kind: 'say', text: 'Passivation has no direct dataset. Closest is nitric-acid surface treatment — it biases GWP slightly high.' },
+    { kind: 'ask', q: 'Passivation step — how should I handle it?', options: ['Proxy: nitric-acid treatment (bias ↑, flagged)', 'Cut off (<1% mass)', "I'll supply a dataset"], pick: [0] },
+    { kind: 'task', items: ['Run IPCC 2021 AR6 GWP100', 'Contribution analysis by process'] },
+    { kind: 'artifact', title: 'bracket_pcf_v1.xlsx', desc: '4 sheets', lines: ['GWP100 — 6.4 kg CO₂e / kg bracket', 'Hotspot — chromium steel, 71%', 'Passivation proxy flagged (bias ↑)', '7 decisions written to progress.md'] },
   ]}
 />
 
