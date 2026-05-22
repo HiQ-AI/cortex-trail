@@ -4,6 +4,7 @@ import DownloadButtons from '@/components/DownloadButtons.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 import Screencast from '@/components/Screencast.astro';
+import { ilcdValidationZh } from '@/data/demos';
 
 const videoUrl = '';
 
@@ -72,14 +73,8 @@ const checkpoints = [
       <div class="mx-auto max-w-3xl">
         <Screencast
           project="ilcd-import"
-          title="导入前校验"
-          steps={[
-            { kind: 'user', text: '导入 openLCA 前，先把 steel_rebar_CN.zip 对着 ILCD 校验一遍。' },
-            { kind: 'think', text: 'ILCD 校验是拿 XML 对 schema 跑：必填字段（UUID、参考流、参考年份）、单位一致性、交换方向，以及定量参考能否解析到包内的某条流。导入失败几乎都是参考流缺单位、或定量参考指向了不存在的对象。' },
-            { kind: 'task', items: ['解压并解析 ILCD XML — 1 条过程数据集', '检查必填字段', '对照参考流校验单位', '检查交换方向与流引用'] },
-            { kind: 'say', text: '3 个错误、2 个警告。参考流没有单位；两条技术圈交换指向的流 UUID 不在包内。' },
-            { kind: 'artifact', title: 'steel_rebar_CN.validation.md', lines: ['ERROR · L142 — 参考流缺单位', 'ERROR · L210, L233 — 交换的流 UUID 找不到', 'WARNING — 4 条流未声明不确定度', '改完 3 个错误，重跑，再导入'] },
-          ]}
+          title="校验 + 转换给 openLCA"
+          steps={ilcdValidationZh}
         />
       </div>
     </div>
