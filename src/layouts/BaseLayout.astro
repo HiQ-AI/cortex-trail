@@ -37,52 +37,6 @@ const lang = locale === 'zh' ? 'zh-CN' : 'en';
         }
       } catch (_) { /* localStorage unavailable, continue */ }
     </script>
-    <script is:inline>
-      // Cortex Desktop macOS download — fetch latest .dmg URL on click.
-      // Windows button is a hardcoded direct link (handled by browser).
-      (function () {
-        const API = 'https://api.github.com/repos/HiQ-AI/cortex-desktop/releases/latest';
-        const FALLBACK = 'https://github.com/HiQ-AI/cortex-desktop/releases/latest';
-        const CACHE_KEY = 'cortex.macDmgUrl';
-        const CACHE_TTL = 60 * 60 * 1000; // 1h
-
-        async function resolveMacDmgUrl() {
-          try {
-            const raw = localStorage.getItem(CACHE_KEY);
-            if (raw) {
-              const cached = JSON.parse(raw);
-              if (cached && Date.now() - cached.ts < CACHE_TTL && cached.url) {
-                return cached.url;
-              }
-            }
-          } catch (_) { /* cache unreadable, fall through */ }
-
-          const r = await fetch(API, { headers: { Accept: 'application/vnd.github+json' } });
-          if (!r.ok) throw new Error('github api ' + r.status);
-          const data = await r.json();
-          // Match macOS Apple Silicon .dmg (matches Cortex-X.Y.Z-arm64.dmg).
-          const asset = (data.assets || []).find(function (a) {
-            return /arm64.*\.dmg$/i.test(a.name);
-          }) || (data.assets || []).find(function (a) {
-            return /\.dmg$/i.test(a.name);
-          });
-          if (!asset) throw new Error('no dmg asset');
-          try {
-            localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), url: asset.browser_download_url }));
-          } catch (_) { /* storage full / blocked, ignore */ }
-          return asset.browser_download_url;
-        }
-
-        document.addEventListener('click', function (e) {
-          const a = e.target && e.target.closest && e.target.closest('a[data-cortex-download="mac"]');
-          if (!a) return;
-          e.preventDefault();
-          resolveMacDmgUrl()
-            .then(function (url) { window.location.href = url; })
-            .catch(function () { window.location.href = FALLBACK; });
-        });
-      })();
-    </script>
   </head>
   <body class="flex min-h-full flex-col font-serif" style="font-variation-settings: 'opsz' 16;">
     <Header locale={locale} />

@@ -2,12 +2,12 @@
 /**
  * Cortex Desktop download buttons (macOS arm64 + Windows .exe).
  *
- * macOS: data-cortex-download="mac" — global click handler in BaseLayout
- *   fetches GitHub API for the latest .dmg asset and redirects directly.
- *   Falls back to the GitHub release page if the API is unreachable.
- * Windows: hardcoded to releases/latest/download/Cortex-Setup.exe —
- *   electron-builder publishes that file without a version suffix, so
- *   GitHub's stable redirect always points to the latest build.
+ * 链接直指自建 CDN download.hiq.earth（AWS S3 + CloudFront，中国不被墙）：
+ *   latest/Cortex-arm64.dmg / latest/Cortex-Setup.exe —— 稳定名，每版发布由 CI
+ *   覆盖（cortex 仓 desktop-release.yml 的 mirror-cdn job），官网链接永不需改。
+ *
+ * 之前 mac 走 GitHub API 查最新 .dmg、win 硬编码 github releases —— 两者都撞被墙
+ * 的 GitHub，中国用户下载失败。改直链 CDN 后不再需要 BaseLayout 里那段 mac 解析 JS。
  *
  * Both anchors render in the parent flex container; no wrapper element.
  */
@@ -27,15 +27,15 @@ const labels = {
 }[locale];
 
 const macClass = primary === 'mac' ? 'ticket' : 'ticket-ghost';
-const winClass = primary === 'mac' ? 'ticket-ghost' : 'ticket-ghost';
+const winClass = 'ticket-ghost';
 
-const WIN_DIRECT = 'https://github.com/HiQ-AI/cortex-desktop/releases/latest/download/Cortex-Setup.exe';
-const RELEASES_FALLBACK = 'https://github.com/HiQ-AI/cortex-desktop/releases/latest';
+const MAC_DIRECT = 'https://download.hiq.earth/latest/Cortex-arm64.dmg';
+const WIN_DIRECT = 'https://download.hiq.earth/latest/Cortex-Setup.exe';
 ---
 
-<a href={RELEASES_FALLBACK} class={macClass} data-cortex-download="mac">
+<a href={MAC_DIRECT} class={macClass}>
   {labels.mac} <span aria-hidden="true">→</span>
 </a>
-<a href={WIN_DIRECT} class={winClass} data-cortex-download="win">
+<a href={WIN_DIRECT} class={winClass}>
   {labels.win} <span aria-hidden="true">→</span>
 </a>
