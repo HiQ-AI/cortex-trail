@@ -3,6 +3,7 @@ import '@/styles/global.css';
 import SiteHead from '@/components/SiteHead.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import { pathCounterparts, makeAlternates, type Alternate } from '@/lib/seo';
 
 interface Props {
   title: string;
@@ -10,16 +11,52 @@ interface Props {
   locale?: 'en' | 'zh';
   canonical?: string;
   ogImage?: string;
+  /** Override the auto-computed hreflang set (blog posts need this). */
+  alternates?: Alternate[];
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
 }
 
-const { title, description, locale = 'en', canonical, ogImage } = Astro.props;
+const {
+  title,
+  description,
+  locale = 'en',
+  canonical,
+  ogImage,
+  alternates,
+  ogType,
+  publishedTime,
+  modifiedTime,
+  jsonLd,
+  noindex,
+} = Astro.props;
 const lang = locale === 'zh' ? 'zh-CN' : 'en';
+
+// Auto-pair en/zh for prefix-routed pages; pages with a non-standard
+// counterpart (blog posts) pass `alternates` explicitly.
+const { en, zh } = pathCounterparts(Astro.url.pathname, locale);
+const resolvedAlternates = alternates ?? makeAlternates(Astro.site, en, zh);
 ---
 
 <!doctype html>
 <html lang={lang} class="h-full">
   <head>
-    <SiteHead title={title} description={description} canonical={canonical} ogImage={ogImage} />
+    <SiteHead
+      title={title}
+      description={description}
+      canonical={canonical}
+      ogImage={ogImage}
+      locale={locale}
+      alternates={resolvedAlternates}
+      ogType={ogType}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      jsonLd={jsonLd}
+      noindex={noindex}
+    />
     <script is:inline define:vars={{ pageLocale: locale }}>
       // Language preference persistence.
       // 1. Save current page's locale to localStorage so future root visits remember.

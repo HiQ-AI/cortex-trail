@@ -3,10 +3,13 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 import DownloadButtons from '@/components/DownloadButtons.astro';
+import { organizationLd, websiteLd } from '@/lib/seo';
 
 const title = 'HiQ Cortex — An LCA workbench you can defend, line by line.';
 const description =
   'Unlike general AI, Cortex is built specifically for LCA: authoritative databases, direct integration with professional LCA software, full reasoning chain at every step.';
+
+const jsonLd = [organizationLd(), websiteLd()];
 
 // Two products — body trimmed for landing-page weight
 const products = [
@@ -37,7 +40,7 @@ const scenarios = [
 ];
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
 
   <!-- ═══ Hero ═══ -->
   <section class="relative overflow-hidden">

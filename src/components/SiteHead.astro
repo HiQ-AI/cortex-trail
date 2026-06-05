@@ -1,14 +1,41 @@
 ---
+import { SITE, type Alternate, type Locale } from '@/lib/seo';
+
 interface Props {
   title: string;
   description: string;
   canonical?: string;
   ogImage?: string;
+  locale?: Locale;
+  alternates?: Alternate[];
+  /** 'website' (default) or 'article' for blog posts. */
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  /** One or more JSON-LD objects to embed. */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
 }
 
-const { title, description, canonical, ogImage = '/og-default.png' } = Astro.props;
+const {
+  title,
+  description,
+  canonical,
+  ogImage = '/og-default.png',
+  locale = 'en',
+  alternates = [],
+  ogType = 'website',
+  publishedTime,
+  modifiedTime,
+  jsonLd,
+  noindex = false,
+} = Astro.props;
+
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
 const resolvedOg = new URL(ogImage, Astro.site).toString();
+const ogLocale = locale === 'zh' ? 'zh_CN' : 'en_US';
+const ogLocaleAlt = locale === 'zh' ? 'en_US' : 'zh_CN';
+const ldBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
 
 <meta charset="utf-8" />
@@ -18,12 +45,31 @@ const resolvedOg = new URL(ogImage, Astro.site).toString();
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonicalURL} />
+{noindex
+  ? <meta name="robots" content="noindex, nofollow" />
+  : <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />}
 
-<meta property="og:type" content="website" />
+{/* Language alternates — critical for the bilingual en/zh site. */}
+{alternates.map((alt) => (
+  <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+))}
+
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content={ogLocale} />
+<meta property="og:locale:alternate" content={ogLocaleAlt} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:image" content={resolvedOg} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+{ogType === 'article' && publishedTime && (
+  <meta property="article:published_time" content={publishedTime} />
+)}
+{ogType === 'article' && modifiedTime && (
+  <meta property="article:modified_time" content={modifiedTime} />
+)}
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
@@ -32,6 +78,10 @@ const resolvedOg = new URL(ogImage, Astro.site).toString();
 
 <link rel="icon" type="image/svg+xml" href="/snail.svg" />
 <link rel="sitemap" href="/sitemap-index.xml" />
+
+{ldBlocks.map((block) => (
+  <script type="application/ld+json" set:html={JSON.stringify(block)} />
+))}
 
 <!-- Theme bootstrap — read before paint to avoid flash of wrong theme.
      Default is light; respects the user's manual choice persisted to localStorage. -->
