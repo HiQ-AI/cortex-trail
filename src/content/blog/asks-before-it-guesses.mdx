@@ -1,0 +1,49 @@
+---
+title: "A Tool That Asks Before It Guesses"
+description: "An LCA number you can defend in front of a verifier needs a tool that pauses where automation would break an audit — and returns the decision to you."
+publishDate: 2026-05-08
+pillar: "dispatch"
+tags: ["human-in-the-loop","emission-factors","audit","system-model","slow-dispatch"]
+locale: en
+draft: false
+---
+
+<span class="dropcap">T</span>he first time a verifier asks you to defend an emission factor you did not choose, you learn what your tools are worth. A row in a 200-line BOM — 304 stainless steel, no region named — came back with a clean GWP100 value. Confident. Single number. Then the verifier asked the only question that mattered: where did this come from, and why this one and not the other three. The tool that produced it had no answer. It had an output.
+
+That is the gap this dispatch is about: the distance between an answer and an answer you can defend. It is wider than most LCA software wants you to believe, and the thing that closes it is not a faster model. It is a tool that knows when to stop and ask you.
+
+## The cost of a confident guess
+
+A model that always answers is easy to build and dangerous to file. Stainless steel is the small example. Ask fourteen LCA databases for the same material and you will sometimes get factors that differ by more than 2× — Ecoinvent at cut-off, an EF dataset, a CarbonMinds record, each modeling a different route, a different region, a different reference year. A tool eager to hand you one number has to suppress that spread to do it. It picks. It smooths. It moves on.
+
+You inherit the picking. When the auditor walks the chain back, the choice was made by software that cannot be cross-examined, on grounds it did not record. The number is not wrong, exactly. It is undefended. And undefended is the one thing a CBAM declaration or an ISO 14067 calculation file cannot afford to be.
+
+This is the quiet failure of automation in this field. The work that looks automatable — match the row, return the factor — is exactly the work where a wrong silent decision is most expensive, because it surfaces months later in front of a person whose job is to doubt it.
+
+## Where a snail would stop
+
+Cortex is built to slow down at the points where speed would cost you the audit. It searches fourteen LCA databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — in parallel, and returns top-k, not top-1. Every candidate carries its GWP100 value, region, system model, source record, and a DQI score across five dimensions — Temporal, Geographic, Technology, Completeness, Reliability — in the lineage of the ecoinvent Pedigree Matrix. You see the spread. You see the lineage.
+
+And then, at certain moments, Cortex stops and hands the decision back to you. It pauses where automation would break an audit. When fewer than 80% of BOM rows match with confidence. When the closest dataset is a proxy and not an exact fit. When the same material returns factors more than 2× apart across databases. When a dataset is licensed and you have no access — Cortex will not quietly substitute a literature value to keep the run moving. When the system-model match is ambiguous, cut-off versus APOS versus consequential, and choosing wrong can change the recycled-content accounting materially — in some boundaries roughly doubling the result.
+
+These are not an exhaustive list, and Cortex does not number them. They are the moments a verifier will circle. The practitioner decides at each one, and the decision is recorded in the reasoning chain — what was asked, what you chose, why. The same way a careful snail leaves a trail you can walk back.
+
+> An answer is a number. A defensible answer is a number with the decisions that produced it still attached.
+
+## It does not guess your system model
+
+The temptation in this market is to ship the tool that decides everything, because deciding everything demos well. Cut-off or APOS? The eager tool picks for you, silently, and the demo flows. But system model is not a detail Cortex is allowed to choose on your behalf — pick the wrong one and the recycled-content accounting can shift the result by tens of percent, and in some boundaries roughly double it. So Cortex returns the system model with every dataset and refuses to mix them silently. When the match is ambiguous, that is a stop, not a default.
+
+The same restraint holds at the boundary of what Cortex is. It does not run the calculation. It connects to and operates the engine you already use — openLCA, brightway, 积木LCA — matching background datasets, building the product system, driving the run. It does not replace the engine. It drives it. For SimaPro and GaBi, that door is open; the invitation stands.
+
+And it does not file for you. Cortex produces a reasoning chain, aligned with ISO 14067, GHG Protocol, and CBAM reporting requirements. The practitioner files. Alignment is a property of the work; certification is the verifier's act, and a tool cannot hand you either by clicking a button.
+
+## What the trail is for
+
+The promise of automation in LCA was always that the machine would do the judgment too. That promise is the one to be suspicious of. The judgment — which proxy is honest, which spread is tolerable, which system model the study actually requires — is the practitioner's, and it is the part a verifier is paid to test.
+
+So the design question is not how to remove you from the loop. It is how to keep your judgment in it without making you re-derive every row by hand. Cortex does the parallel search across fourteen databases, scores every candidate, surfaces the spread, and then stops at the four or five rows per hundred where a human actually has to decide. The rest it moves through. The decisions it cannot defend on its own, it returns to you — and writes down what you chose.
+
+It does not replace experts. It scales their judgment.
+
+Start with one row you have to defend. Bring the stainless steel. Ask Cortex what the spread looks like, and watch where it stops — then file the number you can stand behind. [cortex.hiq.earth/chat](https://cortex.hiq.earth/chat)

@@ -1,0 +1,67 @@
+---
+title: "The Impossible Electricity Figure Your Steel BOM Will Hide From You"
+description: "A real crude-steel BOM listed coking electricity at 70x the whole plant — a magnitude error no format or eyeball check catches. How Cortex Cowork's mass-energy balance back-calculates the true value and flags the slip."
+publishDate: 2026-05-29
+pillar: "audit"
+tags: ["audit","data-quality","BOM","steel","DQI"]
+locale: en
+draft: false
+---
+
+<span class="dropcap">O</span>ne row in the coking process said the plant burned 6,649,140 万kWh of mixed-grid electricity. The whole plant — twelve processes, 2,093,927 t/yr of crude steel and billet — drew 95,503 万kWh. A single sub-process claimed seventy times the entire site: not a hot process, an impossibility. Nobody typed that number to deceive anyone. Somewhere in the data entry, a figure landed in the wrong unit field at the wrong magnitude. It sat in the BOM, looking like data.
+
+This is the kind of mistake your spreadsheet will not catch, your eye will not catch on a fast read, and your auditor will catch — at the worst possible time, after you have built the product system on top of it.
+
+---
+
+## The error that survives every review
+
+A magnitude error like this is invisible to the checks people actually run. It passes a format check: it is a number, in the right column, with the right unit string beside it. What it does not survive is one test — the mass and energy balance — and that test is tedious enough that, on a 12-process BOM with 85 purchased materials, almost nobody runs it by hand. The honest reason the slip rides forward is not that the number looks plausible; a sub-process at seventy times the whole site is not plausible to anyone who stops to add it up. The reason is that nobody stops to add it up.
+
+So the number rides forward. It gets matched to a grid-electricity emission factor. It gets multiplied. And the coking stage of one crude-steel producer now reports an electricity burden that exceeds the rest of the plant combined by a wide margin. Every downstream result — the per-tonne footprint, the contribution analysis, the precursor-input figure in your own carbon model — inherits the slip.
+
+The only honest way to recover the true value is to back-calculate from the plant electricity balance: total draw minus what the other processes account for. Do that here and coking lands near 9,838 万kWh. Against that, the entered 6,649,140 is roughly 676 times too high — two orders of magnitude past anything the balance can hold. The exact data-entry cause matters less than the fact the balance flushes it out: a magnitude error that no eyeball, and no format check, was ever going to find.
+
+---
+
+## Where Cortex Cowork reads it
+
+Cortex Cowork opened this producer's Excel BOM in place — no re-keying, no import schema, no separate database to populate. Twelve processes: six main smelting steps, six auxiliary. It matched purchased materials across fourteen LCA databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — and reported the match rate plainly: 71 of 85 materials matched, 83.5%.
+
+Then it ran the balance the reviewer rarely has time for. The coking electricity figure did not reconcile with the plant total, so Cortex flagged it: this value exceeds the whole-plant electricity draw, here is the plant balance, here is the back-calculated figure of 9,838 万kWh, this reads as a magnitude error against the rest of the site. It did not overwrite the cell. It returned the anomaly with its reasoning to the project decision log and left the correction to you.
+
+> Cortex flags the number and returns the decision. It does not quietly write 9,838 into the cell and move on.
+
+That distinction is the whole point. A tool that silently "fixes" the value has made an unrecorded modeling choice on your behalf — the kind of choice a verifier will ask you to defend, and you will have no answer because you never saw it happen. Cortex pauses where automation would break an audit. The practitioner decides; the decision is recorded in the reasoning chain.
+
+---
+
+## The gaps are louder than the slip
+
+The magnitude error is one of 45 data-quality issues Cortex surfaced in this BOM. The two that should worry you more than any single wrong number are the ones where the number is missing entirely.
+
+Air emissions — SOx, NOx, particulates — were blank across all twelve processes. For a crude-steel system, those are not optional fields; they are the difference between a model that describes a steelworks and one that describes an idealized furnace. External transport distances were empty too, every process row. You cannot characterize upstream transport with no distance, and you cannot quietly assume one without inventing data.
+
+A confident number is dangerous because it looks finished. A blank field at least announces itself. The trouble is that a 100-row BOM has enough blanks that the important ones hide among the harmless ones — and the human eye triages by what is filled in, not by what is absent. Cortex inverts that: it scores Completeness as one of its five DQI dimensions — Temporal, Geographic, Technology, Completeness, Reliability, in the Pedigree-Matrix lineage that LCA practitioners already know — and reports the empty SOx column with the same weight as a wrong cell, because to the final result they cost the same.
+
+---
+
+## Why a reasoning chain, not a corrected file
+
+You could imagine a tool that takes the BOM, cleans it, and hands back a tidy version with the coking figure fixed, the emissions interpolated, the transport distances estimated from plant location. That tool would be faster. It would also be useless to a verifier, because every one of those repairs is a judgment call with no author.
+
+Cortex's output is the opposite: the original cells, untouched, plus a record of what it questioned and why. The coking flag carries its arithmetic — plant total, other-process draw, residual, the magnitude gap it could not reconcile. The blank-emissions flag names the affected processes and the DQI dimension it scored down. When your auditor asks "how did you handle the coking anomaly," you open the decision log and read back the reasoning, including the part where you, not the software, chose the corrected value.
+
+The same discipline runs upstream of the model: Cortex prepares and screens the data, surfaces what fails the balance, and hands the modeling decisions back to you with their provenance attached. None of this is an audit certification. It is the data-quality discipline ISO 14044 requires and a CBAM verifier will expect — a reasoning chain you can walk, not a black box you have to trust. (A note on scope: this slip propagates through your own LCA and product carbon footprint. A CBAM declaration reports precursor emissions from installation-specific actual data, not a background-factor match — but the same data discipline is what keeps either defensible.)
+
+When the model itself runs, Cortex connects to and operates the engine you already work in — openLCA, brightway, 积木LCA. It does not replace the engine; it drives it.
+
+---
+
+## What to check on your own BOM tonight
+
+Find your most energy-intensive sub-process and add up the electricity across every process. If one line rivals or beats the total, you have a unit error, not a hot process. Then scan for the blanks that matter — air emissions on combustion-heavy steps, transport distances on anything purchased — and ask whether a missing field has been quietly filled somewhere downstream.
+
+Or open the BOM in Cortex Cowork and let it run the balance once. 2,093,927 tonnes of crude steel rode on a number that no one had added up. The arithmetic that catches it is not hard. It is never run — until something runs it every time, and writes down what it found.
+
+Ask Cortex about a BOM row → cortex.hiq.earth/chat

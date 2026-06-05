@@ -1,0 +1,57 @@
+---
+title: "Match Your BOM to Emission Factors Without Averaging"
+description: "A 100-row BOM is 100 claims your auditor can question. Here is how to match it to Scope 3 Category 1 emission factors without averaging, fabricating, or losing the trail."
+publishDate: 2026-05-23
+pillar: "audit"
+tags: ["audit","scope-3","bom-matching","emission-factors","dqi"]
+locale: en
+draft: false
+---
+
+<span class="dropcap">A</span> 100-row BOM is not a number. It is 100 separate claims, each of which an auditor can ask you to defend. Average them into a single product carbon footprint and you have buried every one of those claims under a figure no one can walk back. The auditor's question is never "what is the number." It is "where did this row come from."
+
+This is the problem with most of how Scope 3 Category 1 — Purchased goods and services — gets matched at the BOM-row level today. A row says "aluminum sheet." A tool returns one factor. The factor goes into the model. The model returns a footprint. Somewhere in that chain, the spread between databases got collapsed, a proxy got chosen for you, and the reasoning that justified both got lost. You file. The auditor asks. You cannot answer, because the answer was discarded three steps upstream.
+
+There is a way to match a BOM to emission factors that does not average and does not fabricate. It starts by refusing to return a single number.
+
+## Top-k, not top-1
+
+Cortex matches your BOM across fourteen LCA databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — and returns the top candidates per row, not the top one. Each candidate carries what you need to choose between them: a GWP100 value, its unit, the geographic region, the system model (cut-off, APOS, or consequential), the source URL, and a DQI score across five dimensions — Temporal, Geographic, Technology, Completeness, Reliability — a normalized read on the Pedigree-Matrix lineage that LCA practitioners already know.
+
+That is the whole argument. A single returned factor hides the decision; a ranked list of candidates exposes it. When "aluminum sheet, China" returns one Ecoinvent cut-off record at one GWP100 value and an EF record at a value more than twice as high, that gap is not noise to be averaged away. It is information. It tells you the two databases disagree about this material, and it tells you that you — not a model — get to decide which one your study can defend.
+
+Averaging destroys exactly this. It takes a real disagreement between two datasets built on different system boundaries and produces a third number that describes no dataset at all. The auditor cannot trace it, because there is nothing to trace.
+
+## How the matching narrows
+
+The match is tiered, and the tier is visible. Cortex looks first for the same item, then the close family, then equivalent use, then a generic entry. A 304 stainless steel row that finds a 304 stainless steel dataset is a same-item match. A 316 grade resolved against a 304 record is a close-family proxy — and the DQI delta and region deviation are named, not hidden.
+
+This matters because the tier is the honest description of how confident the match is. A generic-entry match and a same-item match are not the same claim, and copy that treats them as one factor is lying by omission. The tier travels with the candidate. So does the DQI score. So does the source URL. When you export, the full provenance goes with it: the practitioner who opens the file in three weeks, or the verifier who opens it in three months, sees which row was an exact match and which was a proxy, and why.
+
+To make the speed concrete: a 100-row BOM, matched by parallel cross-database search with DQI-scored candidates per row, typically resolves in about 10 minutes. The speed is not the point. The point is that nothing in those 10 minutes is silent.
+
+> Average two datasets and you describe neither. The auditor cannot trace a number that came from nowhere.
+
+## Where Cortex stops
+
+Most of a BOM resolves cleanly. The rows that do not are the rows your auditor will circle, and those are the rows Cortex refuses to pass through on its own.
+
+Cortex pauses where automation would break an audit. When coverage falls below 80% — too many rows without a confident match — it stops and returns the decision to you. When the closest dataset is not an exact fit and a proxy substitution is required, it stops. When the same material returns a cross-database spread above 2×, it surfaces the spread and asks rather than picking a side. When a restricted dataset has no GWP because you lack access, it marks the row instead of quietly filling in a literature value.
+
+These are not numbered gates and not an exhaustive list. They are the places where a model continuing on its own would manufacture a claim you would later have to retract. At each one, the practitioner decides, and the decision is recorded in the reasoning chain. The export carries the choice and its justification, so the file you hand to a verifier already answers "why this proxy" before the question is asked.
+
+This is the line between a tool that drives an audit-grade workflow and one that produces a number. Cortex does not replace your judgment about a proxy. It scales it: it finds the candidates, scores them, names the deviation, and hands you the call.
+
+## What you file
+
+Cortex produces a reasoning chain. You file. There is no auto-submission of a CBAM declaration or an EPD, and there is no certification claim — the output is built for alignment with ISO 14067 and the GHG Protocol Product Life Cycle Accounting and Reporting Standard, but the verification is the verifier's act and the filing is yours.
+
+Category 1 — Purchased goods and services — is where this applies most directly: BOM-row-level factor matching is what the whole tiered, top-k, DQI-scored pipeline is for. Other Scope 3 categories use different methods and data, and this is not a claim to cover them. And when the calculation has to run in your modeling tool, Cortex connects to and operates the engine — openLCA, brightway, 积木LCA — building the product system and running the calculation inside the tool you already use. It does not replace the engine; it drives it.
+
+The result is a BOM matched to emission factors with no averaging and no single fabricated number. You see the spread. You see the tier. You see the DQI. Where automation would break the audit, Cortex stops and hands the decision back. Every row you file, you can defend — line by line, back to a source URL.
+
+## The trail is the product
+
+A footprint is one number. An audit is the path to it. Match your BOM without averaging and the path stays intact: every row traceable to a dataset, every proxy named, every disagreement preserved instead of dissolved.
+
+Upload a BOM at cortex.hiq.earth/chat, or talk to us at lizj@hiqlcd.com.
