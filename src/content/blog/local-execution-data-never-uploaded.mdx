@@ -1,0 +1,53 @@
+---
+title: "Your BOM Is Not the Price of Admission"
+description: "Most LCA tools make you upload your BOM and cost sheet to get an answer. Cortex Cowork keeps the file on your machine and sends the reasoning to it instead."
+publishDate: 2026-05-11
+pillar: "dispatch"
+tags: ["dispatch","data-privacy","cortex-cowork","bom","local-first"]
+locale: "en"
+draft: false
+---
+
+<span class="dropcap">T</span>here is a moment, every LCA practitioner knows it, where a tool asks you to upload the file. The BOM with your supplier's part numbers. The cost sheet your procurement team negotiated for two quarters. The spreadsheet that, read sideways, is a map of who you buy from and what you pay. You hover over the button. You think about the contract clause your legal team flagged. You close the tab and go back to doing it by hand.
+
+That hesitation is the right instinct. Most LCA software treats your supply-chain data as the price of admission: hand it over, and the tool will tell you something about it. The trade is so normal that nobody names it anymore. But the BOM is not yours to give away. It is the supplier's part numbers, the procurement team's pricing, the competitive shape of how your product gets made.
+
+## The trade nobody names
+
+The reason tools ask for the upload is architectural, not malicious. The reasoning happens on their servers. To reason over your file, the file has to be where the reasoning is. So the file goes up.
+
+This is fine for a material name typed into a search box. It is not fine for a 400-row BOM where column C is supplier and column D is unit cost. The two are not the same kind of data, but the upload button treats them as if they were.
+
+The defensive answer the industry reaches for is "secure". Encrypted in transit. SOC 2. A data-processing addendum. These are real, and they are also beside the point. "Secure" describes how well your data is guarded after it has left your machine. It does not address the prior question: did it need to leave at all?
+
+## Where each thing happens
+
+Cortex Cowork answers that question by splitting the work along a clean line. The split is the whole design, so it is worth being concrete about which side does what.
+
+The cloud handles the reasoning: planning the task, deciding what to look up, and searching across fourteen LCA databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others. That is the part that benefits from sitting next to large models and a maintained index. It is also the part that needs to know *nothing* about your supplier.
+
+Your computer handles everything that touches your data. Cortex Cowork runs on your machine — macOS on Apple Silicon or Intel, Windows, Linux — with no configuration to perform. It reads and writes the files in your project folder, searches them, runs local tools, and keeps the workspace and the conversation history on disk. Your BOM, your cost sheet, your supply-chain mapping: read in place, never sent up.
+
+> Think in the cloud, act locally. The reasoning comes to your data. Your data does not go to the reasoning.
+
+What crosses the line is the question — "find a GWP100 factor for 304 stainless, EU, cut-off" — not the row it came from. The model can tell Cortex *what* to look for without ever seeing the file the row lives in.
+
+## The snail keeps its shell
+
+A snail does not mail its shell ahead and travel light. The shell goes where the snail goes; the two are not separable, and that is the point of having one. Your project data is your shell. Cortex is built so the data stays attached to you and the intelligence travels to meet it.
+
+Concretely, that means the things you would worry about staying put. Files never leave the device. Project memory — the decision log, the proxy substitutions you approved in week one, the client conventions in the project wiki — lives locally. Cortex does not federate data across customers; nothing you do in one project surfaces in someone else's. The next practitioner who opens the workspace sees your reasoning because it is on the same disk, not because it round-tripped through a shared server.
+
+## It still drives your tools
+
+Local does not mean isolated. The same machine that holds your BOM also runs your modeling engine, and Cortex works there too. It connects to and operates openLCA, brightway, and 积木LCA: matching background datasets, building the product system, running the calculation. It does not replace the engine — it drives it. You keep working in the tool you already trust, and the engine never has to reach across a network to a place you can't see.
+
+And where automation would quietly break an audit, Cortex stops and hands the decision back. Coverage too thin to defend. A proxy that is close but not the same region. The same material returning factors that differ by more than 2× across databases. A restricted dataset you don't yet have access to. The practitioner decides; the decision is recorded in the reasoning chain. None of that requires your file to be anywhere but in front of you.
+
+## Local, on purpose
+
+The upload button asks you to trade your supply-chain data for an answer. You have been right to hesitate. The better arrangement is the one where you never have to make the trade: the intelligence comes to your data, does its work beside it, and leaves the file where it started — on your machine, in your folder, under your control.
+
+Slow is fine. Local is the promise.
+
+Try it on a real BOM — download Cortex Cowork for macOS, Windows, or Linux, or write to us at lizj@hiqlcd.com.

@@ -1,0 +1,45 @@
+---
+title: "China Provincial Grid vs National Average: The Factor Your Auditor Will Question"
+description: "A national-average China grid factor looks defensible and fails its own audit. Fix the province and year first, and score the DQI Geographic dimension before you file."
+publishDate: 2026-06-01
+pillar: "audit"
+tags: ["audit","china-grid","emission-factors","dqi","cbam","data-quality"]
+locale: "en"
+draft: false
+---
+
+<span class="dropcap">Y</span>our supplier in Yunnan runs a smelter on hydropower. Your supplier in Inner Mongolia runs the same process on a coal-heavy grid. Your study lists one input for both: "China electricity." Your verifier opens the file, finds a national-average grid factor behind that input, and asks the question you didn't: which province? That one substitution can move the embedded-emissions number more than any other line in the bill of materials — and it is the line most spreadsheets get wrong by default.
+
+China is not one grid. HiQLCD v1.4.0 covers all 31 provinces and municipalities at provincial precision — 4,862 China energy datasets — because a coal-dominant northern grid and a hydro-heavy south-western grid produce electricity at sharply different carbon intensity per kWh. A national average is the weighted blend of the two. For a product made in one province, that blend is not an approximation. It is the wrong number, wearing the costume of a defensible one.
+
+## What a national average hides
+
+A grid factor is a GWP100 value per kWh, and it is geography all the way down. The northern coal grids and the south-western hydro grids sit at opposite ends of the same country's spectrum. Average them and you get a figure that describes no real production site — least of all the one your supplier actually operates.
+
+The damage is structural, not cosmetic. Electricity is rarely a footnote in a metals or chemicals product system; it is often the dominant contributor to cradle-to-gate GWP. So the province you pick for "China electricity" can swing the result more than the choice of any raw material. A verifier who knows the field knows this. Your auditor's first question about a China-sited product is almost never about the steel. It is: which grid, and what year.
+
+Many international databases cannot answer that question. They offer a China national average, or a generic electricity dataset transplanted from another region and relabeled. Either way, the geographic provenance the verifier needs is gone before the calculation begins. You inherit a number you cannot defend on its own terms.
+
+## Geographic is a DQI dimension, not a rounding error
+
+The Data Quality Indicator scores every candidate dataset across five dimensions, in this order: Temporal, Geographic, Technology, Completeness, Reliability. Geographic measures how well a dataset's region matches the process you are studying. A national average applied to a single-province product scores poorly on exactly that dimension — and a national average is precisely the substitution that throws the dimension away while leaving the rest of the file looking complete.
+
+That is the trap. The number looks finished. The Temporal field has a year, the GWP column has a value, the source has a URL. Nothing on the surface flags that the Geographic match is weak. The mismatch only surfaces when a verifier walks the trail back — or when a tool scores Geographic explicitly and shows you the gap before you file.
+
+> A national average is not a smaller error than a wrong material. For a single-province product, it is often the largest one in the file.
+
+## What Cortex does with "China electricity"
+
+Type "China electricity" into Cortex and it does not silently pick a national average. It asks one clarifying question first: which province, which year. That is the whole intervention, and it is deliberate. The ambiguity in your input is the ambiguity a verifier will probe; Cortex surfaces it at the moment you can still answer cheaply, instead of three weeks later in review.
+
+Answer "Yunnan, 2023" and Cortex returns the region-specific factor from HiQLCD's provincial coverage — one of the 4,862 China energy datasets — with the DQI scored across all five dimensions. The Geographic dimension now reflects a real provincial match, not a national blend. The candidate carries its GWP100 value, unit, region, system model, and source URL. The reasoning chain records the question Cortex asked, the answer you gave, and why this dataset was selected. When your verifier asks "which grid," the answer is already in the file — written down at the moment of the decision, not reconstructed afterward.
+
+Cortex pauses elsewhere for the same reason. When the closest match needs a proxy substitution, when the same material returns factors that differ by more than 2× across databases, when a dataset is restricted and the GWP cannot be filled silently, when the system-model match is ambiguous — the run stops and the choice returns to you. The practitioner decides; the decision is recorded in the reasoning chain. Automation handles the parallel search across fourteen LCA databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — but it does not make the calls an auditor would later question.
+
+## Province first, then defend
+
+The discipline is simple to state and easy to skip under deadline. Before you accept any "China electricity" factor, fix the province and the year. The provincial coverage exists — all 31 provinces and municipalities, at provincial precision — so the only reason to ship a national average is that nobody asked the question. Cortex asks it for you, scores the Geographic dimension, and writes the answer into a reasoning chain you can hand to a verifier.
+
+A national average is a defensible-looking number that does not survive its own audit. A provincial factor with the Geographic dimension scored is a number you can stand behind, line by line. The difference costs one clarifying question at the start. It costs a great deal more at the end.
+
+Ask Cortex about a China-sited input at [cortex.hiq.earth/chat](https://cortex.hiq.earth/chat).
