@@ -1,6 +1,6 @@
 ---
 title: "ISO 14067 vs EN 15804: Which Standard Governs Your PCF or EPD"
-description: "A product carbon footprint answers to ISO 14067; a construction-product EPD answers to EN 15804. The standard decides your system boundary, your modules, and what you can claim."
+description: "A product carbon footprint answers to ISO 14067; a construction-product EPD answers to EN 15804. The standard sets your boundary, your modules, and your claim."
 publishDate: 2026-05-14
 pillar: "audit"
 tags: ["ISO 14067","EN 15804","EPD","PCF","audit-trail"]
@@ -8,19 +8,19 @@ locale: en
 draft: false
 ---
 
-<span class="dropcap">Y</span>our supplier sends a number and a label: "EPD, cradle-to-gate, 1.84 kg CO2-eq per kg." Your client asks for a product carbon footprint. Procurement wants both filed by Friday. Three deliverables, three reviewers, and the first question every one of them asks is the same: under which standard?
+<span class="dropcap">Y</span>our supplier sends a number and a label: "EPD, cradle-to-gate, 1.84 kg CO2-eq per kg." Your client wants a product carbon footprint. Procurement wants both filed by Friday. Three deliverables, three reviewers, and every one of them opens with the same question: under which standard?
 
-Get that wrong and the rework is not cosmetic. The system boundary moves. The modules reported change. The GWP indicator that satisfies one filing fails the other. So before you match a single BOM row, answer the standard question — because it decides what "done" means.
+Get it wrong and the rework isn't cosmetic. The system boundary moves. The reported modules change. A GWP indicator that clears one filing fails the other. So settle the standard before you touch a single BOM row, because it defines what "done" means.
 
 ---
 
 ## PCF and EPD are not the same deliverable
 
-Both involve LCA. Both report per product. Both lean on ISO. They are still different artifacts, and the standard tells you which one you are building.
+Both run on LCA. Both report per product. Both lean on ISO. They are still different artifacts, and the standard tells you which one is on your desk.
 
-A **product carbon footprint** is a single impact category: GWP, normally GWP100 — but not literally one number, because ISO 14067 has you report biogenic and land-use carbon separately and keep offsets out of the total. **ISO 14067** specifies the requirements. One impact category, one boundary, one reviewer question — "is the GWP characterization defensible?"
+A **product carbon footprint** is one impact category: GWP, usually GWP100. Not literally one number, though — ISO 14067 has you report biogenic and land-use carbon separately and keep offsets out of the total. **ISO 14067** sets the requirements. One category, one boundary, one question for the reviewer: is the GWP characterization defensible?
 
-An **EPD** is multi-impact and lives inside the **ISO 14025 / ISO 21930** declaration framework. It needs a Product Category Rule, third-party verification, and — for construction products — a set of core rules that governs which life-cycle modules you report.
+An **EPD** is multi-impact and lives inside the **ISO 14025 / ISO 21930** declaration framework. It needs a Product Category Rule, third-party verification, and — for construction products — a core set of rules governing which life-cycle modules you report.
 
 Those core rules are **EN 15804**, with product-specific c-PCRs layered on top.
 
@@ -28,21 +28,21 @@ Those core rules are **EN 15804**, with product-specific c-PCRs layered on top.
 
 ## EN 15804 governs the modules, not just the math
 
-The reason EN 15804 matters is mechanical, not philosophical. It defines the module structure an EPD declares: A1–A3 (product stage — raw material supply, transport, manufacturing), A4–A5, the B-modules, C1–C4, and module D. Under **EN 15804+A2**, modules C1–C4 and D became mandatory for most construction-product EPDs, so cradle-to-grave with end-of-life and module D is now the default — an A1–A3-only declaration is the documented exception, not the norm. A2 also split GWP into sub-indicators: GWP-fossil, GWP-biogenic, GWP-luluc. EN 15804 is the rule that says which modules are mandatory for your product category and how each is bounded; the product-specific c-PCR refines it for your material.
+EN 15804 matters for a mechanical reason. It fixes the module structure an EPD declares: A1–A3 (product stage — raw material supply, transport, manufacturing), A4–A5, the B-modules, C1–C4, and module D. Under **EN 15804+A2**, modules C1–C4 and D became mandatory for most construction-product EPDs, so cradle-to-grave with end-of-life and module D is now the default — an A1–A3-only declaration is the documented exception. A2 also split GWP into sub-indicators: GWP-fossil, GWP-biogenic, GWP-luluc. EN 15804 decides which modules your product category must declare and how each one is bounded; the product-specific c-PCR refines that for your material.
 
-ISO 14067 does not give you that module table. It governs the GWP indicator — how the carbon number itself is characterized. So a construction-product EPD typically does both: EN 15804 sets the boundary and the modules; ISO 14067 informs the GWP100 figure inside them.
+ISO 14067 hands you none of that module table. It governs the GWP indicator — how the carbon number itself is characterized. A construction-product EPD usually does both: EN 15804 sets the boundary and the modules, ISO 14067 informs the GWP100 figure inside them.
 
 > A standalone product carbon footprint answers to ISO 14067. A construction-product EPD answers to EN 15804 — with ISO 14067 informing the GWP indicator it declares.
 
-That is the whole decision, and it is not a generic summary. It is a boundary implication: choose EN 15804 and you owe a module breakdown with split GWP sub-indicators; choose ISO 14067 and you owe a defensible GWP100 figure — biogenic and land-use carbon reported separately — with its system boundary stated.
+That is the whole decision — and it is a boundary implication, not a generic summary. Choose EN 15804 and you owe a module breakdown with split GWP sub-indicators. Choose ISO 14067 and you owe a defensible GWP100 figure — biogenic and land-use carbon reported separately — with its system boundary stated.
 
 ---
 
 ## The wrong call costs system boundary
 
-Pick the standard your reviewer didn't expect and the damage shows up in three places.
+Pick the standard your reviewer wasn't expecting, and the damage surfaces in three places.
 
-The **boundary** shifts: a 14067 PCF stated cradle-to-gate does not satisfy an EN 15804 EPD that, post-A2, mandates C-modules and module D for end-of-life. The **modules** change: an EPD reviewer reading for A1–A3 plus D will reject a flat per-kg number with no module split. And the **GWP indicator** has to reconcile: the characterization that passed your PCF still has to sit correctly inside the EPD's declared unit and its GWP sub-indicators.
+The **boundary** shifts: a 14067 PCF stated cradle-to-gate won't satisfy an EN 15804 EPD that, post-A2, mandates C-modules and module D for end-of-life. The **modules** break: a reviewer reading for A1–A3 plus D rejects a flat per-kg number with no module split. The **GWP indicator** has to reconcile: the characterization that cleared your PCF still has to sit correctly inside the EPD's declared unit and its GWP sub-indicators.
 
 None of this is exotic. It is the routine cost of answering the standard question late instead of first.
 
@@ -50,13 +50,13 @@ None of this is exotic. It is the routine cost of answering the standard questio
 
 ## What Cortex does with the standard question
 
-This is where the embedded knowledge base earns its place. Ask Cortex "ISO 14067 or EN 15804 for this deliverable?" and you do not get a paraphrase of the two standards. You get the consequence for your specific work: which modules the answer obligates, where the system boundary lands, and which document the GWP100 figure belongs in — with the dataset record or the standard clause cited, not a training-data summary.
+This is where the embedded knowledge base earns its keep. Ask Cortex "ISO 14067 or EN 15804 for this deliverable?" and you don't get the two standards paraphrased back. You get the consequence for the work in front of you: which modules the answer obligates, where the boundary lands, and which document the GWP100 figure belongs in — with the dataset record or the standard clause cited, not a training-data summary.
 
-The methodologies are carried, not improvised. Cortex aligns with ISO 14067, ISO 14044, the GHG Protocol Product Standard, and EF 3.1 / PEF, and supports data preparation consistent with CBAM reporting across its transitional and definitive periods. Alignment — the practitioner files; Cortex does not. Certification stays verifier-led and project-scoped, where it belongs.
+The methodologies are carried, not improvised. Cortex aligns with ISO 14067, ISO 14044, the GHG Protocol Product Standard, and EF 3.1 / PEF, and supports data preparation consistent with CBAM reporting across its transitional and definitive periods. Alignment, not certification: the practitioner files; Cortex does not. Certification stays verifier-led and project-scoped, where it belongs.
 
-Underneath the standard call sits the data layer the call depends on. Cortex matches emission factors across fourteen LCA databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — returns top-k rather than top-1, and scores every candidate by DQI across its five dimensions in the Pedigree-Matrix lineage: Temporal, Geographic, Technology, Completeness, Reliability. Every candidate carries its GWP value, region, and system model, so a cut-off dataset never gets mixed silently into an APOS study.
+Under the standard call sits the data layer it depends on. Cortex matches emission factors across fourteen LCA databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — returns top-k rather than top-1, and scores every candidate by DQI across its five dimensions in the Pedigree-Matrix lineage: Temporal, Geographic, Technology, Completeness, Reliability. Each candidate carries its GWP value, region, and system model, so a cut-off dataset never slips silently into an APOS study.
 
-And Cortex pauses where automation would break an audit. When BOM coverage drops too low to defend, when a proxy substitution is the only available match, when the same material returns factors that differ by more than 2× across databases, when a dataset's system-model match is ambiguous — the run stops and the choice returns to you. The practitioner decides; the decision is recorded in the reasoning chain, where the next reviewer can walk it back.
+And Cortex pauses where automation would break an audit. BOM coverage too low to defend, a proxy substitution as the only available match, the same material returning factors that differ by more than 2× across databases, a dataset whose system-model match is ambiguous — the run stops and the choice comes back to you. The practitioner decides; the decision lands in the reasoning chain, where the next reviewer can walk it back.
 
 ---
 

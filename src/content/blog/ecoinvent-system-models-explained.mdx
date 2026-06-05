@@ -1,6 +1,6 @@
 ---
 title: "Cut-off, APOS, or consequential: which Ecoinvent system model your study needs"
-description: "Ecoinvent ships the same datasets under cut-off, APOS, and consequential system models. They answer different questions. Pick the wrong one and your result changes silently."
+description: "Ecoinvent ships the same datasets under cut-off, APOS, and consequential. They answer different questions. Pick the wrong one and your number changes in silence."
 publishDate: 2026-05-17
 pillar: "audit"
 tags: ["system-model","ecoinvent","allocation","audit","data-quality"]
@@ -8,56 +8,56 @@ locale: en
 draft: false
 ---
 
-<span class="dropcap">Y</span>our auditor opens the Ecoinvent record for the 304 stainless-steel row in your BOM and asks one question: cut-off, APOS, or consequential? You picked the first hit. The database shipped that same steel dataset under three system models, and you took whichever the search returned. Now you have to defend why — and "it was the top result" is not a defense that survives review.
+<span class="dropcap">Y</span>our auditor opens the Ecoinvent record behind the 304 stainless-steel row in your BOM and asks one thing: cut-off, APOS, or consequential? You took the first hit. The database shipped that steel dataset under all three system models, and you used whichever the search put on top. Now you have to defend that choice — and "it ranked first" is not a defense that survives review.
 
-This is not a trick question. It is the question. Ecoinvent ships the same unit-process datasets under three system models — cut-off, APOS (Allocation at the Point of Substitution), and consequential — because they answer three different questions. Choosing the wrong one for your goal and scope does not throw an error. It changes the number, quietly, and when recycling or co-products are in the boundary the shift typically runs to tens of percent — occasionally roughly 2× on recycling-intensive materials.
+It is also not a trick. It is the whole question. Ecoinvent publishes the same unit-process datasets under three system models — cut-off, APOS (Allocation at the Point of Substitution), and consequential — because each answers a different question. Choose the wrong one for your goal and scope and nothing errors out. The number just moves. With recycling or co-products inside the boundary, the shift usually runs to tens of percent, and on recycling-intensive materials it can reach roughly 2×.
 
 ---
 
 ## What the three models actually decide
 
-A system model is a set of modeling rules for handling recycling, co-products, and counterfactuals. The dataset's name does not change. The flows behind it do.
+A system model is a set of rules for handling recycling, co-products, and counterfactuals. The dataset keeps its name. The flows underneath it do not.
 
-**Cut-off** ("recycled content method"): waste burdens stay with the producer who generated them. A user of recycled material carries the recycling burden but not the burden of the original production. Scrap arrives burden-free at your gate.
+**Cut-off** ("recycled content method"): waste burdens stay with whoever generated them. Use recycled material and you carry the recycling burden but not the burden of the original production. Scrap arrives at your gate burden-free.
 
-**APOS** (Allocation at the Point of Substitution): the burden of original production is allocated between the first product and the recycled material at the point where substitution happens. The recycled input is not free; it carries a share back upstream.
+**APOS** (Allocation at the Point of Substitution): the burden of original production splits between the first product and the recycled material at the point where substitution happens. The recycled input is not free — it carries a share back upstream.
 
-**Consequential**: marginal-effects modeling. It answers *what changes* if you make a decision — which supplier responds at the margin, which co-product gets displaced. It is not a description of an average; it is a model of a counterfactual.
+**Consequential**: marginal-effects modeling. It asks *what changes* when you make a decision — which supplier responds at the margin, which co-product gets displaced. Not an average. A counterfactual.
 
-For your stainless-steel row, these are not three flavors of the same answer. Stainless steel is recycling-intensive. Cut-off and APOS treat that scrap content differently by construction, so the cradle-to-gate GWP100 they return differs — often by tens of percent, sometimes around 2×. Consequential asks a question your attributional PCF may not be asking at all.
+For your stainless-steel row, these are not three flavors of one answer. Stainless steel is recycling-intensive, and cut-off and APOS treat that scrap content differently by construction. So the cradle-to-gate GWP100 they return differs — often by tens of percent, sometimes around 2×. Consequential answers a question your attributional PCF may never have asked.
 
 ---
 
 ## The failure mode is silence
 
-> Pick the wrong system model and nothing breaks. The result is just wrong, and it looks exactly as confident as the right one.
+> Pick the wrong system model and nothing breaks. The number is simply wrong, and it looks every bit as confident as the right one.
 
-There is no warning. The dataset loads, the GWP100 value populates, your model runs, the spreadsheet exports. The mismatch surfaces months later, in review, when the verifier asks which system model your goal and scope called for and whether every background dataset matches it. If three of your forty rows came from cut-off and one came from APOS because the search ranked it first, your study mixes models. That is a finding.
+No warning fires. The dataset loads, the GWP100 populates, the model runs, the spreadsheet exports. The mismatch surfaces months later, in review, when the verifier asks which system model your goal and scope called for — and whether every background dataset matches it. If three of your forty rows came from cut-off and one came from APOS because the search ranked it first, your study mixes models. That is a finding.
 
-Here is the trap in one illustrative scenario, a China grid-power comparison. The practitioner needs a cradle-to-gate GWP100 figure for the electricity input. GWP100 is an IPCC characterization applied on top of the inventory — every system model can be characterized to it, so that is never the variable that picks the model for you. The variable is which record actually exists for the region. For the `market for electricity, medium voltage, CN` record, only the cut-off variant ships a China-specific dataset; the APOS and consequential variants fall back to a rest-of-world proxy. Take the cut-off number because it is the one with a regional match, without noticing *why* it was the only one on offer, and you have silently committed your whole study to a system model you never chose — picked by data availability, not by your goal and scope.
+Take a China grid-power comparison as an illustration. The practitioner needs a cradle-to-gate GWP100 for the electricity input. GWP100 is an IPCC characterization applied on top of the inventory — every system model can be characterized to it, so it never tells you which model to pick. What picks the model here is which record actually exists for the region. For `market for electricity, medium voltage, CN`, only the cut-off variant ships a China-specific dataset; APOS and consequential fall back to a rest-of-world proxy. Grab the cut-off number because it has a regional match, without clocking *why* it was the only one on the table, and you have committed your whole study to a system model you never chose. Data availability picked it. Not your goal and scope.
 
 ---
 
 ## What Cortex does with the question
 
-Ask Cortex Chat: "Cut-off or APOS for my 304 stainless-steel row?" The answer cites the dataset record and the system-model documentation — not a paraphrase reconstructed from training data. Cortex carries an embedded knowledge base of system-boundary conventions, allocation hierarchy, and the ISO 14044 principles that govern this choice, and it points you at the specific record and the source URL behind the claim. You read the primary material, not a summary of it.
+Ask Cortex Chat: "Cut-off or APOS for my 304 stainless-steel row?" The answer cites the dataset record and the system-model documentation — not a paraphrase reconstructed from training data. Cortex carries an embedded knowledge base of system-boundary conventions, allocation hierarchy, and the ISO 14044 principles that govern the choice, and it points you at the specific record and the source URL behind every claim. You read the primary material, not a summary of it.
 
-Every candidate Cortex returns carries its system model in metadata, alongside GWP value, unit, geographic region, source URL, and a DQI score across the five Pedigree-Matrix dimensions — Temporal, Geographic, Technology, Completeness, Reliability. Cortex returns top-k, not top-1: you see the spread across cut-off, APOS, and consequential for the same material, side by side, rather than one ranked guess. It searches fourteen LCA databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — and preserves the system model on every record it hands back. It never mixes them silently.
+Each candidate Cortex returns carries its system model in metadata, next to its GWP value, unit, geographic region, source URL, and a DQI score across the five Pedigree-Matrix dimensions: Temporal, Geographic, Technology, Completeness, Reliability. Cortex returns top-k, not top-1 — you see cut-off, APOS, and consequential for the same material side by side, not one ranked guess. It searches fourteen LCA databases (HiQLCD, Ecoinvent, EF, CarbonMinds, and others) and keeps the system model on every record it hands back. It never mixes them in silence.
 
-And it does not pick for you. Cortex does not decide cut-off over APOS on your behalf. The system model belongs to your goal and scope, and that is your call to make and your call to defend.
+And it does not pick for you. Cortex will not choose cut-off over APOS on your behalf. The system model belongs to your goal and scope. That call is yours to make and yours to defend.
 
 ---
 
 ## Where Cortex stops and asks
 
-An ambiguous system-model match is one of the places Cortex pauses where automation would break an audit. It does not guess and move on. It surfaces the choice and returns it to you — the same way it pauses when coverage across your BOM drops too low to be confident, when the closest match needs a proxy substitution, or when the same material comes back with a cross-database GWP spread above 2×.
+An ambiguous system-model match is one of the points where Cortex pauses rather than let automation break an audit. It does not guess and move on. It surfaces the choice and hands it back to you — the same way it stops when coverage across your BOM drops too low to trust, when the closest match needs a proxy, or when the same material comes back with a cross-database GWP spread above 2×.
 
-In each case the practitioner decides, and the decision is recorded in the reasoning chain: which system model, on what record, for what reason. When the verifier asks the stainless-steel question, the answer is already written down, with its citation attached. Cortex does not replace your judgment on the system model. It scales it — and it keeps the trail.
+Each time, the practitioner decides, and the decision lands in the reasoning chain: which system model, on what record, for what reason. When the verifier asks the stainless-steel question, the answer is already written down, citation attached. Cortex does not replace your judgment on the system model. It scales it, and it keeps the trail.
 
 ---
 
 ## The line to remember
 
-Cut-off, APOS, and consequential are not interchangeable, and the database will let you mix them without complaint. Your goal and scope choose the model; the dataset record proves which one you used; the reasoning chain shows you chose it on purpose. That is the difference between a number and a defensible number.
+Cut-off, APOS, and consequential are not interchangeable, and the database will let you mix them without a word. Your goal and scope choose the model; the dataset record proves which one you used; the reasoning chain shows you chose it on purpose. That is the gap between a number and a number you can defend.
 
-Ask Cortex about your stainless-steel row at cortex.hiq.earth/chat — it returns the system model with every dataset, and pauses before it lets you mix them.
+Ask Cortex about your stainless-steel row at cortex.hiq.earth/chat — it returns the system model with every dataset, and stops before it lets you mix them.
