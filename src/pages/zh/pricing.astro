@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SectionMark from '@/components/SectionMark.astro';
+import { faqLd } from '@/lib/seo';
 
 const title = '定价 — HiQ Cortex';
 const description =
@@ -69,7 +70,7 @@ const faqs = [
 ];
 ---
 
-<BaseLayout title={title} description={description} locale="zh">
+<BaseLayout title={title} description={description} locale="zh" jsonLd={faqLd(faqs)}>
 
   <!-- Hero -->
   <section class="relative">
