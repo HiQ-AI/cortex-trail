@@ -4,7 +4,7 @@ description: "A 100-row BOM is 100 claims your auditor can question. Here is how
 publishDate: 2026-05-23
 pillar: "audit"
 tags: ["audit","scope-3","bom-matching","emission-factors","dqi"]
-locale: "en"
+locale: en
 draft: false
 ---
 
@@ -16,7 +16,7 @@ There is a way to match a BOM to emission factors that does not average and does
 
 ## Top-k, not top-1
 
-Cortex matches your BOM across fourteen LCA databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — and returns the top candidates per row, not the top one. Each candidate carries what you need to choose between them: a GWP100 value, its unit, the geographic region, the system model (cut-off, APOS, or consequential), the source URL, and a DQI score across five dimensions — Temporal, Geographic, Technology, Completeness, Reliability.
+Cortex matches your BOM across fourteen LCA databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — and returns the top candidates per row, not the top one. Each candidate carries what you need to choose between them: a GWP100 value, its unit, the geographic region, the system model (cut-off, APOS, or consequential), the source URL, and a DQI score across five dimensions — Temporal, Geographic, Technology, Completeness, Reliability — a normalized read on the Pedigree-Matrix lineage that LCA practitioners already know.
 
 That is the whole argument. A single returned factor hides the decision; a ranked list of candidates exposes it. When "aluminum sheet, China" returns one Ecoinvent cut-off record at one GWP100 value and an EF record at a value more than twice as high, that gap is not noise to be averaged away. It is information. It tells you the two databases disagree about this material, and it tells you that you — not a model — get to decide which one your study can defend.
 
@@ -28,7 +28,7 @@ The match is tiered, and the tier is visible. Cortex looks first for the same it
 
 This matters because the tier is the honest description of how confident the match is. A generic-entry match and a same-item match are not the same claim, and copy that treats them as one factor is lying by omission. The tier travels with the candidate. So does the DQI score. So does the source URL. When you export, the full provenance goes with it: the practitioner who opens the file in three weeks, or the verifier who opens it in three months, sees which row was an exact match and which was a proxy, and why.
 
-Editor-cleared benchmark: roughly 10 minutes for a 100-row BOM, with DQI-scored candidates per row. The speed is not the point. The point is that nothing in those 10 minutes is silent.
+To make the speed concrete: a 100-row BOM, matched by parallel cross-database search with DQI-scored candidates per row, typically resolves in about 10 minutes. The speed is not the point. The point is that nothing in those 10 minutes is silent.
 
 > Average two datasets and you describe neither. The auditor cannot trace a number that came from nowhere.
 
@@ -44,9 +44,9 @@ This is the line between a tool that drives an audit-grade workflow and one that
 
 ## What you file
 
-Cortex produces a reasoning chain. You file. There is no auto-submission of a CBAM declaration or an EPD, and there is no certification claim — the output is built for alignment with ISO 14067 and GHG Protocol Product Standard requirements, but the verification is the verifier's act and the filing is yours.
+Cortex produces a reasoning chain. You file. There is no auto-submission of a CBAM declaration or an EPD, and there is no certification claim — the output is built for alignment with ISO 14067 and the GHG Protocol Product Life Cycle Accounting and Reporting Standard, but the verification is the verifier's act and the filing is yours.
 
-All 15 GHG Protocol Scope 3 categories are supported in Cortex Cowork, with Category 1 the most direct: BOM-row-level factor matching is what the whole tiered, top-k, DQI-scored pipeline is for. And when the calculation has to run in your modeling tool, Cortex connects to and operates the engine — openLCA, brightway, 积木LCA — building the product system and running the calculation inside the tool you already use. It does not replace the engine; it drives it.
+Category 1 — Purchased goods and services — is where this applies most directly: BOM-row-level factor matching is what the whole tiered, top-k, DQI-scored pipeline is for. Other Scope 3 categories use different methods and data, and this is not a claim to cover them. And when the calculation has to run in your modeling tool, Cortex connects to and operates the engine — openLCA, brightway, 积木LCA — building the product system and running the calculation inside the tool you already use. It does not replace the engine; it drives it.
 
 The result is a BOM matched to emission factors with no averaging and no single fabricated number. You see the spread. You see the tier. You see the DQI. Where automation would break the audit, Cortex stops and hands the decision back. Every row you file, you can defend — line by line, back to a source URL.
 

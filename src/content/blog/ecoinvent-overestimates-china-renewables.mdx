@@ -1,55 +1,55 @@
 ---
 title: "The 176% Gap: Ecoinvent vs Local Data on China Solar and Wind"
-description: "Ecoinvent inflates China solar GWP100 by 176% and wind by 244% versus HiQLCD. Why the gap is real, where it isn't, and what your tooling should do with a 2x spread."
+description: "Ecoinvent and HiQLCD disagree on China solar GWP100 by 176% and on wind by 244%. Where the gap is a representativeness problem, where it is a boundary choice, and what your tooling should do with a spread that wide."
 publishDate: 2026-06-04
 pillar: "audit"
-tags: ["CBAM","Ecoinvent","China LCI","DQI","emission factors","audit trail"]
-locale: "en"
+tags: ["Ecoinvent","HiQLCD","China LCI","DQI","emission factors","audit trail"]
+locale: en
 draft: false
 ---
 
-<span class="dropcap">P</span>ull the GWP100 factor for one kWh of Chinese solar PV from Ecoinvent v3.12.0, cut-off — the system model that carries GWP100 — and you get 0.080 kg CO2-eq. Pull the same kWh from HiQLCD v1.4.0, the China LCI database, and you get 0.029. The Ecoinvent number is 176% higher. That gap is now in your export carbon label, your CBAM filing, your carbon-market price. It is not a rounding question. It decides whether your product reads as clean or dirty at the border.
+<span class="dropcap">P</span>ull the GWP100 factor for one kWh of Chinese solar PV from Ecoinvent v3.12.0, cut-off — applying IPCC GWP100 characterization to that inventory — and you get 0.080 kg CO2-eq. Pull the same kWh from HiQLCD v1.4.0, the China LCI database, and you get 0.029. The two numbers differ by 176%. That gap is now in your export carbon label, your product carbon footprint, your carbon-market price. It is not a rounding question. It decides whether your product reads as clean or dirty at the border.
 
-Same kWh. Same horizon. Same characterization. The number you ship depends entirely on which database your background data came from. Here is why the two disagree, where the disagreement is real and where it is an artifact, and what your tooling should do when it sees a spread that wide.
+Same kWh. Same horizon. Same characterization. The number you ship depends entirely on which database your background data came from. Here is why the two disagree, where the disagreement is a representativeness problem and where it is a boundary choice, and what your tooling should do when it sees a spread that wide.
 
 ## The spread, by source
 
 Five China electricity sources, GWP100, kg CO2-eq per kWh, HiQLCD v1.4.0 against Ecoinvent v3.12.0 cut-off:
 
-- **Solar PV** — 0.029 vs 0.080. Ecoinvent +176%.
-- **Wind, onshore** — 0.009 vs 0.031. Ecoinvent +244%.
-- **Coal thermal** — 1.033 vs 1.210. Ecoinvent +17%.
+- **Solar PV** — 0.029 vs 0.080. They disagree by 176%.
+- **Wind, onshore** — 0.009 vs 0.031. They disagree by 244%.
+- **Coal thermal** — 1.033 vs 1.210. Within 17%.
 - **Run-of-river hydro** — 0.012 vs 0.005. HiQLCD higher.
 - **Nuclear PWR** — 0.006 vs 0.008. Close.
 
-Read the pattern before you read the cause. The two databases agree closely on nuclear. They sit within a coal plant's noise on thermal. They invert on hydro. They diverge by more than 2x on exactly the two sources your low-carbon story leans on: solar and wind.
+Read the pattern before you read the cause. The two databases agree closely on nuclear. They sit within a coal plant's noise on thermal. They invert on hydro. They diverge by nearly 3x on exactly the two sources your low-carbon story leans on: solar and wind. (The HiQLCD solar and wind figures assume a utility-scale capacity factor with infrastructure fully amortized over generation; the low anchors follow from those boundary choices, which a verifier is entitled to ask you to state.)
 
 ## Where the gap comes from
 
-Ecoinvent has no China-built scenario data for manufacturing the panels and the turbines. For those processes it transplants European and global manufacturing inventories. So the Chinese PV cell carries the energy intensity of a cell line that was never in China, and the onshore turbine carries a supply chain that was never built here. China manufactures most of the world's PV cells and a large share of its turbines, at an efficiency the transplanted inventory does not see. The result is a manufacturing burden inflated for the two technologies where China's industrial scale matters most.
+For several key manufacturing sub-processes — wafer and cell production energy, certain turbine components — specific Ecoinvent records still lean on European or global average inventories rather than China-built data, so the modeled energy intensity does not reflect China's actual cell-line efficiency. This is not a claim that China data does not exist; it is a statement about the geographic and technology representativeness of the particular records in play. China manufactures most of the world's PV cells and a large share of its turbines, at an efficiency a transplanted inventory does not see. On exactly the two technologies where China's industrial scale matters most, the two databases part company on the manufacturing burden.
 
-The electricity mix underneath compounds it. Ecoinvent models China electricity as 33 provincial hard-coal datasets plus global generics. HiQLCD models it from 4,862 China energy datasets — 4,256 energy-type records, resolved across 31 provinces at provincial precision. When the grid that powers the factory is itself a coal-weighted generic, the manufacturing footprint inherits that generic's carbon, and the error stacks on the error already in the transplanted inventory.
+The electricity mix underneath compounds it. Ecoinvent represents China electricity through regional market mixes dominated by hard-coal and lignite generation, with several generation technologies modeled at global or rest-of-world average where China-specific inventories are absent. HiQLCD resolves the same picture from a China-built energy inventory across all 31 provinces at provincial precision. When the grid that powers the factory leans on a coal-weighted proxy, the manufacturing footprint inherits that proxy's carbon, and the difference in the background grid stacks on the difference already in the manufacturing inventory.
 
-> The Ecoinvent solar number is not measuring China's solar. It is measuring Europe's solar, billed to China.
+> Two credible databases, looking at the same Chinese kWh, hand you two different numbers. The spread is the finding, not the footnote.
 
-Not every gap is an Ecoinvent artifact. On run-of-river hydro, HiQLCD reads *higher* — 0.012 against 0.005 — because HiQLCD allocates reservoir-construction burden into the per-kWh figure and Ecoinvent's boundary does not. That is a system-boundary disagreement, not an accuracy defect: a question about what counts as part of generating the electricity. Nuclear (0.006 vs 0.008) and coal (1.033 vs 1.210) sit close; the residual difference traces to the uranium-mining and fuel-cycle boundary on one, and to a mine-CHP extreme value Ecoinvent carries on the other. Knowing which kind of gap you are looking at is the whole job. One you correct. One you document.
+Not every gap traces to manufacturing representativeness. On run-of-river hydro, HiQLCD reads *higher* — 0.012 against 0.005 — because HiQLCD amortizes the civil works (the diversion weir, intake, penstock, and powerhouse — concrete and steel) over generation at a low capacity factor, and Ecoinvent's boundary draws the line differently. That is an infrastructure-amortization boundary disagreement, not an accuracy defect: a question about what counts as part of generating the electricity. Nuclear (0.006 vs 0.008) and coal (1.033 vs 1.210) sit close; the residual difference is consistent with known boundary differences in the uranium fuel cycle on one and with plant-to-plant variability on the other. Knowing which kind of gap you are looking at is the whole job. One you correct. One you document.
 
 ## The averaging trap
 
-Most automated factor-matching does the convenient thing with a 0.029-versus-0.080 spread: it picks one, or it splits the difference. Either move buries the most important fact about your solar row — that two credible databases disagree about it by 176% — under a single tidy number your auditor cannot reconstruct. Average the two and you get 0.054, a figure no database holds and no one can defend. Pick silently and you have made a methodology decision your reasoning chain never records.
+Most automated factor-matching does the convenient thing with a 0.029-versus-0.080 spread: it picks one, or it splits the difference. Either move buries the most important fact about your solar row — that two credible databases disagree about it by 176% — under a single tidy number your auditor cannot reconstruct. Take a naive arithmetic average and you get 0.054, a figure no database holds and no one chose. Pick silently and you have made a methodology decision your reasoning chain never records.
 
 This is the failure mode the Audit Trail exists to name. The spread *is* the signal. Hiding it is the error.
 
 ## What Cortex does instead
 
-Cortex searches fourteen LCA databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — and returns top-k candidates side by side, not top-1. For your China solar row, that means HiQLCD's 0.029 and Ecoinvent's 0.080 land next to each other on screen, each carrying its GWP100 value, its region, its system model, its source record, and a DQI score across five dimensions: Temporal, Geographic, Technology, Completeness, Reliability. On the Technology and Geographic axes, the China-built dataset and the transplanted one separate visibly. You see which candidate earned its number where the process and the region actually match your study.
+Cortex searches fourteen LCA databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — and returns top-k candidates side by side, not top-1. For your China solar row, that means HiQLCD's 0.029 and Ecoinvent's 0.080 land next to each other on screen, each carrying its GWP100 value, its region, its system model, its source record, and a Pedigree-Matrix-style DQI score across five dimensions: Temporal, Geographic, Technology, Completeness, Reliability. On the Technology and Geographic axes, the China-built dataset and the transplanted one separate visibly. You see which candidate scores higher on representativeness where the process and the region match your study — and representativeness is not the same as accuracy, so the choice is still yours.
 
-And when the cross-database GWP spread for the same material runs past 2x — as it does for solar at 176% and wind at 244% — Cortex does not average and it does not pick. It pauses and returns the decision to you. The choice between a China-built factor and a transplanted one is a methodology call: it depends on your goal and scope, your system boundary, whether your verifier accepts HiQLCD as a regional source. Cortex pauses where automation would break an audit — a spread past 2x, a proxy that isn't an exact fit, coverage too thin to defend, restricted data it can't substitute silently — and the practitioner decides. The decision, and why, is recorded in the reasoning chain.
+And when the cross-database GWP spread for the same material runs past 2x — as it does for solar and wind here — Cortex does not average and it does not pick. It pauses and returns the decision to you. The choice between a China-built factor and a transplanted one is a methodology call: it depends on your goal and scope, your system boundary, whether your verifier accepts HiQLCD as a regional source. Cortex pauses where automation would break an audit — a spread past 2x, a proxy that isn't an exact fit, coverage too thin to defend, restricted data it can't substitute silently — and the practitioner decides. The decision, and why, is recorded in the reasoning chain.
 
 Cortex does not pick a system model for you, and it does not file anything. It returns the candidates with their provenance, holds the system models apart so cut-off never quietly mixes with APOS, and produces a reasoning chain you can hand to a verifier. You make the call; Cortex records that you made it, and on what basis.
 
 ## One kWh, defended
 
-A 176% gap on solar is not a database curiosity. It is the difference between a CBAM filing your verifier signs and one they send back. The honest answer to "which factor" is rarely a number — it is the spread, scored, and a recorded decision about which source fits your scope. Cortex puts both numbers in front of you, scores them on Geographic and Technology where the China-built data wins on merit, and stops where a tidy average would have quietly broken the audit.
+A 176% disagreement on solar is not a database curiosity. It is the difference between a product carbon footprint your verifier signs and one they send back. The honest answer to "which factor" is rarely a number — it is the spread, scored, and a recorded decision about which source fits your scope. Cortex puts both numbers in front of you, scores them on Geographic and Technology representativeness, and stops where a tidy average would have quietly broken the audit.
 
 Ask Cortex about a China electricity factor and walk the two numbers back to where they part: [cortex.hiq.earth/chat](https://cortex.hiq.earth/chat).

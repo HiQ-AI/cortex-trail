@@ -4,7 +4,7 @@ description: "An LCA number you can defend in front of a verifier needs a tool t
 publishDate: 2026-05-08
 pillar: "dispatch"
 tags: ["human-in-the-loop","emission-factors","audit","system-model","slow-dispatch"]
-locale: "en"
+locale: en
 draft: false
 ---
 
@@ -22,9 +22,9 @@ This is the quiet failure of automation in this field. The work that looks autom
 
 ## Where a snail would stop
 
-Cortex is built to slow down at the points where speed would cost you the audit. It searches fourteen LCA databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — in parallel, and returns top-k, not top-1. Every candidate carries its GWP100 value, region, system model, source record, and a DQI score across five dimensions: Temporal, Geographic, Technology, Completeness, Reliability. You see the spread. You see the lineage.
+Cortex is built to slow down at the points where speed would cost you the audit. It searches fourteen LCA databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — in parallel, and returns top-k, not top-1. Every candidate carries its GWP100 value, region, system model, source record, and a DQI score across five dimensions — Temporal, Geographic, Technology, Completeness, Reliability — in the lineage of the ecoinvent Pedigree Matrix. You see the spread. You see the lineage.
 
-And then, at certain moments, Cortex stops and hands the decision back to you. It pauses where automation would break an audit. When fewer than 80% of BOM rows match with confidence. When the closest dataset is a proxy and not an exact fit. When the same material returns factors more than 2× apart across databases. When a dataset is licensed and you have no access — Cortex will not quietly substitute a literature value to keep the run moving. When the system-model match is ambiguous, cut-off versus APOS versus consequential, and choosing wrong can shift a result by an order of magnitude.
+And then, at certain moments, Cortex stops and hands the decision back to you. It pauses where automation would break an audit. When fewer than 80% of BOM rows match with confidence. When the closest dataset is a proxy and not an exact fit. When the same material returns factors more than 2× apart across databases. When a dataset is licensed and you have no access — Cortex will not quietly substitute a literature value to keep the run moving. When the system-model match is ambiguous, cut-off versus APOS versus consequential, and choosing wrong can change the recycled-content accounting materially — in some boundaries roughly doubling the result.
 
 These are not an exhaustive list, and Cortex does not number them. They are the moments a verifier will circle. The practitioner decides at each one, and the decision is recorded in the reasoning chain — what was asked, what you chose, why. The same way a careful snail leaves a trail you can walk back.
 
@@ -32,11 +32,11 @@ These are not an exhaustive list, and Cortex does not number them. They are the 
 
 ## It does not guess your system model
 
-The temptation in this market is to ship the tool that decides everything, because deciding everything demos well. Cut-off or APOS? The eager tool picks for you, silently, and the demo flows. But system model is not a detail Cortex is allowed to choose on your behalf — pick the wrong one and the recycled-content accounting can change the result by orders of magnitude. So Cortex returns the system model with every dataset and refuses to mix them silently. When the match is ambiguous, that is a stop, not a default.
+The temptation in this market is to ship the tool that decides everything, because deciding everything demos well. Cut-off or APOS? The eager tool picks for you, silently, and the demo flows. But system model is not a detail Cortex is allowed to choose on your behalf — pick the wrong one and the recycled-content accounting can shift the result by tens of percent, and in some boundaries roughly double it. So Cortex returns the system model with every dataset and refuses to mix them silently. When the match is ambiguous, that is a stop, not a default.
 
 The same restraint holds at the boundary of what Cortex is. It does not run the calculation. It connects to and operates the engine you already use — openLCA, brightway, 积木LCA — matching background datasets, building the product system, driving the run. It does not replace the engine. It drives it. For SimaPro and GaBi, that door is open; the invitation stands.
 
-And it does not file for you. Cortex produces a reasoning chain, aligned with ISO 14067, GHG Protocol, and CBAM requirements. The practitioner files. Alignment is a property of the work; certification is the verifier's act, and a tool cannot hand you either by clicking a button.
+And it does not file for you. Cortex produces a reasoning chain, aligned with ISO 14067, GHG Protocol, and CBAM reporting requirements. The practitioner files. Alignment is a property of the work; certification is the verifier's act, and a tool cannot hand you either by clicking a button.
 
 ## What the trail is for
 
