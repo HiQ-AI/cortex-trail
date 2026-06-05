@@ -3,10 +3,13 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Asterism from '@/components/Asterism.astro';
 import SectionMark from '@/components/SectionMark.astro';
 import DownloadButtons from '@/components/DownloadButtons.astro';
+import { organizationLd, websiteLd } from '@/lib/seo';
 
 const title = 'HiQ Cortex — LCA 工作台，每一行都经得起追问';
 const description =
   '有别于通用 AI，Cortex 为 LCA 专门构建：连接权威数据库、直接驱动专业软件，推理链完整呈现。';
+
+const jsonLd = [organizationLd(), websiteLd()];
 
 // 两款产品 — 首页摘要版
 const products = [
@@ -37,7 +40,7 @@ const scenarios = [
 ];
 ---
 
-<BaseLayout title={title} description={description} locale="zh">
+<BaseLayout title={title} description={description} locale="zh" jsonLd={jsonLd}>
 
   <!-- Hero -->
   <section class="relative overflow-hidden">

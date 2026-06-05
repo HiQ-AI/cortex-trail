@@ -2,25 +2,65 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Asterism from '@/components/Asterism.astro';
+import { blogPostingLd, makeAlternates } from '@/lib/seo';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  const ids = new Set(posts.map((p) => p.id));
+  return posts.map((post) => {
+    // Pair en/zh siblings: zh posts carry a `-zh` filename suffix.
+    const isZh = post.data.locale === 'zh';
+    const enId = isZh ? post.id.replace(/-zh$/, '') : post.id;
+    const zhId = `${enId}-zh`;
+    const hasEn = ids.has(enId);
+    const hasZh = ids.has(zhId);
+    return {
+      params: { slug: post.id },
+      props: { post, enId, zhId, hasEn, hasZh },
+    };
+  });
 }
 
-const { post } = Astro.props;
+const { post, enId, zhId, hasEn, hasZh } = Astro.props;
 const { Content } = await render(post);
 const pillarLabel = {
   journal: "Practitioner's Journal",
   audit: 'The Audit Trail',
   dispatch: 'The Slow Dispatch',
 }[post.data.pillar];
+
+const locale = post.data.locale;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+const publishedISO = post.data.publishDate.toISOString();
+const modifiedISO = (post.data.updatedDate ?? post.data.publishDate).toISOString();
+
+// Only advertise a counterpart that actually exists.
+const alternates =
+  hasEn && hasZh
+    ? makeAlternates(Astro.site, `/blog/${enId}`, `/blog/${zhId}`)
+    : undefined;
+
+const jsonLd = blogPostingLd({
+  url: canonicalURL,
+  title: post.data.title,
+  description: post.data.description,
+  datePublished: publishedISO,
+  dateModified: modifiedISO,
+  author: post.data.author,
+  locale,
+});
 ---
 
-<BaseLayout title={`${post.data.title} — HiQ Cortex`} description={post.data.description}>
+<BaseLayout
+  title={`${post.data.title} — HiQ Cortex`}
+  description={post.data.description}
+  locale={locale}
+  alternates={alternates}
+  ogType="article"
+  publishedTime={publishedISO}
+  modifiedTime={modifiedISO}
+  jsonLd={jsonLd}
+>
 
   <article>
     <header class="container-prose pt-14 md:pt-20 pb-10">
