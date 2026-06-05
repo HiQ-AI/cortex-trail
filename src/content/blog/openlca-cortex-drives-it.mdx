@@ -4,55 +4,55 @@ description: "openLCA models fine. The bottleneck is matching a BOM row to a dat
 publishDate: 2026-05-20
 pillar: "audit"
 tags: ["openLCA","emission-factor-matching","audit-trail","DQI","Cortex Cowork"]
-locale: "en"
+locale: en
 draft: false
 ---
 
-<span class="dropcap">Y</span>our BOM has a row that reads "stainless steel, 304, hot-rolled, China." openLCA has a flow that reads almost the same. The gap between those two strings is where a calculation goes wrong, and where an auditor will stop you. You spend an afternoon scrolling the provider list, comparing system models, deciding whether the China dataset is close enough or whether you reach for a proxy. The model is fine. The engine is fine. The matching is the work.
+<span class="dropcap">Y</span>our BOM has a row that reads "stainless steel, 304, hot-rolled, China." openLCA has a flow that reads almost the same. The gap between those two strings is where a calculation goes wrong, and where an auditor stops you. You lose an afternoon scrolling the provider list, comparing system models, deciding whether the China dataset is close enough or whether you reach for a proxy. The model is fine. The engine is fine. The matching is the work.
 
-This is the part nobody automates well, because the honest version of it is not a lookup. It is a judgment: which of fourteen LCA databases holds the closest fit, scored on which dimensions, and defendable to whom.
+Nobody automates this part well, because done honestly it isn't a lookup. It's a judgment: which of fourteen LCA databases holds the closest fit, scored on which dimensions, and defendable to whom.
 
 ## Where openLCA stops and the matching starts
 
-openLCA models. It builds the product system, runs the LCIA against the impact method you pick, and gives you the contribution tree. None of that is the bottleneck. The bottleneck sits one step earlier, at the flow: a real procurement line on one side, a database entry on the other, and you in the middle deciding if they are the same thing.
+openLCA models. It builds the product system, runs the LCIA against the impact method you pick, and hands you the contribution tree. None of that is the bottleneck. The bottleneck sits one step earlier, at the flow: a real procurement line on one side, a database entry on the other, you in the middle deciding whether they are the same thing.
 
-You know the failure modes. A 304 row matched to a generic "steel, unalloyed" flow. A China input quietly served a European average because the regional dataset was harder to find. A cut-off dataset and an APOS dataset mixed in the same system because the metadata was three clicks deep. Each of these passes the calculation. None of them passes review.
+You know the failure modes. A 304 row matched to a generic "steel, unalloyed" flow. A China input quietly served a European average because the regional dataset was harder to find. A cut-off dataset and an APOS dataset mixed in one system because the metadata was three clicks deep. Each passes the calculation. None passes review.
 
-So the question for an "AI emission factor matching" tool is narrow: can it close the gap between the BOM item and the database entry without hiding the decision it made to do so?
+Which narrows what an "AI emission factor matching" tool has to do: close the gap between the BOM item and the database entry without hiding the decision it made to get there.
 
 ## Cortex drives openLCA; it does not replace it
 
-Here is the distinction that matters. Cortex does not reimplement the calculation engine. It connects to and operates openLCA. You keep working in openLCA.
+Cortex does not reimplement the calculation engine. It connects to and operates openLCA. You keep working in openLCA.
 
-There are two touchpoints, and both are concrete.
+Two touchpoints, both concrete.
 
-The first is **HiQ AI Match** — an open-source contribution to openLCA, in the greenDelta repository. Right-click any flow in openLCA and get an AI-matched best-fit HiQLCD emission factor. That is the gap-closing move, made inside the tool you already have open: a real-world BOM item on one side, an LCA database entry on the other, matched in place. No export, no second application, no copy-paste of a GWP100 value across a window boundary.
+The first is **HiQ AI Match** — an open-source contribution to openLCA, in the greenDelta repository. Right-click any flow in openLCA and get an AI-matched best-fit HiQLCD emission factor. That's the gap-closing move, made inside the tool you already have open: a real-world BOM item on one side, an LCA database entry on the other, matched in place. No export, no second application, no copy-paste of a GWP100 value across a window boundary.
 
-The second is **Cortex Cowork**, which operates openLCA across a whole workflow. Cowork matches the background datasets, builds the product system, runs the LCIA with the impact method you choose, and retrieves the contribution tree so you see the emission hotspots. The engine is the model. Cortex is the operator. The same pattern holds for brightway and 积木LCA, which Cortex also drives; SimaPro and GaBi it complements.
+The second is **Cortex Cowork**, which operates openLCA across a whole workflow. Cowork matches the background datasets, builds the product system, runs the LCIA with the impact method you choose, and pulls back the contribution tree so the emission hotspots show. The engine is the model. Cortex is the operator. The same pattern holds for brightway and 积木LCA, which Cortex also drives; SimaPro and GaBi it complements.
 
 > Cortex does not replace the calculation engine — it drives it. You keep working in openLCA.
 
 ## What "matched" actually returns
 
-A matcher that returns one answer is not auditable. You cannot defend a number you were handed with no alternatives.
+A matcher that returns one answer is not auditable. You can't defend a number handed to you with no alternatives.
 
-Cortex returns top-k, not top-1. For a flow, you see the candidate datasets ranked, each carrying its GWP100 value, unit, geographic region, system model, source record, and a DQI score across five dimensions: Temporal, Geographic, Technology, Completeness, Reliability. The cut-off dataset and the APOS dataset arrive labelled, never silently merged. The China candidate and the European proxy sit side by side with the regional deviation named. You pick. The pick, and the reason for it, is recorded in the reasoning chain.
+Cortex returns top-k, not top-1. For a flow, you see the candidate datasets ranked, each carrying its GWP100 value, unit, geographic region, system model, source record, and a DQI score across five dimensions: Temporal, Geographic, Technology, Completeness, Reliability. The cut-off dataset and the APOS dataset arrive labelled, never silently merged. The China candidate and the European proxy sit side by side, the regional deviation named. You pick. The pick, and the reason for it, lands in the reasoning chain.
 
-That last sentence is the whole audit argument. A confidence score tells you the model was sure. A DQI score across five named dimensions tells your verifier *why* a dataset fits — temporally, geographically, on production route, on modeled-flow coverage, on source provenance. One of those is reviewable. The other is a black box with a percentage on it.
+That is the whole audit argument. A confidence score tells you the model was sure. A DQI score across five named dimensions tells your verifier *why* a dataset fits — temporally, geographically, on production route, on modeled-flow coverage, on source provenance. One of those is reviewable. The other is a black box with a percentage on it.
 
 ## Where it stops on purpose
 
-Automation that never pauses is automation you cannot file behind. Cortex pauses where automation would break an audit, and returns the decision to you.
+Automation that never pauses is automation you can't file behind. Cortex pauses where it would otherwise break an audit, and hands the decision back.
 
-It pauses when coverage drops too low across your rows to call the match confident. It pauses when the closest dataset is a proxy, not an exact fit, and the substitution needs a justification you will have to defend. It pauses when the same material returns factors that differ by more than 2× across databases, because that spread is a question, not a number. It pauses on a restricted dataset it cannot read, rather than substituting a literature value behind your back.
+It pauses when coverage drops too low across your rows to call the match confident. It pauses when the closest dataset is a proxy, not an exact fit, and the substitution needs a justification you'll have to defend. It pauses when the same material returns factors that differ by more than 2× across databases, because that spread is a question, not a number. It pauses on a restricted dataset it can't read, rather than slipping a literature value in behind your back.
 
-At each of these, the practitioner decides. The decision is recorded in the reasoning chain, with the dataset record and the deviation note attached. That is the difference between a tool that does your matching and a tool that does your matching *and leaves a trail you can walk back* when the auditor asks about row 47.
+At each, you decide. The decision is recorded in the reasoning chain, dataset record and deviation note attached. That's the difference between a tool that does your matching and a tool that does your matching *and leaves a trail you can walk back* when the auditor asks about row 47.
 
 ## What you keep
 
-You keep openLCA. You keep your impact method, your product system, your contribution tree. What changes is the afternoon you used to spend on the flow-matching: the parallel search across fourteen databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — the DQI score per candidate, the proxy flagged instead of buried, the system model preserved instead of mixed.
+You keep openLCA. You keep your impact method, your product system, your contribution tree. What changes is the afternoon you used to lose on the flow-matching: the parallel search across fourteen databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — a DQI score per candidate, the proxy flagged instead of buried, the system model preserved instead of mixed.
 
-This is not certification. Cortex produces a reasoning chain; you file. It aligns with ISO 14067 and the EF method at the data layer, and stops where verification begins, because verification is the verifier's act.
+This is not certification. Cortex produces a reasoning chain; you file. It aligns with ISO 14067 and the EF method at the data layer, and stops where verification begins — because verification is the verifier's act.
 
 The matching was always the work. It can be the work that leaves a record.
 

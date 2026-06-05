@@ -1,6 +1,6 @@
 ---
 title: "The BOM Row That Just Said \"Resin\""
-description: "A method, not a miracle: a BOM row labeled only 高分子/树脂, no grade. How Cortex turns a one-word row into a checkable hypothesis, catches its own broken search, and returns the proxy decision to you."
+description: "A BOM row labeled only 高分子/树脂 — no grade, no CAS, no datasheet. How Cortex turns one word into a checkable hypothesis, catches its own broken search, and hands the proxy decision back to you."
 publishDate: 2026-05-26
 pillar: "journal"
 tags: ["practitioners-journal","bom-matching","proxy-substitution","material-identification","dqi"]
@@ -8,44 +8,44 @@ locale: en
 draft: false
 ---
 
-<span class="dropcap">T</span>he row that stopped me was the third one down. An industrial IoT controller, maybe forty parts in the bill of materials, and most of them were the kind of thing you can match in your sleep: a 304 stainless bracket, an FR-4 board, a couple of standard connectors. Then row three. Under "material," one word: 「高分子」. Polymer. The supplier had, in a later revision, generously upgraded this to 「树脂」 — resin. Two non-standard names, no grade, no CAS number, no datasheet. A mass figure, and nothing else to hang it on.
+<span class="dropcap">T</span>he row that stopped me was third from the top. An industrial IoT controller, maybe forty parts in the bill of materials, most of them the kind you match in your sleep: a 304 stainless bracket, an FR-4 board, a couple of standard connectors. Then row three. Under "material," one word: 「高分子」. Polymer. In a later revision the supplier had generously upgraded that to 「树脂」 — resin. Two non-standard names, no grade, no CAS number, no datasheet. A mass figure and nothing else to hang it on.
 
-I have been doing this long enough to know what happens next. You email the supplier. The supplier forwards it to someone who forwards it to procurement, and three weeks later you get back a PDF that says, in effect, "polymer." Meanwhile the PCF is due, and you have a choice that every practitioner has made and most of us would rather not put in writing: pick a proxy and move on.
+I have done this long enough to know how it goes. You email the supplier. The supplier forwards it to someone who forwards it to procurement, and three weeks later a PDF comes back that says, in effect, "polymer." Meanwhile the PCF is due, and you face the choice every practitioner has made and few of us care to put in writing: pick a proxy and move on.
 
 ## A guess is not a substitution
 
-The honest problem with row three is not that I lacked a number. I could have typed "generic plastic, around 3 kg CO2e/kg" and nobody would have blinked at the draft. The problem is what that number does later. A proxy substitution is the first thing an auditor circles. Not because it is wrong, but because it is undefended — a value with no line back to a decision. If I cannot say *why this resin and not that one*, the row is a liability dressed up as data.
+The real problem with row three was never the missing number. I could have typed "generic plastic, around 3 kg CO2e/kg" and no one would have flinched at the draft. The problem is what that number does later. A proxy substitution is the first thing an auditor circles — not because it is wrong, but because it is undefended, a value with no line back to a decision. If I cannot say *why this resin and not that one*, the row is a liability wearing the costume of data.
 
-So this time I did not guess. I handed row three to Cortex and watched the method it runs on almost nothing.
+So this time I didn't guess. I handed row three to Cortex and watched it work from almost nothing.
 
-## Reading the row it was not given
+## Reading what it wasn't given
 
-The first thing Cortex did was not search. It asked. The word 「树脂」 alone is too thin to act on, so it put the clarifying question on the screen — the production route, the function of the part, the molding process — the same question a careful colleague would ask before guessing.
+Cortex didn't search first. It asked. 「树脂」 on its own is too thin to act on, so it put the clarifying question on screen — production route, function of the part, molding process — the same thing a careful colleague asks before guessing.
 
-Then it read the row it was not given. Not the word 「树脂」 in isolation, but the surrounding inventory — the process context, the function of the part, the other materials in the same assembly — and it narrowed across all of it. From that it proposed a candidate identity and, just as important, named what it was inferring from. Say, for the sake of illustration, a glass-filled engineering thermoplastic — the kind of filled resin a structural enclosure for an electronics part is often molded from. (That is an illustration of the *shape* of the inference, not a claimed identity for any real row.) The point is that the read was specific enough to check, and labeled as a read.
+Then it read the context the row didn't spell out: the surrounding inventory, the process, the other materials in the same assembly, and it narrowed across all of it. From that it proposed a candidate identity and, just as usefully, named what it was inferring from. Say, for illustration, a glass-filled engineering thermoplastic — the sort of filled resin a structural enclosure for an electronics part often gets molded from. (That is the *shape* of the inference, not a claimed identity for any real row.) The read was specific enough to check, and labeled as a read.
 
-## Confidence is a hypothesis, not an answer
+## A confidence reading is a reason to go look
 
-This is the part I want to be precise about, because it is where most tools oversell. Cortex did not declare the answer. It treated its own read as a hypothesis to verify, not a verdict to file — and went looking for literature and database records to confirm or break it. The clarification stayed on the screen: here is the material I think this is, here is what I inferred it from, here is what I am about to test it against. A confidence reading is a reason to go check, not a reason to stop.
+Here is where most tools oversell. Cortex didn't declare an answer. It treated its own read as a hypothesis to verify, not a verdict to file, and went hunting for literature and database records to confirm or break it. The reasoning stayed on screen: here is the material I think this is, here is what I inferred it from, here is what I'm about to test it against. A confidence reading is a reason to go check — never a reason to stop.
 
 ## When the search came back broken
 
-Then the interesting failure. The first database pass returned malformed record links — entries that pointed nowhere, the retrieval equivalent of a dead reference. The thing I have watched lesser tools do at exactly this moment is hand you the broken result anyway, ranked and confident, a tidy number sitting on top of garbage.
+Then the interesting failure. The first database pass returned malformed record links — entries pointing nowhere, the retrieval equivalent of a dead reference. Lesser tools hand you the broken result anyway: ranked, confident, a tidy number sitting on garbage.
 
-Cortex caught it. It detected that the records were bad and re-queried — a self-correcting search rather than a single shot it was willing to defend regardless of what came back. This is the quiet competence that matters: not that the first search was perfect, but that the engine noticed it was not, and said so, and went again. A clean failure that announces itself beats a dirty success every time.
+Cortex caught it. It saw the records were bad and re-queried — a search that corrects itself rather than a single shot defended regardless of what comes back. This is the quiet competence that counts. Not that the first search was perfect, but that the engine noticed it wasn't, said so, and went again. A clean failure that announces itself beats a dirty success every time.
 
 > The first answer was wrong. What I trust is that the engine knew it was wrong.
 
 ## Top-k, and then it stopped
 
-The re-query returned what I actually needed: not one number, but several proxy candidates for that row, each drawn from the fourteen databases Cortex searches — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — and each scored on the five DQI dimensions: Temporal, Geographic, Technology, Completeness, Reliability (the Pedigree-Matrix lineage, not something Cortex invented). Each candidate carried its provenance: the value, the region, the system model, the source record. Top-k, not top-1. I could see the spread, which means I could see the risk.
+The re-query returned what I actually needed: not one number but several proxy candidates for the row, each drawn from the fourteen databases Cortex searches — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — and each scored on the five DQI dimensions: Temporal, Geographic, Technology, Completeness, Reliability (the Pedigree-Matrix lineage, not something Cortex invented). Every candidate carried its provenance: value, region, system model, source record. Top-k, not top-1. I could see the spread, which means I could see the risk.
 
-And then Cortex did the thing that is the whole reason I reach for it on a row like this. It did not silently drop the closest proxy into the cell and call the row done. The identity itself was still a hypothesis, and the proxy — the closest match that is not an exact fit — is exactly where automation would break an audit. So both decisions came back to me, with an expert recommendation for the next step attached: which candidate, on what grounds, with the geographic and technology deltas named. The practitioner decides; the choice is recorded in the reasoning chain.
+And then Cortex did the one thing that is the whole reason I reach for it on a row like this. It didn't quietly drop the closest proxy into the cell and call the row done. The identity was still a hypothesis; the proxy — the closest match that isn't an exact fit — is exactly where automation breaks an audit. So both decisions came back to me, with a recommended next step: which candidate, on what grounds, with the geographic and technology deltas named. The practitioner decides; the choice goes into the reasoning chain.
 
-That is the difference between a number and a defensible row. The proxy I chose is still a proxy. But now there is a line from 「树脂」 to the inferred class to the candidate I picked to the reason I picked it — and when the auditor circles row three, I have a trail to walk them back along, not a shrug.
+That is the gap between a number and a defensible row. The proxy I chose is still a proxy. But now there is a line from 「树脂」 to the inferred class to the candidate I picked to the reason I picked it — and when the auditor circles row three, I have a trail to walk them back along, not a shrug.
 
-## What I keep coming back to
+## What stays with me
 
-I did not save three weeks because the supplier still owes me a real datasheet, and a confirmed material always beats an inferred one. What changed is that I no longer had to choose between an undefended guess and a stalled filing. Cortex asked the question first, read a row it was barely given, treated its own read as a hypothesis, checked itself when the search came back broken, and then — at the one point where guessing would have cost me later — stopped and handed the decision back.
+I didn't save three weeks; the supplier still owes me a real datasheet, and a confirmed material always beats an inferred one. What changed is that I no longer had to choose between an undefended guess and a stalled filing. Cortex asked first, read a row it was barely given, kept its own read as a hypothesis, caught itself when the search came back broken, and then — at the one point where guessing would cost me later — stopped and handed the decision back.
 
-If you have a BOM with a row like that on it, the kind you have been quietly dreading, ask Cortex about it. Bring the worst row you have.
+If you have a BOM with a row like that, the kind you've been quietly dreading, ask Cortex about it. Bring the worst row you have.
