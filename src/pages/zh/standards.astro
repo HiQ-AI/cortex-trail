@@ -4,7 +4,7 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = '标准对齐 — HiQ Cortex';
 const description =
-  'Cortex 输出与哪些标准对齐——ISO 14067、14044、GHG Protocol、PEF / EF、CBAM、Scope 3——以及"对齐"在实际操作中的含义。';
+  'Cortex 输出与哪些标准对齐——ISO 14067、14044、EN 15804、GHG Protocol、PEF / EF、CBAM、Scope 3——以及"对齐"在实际操作中的含义。';
 
 const standards = [
   {
@@ -16,6 +16,16 @@ const standards = [
       'Cortex 从 14 个数据库——HiQLCD、Ecoinvent、EF、CarbonMinds 等——返回经 GWP100 表征的 LCI 数据集，并按 DQI 5 个维度评分：时间性、地理性、技术性、完整性、可靠性。每次导出均附带数据集来源 URL、系统模型（截断或 APOS）及替代值说明，这是 ISO 14067 计算文件所必需的信息。在静默自动化可能产出核查员无法支撑的结果时，决策回到从业者手里——覆盖率不够、需要替代值、跨数据库差异显著、受限数据无访问、系统模型匹配不明确等情形都会触发暂停。',
     notClaim:
       'Cortex 不生成 ISO 14067 EPD。环境产品声明要求多影响类别表征、产品类别规则（PCR）以及第三方核查——均不在本工具的职责范围内。',
+  },
+  {
+    code: 'EN 15804',
+    name: '建筑 EPD 核心 PCR',
+    covers:
+      '在 ISO 14025 / ISO 21930 框架下，为建筑产品环境产品声明（EPD）规定核心产品类别规则（PCR）的欧洲标准；产品专属的补充 PCR（c-PCR）在其上叠加。现行版本 EN 15804+A2 将生命周期末端与收益模块（C1–C4 与 D）设为多数建筑 EPD 的必填项，并把 GWP 拆为子指标——GWP-fossil、GWP-biogenic、GWP-luluc——因此在 A2 声明里裸写"GWP"已不够明确。',
+    does:
+      '面向建筑产品 EPD，Cortex 提供计算所需的、经 GWP100 表征的数据集与溯源，逐行保留系统模型与地区。它把两类交付物分清：独立的产品碳足迹走 ISO 14067；建筑 EPD 走 EN 15804，由 ISO 14067 提供 GWP 指标依据。模块归属（A1–A3、C、D）与适用 c-PCR 仍属从业者步骤。',
+    notClaim:
+      'Cortex 不编制 EN 15804 EPD，也不选定 c-PCR。EPD 编制需要适用 PCR 与第三方核查。',
   },
   {
     code: 'ISO 14044',
@@ -181,7 +191,7 @@ const limits = [
       <div class="max-w-3xl space-y-5 font-serif" style="font-size: 1.05rem; line-height: 1.8; font-variation-settings: 'opsz' 20; color: var(--ink);">
         <p>
           DQI 五个维度——时间性、地理性、技术性、完整性、可靠性——分别衡量什么，详见
-          <a href="/zh/blog/what-dqi-actually-measures" style="color: var(--shell);">DQI 衡量的是什么</a>。
+          <a href="/blog/what-dqi-actually-measures-zh" style="color: var(--shell);">DQI 衡量的是什么</a>。
         </p>
         <p>
           BOM 匹配工作流与标准对齐输出的完整演示，见{' '}

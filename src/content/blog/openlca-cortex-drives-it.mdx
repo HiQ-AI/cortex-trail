@@ -24,11 +24,9 @@ Which narrows what an "AI emission factor matching" tool has to do: close the ga
 
 Cortex does not reimplement the calculation engine. It connects to and operates openLCA. You keep working in openLCA.
 
-Two touchpoints, both concrete.
+Concretely, **Cortex Cowork** operates openLCA across the whole workflow. It matches the background datasets, builds the product system, runs the LCIA with the impact method you choose, and pulls back the contribution tree so the emission hotspots show. The engine is the model. Cortex is the operator. The same pattern holds for brightway and 积木LCA, which Cortex also drives; SimaPro and GaBi it complements.
 
-The first is **HiQ AI Match** — an open-source contribution to openLCA, in the greenDelta repository. Right-click any flow in openLCA and get an AI-matched best-fit HiQLCD emission factor. That's the gap-closing move, made inside the tool you already have open: a real-world BOM item on one side, an LCA database entry on the other, matched in place. No export, no second application, no copy-paste of a GWP100 value across a window boundary.
-
-The second is **Cortex Cowork**, which operates openLCA across a whole workflow. Cowork matches the background datasets, builds the product system, runs the LCIA with the impact method you choose, and pulls back the contribution tree so the emission hotspots show. The engine is the model. Cortex is the operator. The same pattern holds for brightway and 积木LCA, which Cortex also drives; SimaPro and GaBi it complements.
+The gap it closes is the flow match itself: a real-world BOM item on one side, an LCA database entry on the other, matched in place — no export, no second application, no copy-paste of a GWP100 value across a window boundary, and no decision hidden along the way.
 
 > Cortex does not replace the calculation engine — it drives it. You keep working in openLCA.
 
@@ -58,4 +56,4 @@ The matching was always the work. It can be the work that leaves a record.
 
 ---
 
-Ask Cortex about a flow, or right-click one in openLCA with HiQ AI Match. The engine stays yours.
+Ask Cortex about a flow, and keep working in openLCA. The engine stays yours.

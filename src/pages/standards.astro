@@ -4,7 +4,7 @@ import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'Standards alignment — HiQ Cortex';
 const description =
-  'Which standards Cortex outputs align with — ISO 14067, 14044, GHG Protocol, PEF / EF, CBAM, Scope 3 — and what alignment means in practice.';
+  'Which standards Cortex outputs align with — ISO 14067, 14044, EN 15804, GHG Protocol, PEF / EF, CBAM, Scope 3 — and what alignment means in practice.';
 
 const standards = [
   {
@@ -16,6 +16,16 @@ const standards = [
       "Cortex returns GWP100-characterized LCI datasets from fourteen databases — HiQLCD, Ecoinvent, EF, CarbonMinds, and others — scored by DQI across five dimensions: Temporal, Geographic, Technology, Completeness, Reliability. Every export carries the source URL, system model (cut-off or APOS), and proxy notes a 14067 calculation file requires. Decisions return to the practitioner where silent automation would produce a result a verifier could not defend — coverage gaps, proxy substitutions, large cross-database spread, restricted-data markers, ambiguous system-model matches.",
     notClaim:
       'Cortex does not generate ISO 14067 EPDs. An Environmental Product Declaration requires multi-impact characterization, a Product Category Rule (PCR), and third-party verification — none of which are within the tool’s scope.',
+  },
+  {
+    code: 'EN 15804',
+    name: 'Core PCR for Construction EPDs',
+    covers:
+      'The European standard setting the core Product Category Rules for construction-product Environmental Product Declarations, within the ISO 14025 / ISO 21930 framework; product-specific complementary PCRs (c-PCRs) layer on top. The current version, EN 15804+A2, makes the end-of-life and benefits modules (C1–C4 and D) mandatory for most construction EPDs and splits GWP into sub-indicators — GWP-fossil, GWP-biogenic, GWP-luluc — so a bare "GWP" is under-specified for an A2 declaration.',
+    does:
+      'For a construction-product EPD, Cortex supplies the GWP100-characterized datasets and provenance the calculation needs, with system model and region preserved per row. It keeps the deliverables distinct: a standalone product carbon footprint follows ISO 14067; a construction EPD follows EN 15804, with ISO 14067 informing the GWP indicator. Module assignment (A1–A3, C, D) and the applicable c-PCR remain the practitioner’s steps.',
+    notClaim:
+      'Cortex does not compile EN 15804 EPDs or select the c-PCR. EPD compilation requires the relevant PCR and third-party verification.',
   },
   {
     code: 'ISO 14044',
