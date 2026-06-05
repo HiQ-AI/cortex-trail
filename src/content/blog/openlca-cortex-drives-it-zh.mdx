@@ -24,11 +24,9 @@ openLCA 负责建模。它搭建 product system，按你选定的 impact method 
 
 关键的区别在这里。Cortex 不重写计算引擎。它连接并操作 openLCA。你照旧在 openLCA 里干活。
 
-两个触点，都很具体。
+具体说，**Cortex Cowork** 在整条流程上操作 openLCA。它匹配背景数据集，搭建 product system，用你选的 impact method 跑 LCIA，再取回 contribution tree，让你看见排放热点。引擎是模型，Cortex 是操作者。同样的模式也用在 brightway 和 积木LCA 上，Cortex 一样驱动它们；SimaPro 和 GaBi 则与之协作。
 
-第一个是 **HiQ AI Match**——对 openLCA 的开源贡献，在 greenDelta 仓库里。在 openLCA 里右键任意一条 flow，拿到一条 AI 匹配的、最贴合的 HiQLCD 排放因子。这就是合缝那一下，发生在你本就开着的工具内部：一头是真实世界的 BOM 项，一头是 LCA 数据库条目，就地匹配。不用导出，不用第二个应用，不用把一个 GWP100 值跨着窗口复制粘贴。
-
-第二个是 **Cortex Cowork**，它在整条流程上操作 openLCA。Cowork 匹配背景数据集，搭建 product system，用你选的 impact method 跑 LCIA，再取回 contribution tree，让你看见排放热点。引擎是模型，Cortex 是操作者。同样的模式也用在 brightway 和 积木LCA 上，Cortex 一样驱动它们；SimaPro 和 GaBi 则与之协作。
+它合上的那道缝，就是 flow 匹配本身：一头是真实世界的 BOM 项，一头是 LCA 数据库条目，就地匹配——不用导出，不用第二个应用，不用把一个 GWP100 值跨着窗口复制粘贴，也不把中间那个决策藏起来。
 
 > Cortex 不替代计算引擎——它驱动引擎。你照旧在 openLCA 里干活。
 
@@ -58,4 +56,4 @@ Cortex 返回 top-k，不是 top-1。对一条 flow，你看到候选数据集�
 
 ---
 
-向 Cortex 问一条 flow，或在 openLCA 里用 HiQ AI Match 右键点一条。引擎始终是你的。
+向 Cortex 问一条 flow，照旧在 openLCA 里干活。引擎始终是你的。

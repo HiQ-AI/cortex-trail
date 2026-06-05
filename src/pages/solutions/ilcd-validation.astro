@@ -29,7 +29,7 @@ const checkpoints = [
   ['Hard errors — no auto-fix', 'When validation finds an Error, Cortex stops and presents each one: location, severity, and a suggested fix. The user decides whether to fix or accept the risk. No silent repair.'],
   ['Warnings — split by consequence', "Warnings are presented in two groups: those that affect interoperability with other systems (fix recommended) and those that are style issues (optional). The distinction matters — a practitioner accepting a risk needs to know what the risk actually is."],
   ['Structural mismatch during conversion', 'Some ILCD constructs do not map cleanly to JSON-LD — multilingual fields, inherited flow properties, and schema-version-specific extensions are common sources. When a mismatch occurs, Cortex names the field, explains the mapping choice, and describes the information that would be lost. No field is silently dropped.'],
-  ['Schema version specificity', 'ILCD 1.1 and EF 3.0 use different mapping rules. When the target version matters — for submission to a specific registry or validator — Cortex asks before applying the conversion rules.'],
+  ['Schema version specificity', 'ILCD 1.1 and EF 3.1 use different mapping rules. When the target version matters — for submission to a specific registry or validator — Cortex asks before applying the conversion rules.'],
 ];
 ---
 

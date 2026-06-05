@@ -77,10 +77,9 @@ NOTE: Cortex produces the reasoning chain and flags issues; it is not an audit c
     slug: 'openlca-cortex-drives-it', pillar: 'audit',
     query: 'openLCA AI emission factor matching automate calculation',
     hook: 'Cortex does not replace the calculation engine — it drives it; openLCA users keep working in openLCA.',
-    facts: `Cortex does NOT replace the LCA engine; it drives it. Two shipped openLCA touchpoints:
-1) "HiQ AI Match" — an open-source contribution to openLCA (greenDelta repo): right-click any flow in openLCA -> get an AI-matched best-fit HiQLCD emission factor, closing the gap between a real-world BOM item and an LCA database entry.
-2) Cortex Cowork connects to and operates openLCA end-to-end: matches background datasets, builds the product system, runs the LCIA with a chosen impact method, and retrieves the contribution tree (emission hotspots). You keep working in openLCA.
+    facts: `Cortex does NOT replace the LCA engine; it drives it. Cortex Cowork connects to and operates openLCA end-to-end: it matches background datasets, builds the product system, runs the LCIA with a chosen impact method, and retrieves the contribution tree (emission hotspots). You keep working in openLCA. The real bottleneck is the flow match — pairing a real-world BOM item to the right database entry — which is Cortex's cross-database search (top-k candidates, DQI-scored, provenance kept).
 Cortex also drives brightway and 积木LCA; it complements SimaPro and GaBi.
+DO NOT claim a "HiQ AI Match" open-source contribution to openLCA / greenDelta — that was an internal demo, never contributed; it must not appear in copy.
 COPY RULE: do NOT mention "IPC server", ports, gRPC, or "local Python" — internal accuracy, not public copy. Say "connects to and operates".`,
   },
   {
