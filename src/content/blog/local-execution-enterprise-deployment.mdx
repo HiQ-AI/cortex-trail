@@ -1,0 +1,62 @@
+---
+title: "The AI Comes to Your Data: Local Execution in Enterprise LCA"
+description: "Enterprise LCA teams handle BOM and supply-chain data that cannot leave the building. Cortex operates on a local execution model — the AI comes to your data, not the other way around — so sensitive inputs stay inside your environment at every step."
+publishDate: 2026-06-11
+pillar: "dispatch"
+tags: ["LCA","enterprise","data-privacy","local-execution","supply-chain"]
+locale: "en"
+draft: false
+---
+<span class="dropcap">T</span>here is a quiet anxiety running through every enterprise LCA team that has looked seriously at AI-assisted life cycle assessment: where does the data go?
+
+Bill-of-materials files contain supplier identities, process yields, and sourcing relationships that represent years of supply-chain development. Hand that to a cloud service and you have transferred competitive intelligence to an external server — potentially subject to foreign jurisdiction, retention policies you did not write, and breach vectors you cannot audit. The question is not whether AI can help with LCA work. The question is whether the terms of that help are acceptable.
+
+Cortex operates from a single guiding principle: **think in the cloud, act locally**. The AI comes to your data, not the reverse. Nothing is taken away.
+
+## What "Local Execution" Means in Practice
+
+The phrase sounds simple, but it resolves a specific set of tensions that arise when an organisation tries to adopt AI without compromising data governance.
+
+When you use Cortex to retrieve background LCI data, the retrieval runs locally. Cortex searches across 14 databases and returns top-k candidates, each accompanied by per-entry DQI scores — scores that reflect Temporal, Geographic, Technology, Completeness, and Reliability dimensions, drawn from the Pedigree Matrix tradition. That ranking and scoring computation happens inside your environment. The BOM entries you are querying against, the supplier names embedded in your process descriptions, the yield figures that reveal your manufacturing efficiency — none of that travels outward to produce the result.
+
+This is a meaningful architectural distinction. Many AI tools accept a file, send it to a remote inference endpoint, and return an answer. The data has left the building at step one. Cortex inverts that flow. The model reasoning that produces candidate suggestions is applied locally, against local data, and the outputs remain local.
+
+## Integration Without Displacement
+
+Local execution extends to how Cortex connects to the LCA tools your team already uses. Cortex connects to and operates openLCA, brightway, and 积木LCA. The design principle is consistent: Cortex drives it, does not replace the engine.
+
+If your team works in openLCA, you continue working inside openLCA. Your project files, your process library, your system model choices — they stay in the tool you have always used, subject to the access controls and backup policies you have already configured. Cortex operates that tool; it does not absorb your data into a parallel environment that you do not control.
+
+For enterprise deployments, this matters beyond the immediate privacy concern. Procurement, legal, and IT security teams evaluating AI adoption often want assurance that the organisation's existing data residency commitments remain intact. A tool that drives your existing software from within your environment is a substantially easier conversation than one that requires a new cloud data-sharing agreement.
+
+## Auditability at the Moments That Matter
+
+Data leaving the building is one concern. A separate concern — equally important in regulated industries and in organisations that publish EPDs or submit environmental disclosures — is that AI-assisted decisions can become opaque. If a model makes a consequential choice automatically and the practitioner only sees the result, the audit trail is broken before it starts.
+
+Cortex addresses this by actively pausing at automations that would break auditability, and recording the practitioner's decision in the reasoning chain.
+
+Consider a few situations where this matters. When Cortex returns top-k database candidates for a supply-chain process and the scores are close — two entries with overlapping DQI profiles pointing to different geographic proxies — the system does not silently pick one. The practitioner decides; the decision is recorded in the reasoning chain. When a functional unit boundary choice would affect how downstream characterisation results are interpreted, Cortex surfaces the branch point rather than resolving it automatically. When a substitution in a multi-output process could be handled by several allocation conventions, the practitioner selects the approach; that selection becomes part of the documented record.
+
+This design reflects a straightforward reality: enterprise teams need to be able to defend their methodology, not just produce a number. The reasoning chain that Cortex produces is the audit trail that practitioners submit alongside their results. Cortex generates the chain; the practitioner reviews and submits it. There is no automatic filing.
+
+## The Supply-Chain Data Problem, Specifically
+
+BOM and supply-chain data sits at the intersection of several sensitivities. It is commercially sensitive — revealing supplier relationships and negotiated specifications. It is often subject to non-disclosure obligations with suppliers. It can be subject to export control or sector-specific regulation depending on the industry. And it is precisely the data that LCA work depends on most heavily, because accurate foreground inventory requires accurate process inputs.
+
+The tension this creates for AI-assisted LCA is not abstract. Teams that would benefit most from AI assistance — those working on complex, multi-tier supply chains with many processes to characterise — are also the teams with the most sensitive data. A tool that requires exporting that data to function is a tool those teams cannot adopt without significant legal review, and often cannot adopt at all.
+
+Cortex was designed with this constraint as a first principle, not as a feature added later. The local execution model means that the teams with the most sensitive supply-chain data face the lowest adoption friction, not the highest.
+
+## Enterprise Deployment in Context
+
+For IT and infrastructure teams managing an enterprise Cortex deployment, local execution also simplifies the security review surface. The question of data egress — what goes out, to where, under what conditions — has a short answer: the sensitive inputs do not leave. Cortex retrieves from 14 databases and operates three LCA tools, all within the local environment. The attack surface for a data breach involving your BOM is not extended by the AI layer.
+
+This does not mean there are no network considerations. Database updates, model updates, and licence validation involve network communication. But those are bounded, auditable flows — not open-ended transmission of user data to inference endpoints.
+
+## A Different Frame for AI Adoption
+
+The usual frame for AI adoption is capability: what new things can this tool do? That frame fits well for many applications. For enterprise LCA, a second frame matters just as much: on what terms does this tool operate, and are those terms compatible with how we manage sensitive data?
+
+Cortex is designed to be answerable to the second frame without sacrificing the first. Retrieval across 14 databases, DQI scoring per candidate, integration with openLCA, brightway, and 积木LCA, auditability at every consequential decision point — all of this runs under the local execution model.
+
+The AI comes to your data. That is not a slogan. It is the architectural commitment that makes enterprise LCA adoption tractable for teams that cannot afford to ask where their BOM went.
