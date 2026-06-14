@@ -1,0 +1,66 @@
+---
+title: "Beyond the Number: Understanding DQI's Five Dimensions in Your Data Choices"
+description: "LCA practitioners often see a DQI score but struggle to explain what each dimension measures. This guide walks through Cortex's breakdown of the five Pedigree-Matrix dimensions—Temporal, Geographic, Technology, Completeness, and Reliability—and shows how the platform surfaces the scoring rationale so you can defend your data choices."
+publishDate: 2026-06-14
+pillar: "journal"
+tags: ["data quality","DQI","LCA methodology","Pedigree Matrix","emission factors"]
+locale: "en"
+draft: false
+---
+<span class="dropcap">W</span>hen you're selecting an emission factor for a material in your product's supply chain, a three-digit DQI score can feel like a judgment. Is 42 good? Is 68 excellent? The number alone tells you almost nothing about why one dataset scores higher than another—and it tells auditors even less about why you chose it.
+
+This gap between the score and the story behind it is exactly what Cortex addresses. Rather than hiding the reasoning inside an opaque rating, the platform breaks down each candidate's quality across five distinct dimensions, each with a clear definition rooted in LCA methodology. You see not just a number, but the actual factors that make one emission factor more suitable for your study than another.
+
+## Where Do These Five Dimensions Come From?
+
+The five dimensions that make up the Data Quality Index come from the Pedigree-Matrix framework, a methodology long established in LCA literature. Cortex did not invent these measures; they emerge from decades of LCA practice and standards like ISO 14067 and EN 15804. What Cortex does is make them transparent. Instead of leaving you to guess why a dataset's quality assessment landed where it did, the platform shows you the per-dimension reasoning for each candidate it retrieves.
+
+Cortex searches across 14 databases and returns the top candidates ranked by relevance. For each one, you see how it performs on each of the five dimensions. This is the difference between "Trust us, it's a 54" and "Here's why we scored it that way, here are the alternatives, and here's what you need to know to make the call."
+
+## The Five Dimensions, Explained
+
+### Temporal: How Recent Is the Data?
+
+Emission factors change. The electricity grid evolves; manufacturing processes improve or shift. A temporal score answers a simple question: how old is this dataset, and how does that age affect its fitness for your reference year?
+
+Imagine you're studying a product made in 2024. An emission factor for the same material from 2022 is more recent than one from 2015. But recency alone isn't the story. If the underlying technology or grid composition hasn't changed much, a three-year-old factor might be perfectly defensible. If the grid has decarbonized dramatically, that same factor could be a poor fit. Temporal scoring flags this trade-off so you can weigh it against your study's sensitivity and your auditor's expectations.
+
+### Geographic: Does the Origin Match Your Production Location?
+
+Geographic quality asks whether the emission factor was measured or modeled for the place where you're actually producing the material.
+
+A global average emission factor applied to a product made in Norway—a country with very low-carbon electricity—will almost certainly overestimate your product's impact. Likewise, a dataset built for Western Europe may not reflect the reality of manufacturing in Southeast Asia. Cortex surfaces this mismatch. You see whether each candidate is global, regional, country-specific, or facility-level. You're not forced to use a poor geographic match just because it ranked highly on other dimensions; you can see the trade-off and make an informed choice.
+
+### Technology: Is the Production Method Represented?
+
+Not all steel is made the same way. Not all chemicals are synthesized in the same reactor. Technology quality measures whether the dataset reflects the actual production process being modeled.
+
+A generic average for "steel production" that lumps together electric-arc furnace and blast-furnace routes will score lower than a dataset specific to the electric-arc process—if that's what you're actually modeling. Cortex shows you this granularity. You can see whether a candidate is generic to the sector, process-specific, or even facility-specific. This dimension is often where practitioners find the biggest quality improvements: switching from a broad sector average to a technology-matched dataset can shift a score significantly.
+
+### Completeness: Does the Dataset Cover Everything?
+
+Completeness asks whether the dataset covers all relevant flows and life-cycle stages without significant gaps.
+
+A cradle-to-gate dataset for a material might capture extraction, processing, and transportation to the factory gate, but miss certain co-product allocations or recycling credit calculations. A dataset labeled cradle-to-grave might include use and end-of-life stages but leave gaps in upstream coverage due to data availability or cutoff decisions. Cortex flags these boundaries. You see whether each candidate is a full cradle-to-grave inventory, a partial cradle-to-gate set, or something in between. This transparency helps you understand whether you need to supplement the dataset with additional information or whether its scope is sufficient for your study.
+
+### Reliability: How Good Is the Underlying Data?
+
+Reliability is about the provenance of the numbers themselves. Were they measured from actual equipment and processes? Were they modeled from first principles? Were they estimated with educated guesses?
+
+Measured data from primary sources—direct monitoring of emissions or resource use—scores higher than modeled or estimated values. This doesn't mean models are useless; it means they carry more uncertainty. Cortex surfaces this distinction. You see whether a dataset is built on measured data, calculations from scientific models, or statistical estimates. For an auditor or a critical decision, the reliability dimension often becomes your filter: you might say, "I'm only using datasets with measured primary data for this critical flow."
+
+## How Cortex Surfaces the Rationale
+
+Here's where the practice becomes concrete. When Cortex returns candidates for a material—say, CO₂-equivalent emissions for polycarbonate resin—you don't see five separate scores floating in space. You see each candidate's profile across all five dimensions simultaneously. One might score high on temporal and technology but lower on geographic match. Another might be older but geographically perfect. A third might be very recent and geographically matched but incomplete on scope.
+
+You're the one who decides. And crucially, your decision is recorded. Cortex preserves the reasoning chain—which candidate you chose, which dimensions you weighted, and why—so that when an auditor asks, "Why did you use this dataset for this material?" you have a documented answer. That reasoning trail is what ISO 14067 and EN 15804 require. It's also what makes your study defensible.
+
+There's another scenario Cortex handles explicitly: divergence. When the same material has GWP values that differ by more than 2× across databases, Cortex does not average them or silently pick one. It pauses and hands the decision back to you. You see the candidates, their dimension breakdowns, and the option to dig deeper. This is not a limitation; it's a feature. It's the moment when data quality thinking becomes data quality practice.
+
+## Why This Matters for Your Practice
+
+The five dimensions of the Pedigree-Matrix are not abstract scoring rules. They're concrete questions that LCA auditors and standards bodies care about. By surfacing them, Cortex shifts the conversation from "What's my DQI score?" to "Why did I make this choice, and can I defend it?"
+
+When you understand what Temporal, Geographic, Technology, Completeness, and Reliability actually measure, you stop treating the DQI as a black-box number. You become an informed reader of data. You can negotiate with suppliers for better datasets. You can justify your choices to auditors. And you can explain—to yourself and to others—why one emission factor was the right call for your product at your reference year in your study context.
+
+That's the difference between a score and a story. Cortex helps you tell the story.
