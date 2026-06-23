@@ -1,0 +1,56 @@
+---
+title: "When Your BOM Has Gaps: How Cortex Handles Coverage and Proxy Decisions"
+description: "Most LCA tools silently fill coverage gaps and proxy gaps with defaults. Cortex pauses instead, returning the decision to you and recording it in the reasoning chain so auditors can follow exactly what was decided and why."
+publishDate: 2026-06-15
+pillar: "audit"
+tags: ["audit","LCA","BOM","coverage","proxy","auditability"]
+locale: "en"
+draft: false
+---
+<span class="dropcap">W</span>hen you submit a bill of materials for lifecycle assessment, you expect every component to have a measured or reliable dataset behind it. In practice, coverage is rarely complete. A material may exist in only a subset of the databases you're querying, or a perfect match may not exist at all — which is when proxy substitution enters the picture. Most LCA tools handle this silently: applying a default proxy, averaging across multiple values, or filling the gap with a placeholder. You get a number.
+
+Cortex does something different. Where automation would obscure a choice, Cortex stops and returns the decision to you. Your BOM, your call.
+
+## The Problem with Silent Defaults
+
+In a typical LCA workflow, coverage gaps are treated as an engineering problem to resolve before you see it. The tool searches for an exact match, fails to find one, and applies a fallback — usually a category-level average, a generic substitute, or a data-quality-weighted guess. The database coverage gap disappears from your view. You may never know that the roofing membrane in your model came from a regional proxy rather than the actual supply chain, or that three materials with meaningfully different environmental profiles were averaged together.
+
+This matters for auditability. When a regulator, certification body, or internal auditor asks "why did you choose that dataset for this component?" you need an answer. If the tool chose it automatically, the chain of reasoning ends at "the software decided."
+
+Cortex's architecture treats coverage gaps and proxy decisions as moments where practitioner judgment is not optional. These are not obstacles to automate away — they are checkpoints where automation would undermine methodological integrity.
+
+## How Cortex Pauses at Coverage Thresholds
+
+When the combined coverage across Cortex's 14 databases falls below 80% for a BOM material, Cortex does not unilaterally fill the gap. It surfaces the decision: "Coverage is below threshold. Here are your options."
+
+What you receive is a ranked set of candidates from across the databases, each scored individually on five DQI dimensions — Temporal, Geographic, Technology, Completeness, and Reliability. These dimensions come from the Pedigree Matrix, the established framework for assessing data quality in LCA. Cortex does not invent its own scoring method; it implements existing methodological consensus. You review the candidates, assess the trade-offs, and select the proxy that best fits your study scope and what your auditors will expect.
+
+That selection is recorded in the reasoning chain. Not "proxy applied" — but: this material → coverage triggered a gap at 75% → candidates ranked on Temporal (±3 years), Geographic (regional match at 60%), Technology (process model score of 0.8), Completeness (full LCI: yes), Reliability (peer-reviewed: 3 sources) → practitioner selected candidate B because geographic alignment mattered most for this supply chain.
+
+The auditor reading your study sees your reasoning, not a black box.
+
+## When Values Diverge: The 2x Rule
+
+Sometimes the problem is not absence but conflict. The same material exists across multiple databases, but GWP values differ by more than a factor of two. Averaging them obscures the disagreement; picking one ignores the others.
+
+Cortex stops here as well. When GWP results diverge by more than 2x, Cortex returns the options and puts the decision with you. This rule is grounded in practical LCA methodology: a 2x spread signals that methodological choices — scope boundaries, allocation rules, regional assumptions — have diverged enough that blind averaging becomes misleading. Practitioner judgment is necessary to interpret that divergence and choose a defensible path forward.
+
+Again, the decision is recorded. The auditor can see that you consciously chose one source over another, and can understand your reasoning from the DQI profile of each candidate.
+
+## Proxy Substitution: No Defaults Applied
+
+When a direct match does not exist, a proxy is needed. Conventional tools reach for preset values — a category average, a similarly named product, a regional substitute. Cortex surfaces the decision.
+
+You see a top-k set of candidates ranked on the five DQI dimensions. A bio-based polymer may match against a fossil-based equivalent, a plant-based fiber, or a recycled option, each carrying different temporal relevance, geographic applicability, and technological alignment. You evaluate them in the context of your study, decide which proxy best represents the actual supply chain — or whether none is adequate enough to proceed with confidence.
+
+The reasoning chain is most valuable here. If the proxy you choose carries a lower Reliability or Completeness score, that trade-off is visible to anyone reviewing your work. You are not hiding it; you are owning it.
+
+## Alignment, Not Certification
+
+Cortex's standard is alignment with LCA methodological norms, not certification. The pause-and-return pattern is how that alignment is operationalised at coverage thresholds, proxy decisions, and divergent value conflicts — any point where automation would obscure a methodological choice.
+
+This is not passivity. It is the opposite: it is a refusal to automate at the moments where your expertise, your study scope, and your audit obligations matter.
+
+Every pause is logged. Every decision is held in the reasoning chain. When you submit your LCA study, coverage gaps and proxy substitutions are not buried in the tool's logic — they are transparent, traceable, and defensible. That is what auditability means in a tool built for rigour.
+
+Your BOM, your call. On the record, so the auditor can see exactly what was decided and why.
