@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" font-family="'Fraunces', Georgia, serif" role="img" aria-label="One LCA project from kick-off to verification: data and project work dominate, the model build comes late and loops back to the data.">
+  <rect width="960" height="360" fill="#FBF9F4"/>
+
+  <!-- stage cards -->
+  <!-- x positions: 40,168,296,424,552,680,808 ; width 112 -->
+  <g>
+    <!-- 1 Kick-off -->
+    <rect x="40" y="74" width="112" height="72" rx="8" fill="#F2E9DB" stroke="#C2743A" stroke-width="1.3"/>
+    <text x="96" y="64" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#9A9286">01</text>
+    <text x="96" y="108" text-anchor="middle" font-size="13.5" fill="#2E2A24">Kick-off</text>
+    <text x="96" y="126" text-anchor="middle" font-size="13.5" fill="#2E2A24">&amp; plan</text>
+
+    <!-- 2 Data form -->
+    <rect x="168" y="74" width="112" height="72" rx="8" fill="#F2E9DB" stroke="#C2743A" stroke-width="1.3"/>
+    <text x="224" y="64" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#9A9286">02</text>
+    <text x="224" y="108" text-anchor="middle" font-size="13.5" fill="#2E2A24">Learn material</text>
+    <text x="224" y="126" text-anchor="middle" font-size="13.5" fill="#2E2A24">→ data form</text>
+
+    <!-- 3 Collect -->
+    <rect x="296" y="74" width="112" height="72" rx="8" fill="#F2E9DB" stroke="#C2743A" stroke-width="1.3"/>
+    <text x="352" y="64" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#9A9286">03</text>
+    <text x="352" y="108" text-anchor="middle" font-size="13.5" fill="#2E2A24">Collect</text>
+    <text x="352" y="126" text-anchor="middle" font-size="13.5" fill="#2E2A24">&amp; validate</text>
+
+    <!-- 4 Standardize -->
+    <rect x="424" y="74" width="112" height="72" rx="8" fill="#F2E9DB" stroke="#C2743A" stroke-width="1.3"/>
+    <text x="480" y="64" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#9A9286">04</text>
+    <text x="480" y="113" text-anchor="middle" font-size="13.5" fill="#2E2A24">Standardize</text>
+
+    <!-- 5 Model (highlight) -->
+    <rect x="552" y="74" width="112" height="72" rx="8" fill="#D98E4B" stroke="#8F4E28" stroke-width="1.6"/>
+    <text x="608" y="64" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#8F4E28">05</text>
+    <text x="608" y="108" text-anchor="middle" font-size="13.5" fill="#3A2410" font-weight="600">Model</text>
+    <text x="608" y="126" text-anchor="middle" font-size="13.5" fill="#3A2410" font-weight="600">&amp; iterate</text>
+
+    <!-- 6 Validate results -->
+    <rect x="680" y="74" width="112" height="72" rx="8" fill="#F2E9DB" stroke="#C2743A" stroke-width="1.3"/>
+    <text x="736" y="64" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#9A9286">06</text>
+    <text x="736" y="108" text-anchor="middle" font-size="13.5" fill="#2E2A24">Validate</text>
+    <text x="736" y="126" text-anchor="middle" font-size="13.5" fill="#2E2A24">results</text>
+
+    <!-- 7 Verify -->
+    <rect x="808" y="74" width="112" height="72" rx="8" fill="#F2E9DB" stroke="#C2743A" stroke-width="1.3"/>
+    <text x="864" y="64" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#9A9286">07</text>
+    <text x="864" y="108" text-anchor="middle" font-size="13.5" fill="#2E2A24">Verify</text>
+    <text x="864" y="126" text-anchor="middle" font-size="13.5" fill="#2E2A24">&amp; register</text>
+  </g>
+
+  <!-- forward connectors -->
+  <g stroke="#C9C1B4" stroke-width="1.4">
+    <line x1="152" y1="110" x2="168" y2="110"/>
+    <line x1="280" y1="110" x2="296" y2="110"/>
+    <line x1="408" y1="110" x2="424" y2="110"/>
+    <line x1="536" y1="110" x2="552" y2="110"/>
+    <line x1="664" y1="110" x2="680" y2="110"/>
+    <line x1="792" y1="110" x2="808" y2="110"/>
+  </g>
+
+  <!-- loop arrow: model (5) back to data (collect/standardize) -->
+  <path d="M560 146 C 470 232, 360 232, 372 154" fill="none" stroke="#8F4E28" stroke-width="1.8" stroke-dasharray="5 4"/>
+  <path d="M372 154 l -7 13 l 13 -2 Z" fill="#8F4E28"/>
+  <text x="466" y="232" text-anchor="middle" font-size="13" fill="#8F4E28" font-style="italic">screen early, refine — the model loops back to the data</text>
+
+  <!-- bottom legend -->
+  <g transform="translate(40,300)">
+    <rect x="0" y="0" width="16" height="12" rx="3" fill="#F2E9DB" stroke="#C2743A" stroke-width="1.2"/>
+    <text x="24" y="10" font-family="'JetBrains Mono', monospace" font-size="12" fill="#4A453C">data &amp; project work — weeks of it</text>
+    <rect x="320" y="0" width="16" height="12" rx="3" fill="#D98E4B" stroke="#8F4E28" stroke-width="1.2"/>
+    <text x="344" y="10" font-family="'JetBrains Mono', monospace" font-size="12" fill="#4A453C">model build — late, and a minority of the effort</text>
+  </g>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 540" font-family="'Fraunces', Georgia, serif" role="img" aria-label="An LCA project's effort as an iceberg: the model build is the visible tip, 70% data work sits below the waterline.">
+  <rect width="760" height="540" fill="#FBF9F4"/>
+
+  <!-- waterline -->
+  <line x1="36" y1="206" x2="724" y2="206" stroke="#B7AE9F" stroke-width="1.5" stroke-dasharray="2 5"/>
+  <text x="724" y="198" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="11" fill="#9A9286" letter-spacing="0.5">waterline</text>
+
+  <!-- iceberg tip (above water) — the modeling -->
+  <path d="M250 60 L196 206 L304 206 Z" fill="#EFE0CC" stroke="#C2743A" stroke-width="2"/>
+  <text x="250" y="138" text-anchor="middle" font-size="17" fill="#8F4E28" font-weight="600">Model build</text>
+  <text x="250" y="160" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8F4E28">openLCA owns it</text>
+
+  <!-- iceberg body (below water) — the data work -->
+  <path d="M196 206 L304 206 L344 296 L320 416 L250 498 L180 416 L156 296 Z"
+        fill="#E5DACA" stroke="#C2743A" stroke-width="1.5"/>
+  <text x="250" y="312" text-anchor="middle" font-size="74" fill="#8F4E28" font-weight="640">70%</text>
+  <text x="250" y="344" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11.5" fill="#6B6358" letter-spacing="1.5">DATA WORK</text>
+
+  <!-- right-hand annotation list -->
+  <text x="430" y="120" font-size="19" fill="#2E2A24" font-weight="600">Under the waterline</text>
+  <line x1="430" y1="134" x2="700" y2="134" stroke="#CEC8BD" stroke-width="1"/>
+  <g font-family="'JetBrains Mono', monospace" font-size="13" fill="#4A453C">
+    <text x="430" y="170">· Goal &amp; scope, functional unit</text>
+    <text x="430" y="202">· Learn the material &amp; its industry</text>
+    <text x="430" y="234">· Design a data collection form</text>
+    <text x="430" y="266">· Chase the supplier who won't reply</text>
+    <text x="430" y="298">· Sanity-check figures that look wrong</text>
+    <text x="430" y="330">· Report progress to the team</text>
+    <text x="430" y="362">· Clean &amp; standardize the inputs</text>
+  </g>
+  <text x="430" y="404" font-family="'Fraunces', Georgia, serif" font-size="13.5" fill="#6E7A55" font-style="italic">Most of it never opens your LCA software.</text>
+</svg>

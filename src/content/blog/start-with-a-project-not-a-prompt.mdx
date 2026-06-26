@@ -1,0 +1,89 @@
+---
+title: "Start With a Project, Not a Prompt"
+description: "70% of an LCA project is data work — and a chatbot forgets all of it the moment you close the tab. Here's why the first thing Cortex Cowork does is create a project."
+publishDate: 2026-06-20
+pillar: "dispatch"
+tags: ["LCA","cowork","project-management","local-execution","methodology"]
+locale: en
+draft: false
+---
+
+<span class="dropcap">O</span>pen Cortex Cowork for the first time and there's no chat box waiting for you. The first thing it asks is to create a project. That's deliberate — it's the central decision in how the product is designed, and this post is about why.
+
+Most AI tools are built around a question: you type, they answer, the context evaporates. That shape works for a lookup. It does not work for an LCA project — because a project is not a question. It is weeks or months of work, **70% of it data work**,[^1] most of which never opens your LCA software at all.
+
+## The work isn't the modeling
+
+Picture a real deliverable: an EN 15804 EPD for a gypsum board, a category rule for passenger cars, an ecodesign study for a new plastic part. Where does the time actually go?
+
+The part everyone pictures — building the model in SimaPro, GaBi, or openLCA — is the visible tip. Even when the model itself is complex, it is a minority of the project. Under the waterline is everything that makes the model possible and defensible: pinning down goal and scope, functional unit, and system boundary; learning the material and its industry well enough to know what data even matters; designing a data collection form a supplier can actually fill in; chasing the supplier who hasn't answered three emails; checking the kWh per m² that comes back an order of magnitude off; reporting progress to the team each month; and cleaning and standardizing what survives into model-ready inputs.
+
+![Where an LCA project's effort actually goes: 70% is data work and the modeling step is only the visible tip above the waterline — and openLCA still owns the model.](/blog/cortex-blog-fig1-iceberg.svg)
+
+Published LCA studies widely report data and inventory work at 70–80% of total project time and cost;[^1] we say 70% to stay conservative. Optimize only the modeling step and you have optimized the tip.
+
+## Why a chatbot can't run a project
+
+A chat session is ephemeral by design. You ask, it answers, the thread is disposable. An LCA project is the opposite in every way that matters.
+
+It is **long-lived** — you can't finish a gypsum EPD in one or two sessions, or one or two days. It is **multi-actor** — clients, suppliers, internal reviewers, and an independent verifier all touch it. It is **stateful** — every decision about system boundary, allocation, or data source has to hold true for the life of the project. And it is **full of artifacts** — forms, BOMs, supplier replies, model files, validation logs.
+
+And this is the part no chat interface can fake: you won't finish the project in one or two sessions with Cortex either. A gypsum EPD still takes weeks; a PCR, months. What changes is that the project persists across every session in between. Close your laptop on a Tuesday with three supplier forms outstanding, come back the next week, and the project hasn't forgotten — it knows what's open, what's been validated, and what this stage needs next.
+
+Treat each request as a fresh question and you throw away the one thing that makes a project a project: continuity. So the core of Cowork is not the answer. It is the project the answers belong to.
+
+## So Cowork starts with a project
+
+Which is why step one is not to type a question. It is to create a project — a durable workspace that lives for the whole life cycle of the work and carries four things inside it: a memory, a set of connected tools, an accumulating set of skills, and a grounded data layer. Everything you do — every agenda, every form, every validation, every email — happens inside that project and is remembered by it.
+
+**Project memory.** The project keeps a running log — `progress.md`: the decisions made, the boundary chosen, the data sources accepted or rejected, the open questions, what is validated and what is not. Come back three weeks later and the project briefs you. Hand it to a verifier and they read the log instead of reverse-engineering your reasoning across a dozen tabs.
+
+**Connected tools — on your approval.** Cowork reaches the tools the work lives in: your LCA software to set up and inspect a model, your meeting tools for kick-offs and reviews, email for supplier follow-ups, and the HiQLCD data layer for background datasets and factors. It works through these tools rather than asking you to copy-paste between them — but it proposes and prepares; you approve. No value is written into your model, and no email leaves your outbox, until you say so.
+
+**Accumulating skills.** The niche knowledge a project generates — how this client codes their bill of materials, how this gypsum PCR defines the functional unit, the methodological choices a verifier accepted last time — usually evaporates when the project ships, and you re-derive it from scratch next time. In Cowork it is captured as a reusable skill, scoped to your account and never shared across clients. Your next gypsum project starts ahead of where the last one ended.
+
+**Grounded, auditable data.** Factor values come from direct retrieval against the database, not generation — each carries its source, dataset version, and a retrieval timestamp, logged to `progress.md`. Cortex is not tied to one library: choosing the right dataset is a judgment call — a Chinese-made board wants HiQLCD's first-hand provincial data; a European one wants the appropriate regional set — and Cortex surfaces the choice rather than making it for you. A citation proves traceability, not correctness, so you stay the validator: nothing it writes — a factor value or a line of the report — lands without your sign-off.
+
+Two questions decide whether an LCA team will let an AI near a project — *is the data credible*, and *where does my data go?* HiQLCD's methodology has been through an independent critical review — led by Prof. Guido Sonnemann (University of Bordeaux), conducted per ISO 14071 against ISO 14040/14044 — and is peer-reviewed in the *Journal of Cleaner Production*. The data itself is distributed through UNEP's Global LCA Data Access (GLAD) network and openLCA Nexus. And because Cowork runs on your desktop, your primary activity data and BOMs stay on your side: keeping raw activity data in your own domain is a design principle, not a setting you have to find.
+
+## One project, start to finish
+
+Here is a gypsum board EPD across its life. Notice where the modeling sits — and that it loops.
+
+**Kick-off & plan.** Cortex drafts the agenda and kick-off materials, helps fix goal and scope — functional unit, system boundary, the PCR to follow — and writes those decisions into project memory. It drafts the project plan and keeps it current.
+
+**Learn the material → data form.** Gypsum board has its own process structure and data sensitivities. Cortex works through the relevant PCR and manufacturing route and drafts a data collection form tailored to this product — for you to review and adjust, not a generic template.
+
+**Collect & validate.** It issues the form, tracks responses, and flags figures that fall outside expected ranges — the energy intensity an order of magnitude off, the missing transport leg — for your review, then drafts the feedback email back to the supplier.
+
+**Standardize.** It cleans and standardizes the validated data into model-ready inputs, and produces the monthly summary the team needs straight from the log.
+
+**Model — and iterate.** Good LCA is not a waterfall. Many practitioners run a quick screening model early to learn which data actually moves the result, then refine. Cortex connects to openLCA and sets up the product system — the flows, the unit processes, the background datasets — so openLCA can characterise the inventory into the EN 15804 indicators, for you to check; as results come in, the model and the data collection inform each other. **openLCA still owns the model.**
+
+**Validate results.** It traces a hotspot that looks wrong back to its likely driver and proposes changes for you to accept or reject. You decide what is defensible — not the tool.
+
+**Verify & register.** Cortex prepares the background report and a clean audit trail; an independent verifier reviews it and the EPD is registered. The regulated document is authored and verified by people; Cortex assembles the dossier and writes the project summary.
+
+![One project, seven stages from kick-off to verification: data work dominates, and the model build comes late and loops back to the data.](/blog/cortex-blog-fig2-lifecycle.svg)
+
+Most of those stages are data and project work, spread across weeks. The model build comes late, recurs, and is a minority of the effort — the real shape of the job, and the shape Cowork is built to carry.
+
+## Any project, same machine
+
+The project is the unit; the deliverable is a variable. Swap it and the same machinery — memory, connected tools, accumulating skills — adapts.
+
+A **passenger-car PCR** is not an EPD — and not a practitioner's study at all, but a standards-authoring effort. The deliverable is a category rule, developed through a programme operator with stakeholder consultation, draft versions, a comment log, and review cycles — a different actor and timescale from a single-product EPD. Same project spine.
+
+A **plastic ecodesign** study has no compliance deliverable at all: the goal is a what-if comparison between material and design options before anything is built, when much of a product's eventual impact is already being locked in. It runs on estimated and proxy data, so uncertainty and sensitivity matter more than precision — the project holds the variants, the assumptions, and the comparison runs. Earlier in the life cycle, more exploratory, still weeks of stateful work.
+
+One design covers a compliance EPD, a standards-authoring PCR, and an exploratory ecodesign study. That generality is the point of organizing around the project instead of the deliverable.
+
+## What Cortex is, and what it isn't
+
+Cortex Cowork does not replace your LCA stack. It drives the work around the model — on your approval — while openLCA still owns the model and you still own the judgment. Cortex owns the 70%: the data work, the project management, the documentation, and the continuity that ties months of separate sessions into one coherent project, and hands a verifier a clean log instead of a black box.
+
+That is why there are two modes. A single question? Chat answers it in the browser. A project? Cowork runs alongside you on the desktop for as long as the project lasts — and an LCA project lasts.
+
+So the first thing Cowork asks is not *what do you want to know?* It is *what project are we working on?* Because an LCA project is not a question. It is months of work — and that is what we built an assistant for.
+
+[^1]: Life-cycle inventory and data collection are widely reported as **70–80%** of total LCA time and cost — see, e.g., the multi-source LCI framework in the *International Journal of Life Cycle Assessment* ([Springer, 2018](https://pmc.ncbi.nlm.nih.gov/articles/PMC6428398/)) and US EPA life-cycle inventory guidance ([EPA](https://cfpub.epa.gov/si/si_public_record_report.cfm?Lab=NRMRL&dirEntryId=242265)). We use 70% as the conservative end of that range.
