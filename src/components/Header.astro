@@ -1,8 +1,8 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
 
-interface Props { locale?: 'en' | 'zh' }
-const { locale = 'en' } = Astro.props;
+interface Props { locale?: 'en' | 'zh'; counterpartHref?: string }
+const { locale = 'en', counterpartHref } = Astro.props;
 
 interface NavItem { href?: string; label: string; children?: { href: string; label: string }[] }
 
@@ -31,11 +31,14 @@ const nav: NavItem[] = locale === 'zh'
 const home = locale === 'zh' ? '/zh' : '/';
 const chatLabel = locale === 'zh' ? '打开 Chat' : 'Open Chat';
 
-// Compute the current page's counterpart in the other locale.
-// Strip trailing slash and any /index suffix; map between /zh/* and /*.
+// Counterpart in the other locale. Prefer the explicit href from the layout
+// (blog posts pair /blog/<slug> ↔ /blog/<slug>-zh, which no /zh path prefix maps).
+// Fall back to the /zh/* ↔ /* prefix rule for prefix-routed pages.
 const rawPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 let counterpart: string;
-if (locale === 'zh') {
+if (counterpartHref) {
+  counterpart = counterpartHref;
+} else if (locale === 'zh') {
   // /zh/foo → /foo;  /zh → /
   counterpart = rawPath === '/zh' ? '/' : rawPath.replace(/^\/zh/, '');
 } else {

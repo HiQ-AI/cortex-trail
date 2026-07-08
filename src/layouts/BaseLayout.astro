@@ -39,6 +39,12 @@ const lang = locale === 'zh' ? 'zh-CN' : 'en';
 // counterpart (blog posts) pass `alternates` explicitly.
 const { en, zh } = pathCounterparts(Astro.url.pathname, locale);
 const resolvedAlternates = alternates ?? makeAlternates(Astro.site, en, zh);
+// The header's language toggle must follow the real counterpart, not a /zh path
+// prefix — blog posts pair /blog/<slug> ↔ /blog/<slug>-zh, not /blog ↔ /zh/blog.
+// Derive it from the resolved alternates so blog and prefix-routed pages agree.
+const counterpartHreflang = locale === 'zh' ? 'en' : 'zh-CN';
+const counterpartAbs = resolvedAlternates.find((a) => a.hreflang === counterpartHreflang)?.href;
+const counterpartHref = counterpartAbs ? new URL(counterpartAbs).pathname : undefined;
 ---
 
 <!doctype html>
@@ -76,7 +82,7 @@ const resolvedAlternates = alternates ?? makeAlternates(Astro.site, en, zh);
     </script>
   </head>
   <body class="flex min-h-full flex-col font-serif" style="font-variation-settings: 'opsz' 16;">
-    <Header locale={locale} />
+    <Header locale={locale} counterpartHref={counterpartHref} />
     <main class="flex-1">
       <slot />
     </main>
