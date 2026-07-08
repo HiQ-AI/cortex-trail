@@ -1,0 +1,167 @@
+---
+title: "The Carbon Footprint of a World Cup Match Ball — Traced to Its Sources"
+description: "The World Cup's most-used object is the ball. So we modeled a representative one and worked out its carbon footprint properly — about 2.3 kg of CO₂, with every figure tied back to a named source you could look up. Here's where the carbon comes from, what barely matters, and how we know."
+publishDate: 2026-07-08
+pillar: "audit"
+tags: ["product-carbon-footprint","ecoinvent","DQI","proxy-datasets","ISO 14067","audit-trail"]
+locale: en
+draft: false
+---
+
+*Independent, illustrative analysis of a representative World Cup–class match ball — not a teardown of any specific commercial product, and not the official figures of, affiliated with, or endorsed by FIFA or adidas.*
+
+*Analysis: HiQ Cortex · Scope: materials → factory gate · Data: ecoinvent 3.12.0 · IEA 2024 · Method: ISO 14067 (product carbon footprint) · Read: ~7 min*
+
+<span class="dropcap">A</span> World Cup match ball is made in a single city — Sialkot, Pakistan — and then used in 16 cities across three countries. It's one of the summer's most-travelled objects, which makes it a good thing to ask a simple question about: **what's its carbon footprint?**
+
+Most "carbon footprint" numbers you see are guesses — a round figure with no boundary and no source. We wanted the opposite: a number you can take apart. So HiQ Cortex modeled a representative match ball and worked out its footprint the careful way, with every figure traced back to a named dataset you could look up yourself.
+
+**Two quick definitions.** **CO₂e** ("CO₂-equivalent") rolls all the greenhouse gases into one number, expressed as the equivalent amount of CO₂. **"Materials-to-factory-gate"** means we count everything up to the finished ball leaving the factory — the raw materials, moving them in, and the energy to make the ball — but *not* shipping it to stadiums, years of play, or disposal. That's a deliberate, stated line. As you'll see, *where you draw that line is half of what a carbon number even means.*
+
+## The answer: about 2.3 kg of CO₂
+
+> **≈ 2.3 kg CO₂e per ball** — plausible range ≈ 2.0 – 2.7 kg.
+> Materials-to-factory-gate · modeled ball body 353 g + packaging 50 g. A real regulation ball is heavier (420–445 g), so a production ball would likely sit a little higher.
+
+For a sense of scale, that's roughly the CO₂ of driving an average car about **10 kilometres (6 miles)** — a small number for a single object. The interesting part isn't the total anyway. It's *where it comes from*, because that's where two surprises live.
+
+Why "about 2.3" and not a tidier-looking exact figure? Because the honest inputs carry real uncertainty (see below), and quoting a number to the gram would be pretending we know it that precisely. A footprint you can trust comes with a range, not false decimals.
+
+## Surprise 1: it's almost never the shipping
+
+Intuition says a ball that crosses oceans must carry most of its carbon in transport. It doesn't. Moving all the raw materials to the factory accounts for **1.6%** of the footprint. The overwhelming majority — **83%** — is locked into the materials themselves before the ball is even assembled. The factory's own electricity is the next chunk.
+
+| Where the footprint sits — share of the ball's total | Share |
+|---|---|
+| Raw materials | 83.0% |
+| Factory energy | 15.5% |
+| Getting materials to the factory | 1.6% |
+
+That thin sliver at the bottom is all the shipping. This is one of the most reliable lessons in carbon accounting: for a light, material-dense product, freight is rarely the story. The carbon is in the chemistry and the energy, not the miles. *(This is for ocean shipping, the normal way these move in volume. Air-freighting a batch would change it — which is exactly why the transport method is stated, not assumed away.)*
+
+## Surprise 2: the carbon is in the skin and the fabric
+
+Break the materials down further and the footprint concentrates in just a few places. The polyurethane (PU) that forms the ball's outer panels — its "skin" — is the single biggest contributor at **34%**. Add the polyester lining and reinforcement fabrics and you're near **60%** from materials alone. The factory's electricity is third.
+
+| Top contributors — share of the ball's total footprint | Share |
+|---|---|
+| PU outer panels (the "skin") | 34.4% |
+| Polyester lining | 16.3% |
+| Factory energy | 15.5% |
+| Natural latex bladder | 9.5% |
+| Polyester reinforcement | 8.5% |
+| PU adhesive | 4.6% |
+| Nylon 6 thread | 4.1% |
+| Everything else (box, film, valve, ink, transport…) | 7.1% |
+
+> If you want a lower-carbon ball, you don't re-route the ship. You change the skin, the fabric, and the electricity.
+
+## The honest gap: the factory's electricity
+
+Third on the list is the energy to actually make the ball — cutting panels, bonding, assembly, testing — about **0.80 kilowatt-hours per ball**. What turns that energy into carbon is the local power grid, and here we hit a real limitation worth being open about.
+
+**Where the data runs out.** We **didn't find a Pakistan grid dataset** in the ecoinvent database we used. Rather than quietly swap in a convenient number, Cortex flagged the gap and used a published figure from the IEA (2024): about **0.45 kg CO₂ per kilowatt-hour**, with a stated ±15% uncertainty (Pakistan's grid is a shifting coal / gas / hydro mix). It's labeled as an outside estimate, not dressed up as database-grade data — and because that figure counts power-station emissions only, the true number is likely a touch higher, so this stage is a conservative floor.
+
+This is the part that matters more than the ball's number itself. A carbon figure is only as trustworthy as its weakest input — and the useful thing an analysis can do is *tell you which input that is*. Here it's the grid factor and the manufacturing-energy estimate. Both are named as the things to firm up with real factory data, not buried.
+
+## So how do you make it lower?
+
+Because the footprint concentrates in three places, the levers are equally concentrated:
+
+1. **The skin (PU panels — 34%)** Bio-based or recycled polyurethane, and thinner panels, attack the single largest contributor directly.
+2. **The fabric (polyester — ~25% combined)** Recycled polyester can meaningfully cut a fabric's footprint *(published apparel cases vary widely; the savings depend on feedstock and process — indicative, not this ball's own calculation)*.
+3. **The electricity (factory energy — 15.5%)** Sialkot has strong sunshine. Rooftop solar or green-power procurement at the factory shrinks this whole stage.
+
+**Worth saying plainly.** Leading ball-makers already use several of these levers — recycled polyester, bio-based content, water-based inks — so a real production ball may well sit *below* this representative model. The point here isn't to grade any product; it's to show where the carbon actually is.
+
+Notice what's *not* on the list: shipping. Optimising freight would chase 1.6% of the number. That's why a boundary-aware footprint is worth more than a headline figure — it points effort at the 90% that matters.
+
+## How we know — and how you can check
+
+Everything above rests on a method, and the method is the point. In plain terms, five things make this number defensible:
+
+- **A stated unit.** One finished ball: body 353 g + packaging 50 g. Everything is "per this ball." (This is lighter than a regulation match ball, so treat the result as a conservative-low baseline.)
+- **A stated boundary.** Materials to factory gate. What's excluded — shipping to venues, use, disposal — is named, not hidden.
+- **Named, checkable sources.** Every material maps to a specific ecoinvent 3.12.0 dataset, each retrievable by its unique ID — with proxies flagged where an exact match doesn't exist.
+- **Stated uncertainty.** Grid factor ±15%, manufacturing energy ±30%, transport distance ±20% — the honest error bars, which is why the headline is a range.
+- **Recognised methods.** ISO 14040/44 and ISO 14067 for product carbon footprints. Note: this is *not* a verified EPD (an official eco-label), which additionally needs an industry rulebook and independent third-party review.
+
+**Verify it yourself.** Traceability only counts if you can act on it. So:
+
+- The biggest single input — the PU panel dataset — is `market for polyurethane, flexible foam · RoW`, ecoinvent 3.12.0, UUID `a08a5b71-a120-3b8b-89c9-3ca04f5fae4a`. Look it up and check our number against the source.
+- The full parts list and every dataset + UUID are in the appendix below — so any practitioner can re-check the sourcing.
+- All figures come from the HiQ Cortex PCF technical report v1.0 (2026-06-26), the source of record for every number on this page.
+
+**Why completeness changes the answer.** An early pass that covered only the main material layers came to about **1.8 kg**. Adding the parts a quick estimate skips — the valve, the ink, the packaging, and especially the factory's manufacturing energy — brought it to about **2.3 kg**, roughly **30% higher**. The lesson isn't that the first number was "wrong"; it's that a footprint is only as good as its completeness and its boundary — and those are calls a human still has to check.
+
+<details>
+<summary><strong>For LCA practitioners — full method, BOM, factors &amp; dataset UUIDs</strong></summary>
+
+**Goal & scope.** Cradle-to-gate (A1–A3) PCF of one match ball. System model: ecoinvent 3.12.0 *cut-off* (recycled inputs carry only reprocessing burden; no upstream virgin credit; module D excluded). LCIA: IPCC AR6, GWP-total. Allocation: mass-based for packaging; cut-off for recycled content. Capital goods, commuting and travel excluded per cut-off convention. A4 onward out of scope.
+
+**Point estimate & precision.** The model's central figure is **2.318 kg CO₂e** (A1 1.922 + A2 0.036 + A3 0.360). It is presented in the article as **≈2.3 kg (range ~2.0–2.7 kg)**: reporting three decimals would imply a resolution the ±15–30% inputs don't support. Intermediate stage values are carried at higher precision only to avoid rounding drift.
+
+**Functional unit — read this.** Modeled body mass is 353 g (+50 g packaging = 403 g). A FIFA regulation match ball is 420–445 g (Law 2). Because A1 scales roughly with material mass and is 83% of the total, a regulation-mass ball would raise A1 (and the total) by ~15–25% — indicatively toward ~2.7 kg — with A3 (per-ball energy) roughly unchanged. The result here is therefore a conservative-low baseline for a regulation ball, stated rather than hidden.
+
+**Representativeness.** Composition models a *representative premium match ball* produced in Sialkot; it is not a component-exact teardown of a specific 2026 product (panel count, mass and bonding differ from any commercial ball). Geographic representativeness is partial: several A1 factors are GLO/RoW, and A3 uses an external IEA grid factor. Two proxies to flag explicitly: PU panels are modeled with a *flexible-foam* dataset (a PU coating/elastomer would be a closer match for a solid panel skin, and this is the largest single line, so it matters most); printing is proxied by a board-with-offset-printing dataset (negligible at 0.002 kg, but a category mismatch). These are "closest available named datasets," not exact matches.
+
+**Biogenic carbon.** Biobased inputs (natural latex, corrugated board) are treated as ±0 net within A1–A3; because end-of-life (module C) is out of scope under cut-off, the biogenic release side is not counted here. GWP-total is reported on that basis.
+
+**Bill of materials — body 353 g + packaging 50 g = 403 g**
+
+| Layer | Material | g |
+|---|---|---|
+| Outer panels | PU (flexible-foam proxy) | 130 |
+| Print | Ink / printing service | 3 |
+| Lining | Polyester, nonwoven | 60 |
+| Reinforcement | Polyester fibre | 40 |
+| Adhesive | PU adhesive | 20 |
+| Bladder | Natural latex | 80 |
+| Valve seal | Synthetic (butyl-type) rubber | 5 |
+| Valve body | Brass | 3 |
+| Valve seat | HDPE | 2 |
+| Stitching | Nylon 6 | 10 |
+| Packaging film | LDPE | 10 |
+| Packaging box | Corrugated board | 40 |
+
+**A1 — raw material production (ecoinvent 3.12.0, cut-off).**
+
+| Material | kg | kg CO₂e | Dataset · region |
+|---|---|---|---|
+| PU flexible foam | 0.130 | 0.798 | market for polyurethane, flexible foam · RoW |
+| Polyester, nonwoven | 0.060 | 0.378 | market for textile, nonwoven polyester · GLO |
+| Polyester fibre | 0.040 | 0.197 | market for fibre, polyester · GLO |
+| PU adhesive | 0.020 | 0.107 | market for polyurethane adhesive · GLO |
+| Natural latex | 0.080 | 0.221 | market for latex · RoW |
+| Synthetic rubber | 0.005 | 0.016 | market for synthetic rubber · GLO |
+| Brass | 0.003 | 0.017 | market for brass · RoW |
+| HDPE granulate | 0.002 | 0.006 | market for polyethylene, HD, granulate · RoW |
+| Nylon 6 | 0.010 | 0.094 | market for nylon 6 · RoW |
+| LDPE film | 0.010 | 0.034 | market for packaging film, LDPE · GLO |
+| Corrugated box | 0.040 | 0.052 | market for corrugated board box · RoW |
+| Printing service | 0.003 | 0.002 | carton board box production, offset printing · RoW (proxy) |
+| **A1 total** | **0.403** | **1.922** | |
+
+**A2 — inbound transport.** Sea container (heavy fuel oil) 0.00966 kg CO₂e/t·km; 28-t lorry 0.1437 kg CO₂e/t·km. Petrochemical inputs + metals ~8,000 km sea + 200 km road (nearest port Karachi); latex ~5,000 km sea + 200 km road; board + print ~100 km road. **A2 total = 0.036 kg CO₂e** (&lt;2%).
+
+**A3 — manufacturing energy.** 0.80 kWh/ball (cut/print/laminate 0.25 + thermal bonding 0.45 + assembly/QC 0.10), semi-automated line. Grid factor 0.45 kg CO₂e/kWh (IEA Emissions Factors 2024, Pakistan; no PK grid market found in ecoinvent 3.12.0; ±15%). The IEA factor is a combustion-based national average — upstream fuel supply and grid losses are not included, so A3 is a lower bound. **A3 total = 0.360 kg CO₂e**.
+
+**Uncertainty.** Grid factor ±15%; manufacturing energy ±30% (industry estimate, not metered); transport distance ±20%; A1 dataset factors carry their own (unstated) uncertainty and are 83% of the result — so the ~2.0–2.7 kg range is indicative, not a formal Monte-Carlo interval. Refinements that would tighten it: metered factory energy, a Pakistan-specific grid dataset or supplier power data, a regulation-mass BOM, and a PU coating/elastomer dataset for the panels.
+
+Full UUID list (all 14 datasets) is in the technical report v1.0.
+
+</details>
+
+## What this shows about HiQ Cortex
+
+A footprint like this is normally a multi-day expert exercise: identify the product, model the parts list, find the right dataset for every material, chase the ones that don't exist, apply the standard, and document it so someone else can check the work. Cortex did that chain — and the parts worth noticing aren't the speed:
+
+It pulled **named, traceable datasets** and kept every figure checkable, flagging proxies instead of pretending they were exact matches. It **caught the parts a quick estimate skips** — the roughly 30% that separates a real number from a rough one. And where the data genuinely didn't exist, it **said so** and carried the uncertainty forward instead of hiding it. Crucially, the judgement calls — the boundary, the functional unit, whether a proxy is good enough — are exactly where a human practitioner still checks the work. Cortex does the heavy, traceable first pass; a person owns the decisions.
+
+One more thing worth noting: this ball is made in Pakistan, so international datasets were the right choice. For a product made in *China* — where the regional power grid and local processes swing the result — Cortex also draws on China-specific datasets that global databases don't cover. Matching the data to the geography is the whole game.
+
+That's the same discipline you'd want behind an eco-label (EPD) or a supply-chain (Scope 3) footprint — where the unit and the boundary quietly decide whether "which material is greener" even has an honest answer. A World Cup ball is just an unusually fun way to show it.
+
+---
+
+*Method & scope: cradle-to-gate (A1–A3) product carbon footprint of a representative match ball; ecoinvent 3.12.0 (cut-off) + IEA Emissions Factors 2024; ISO 14040/14044 and ISO 14067; IPCC AR6 GWP-total. Figures are a transparent estimate with a stated range, **not a verified EPD** (which additionally requires a product category rule and third-party verification). Independent analysis for illustration of a representative product; not the official figures of, affiliated with, or endorsed by FIFA or adidas. Based on the HiQ Cortex PCF technical report v1.0 (2026-06-26).*
