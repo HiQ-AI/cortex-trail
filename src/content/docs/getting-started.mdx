@@ -1,32 +1,35 @@
 ---
 title: Getting started
-description: What Cortex is, the two ways to use it, and your first query.
+description: Sign in to Chat, choose sources, and make your first query.
 section: Start here
 order: 1
 locale: en
 ---
 
-Cortex is an LCA data workbench. It searches background data across fourteen databases, matches a bill of materials to emission factors, and — in Cowork — runs the calculation in the engine you already use. It does not invent numbers. Every value carries a source, a version, a region, a system model, and a DQI score.
+Cortex Chat helps you find life cycle datasets, check their applicability, and discuss LCA questions. Sign in to [Chat](/chat) and choose **New Task**, or continue a conversation from the sidebar.
 
-## Two ways to use it
+## First use
 
-**Cortex Chat** — the web surface, for single questions. Look up a material, compare a factor across databases, ask why two datasets disagree on a system model. Conversations sync across devices. Free to try; Pro for daily work.
+New accounts without conversation history or an existing profile can choose their role, industry, current focus, and LCA experience. Expand **Other** when the choices do not fit. You can go back to revise a choice or skip a step.
 
-**Cortex Cowork** — the desktop surface, for projects that run for weeks. It reads files from your machine, writes results back, keeps an audit log, and drives a calculation engine. Cowork is on the Plus plan.
+Review your choices and decide whether to save them to your profile. **Fill in example** puts an editable question in the composer; it does not send it. You can change or remove the example.
 
-> Chat answers questions. Cowork runs workflows.
+## Choose sources
 
-## Install
+Use the database button below the composer to select databases, versions, and system models. You can select multiple versions of a database. Available system models update with the selected versions.
 
-Cowork ships as a native app for macOS, Windows, and Linux. Download the latest build for [macOS](https://download.hiq.earth/latest/Cortex-arm64.dmg), [Windows](https://download.hiq.earth/latest/Cortex-Setup.exe), or [Linux](https://download.hiq.earth/latest/Cortex-x64.AppImage). Install does not require a login; database search and cloud sync do.
+Selecting a commercial database does not grant access to its values. See [Databases and data access](/guides/database-licensing).
 
-## Your first query
+## Describe the query
 
-Open Chat and name a material — in English or Chinese. Cortex asks at most one clarifying question, then returns a ranked candidate list: top-k, not top-1. Each row shows the GWP value where you have access, the source and version, the region, the system model, and the DQI breakdown.
+Write the product, intended use, process, and region in Chinese or English. For example:
 
-For a commercial database you have not licensed, the row still appears — name, source, version, region — with the number withheld until access exists. Cortex never fills the gap with a literature estimate.
+> Find LLDPE granulate production data for material inputs to plastic film production, preferably for China.
 
-## Where to go next
+If you need a finished product, name it rather than just its material. Cortex may ask for missing conditions; returned candidates still need checking.
 
-- **Connecting a database** — which databases are free, which are licensed, and how to turn one on. See [Connecting a database](/guides/database-licensing).
-- **Running a full calculation** — from BOM to impact assessment in Cowork. See [Running a calculation](/guides/running-a-calculation).
+## Read the results
+
+Candidates and dataset links appear in the conversation. Open a link to check the product, region, unit, system model, and description. Values that are restricted or could not be read cannot be used as calculation inputs.
+
+Continue with [Reading search results](/guides/search-results), [Profile and answer preferences](/guides/profile-preferences), and [Conversations and sharing](/guides/sessions-sharing).

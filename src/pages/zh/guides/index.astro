@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import GuideProductSwitch from '@/components/GuideProductSwitch.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
 const title = '指南 — HiQ Cortex';
@@ -12,7 +13,8 @@ const rank = (n: string) => {
   return i === -1 ? SECTION_ORDER.length : i;
 };
 
-const docs = (await getCollection('docs', ({ data }) => data.locale === 'zh')).sort(
+const product = Astro.props.product ?? 'chat';
+const docs = (await getCollection('docs', ({ id, data }) => data.locale === 'zh' && id.startsWith('cowork/') === (product === 'cowork'))).sort(
   (a, b) => rank(a.data.section) - rank(b.data.section) || a.data.order - b.data.order,
 );
 const slugOf = (id: string) => id.replace(/-zh$/, '');
@@ -30,6 +32,7 @@ const operator = [
 ---
 
 <BaseLayout title={title} description={description} locale="zh">
+  <div class="container-page pt-8"><GuideProductSwitch locale="zh" product={product} /></div>
   <section class="relative">
     <div class="container-page pt-14 md:pt-20 pb-14">
       <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
@@ -37,10 +40,10 @@ const operator = [
         <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
       </div>
       <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400;">
-        在动手中学会 Cortex。
+        {product === 'chat' ? 'Chat 使用指南' : 'Cowork 使用指南'}
       </h1>
       <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        先打好基础，再跟着一个场景走完全程——你真正会跑的那种活，一步一步演示。
+        {product === 'chat' ? '从查询数据开始，了解数据源、权限、资料设置和会话分享。' : '先打好基础，再跟着一个场景走完全程——你真正会跑的那种活，一步一步演示。'}
       </p>
     </div>
   </section>
@@ -60,6 +63,7 @@ const operator = [
     </div>
   </section>
 
+  {product === 'cowork' && (
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
       <SectionMark kicker="场景" numeral="II" title="看一整个活跑下来。" />
@@ -89,4 +93,5 @@ const operator = [
       </div>
     </div>
   </section>
+  )}
 </BaseLayout>

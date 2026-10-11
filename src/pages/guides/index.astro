@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import GuideProductSwitch from '@/components/GuideProductSwitch.astro';
 import SectionMark from '@/components/SectionMark.astro';
 
 const title = 'Guides — HiQ Cortex';
@@ -13,7 +14,8 @@ const rank = (n: string) => {
   return i === -1 ? SECTION_ORDER.length : i;
 };
 
-const docs = (await getCollection('docs', ({ data }) => data.locale === 'en')).sort(
+const product = Astro.props.product ?? 'chat';
+const docs = (await getCollection('docs', ({ id, data }) => data.locale === 'en' && id.startsWith('cowork/') === (product === 'cowork'))).sort(
   (a, b) => rank(a.data.section) - rank(b.data.section) || a.data.order - b.data.order,
 );
 
@@ -30,6 +32,7 @@ const operator = [
 ---
 
 <BaseLayout title={title} description={description}>
+  <div class="container-page pt-8"><GuideProductSwitch locale="en" product={product} /></div>
   <section class="relative">
     <div class="container-page pt-14 md:pt-20 pb-14">
       <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
@@ -37,10 +40,10 @@ const operator = [
         <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
       </div>
       <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400;">
-        Learn Cortex by doing.
+        {product === 'chat' ? 'Chat guides' : 'Cowork guides'}
       </h1>
       <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
-        Start with the basics, then follow a scenario end to end — the kind of job you actually run, shown step by step.
+        {product === 'chat' ? 'Find datasets, check access, manage your profile, and share conversations.' : 'Start with the basics, then follow a scenario end to end — the kind of job you actually run, shown step by step.'}
       </p>
     </div>
   </section>
@@ -60,6 +63,7 @@ const operator = [
     </div>
   </section>
 
+  {product === 'cowork' && (
   <section class="border-t border-rule" style="background: var(--paper-rim);">
     <div class="container-page py-20 md:py-24">
       <SectionMark kicker="Scenarios" numeral="II" title="Watch a full job run." />
@@ -90,4 +94,5 @@ const operator = [
       </div>
     </div>
   </section>
+  )}
 </BaseLayout>
