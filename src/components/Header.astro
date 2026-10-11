@@ -28,6 +28,8 @@ const nav: NavItem[] = locale === 'zh'
       { href: '/blog',     label: 'Blog' },
     ];
 
+const isGuidePage = /^\/(?:zh\/)?guides(?:\/|$)/.test(Astro.url.pathname);
+
 const home = locale === 'zh' ? '/zh' : '/';
 const chatLabel = locale === 'zh' ? '打开 Chat' : 'Open Chat';
 
@@ -50,7 +52,7 @@ const otherLocale = locale === 'zh'
   : { href: counterpart, label: '中文' };
 ---
 
-<header class="relative z-20 border-b border-rule">
+<header class:list={["relative z-20 border-b border-rule", { "guide-header": isGuidePage }]}>
   <div class="container-page flex h-16 items-center justify-between">
     <a href={home} class="group flex items-center gap-3 no-underline" style="text-decoration: none;" aria-label="HiQ Cortex home">
       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: var(--ink);">
@@ -98,3 +100,20 @@ const otherLocale = locale === 'zh'
     </div>
   </div>
 </header>
+
+<style>
+  .guide-header > div { gap: 12px; }
+  .guide-header > div > a { flex-shrink: 0; white-space: nowrap; }
+  .guide-header > div > div { flex-shrink: 0; }
+  .guide-header .ticket { white-space: nowrap; }
+  @media (max-width: 767px) {
+    .guide-header > div { padding-inline: 16px; gap: 8px; }
+    .guide-header > div > a { gap: 6px; }
+    .guide-header > div > a svg { width: 22px; height: 22px; flex-shrink: 0; }
+    .guide-header > div > a span { font-size: 15px; }
+    .guide-header > div > div { gap: 6px; }
+    .guide-header :global(.theme-toggle) { width: 32px; height: 32px; }
+    .guide-header .smallcaps { font-size: 11px; }
+    .guide-header .ticket { font-size: 12px; padding: 8px 10px !important; gap: 6px; }
+  }
+</style>
