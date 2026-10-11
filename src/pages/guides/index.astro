@@ -32,24 +32,23 @@ const operator = [
 ---
 
 <BaseLayout title={title} description={description}>
-  <div class="container-page pt-8"><GuideProductSwitch locale="en" product={product} /></div>
   <section class="relative">
-    <div class="container-page pt-14 md:pt-20 pb-14">
-      <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
-        <p class="eyebrow">Guides</p>
-        <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
+    <div class="container-page pt-6 md:pt-8 pb-8 md:pb-10">
+      <div class="mb-6 flex items-center justify-between gap-4 border-b border-rule pb-4">
+        <GuideProductSwitch locale="en" product={product} />
+        <p class="running-footer hidden whitespace-nowrap sm:block">{new Date().toISOString().slice(0, 10)}</p>
       </div>
       <h1 class="font-display" style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 40, 'opsz' 144; font-weight: 400;">
         {product === 'chat' ? 'Chat guides' : 'Cowork guides'}
       </h1>
-      <p class="mt-10 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
+      <p class="mt-5 max-w-2xl font-serif italic" style="font-size: 1.18rem; line-height: 1.55; font-variation-settings: 'opsz' 20; color: var(--ink-mute);">
         {product === 'chat' ? 'Find datasets, check access, manage your profile, and share conversations.' : 'Start with the basics, then follow a scenario end to end — the kind of job you actually run, shown step by step.'}
       </p>
     </div>
   </section>
 
   <section class="border-t border-rule">
-    <div class="container-page py-20 md:py-24">
+    <div class="container-page py-8 md:py-12">
       <SectionMark kicker="Start here" numeral="I" title="The basics, in order." />
       <div class="grid gap-px overflow-hidden border border-rule sm:grid-cols-2 lg:grid-cols-3" style="background: var(--rule);">
         {docs.map((d) => (
