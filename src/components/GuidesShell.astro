@@ -21,16 +21,21 @@ const { product = 'chat', locale = 'en', title, description, sections, guidesHre
 ---
 
 <BaseLayout title={`${title} — HiQ Cortex`} description={description ?? title} locale={locale}>
-  <div class="container-page pt-14 md:pt-20 pb-24">
-    <div class="mb-10 flex items-baseline justify-between border-b border-rule pb-4">
+  <div class="container-page pt-6 md:pt-10 pb-24">
+    <div class="mb-5 md:mb-8 flex items-baseline justify-between border-b border-rule pb-4">
       <p class="eyebrow"><a href={guidesHref} style="text-decoration: none; color: var(--ink-mute);">{guidesLabel}</a></p>
       <p class="running-footer">{new Date().toISOString().slice(0, 10)}</p>
     </div>
 
-    <div class="grid gap-12 md:grid-cols-[15rem_minmax(0,_1fr)] md:gap-16">
+    <div class="grid gap-5 md:grid-cols-[15rem_minmax(0,_1fr)] md:gap-16">
       <aside class="md:sticky md:top-10 md:self-start">
-        <div class="mb-7"><GuideProductSwitch locale={locale} product={product} /></div>
-        <nav class="space-y-7">
+        <div class="mb-3 md:mb-7"><GuideProductSwitch locale={locale} product={product} /></div>
+        <details class="guide-directory">
+          <summary class="guide-directory-toggle">
+            <span>{locale === 'zh' ? '文章目录' : 'Guide contents'}</span>
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 9 6 6 6-6" /></svg>
+          </summary>
+        <nav class="space-y-7" aria-label={locale === 'zh' ? '文章目录' : 'Guide contents'}>
           {sections.map((s) => (
             <div>
               <div class="eyebrow mb-3">{s.title}</div>
@@ -41,6 +46,7 @@ const { product = 'chat', locale = 'en', title, description, sections, guidesHre
                       href={it.href}
                       class="font-serif text-sm"
                       style={`text-decoration: none; font-variation-settings: 'opsz' 14; color: ${it.active ? 'var(--shell)' : 'var(--ink-mute)'};${it.active ? ' font-weight: 500;' : ''}`}
+                      aria-current={it.active ? 'page' : undefined}
                     >{it.label}</a>
                   </li>
                 ))}
@@ -48,6 +54,7 @@ const { product = 'chat', locale = 'en', title, description, sections, guidesHre
             </div>
           ))}
         </nav>
+        </details>
       </aside>
 
       <article>
@@ -66,6 +73,41 @@ const { product = 'chat', locale = 'en', title, description, sections, guidesHre
     </div>
   </div>
 </BaseLayout>
+
+<script>
+  const wideScreen = window.matchMedia('(min-width: 768px)');
+  const directory = document.querySelector<HTMLDetailsElement>('.guide-directory');
+  if (directory) {
+    const syncDirectory = () => { directory.open = wideScreen.matches; };
+    syncDirectory();
+    wideScreen.addEventListener('change', syncDirectory);
+  }
+</script>
+
+<style>
+  .guide-directory-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-block: 1px solid var(--rule);
+    color: var(--ink-mute);
+    font-size: 14px;
+    cursor: pointer;
+    list-style: none;
+  }
+  .guide-directory-toggle::-webkit-details-marker { display: none; }
+  .guide-directory-toggle svg { transition: transform 160ms ease; }
+  .guide-directory[open] .guide-directory-toggle svg { transform: rotate(180deg); }
+  .guide-directory nav { padding-block: 18px 6px; }
+  @media (min-width: 768px) {
+    .guide-directory-toggle { display: none; }
+    .guide-directory nav { padding: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .guide-directory-toggle svg { transition: none; }
+  }
+</style>
 
 <style is:global>
   /* Long-form typography for guide bodies. Scoped to .guide-body. */
