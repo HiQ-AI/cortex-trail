@@ -14,6 +14,8 @@ export async function getStaticPaths() {
 }
 
 const { doc, all } = Astro.props;
+const product = doc.id.startsWith('cowork/') ? 'cowork' : 'chat';
+const productDocs = all.filter((d) => d.id.startsWith('cowork/') === (product === 'cowork'));
 const { Content } = await render(doc);
 
 const sectionRank = (name: string) => {
@@ -22,7 +24,7 @@ const sectionRank = (name: string) => {
 };
 
 const grouped = new Map<string, typeof all>();
-for (const d of all) {
+for (const d of productDocs) {
   const key = d.data.section;
   if (!grouped.has(key)) grouped.set(key, []);
   grouped.get(key)!.push(d);
@@ -42,7 +44,7 @@ const sections = [...grouped.entries()]
   }));
 
 // Scenarios live as bespoke pages at /solutions/* but belong to the Guides hub.
-sections.push({
+if (product === 'cowork') sections.push({
   title: 'Scenarios',
   items: [
     { href: '/solutions/bom-matching', label: 'BOM matching', active: false },
@@ -55,6 +57,7 @@ sections.push({
 ---
 
 <GuidesShell
+  product={product}
   locale="en"
   title={doc.data.title}
   description={doc.data.description}

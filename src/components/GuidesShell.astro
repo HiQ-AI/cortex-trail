@@ -2,11 +2,13 @@
 // Two-column shell for the Guides section: section-grouped sidebar + long-form
 // article body. Backed by the `docs` content collection; reused by the EN and
 // ZH guide routes so the prose typography lives in exactly one place.
+import GuideProductSwitch from './GuideProductSwitch.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 interface NavItem { href: string; label: string; active: boolean }
 interface NavSection { title: string; items: NavItem[] }
 interface Props {
+  product?: 'chat' | 'cowork';
   locale?: 'en' | 'zh';
   title: string;
   description?: string;
@@ -15,7 +17,7 @@ interface Props {
   guidesLabel: string;
 }
 
-const { locale = 'en', title, description, sections, guidesHref, guidesLabel } = Astro.props;
+const { product = 'chat', locale = 'en', title, description, sections, guidesHref, guidesLabel } = Astro.props;
 ---
 
 <BaseLayout title={`${title} — HiQ Cortex`} description={description ?? title} locale={locale}>
@@ -27,6 +29,7 @@ const { locale = 'en', title, description, sections, guidesHref, guidesLabel } =
 
     <div class="grid gap-12 md:grid-cols-[15rem_minmax(0,_1fr)] md:gap-16">
       <aside class="md:sticky md:top-10 md:self-start">
+        <div class="mb-7"><GuideProductSwitch locale={locale} product={product} /></div>
         <nav class="space-y-7">
           {sections.map((s) => (
             <div>
